@@ -1,0 +1,88 @@
+﻿.row {
+    margin: 0;
+}
+
+.col-md-12 {
+    padding: 0;
+}
+
+.form-wizard .steps > li > a.step > .number {
+    margin: 0;
+    padding: 0;
+    height: 35px;
+    width: 35px;
+    line-height: 35px;
+}
+
+.nav > li > a {
+    padding: 0;
+}
+
+.form-wizard .progress {
+    margin-bottom: 15px;
+}
+
+h3.block {
+    margin-top: 0;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-control {
+    height: 25px;
+    padding: 0 5px;
+}
+
+.form-group .btn {
+    line-height: 1.5;
+    padding: 3px 17px;
+}
+
+.input-group-addon, .input-group-btn {
+    padding-left: 13px;
+}
+
+.form-wizard .steps > li > a.step > .desc {
+    font-size: 14px;
+}
+
+.portlet.box.blue > .portlet-title {
+    background-color: #008a00;
+}
+
+.form-wizard .steps > li.active > a.step .number {
+    background-color: #008a00;
+}
+
+.portlet > .portlet-body.blue, .portlet.blue {
+    background-color: #008a00 !important;
+}
+
+.portlet.box.blue {
+    border-color: #008a00;
+}
+
+.form-horizontal .control-label {
+    padding-top: 0;
+}
+.progress > .progress-bar-success {
+  background-color: #008a00;
+}
+.profile-content p {
+  box-sizing: border-box !important;
+  padding:0;
+}
+.profile-userpic img
+{
+    margin:0 auto;
+    max-width:180px;
+}
+a{
+    text-decoration:none !important;
+}
+p{
+    margin:0;
+    line-height:1.3;
+}

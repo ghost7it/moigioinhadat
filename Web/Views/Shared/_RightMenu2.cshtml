@@ -1,0 +1,74 @@
+﻿@using Common;
+@model Entities.Models.Category
+
+@if (Model != null)
+{
+
+    long categoryId = (long)ViewData["categoryId"];
+
+    string cssClass = "";
+    <div class="right_info">
+        <h2>
+            @if (string.IsNullOrEmpty(Model.Link))
+            {
+                <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname=StringHelper.StringFilter(Model.Name), categoryid=Model.Id })">@Model.Name</a>
+            }
+            else
+            {
+                <a href="@Model.Link">@Model.Name</a>
+            }
+        </h2>
+        @if (Model.Categories != null && Model.Categories.Any())
+        {
+            <ul>
+                @foreach (var item in Model.Categories.OrderBy(o => o.OrdinalNumber))
+                {
+                    if (categoryId == item.Id)
+                    {
+                        cssClass = "active";
+                    }
+                    else
+                    {
+                        cssClass = "";
+                    }
+                    <li class="@cssClass">
+                        @if (string.IsNullOrEmpty(item.Link))
+                        {
+                            <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname=StringHelper.StringFilter(item.Name), categoryid=item.Id })"><b>@item.Name</b></a>
+                        }
+                        else
+                        {
+                            <a href="@item.Link">@item.Name</a>
+                        }
+                    </li>
+                    if (item.Categories != null && item.Categories.Any())
+                    {
+                        foreach (var item2 in item.Categories.OrderBy(o => o.OrdinalNumber))
+                        {
+                            if (categoryId == item2.Id)
+                            {
+                                cssClass = "active";
+                            }
+                            else
+                            {
+                                cssClass = "";
+                            }
+                            <li class="@cssClass">
+                                @if (string.IsNullOrEmpty(item2.Link))
+                                {
+                                    <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname=StringHelper.StringFilter(item2.Name), categoryid=item2.Id })">@item2.Name</a>
+                                }
+                                else
+                                {
+                                    <a href="@item2.Link">@item2.Name</a>
+                                }
+                            </li>
+                            cssClass = "";
+                        }
+                    }
+                    cssClass = "";
+                }
+            </ul>
+        }
+    </div>
+}

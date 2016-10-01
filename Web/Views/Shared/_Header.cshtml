@@ -1,0 +1,53 @@
+﻿@{
+    Entities.Models.SystemInformation systemInformation = new Entities.Models.SystemInformation();
+    if (ViewBag.SystemInformation != null)
+    {
+        systemInformation = (Entities.Models.SystemInformation)ViewBag.SystemInformation;
+    }
+}
+<div class="header">
+    <div class="login">
+        <ul>
+            <li>
+                <a href="https://email.vnu.edu.vn/" target="_blank">Email</a>
+            </li>
+            @if (Session["AccountId"] != null && Session["ProfileId"] != null)
+            {
+                <li>
+                    <a href="@Url.RouteUrl("FrontEndLoginLogout")">Đăng xuất</a>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("FrontEndProfileDetail")" class="active">Hồ sơ của bạn</a>
+                </li>
+                <li>
+                    Chào mừng <b>@Session["AccountName"]</b>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.RouteUrl("FrontEndProfileRegister")">Đăng ký</a>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("FrontEndLoginIndex")" class="active">Đăng nhập</a>
+                </li>
+            }
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="logo">
+        <a href="@Url.Action("Index","Home")">
+            <img src="@(string.IsNullOrEmpty(systemInformation.Logo) ? "~/Images/FrontEndV1/logo.jpg" : systemInformation.Logo)" alt="@(string.IsNullOrEmpty(systemInformation.SiteName) ? "Trang chủ" : systemInformation.SiteName)" title="@(string.IsNullOrEmpty(systemInformation.SiteName) ? "Trang chủ" : systemInformation.SiteName)" />
+        </a>
+        <div class="header-search">
+            <input type="text" name="keywords" id="keywords" placeholder="Tìm kiếm bài viết..." value="@ViewBag.Keywords" class="keywords" />
+            <button class="search-button" title="Tìm kiếm" type="button">Tìm kiếm</button>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div class="nav">
+        @{Html.RenderAction("MainMenu", "Shared");}
+        @{Html.RenderAction("RightMenu", "Shared");}
+        <div class="clear"></div>
+    </div>
+</div>

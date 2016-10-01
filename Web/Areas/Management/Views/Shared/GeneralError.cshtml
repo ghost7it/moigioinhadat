@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Lỗi hệ thống";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+}
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Lỗi hệ thống</a>
+        </li>
+    </ul>
+</div>
+@*Bắt đầu nội dung tùy chỉnh*@
+<div class="row">
+    <br /><br /><br /><br />
+    <div class="col-md-12 page-500">
+        <div class=" number">
+            Lỗi
+        </div>
+        <div class=" details text-red">
+            <h3>Lỗi khi thực hiện yêu cầu của bạn!</h3>
+            <p>
+                @ViewBag.Exception
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    @Styles.Render("~/Content/adminv1/error")
+}

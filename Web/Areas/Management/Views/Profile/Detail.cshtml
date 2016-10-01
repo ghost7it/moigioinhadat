@@ -1,0 +1,434 @@
+﻿@using Entities.Models;
+@using Entities.Enums;
+@model Profile
+@{
+    ViewBag.Title = "Chi tiết hồ sơ";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+    var canDelete = RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Delete);
+    var canUpdate = RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Update);
+    var canUpdate2 = RoleHelper.CheckPermission(ModuleEnum.ProfileApprove, ActionEnum.Update);
+    var canApprove = RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Verify);
+    var canApprove2 = RoleHelper.CheckPermission(ModuleEnum.ProfileApprove, ActionEnum.Verify);
+}
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="@Url.RouteUrl("ProfileIndex")">Danh sách hồ sơ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Chi tiết hồ sơ</a>
+        </li>
+    </ul>
+</div>
+@*Bắt đầu nội dung tùy chỉnh*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="profile-sidebar" style="width:250px;">
+            <div class="portlet light profile-sidebar-portlet">
+                <div class="profile-userpic">
+                    <img src="@(string.IsNullOrEmpty(Model.ProfilePicture) ? "http://www.placehold.it/200x200/EFEFEF/AAAAAA&text=No+image" :  Model.ProfilePicture)" class="img-responsive" alt="">
+                </div>
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        @Model.Name
+                    </div>
+                    <div class="profile-usertitle-job">
+                        @Model.Email
+                    </div>
+                </div>
+                <div class="profile-userbuttons">
+                    @if (Model.Status == 1)
+                    {
+                        <h2>
+                            <span class="label label-primary">
+                                <i class="fa fa-clock-o"></i>  Chưa duyệt
+                            </span>
+                        </h2>
+                        if (canApprove || canApprove2)
+                        {
+                            <a class="btn btn-circle green btn-sm" href="@Url.RouteUrl("ProfileApprove", new { id = Model.Id })"><i class="fa fa-check-square-o"></i> Duyệt ngay</a>
+                            <a class="btn btn-circle btn-danger btn-sm" href="@Url.RouteUrl("ProfileUnApprovedMessageModal", new { id = Model.Id, type = 1 })" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-ban"></i> Không duyệt</a>
+                        }
+                    }
+                    else if (Model.Status == 2)
+                    {
+                        <h2>
+                            <span class="label label-success">
+                                <i class="fa fa-check-square-o"></i> Đã duyệt
+                            </span>
+                        </h2>
+                        if (canApprove || canApprove2)
+                        {
+                            <a class="btn btn-circle btn-danger btn-sm" href="@Url.RouteUrl("ProfileUnApprovedMessageModal", new { id = Model.Id, type = 2 })" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-ban"></i> Hủy duyệt</a>
+                        }
+                    }
+                    else
+                    {
+                        <h2>
+                            <span class="label label-danger">
+                                <i class="fa fa-ban"></i> Không được duyệt
+                            </span>
+                        </h2>
+                        <div>Lý do: @Html.Raw(Model.UnApprovedMessage)</div>
+                        if (canApprove || canApprove2)
+                        {
+                            <a class="btn btn-circle green btn-sm" href="@Url.RouteUrl("ProfileApprove", new { id = Model.Id })"><i class="fa fa-check-square-o"></i> Duyệt ngay</a>
+                        }
+                    }
+
+                </div>
+                <div class="profile-usermenu">
+                    <ul class="nav">
+                        <li class="active">
+                            <a href="@Url.RouteUrl("ProfileDetail", new { id = Model.Id })">
+                                <i class="icon-home"></i>
+                                Chi tiết hồ sơ
+                            </a>
+                        </li>
+                        @if (canUpdate || canUpdate2)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("ProfileUpdate", new { id = Model.Id })">
+                                    <i class="icon-settings"></i>
+                                    Cập nhật hồ sơ
+                                </a>
+                            </li>
+                        }
+                        @if (Model.Status == 2 && (canUpdate || canUpdate2))
+                        {
+                            if (Model.Account != null)
+                            {
+                                <li class="active">
+                                    <a href="javascript:void(0);">
+                                        <i class="icon-settings"></i>
+                                        Đã tạo tài khoản
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="active">
+                                    <a href="@Url.RouteUrl("ProfileCreateAccount", new { id = Model.Id })">
+                                        <i class="icon-settings"></i>
+                                        Tạo tài khoản
+                                    </a>
+                                </li>
+                            }
+                            if (Model.Account != null)
+                            {
+                                <li>
+                                    <a href="@Url.RouteUrl("ProfileCommittee", new { id = Model.Id })">
+                                        <i class="icon-settings"></i>
+                                        Phân quyền duyệt hồ sơ
+                                    </a>
+                                </li>
+                            }
+                        }
+                        @if (canDelete)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("ProfileDelete", new { id = Model.Id })" onclick="return confirm('Bạn có chắc chắn muốn xóa hồ sơ này không?')">
+                                    <i class="fa fa-trash-o"></i>
+                                    Xóa hồ sơ này
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="profile-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet light">
+                        <div class="portlet-body form">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-body">
+                                    <h2 style="margin:0;"> Chi tiết hồ sơ - @Model.Name </h2>
+                                    <h3 class="form-section">Thông tin cơ bản</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Họ và tên:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @Model.Name
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Ngày sinh:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("dd/MM/yyyy") : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Giới tính:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @(Model.Sex.HasValue ? Model.Sex.Value == false ? "Nam" : "Nữ" : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Địa chỉ email:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @Model.Email
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Điện thoại:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @Model.CellPhone
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="form-section">Thông tin trường/khóa</h3>
+                                    <div class="row">
+                                        @if (Model.ProfileOrganizations != null && Model.ProfileOrganizations.Any())
+                                        {
+                                            foreach (var item in Model.ProfileOrganizations.OrderBy(o => o.StartYear))
+                                            {
+                                                <div class="col-md-6" style="border-bottom:1px solid #e5e5e5">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-5">Trường:</label>
+                                                        <div class="col-md-7">
+                                                            <p class="form-control-static">
+                                                                @item.Organization.Name
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-5">Ngành:</label>
+                                                        <div class="col-md-7">
+                                                            <p class="form-control-static">
+                                                                @(item.Majors != null ? item.Majors.Name : "")
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-5">Khóa:</label>
+                                                        <div class="col-md-7">
+                                                            <p class="form-control-static">
+                                                                @(item.Course != null ? item.Course.Name : "")
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-5">Năm nhập học:</label>
+                                                        <div class="col-md-7">
+                                                            <p class="form-control-static">
+                                                                @item.StartYear
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-5">Năm tốt nghiệp:</label>
+                                                        <div class="col-md-7">
+                                                            <p class="form-control-static">
+                                                                @item.GraduateYear
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <h3 class="form-section">Thông tin bổ sung</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Điện thoại nhà riêng:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @Model.HomePhone
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Điện thoại cơ quan:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @Model.OfficePhone
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Quê quán:</label>
+                                                <div class="col-md-7">
+                                                    @{
+                                                        string nativeLand = string.IsNullOrEmpty(Model.NativeLand) ? "" : Model.NativeLand;
+                                                        nativeLand = Model.NativeLandDistrict == null ? nativeLand : string.IsNullOrEmpty(nativeLand) ? Model.NativeLandDistrict.Name : nativeLand + ", " + Model.NativeLandDistrict.Name;
+                                                        nativeLand = Model.NativeLandProvince == null ? nativeLand : string.IsNullOrEmpty(nativeLand) ? Model.NativeLandProvince.Name : nativeLand + ", " + Model.NativeLandProvince.Name;
+                                                    }
+                                                    <p class="form-control-static">
+                                                        @nativeLand
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Nơi ở hiện tại:</label>
+                                                <div class="col-md-7">
+                                                    @{
+                                                        string currentResidence = string.IsNullOrEmpty(Model.CurrentResidence) ? "" : Model.CurrentResidence;
+                                                        currentResidence = Model.CurrentResidenceDistrict == null ? currentResidence : string.IsNullOrEmpty(currentResidence) ? Model.CurrentResidenceDistrict.Name : currentResidence + ", " + Model.CurrentResidenceDistrict.Name;
+                                                        currentResidence = Model.CurrentResidenceProvince == null ? currentResidence : string.IsNullOrEmpty(currentResidence) ? Model.CurrentResidenceProvince.Name : currentResidence + ", " + Model.CurrentResidenceProvince.Name;
+                                                    }
+                                                    <p class="form-control-static">
+                                                        @currentResidence
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Thông tin khác:</label>
+                                                <div class="col-md-7">
+                                                    @Html.Raw(Model.ExtraInfomation)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Quốc tịch:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.Country != null ? Model.Country.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Dân tộc:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @(Model.Nation != null ? Model.Nation.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Tôn giáo:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @(Model.Religion != null ? Model.Religion.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Cơ quan làm việc hiện tại:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @(Model.CurrentOrganization != null ? Model.CurrentOrganization.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Chức vụ hiện tại:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @(Model.CurrentPosition != null ? Model.CurrentPosition.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Học vị hiện tại:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @(Model.CurrentDegree != null ? Model.CurrentDegree.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Học hàm hiện tại:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static">
+                                                        @(Model.CurrentRank != null ? Model.CurrentRank.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    @Styles.Render("~/Content/adminv1/profile")
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/adminv1/jqueryval")
+    <script type="text/javascript" src="~/Editor/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="~/Editor/ckfinder/ckfinder.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            $(document).on('click', '.select-image', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/tai-khoan-nguoi-dung/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#ProfilePicture').val(fileUrl);
+                    $('#Image_Preview').attr('src', fileUrl);
+                };
+                finder.popup();
+            });
+            $(document).on('click', '.btn-un-approve', function (e) {
+                e.preventDefault();
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                for (instance in CKEDITOR.instances) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+                var URL = '@Url.RouteUrl("ProfileUnApprovedJson")';
+                $.ajax({
+                    type: 'POST',
+                    url: URL,
+                    dataType: 'json',
+                    data: $('.form-un-approve').serialize(),
+                    success: function (result) {
+                        if (result.success == true) {
+                            showNoty('Đã ghi nhận thành công!', 'success', 'center', 5000);
+                        }
+                        else {
+                            showNoty(result.message, 'error', 'center', 5000);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, error) {
+                        showNoty('Đã xảy ra lỗi khi thực hiện yêu cầu của bạn. Vui lòng kiểm tra và thử lại!', 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        $('.modal-header .close').click();
+                        AdminVersionOne.unblockUI();
+                        setTimeout("location.reload(true);", 5000);
+                    }
+                });
+            });
+        });
+    </script>
+}

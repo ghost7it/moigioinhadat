@@ -1,0 +1,336 @@
+﻿@model Entities.Models.SystemInformation
+@{
+    ViewBag.Title = "Tham số hệ thống";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Tham số hệ thống</a>
+            @*<i class="fa fa-angle-right"></i>*@
+        </li>
+    </ul>
+</div>
+@*Bắt đầu nội dung tùy chỉnh*@
+@*<div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-equalizer"></i>Tham số hệ thống
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable tabbable-custom tabbable-noborder">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_1_1" data-toggle="tab">
+                        Tham số hệ thống
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab_1_2" data-toggle="tab">
+                        Tài khoản SMTP
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab_1_3" data-toggle="tab">
+                        Hiển thị trang ngoài
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active fontawesome-demo" id="tab_1_1">
+                    <div class="portlet-body form">
+                        @using (Html.BeginForm("Index", "SystemInformation", FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+                        <div class="form-body">
+                            @if (!ViewData.ModelState.IsValid)
+                            {
+                            <div class="alert alert-danger">
+                                <button data-close="alert" class="close"></button>
+                                @Html.ValidationSummary(true)
+                            </div>
+                            }
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SiteName, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.SiteName, new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.SiteName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Slogan, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Slogan, new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.Slogan)
+                                </div>
+                            </div>
+                            <div class="form-group" style="border-bottom:1px solid #efefef; padding: 15px 0;border-top:1px solid #efefef;">
+                                @Html.LabelFor(model => model.Logo, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+
+                                    @Html.HiddenFor(model => model.Logo)
+                                    <div>
+                                        <div class="col-md-4 thumbnail" style="height:150px;">
+                                            <img id="Image_Preview" src="@(string.IsNullOrEmpty(Model.Logo) ? " http />/www.placehold.it/200x150/EFEFEF/AAAAAA&text=No+image" : Model.Logo)" alt="" style="max-height:100%;" />
+                                        </div>
+                                        <div class="col-md-4" style="line-height:150px;">
+                                            <button type="button" class="btn btn-default select-image"><i class="fa fa-sm"></i> Chọn ảnh</button>
+                                        </div>
+                                    </div>
+
+                                    @Html.ValidationMessageFor(model => model.Logo)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Copyright, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    @Html.TextAreaFor(model => model.Copyright, new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.Copyright)
+                                </div>
+                            </div>
+                            <div class="form-group" style="border-bottom:1px solid #efefef; padding: 15px 0;">
+                                @Html.LabelFor(model => model.Email, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon input-circle-left">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-circle-right" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-circle blue"><i class="fa fa-check"></i> Ghi nhận</button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                <div class="tab-pane fontawesome-demo" id="tab_1_2">
+                    <div class="note note-success">
+                        <h3>Tài khoản SMTP</h3>
+                        <p>Đây là tài khoản email dùng để gửi email cho thành viên.</p>
+                    </div>
+                    <form class="form-horizontal form-smtp">
+                        <div class="form-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SMTPName, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.SMTPName, new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.SMTPName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SMTPEmail, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon input-circle-left">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                        @Html.TextBoxFor(model => model.SMTPEmail, new { @class = "form-control input-circle-right" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.SMTPEmail)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SMTPPassword, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(model => model.SMTPPassword, new { @class = "form-control input-circle-left", @type = "password" })
+                                        <span class="input-group-addon input-circle-right">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.SMTPPassword)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="button" class="btn btn-circle blue smtp-submit"><i class="fa fa-check"></i> Ghi nhận</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" id="tab_1_3">
+                    <form class="form-site-map">
+                        <div class="note note-success">
+                            <h3>Chọn các đối tượng hiển thị theo vị trí ngoài trang chủ</h3>
+                            <p>Vui lòng chọn các chuyên mục, album cần hiển thị theo vị trí đã định sẵn.</p>
+                            <p>
+                                Sau khi chọn xong bấm nút ghi nhận hoặc
+                                <button type="button" class="btn btn-circle green btn-lg map-submit">
+                                    <span class="glyphicon glyphicon-saved">
+                                    </span> Bấm vào đây
+                                </button>
+                            </p>
+                        </div>
+                        <div style="width:1000px; height:1936px; background-image:url('/Images/AdminV1/map.jpg'); background-repeat:no-repeat; display:block; position:relative;">
+
+                            <div style="position:absolute; top:105px; right:530px; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Menu chính</span>   @Html.DropDownList("MainMenu", (SelectList)ViewBag.CategoryType, "---Chọn loại chuyên mục (menu)---", new { @style = "width:250px; height:30px;" })
+                            </div>
+                            <div style="position:absolute; top:105px; right:20px; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Menu phải</span>   @Html.DropDownList("RightMenu", (SelectList)ViewBag.CategoryType, "---Chọn loại chuyên mục (menu)---", new { @style = "width:180px; height:30px;" })
+                            </div>
+
+                            <div style="position:absolute; top:320px; right:530px; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Slide ảnh chính</span>   @Html.DropDownList("HomeAlbum", (SelectList)ViewBag.Album, "---Chọn album---", new { @style = "width:250px; height:30px;" })
+                            </div>
+                            <div style="position:absolute; top:320px; right:20px; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Khối bên phải</span>   @Html.DropDownList("RightAlbum", (SelectList)ViewBag.Album, "---Chọn album---", new { @style = "width:180px; height:30px;" })
+                            </div>
+
+                            <div style="position:absolute; top:810px; right:530px; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Khối tin bên trái 1</span>   @Html.DropDownGroupList("LeftArticle1", (IEnumerable<GroupedSelectListItem>)ViewBag.Categories, "---Chọn chuyên mục---", new { @style = "width:250px; height:30px;" })
+                            </div>
+                            <div style="position:absolute; top:810px; right:20px; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Khối tin bên phải 1</span>   @Html.DropDownGroupList("RightArticle1", (IEnumerable<GroupedSelectListItem>)ViewBag.Categories, "---Chọn chuyên mục---", new { @style = "width:180px; height:30px;" })
+                            </div>
+
+                            <div style="position:absolute; top:1120px; right:530px; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Khối tin bên trái 2</span>   @Html.DropDownGroupList("LeftArticle2", (IEnumerable<GroupedSelectListItem>)ViewBag.Categories, "---Chọn chuyên mục---", new { @style = "width:250px; height:30px;" })
+                            </div>
+                            <div style="position:absolute; top:1120px; right:20px; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Khối tin bên phải 2</span>   @Html.DropDownGroupList("RightArticle2", (IEnumerable<GroupedSelectListItem>)ViewBag.Categories, "---Chọn chuyên mục---", new { @style = "width:180px; height:30px;" })
+                            </div>
+
+                            <div style="position:absolute; top:1460px; left:30%; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Các đối tác</span>   @Html.DropDownList("BottomAlbum", (SelectList)ViewBag.Album, "---Chọn album---", new { @style = "width:250px; height:30px;" })
+                            </div>
+                            <div style="position:absolute; top:1700px; left:30%; border:5px solid #ff0000">
+                                <span style="font-weight:bold;">Liên kết cuối trang</span>   @Html.DropDownList("BottomMenu", (SelectList)ViewBag.CategoryType, "---Chọn loại chuyên mục (menu) ---", new { @style = "width:180px; height:30px;" })
+                            </div>
+
+                        </div>
+                        <div style="position:fixed; top:50%; right:30px; z-index:999;">
+                            <button type="button" class="btn btn-circle green btn-lg map-submit">
+                                <span class="glyphicon glyphicon-saved">
+                                </span> Ghi nhận
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles{
+    @Styles.Render("~/Content/adminv1/select2")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/adminv1/jqueryval", "~/bundles/adminv1/select2")
+<script type="text/javascript" src="~/Editor/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="~/Editor/ckfinder/ckfinder.js"></script>>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $('#SiteName').focus();
+        $('#MainMenu').val('@Model.MainMenu');
+        $('#RightMenu').val('@Model.RightMenu');
+        $('#HomeAlbum').val('@Model.HomeAlbum');
+        $('#RightAlbum').val('@Model.RightAlbum');
+        $('#LeftArticle1').val('@Model.LeftArticle1');
+        $('#LeftArticle2').val('@Model.LeftArticle2');
+        $('#RightArticle1').val('@Model.RightArticle1');
+        $('#RightArticle2').val('@Model.RightArticle2');
+        $('#BottomAlbum').val('@Model.BottomAlbum');
+        $('#BottomMenu').val('@Model.BottomMenu');
+        CKEDITOR.replace('Copyright', {
+            toolbar: [
+                ['Bold', 'Italic', '-', 'Link', 'Unlink'], ['FontSize', 'TextColor', 'BGColor']
+            ]
+        });
+        $(document).on('click', '.select-image', function () {
+            var finder = new CKFinder();
+            finder.startupPath = 'Images:/chung/';
+            finder.selectActionFunction = function (fileUrl) {
+                $('#Logo').val(fileUrl);
+                $('#Image_Preview').attr('src', fileUrl);
+            };
+            finder.popup();
+        });
+        $(document).on('click', '.map-submit', function (e) {
+            e.preventDefault();
+            AdminVersionOne.blockUI({
+                message: 'Vui lòng đợi!',
+                overlayColor: 'none',
+                cenrerY: true,
+                boxed: true
+            });
+            var URL = '@Url.RouteUrl("SystemInformationSiteMap")';
+            $.ajax({
+                type: 'POST',
+                url: URL,
+                dataType: 'json',
+                data: $('.form-site-map').serialize(),
+                success: function (result) {
+                    if (result.success == true) {
+                        alert("Đã ghi nhận thành công!");
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                },
+                error: function (xhr, ajaxOptions, error) {
+                    alert('Đã xảy ra lỗi khi thực hiện yêu cầu của bạn. Vui lòng kiểm tra và thử lại!');
+                },
+                complete: function (result) {
+                    AdminVersionOne.unblockUI();
+                }
+            });
+        });
+        $(document).on('click', '.smtp-submit', function (e) {
+            e.preventDefault();
+            AdminVersionOne.blockUI({
+                message: 'Vui lòng đợi!',
+                overlayColor: 'none',
+                cenrerY: true,
+                boxed: true
+            });
+            var URL = '@Url.RouteUrl("SystemInformationSMTP")';
+            $.ajax({
+                type: 'POST',
+                url: URL,
+                dataType: 'json',
+                data: $('.form-smtp').serialize(),
+                success: function (result) {
+                    if (result.success == true) {
+                        alert("Đã ghi nhận thành công!");
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                },
+                error: function (xhr, ajaxOptions, error) {
+                    alert('Đã xảy ra lỗi khi thực hiện yêu cầu của bạn. Vui lòng kiểm tra và thử lại!');
+                },
+                complete: function (result) {
+                    AdminVersionOne.unblockUI();
+                }
+            });
+        });
+    });
+</script>
+}

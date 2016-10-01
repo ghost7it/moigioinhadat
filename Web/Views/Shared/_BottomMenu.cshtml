@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Entities.Models.Category>
+<div class="topFooter">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model.OrderBy(o=>o.OrdinalNumber))
+        {
+            <div class="footer_ul1">
+                <p>
+                    <a href="@(string.IsNullOrEmpty(item.Link) ? "javascript:void(0);" : item.Link)">@item.Name</a>
+                </p>
+                @if(item.Categories!=null && item.Categories.Any())
+                { 
+                <ul>
+                    @foreach(var item2 in item.Categories.OrderBy(c=>c.OrdinalNumber))
+                    {
+                    <li>
+                        <a href="@(string.IsNullOrEmpty(item2.Link) ? "javascript:void(0);" : item2.Link)">@item2.Name</a>
+                    </li>
+                    }
+                </ul>
+                }
+            </div>
+        }
+    }
+
+    <div class="clear"></div>
+</div>

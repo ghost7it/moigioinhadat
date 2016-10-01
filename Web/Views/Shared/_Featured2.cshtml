@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Entities.Models.Article>
+@using Common;
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), title = StringHelper.StringFilter(item.Title), categoryId = ViewBag.CategoryId, id = item.Id })">
+                    <i class="fa fa-angle-right"></i> @item.Title
+                </a>
+            </li>
+        }
+    </ul>
+}

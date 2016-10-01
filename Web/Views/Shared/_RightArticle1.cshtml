@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Entities.Models.Article>
+@using Common;
+<div class="box_right_notify_top">
+    <h2>@ViewBag.CategoryName</h2>
+    <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), categoryId = ViewBag.CategoryId })">xem tiếp</a>
+    <div class="clear"></div>
+</div>
+<div class="box_right_notify_bottom">
+    @if (Model != null && Model.Any())
+    {
+        <ul>
+            @foreach (var item in Model.OrderByDescending(o => o.Id))
+            {
+                <li>
+                    @if(item.EventStartDate.HasValue)
+                    { 
+                    <div class="calendar"><p>Tháng @item.EventStartDate.Value.Month<br /> <span>@item.EventStartDate.Value.Day</span></p></div>
+                    }
+                    else
+                    {
+                        <div class="calendar"><p> <span>@item.CreateDate.Year</span></p></div>
+                    }
+                    <div class="text">
+                        <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), title = StringHelper.StringFilter(item.Title), categoryId = ViewBag.CategoryId, id = item.Id })">@item.Title</a>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            }
+        </ul>
+    }
+</div>

@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @Html.Partial("_Head")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <div id="wrapper">
+        @Html.Partial("_Header")
+        <div class="topSlider">
+            <div class="content_slider">
+                @{Html.RenderAction("HomeAlbum", "Shared");}
+                @{Html.RenderAction("RightAlbum", "Shared");}
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="left_content">
+                @RenderBody()
+            </div>
+            <div class="right_content">
+                @Html.Partial("_HomeRight")
+            </div>
+            <div class="clear"></div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_Scripts")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,9 @@
+﻿<div class="box_right_login">
+    <a href="@Url.RouteUrl("FrontEndLoginIndex")">Đăng nhập</a> với hội viên đã đăng ký
+    <a href="@Url.RouteUrl("FrontEndProfileRegister")">Đăng ký</a> với cựu sinh viên chưa là hội viên
+    Kết nối với trang <a href="https://email.vnu.edu.vn/" target="_blank">Email</a> của VNU
+</div>
+<div class="box_right_notify">
+    @{Html.RenderAction("RightArticle1", "Shared", new { categoryId = 34 });}
+    @{Html.RenderAction("RightArticle2", "Shared", new { categoryId = 34 });}
+</div>

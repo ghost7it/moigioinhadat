@@ -1,0 +1,395 @@
+﻿@using Entities.Models;
+@using Entities.Enums;
+@model Account
+
+@{
+    ViewBag.Title = "Cập nhật tài khoản";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+    var roles = (List<Role>)ViewBag.Roles ?? new List<Role>();
+    var accountRoles = (List<AccountRole>)ViewBag.AccountRoles ?? new List<AccountRole>();
+    var organizations = (List<Organization>)ViewBag.Organizations ?? new List<Organization>();
+    var accountOrganizations = (List<AccountOrganization>)ViewBag.AccountOrganizations ?? new List<AccountOrganization>();
+    var canDelete = RoleHelper.CheckPermission(ModuleEnum.Account, ActionEnum.Delete);
+    var canCreate = RoleHelper.CheckPermission(ModuleEnum.Account, ActionEnum.Create);
+    var canUpdate = RoleHelper.CheckPermission(ModuleEnum.Account, ActionEnum.Update);
+}
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="@Url.RouteUrl("AccountIndex")">Danh sách tài khoản</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Cập nhật tài khoản</a>
+        </li>
+    </ul>
+</div>
+@*Bắt đầu nội dung tùy chỉnh*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="profile-sidebar" style="width:250px;">
+            <div class="portlet light profile-sidebar-portlet">
+                <div class="profile-userpic">
+                    <img src="@(string.IsNullOrEmpty(Model.ProfilePicture) ? "http://www.placehold.it/200x200/EFEFEF/AAAAAA&text=No+image" :  Model.ProfilePicture)" class="img-responsive" alt="">
+                </div>
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        @Model.Name
+                    </div>
+                    <div class="profile-usertitle-job">
+                        @Model.Email
+                    </div>
+                </div>
+                @if (canDelete)
+                {
+                    <div class="profile-userbuttons">
+                        <a class="btn btn-circle btn-danger btn-sm" href="@Url.RouteUrl("AccountDelete", new { id = Model.Id })" onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')"><i class="fa fa-trash-o"></i> Xóa tài khoản</a>
+                    </div>
+                }
+                <div class="profile-usermenu">
+
+                </div>
+            </div>
+        </div>
+        <div class="profile-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet light" id="account_detail">
+                        <div class="portlet-title tabbable-line">
+                            <div class="caption caption-md">
+                                <i class="icon-globe theme-font hide"></i>
+                                <span class="caption-subject font-blue-madison bold uppercase">@Model.Name</span>
+                            </div>
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tab_1_1" data-toggle="tab">Thông tin cơ bản</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_1_2" data-toggle="tab">Đổi mật khẩu</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_1_3" data-toggle="tab">Phân quyền</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_1_4" data-toggle="tab">Phân quyền duyệt hồ sơ</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab_1_1">
+                                    @using (Html.BeginForm("Read", "Account", FormMethod.Post, new { @class = "form-update-account", @enctype = "multipart/form-data" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.HiddenFor(model => model.Id)
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Name)
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-envelope"></i>
+                                                </span>
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Email)
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ProfilePicture, new { @class = "control-label" })
+                                            @Html.HiddenFor(model => model.ProfilePicture)
+                                            <div>
+                                                <div class="col-md-3 thumbnail" style="height:150px;">
+                                                    <img id="Image_Preview" src="@(string.IsNullOrEmpty(Model.ProfilePicture) ? "http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=No+image" : Model.ProfilePicture)" alt="" style="height:100%;" />
+                                                </div>
+                                                <div class="col-md-9" style="line-height:150px;">
+                                                    <button type="button" class="btn btn-default select-image"><i class="fa fa-sm"></i> Chọn ảnh</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="clear:both;"></div>
+                                        if (canUpdate)
+                                        {
+                                            <div class="margiv-top-10" style="background-color:#f5f5f5; border-top: 1px solid #e5e5e5;padding: 20px 10px; clear:both;">
+                                                <button type="button" class="btn green btn-update"><i class="fa fa-check"></i> Ghi nhận</button>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="tab-pane" id="tab_1_2">
+                                    <form action="#" class="form-change-member-password">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <label class="control-label">Mật khẩu mới</label>
+                                            <input type="password" class="form-control" name="NewPassword" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Nhập lại mật khẩu mới</label>
+                                            <input type="password" class="form-control" name="ConfirmPassword" />
+                                        </div>
+                                        @if (canUpdate)
+                                        {
+                                            <div class="margin-top-10">
+                                                <button type="button" class="btn green btn-change-pw"><i class="fa fa-check"></i> Ghi nhận</button>
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="tab_1_3">
+                                    <form action="#" class="form-account-mapping-role">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="accountId" id="accountId" value="@Model.Id">
+                                        <table class="table table-light table-hover">
+                                            @foreach (var role in roles)
+                                            {
+                                                var account = accountRoles.FirstOrDefault(a => a.RoleId == role.Id);
+                                                <tr>
+                                                    <td style="color:#000;">
+                                                        @role.Name
+                                                    </td>
+                                                    <td>
+                                                        <label class="uniform-inline">
+                                                            <input type="checkbox" data-roleid="@role.Id" @(account != null ? " checked=checked" : "") />
+                                                        </label>
+                                                    </td>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                        @if (canUpdate)
+                                        {
+                                            <div class="margin-top-10">
+                                                <button type="button" class="btn green btn-account-mapping-role"><i class="fa fa-check"></i> Ghi nhận</button>
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="tab_1_4">
+                                    <form action="#" class="form-account-organizations">
+                                        @*organizations
+                                            <div class="margin-top-10">
+                                                <a href="#" class="btn green-haze">
+                                                    Ghi nhận
+                                                </a>
+                                            </div>*@
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="accountId2" id="accountId2" value="@Model.Id">
+                                        <table class="table table-light table-hover">
+                                            @if (organizations != null && organizations.Any())
+                                            {
+                                                foreach (var organization in organizations)
+                                                {
+                                                    var account = accountOrganizations.FirstOrDefault(a => a.OrganizationId == organization.Id);
+                                                    <tr>
+                                                        <td style="color:#000;">
+                                                            @organization.Name
+                                                        </td>
+                                                        <td>
+                                                            <label class="uniform-inline">
+                                                                <input type="checkbox" data-organizationid="@organization.Id" @(account != null ? " checked=checked" : "") />
+                                                            </label>
+                                                        </td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </table>
+                                        @if (canUpdate)
+                                        {
+                                            <div class="margin-top-10">
+                                                <button type="button" class="btn green btn-account-organizations"><i class="fa fa-check"></i> Ghi nhận</button>
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    @Styles.Render("~/Content/adminv1/profile")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/adminv1/jqueryval")
+    <script type="text/javascript" src="~/Editor/ckfinder/ckfinder.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            $(document).on('click', '.select-image', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/tai-khoan-nguoi-dung/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#ProfilePicture').val(fileUrl);
+                    $('#Image_Preview').attr('src', fileUrl);
+                };
+                finder.popup();
+            });
+            //Cập nhật thông tin tài khoản
+            $(document).on('click', '.btn-update', function () {
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    target: $('#account_detail'),
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                var $url = '@Url.RouteUrl("AccountRead")';
+                var formData = new FormData($('.form-update-account')[0]);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    data: { id: '@Model.Id' },
+                    //data: $('.form-update-account').serialize(),//Dùng cách này thì không upload file được
+                    data: formData,
+                    dataType: 'json',
+                    enctype: 'multipart/form-data',
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                            setTimeout("location.reload(true);", 5000);
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        AdminVersionOne.unblockUI($('#account_detail'));
+                    }
+                });
+                return;
+            });
+            //Đổi mật khẩu cho thành viên
+            $(document).on('click', '.btn-change-pw', function () {
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    target: $('#account_detail'),
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+
+                var $url = '@Url.RouteUrl("AccountChangeMemberPassword")';
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    data: { id: '@Model.Id' },
+                    data: $('.form-change-member-password').serialize(),
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        AdminVersionOne.unblockUI($('#account_detail'));
+                    }
+                });
+                return;
+            });
+            //Phân quyền
+            $(document).on('click', '.btn-account-mapping-role', function () {
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    target: $('#account_detail'),
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                var roles = $('#tab_1_3 input:checkbox:checked').map(function () {
+                    return $(this).attr('data-roleid');
+                }).get();
+                var accountId = $('#accountId').val();
+                var $url = ('@Url.RouteUrl("AccountMappingRole", new {roles = "rolesReplace" })').replace("rolesReplace", roles);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    data: { accountId: accountId },
+                    data: $('.form-account-mapping-role').serialize(),
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        AdminVersionOne.unblockUI($('#account_detail'));
+                    }
+                });
+                return;
+            });
+            $(document).on('click', '.btn-account-organizations', function () {
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    target: $('#account_detail'),
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                var organizations = $('#tab_1_4 input:checkbox:checked').map(function () {
+                    return $(this).attr('data-organizationid');
+                }).get();
+                var accountId = $('#accountId2').val();
+                var $url = ('@Url.RouteUrl("AccountOrganization", new { accountId = "accountIdReplace", organizations = "organizationsReplace" })').replace("accountIdReplace", accountId).replace("organizationsReplace", organizations);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    data: $('.form-account-organizations').serialize(),
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        AdminVersionOne.unblockUI($('#account_detail'));
+                    }
+                });
+                return;
+            });
+        });
+    </script>
+}

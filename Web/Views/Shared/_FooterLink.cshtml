@@ -1,0 +1,26 @@
+﻿@using Common;
+@model IEnumerable<Entities.Models.Category>
+<div class="bottomFooter">
+    <div class="bottomFooter_content">
+        <div class="footer_p1">
+            @Html.Raw(ViewBag.Copyright)
+        </div>
+        <div class="footer_p2">
+            @if (Model != null && Model.Any())
+            {
+                int i=0;
+                int count=Model.Count();
+                foreach (var item in Model.OrderBy(o => o.OrdinalNumber))
+                {
+                    i++;
+                    <a href="@(string.IsNullOrEmpty(item.Link) ? Url.RouteUrl("FrontEndArticleIndex", new { categoryName = StringHelper.StringFilter(item.Name), categoryId = item.Id }) : item.Link)">@item.Name</a>
+                if(i!=count)
+                {
+                    <span>|</span>
+                }
+                }
+            }
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

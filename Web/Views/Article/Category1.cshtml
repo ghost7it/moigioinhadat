@@ -1,0 +1,126 @@
+﻿@using Common;
+@using Entities.Models;
+@{
+    Category category = (Category)ViewBag.Category;
+    Category rootCategory = (Category)ViewBag.RootCategory;
+    ViewBag.Title = category.Name;
+    Layout = "~/Views/Shared/_Layout_Category1.cshtml";
+
+}
+
+<div class="category-header">
+    <div class="category-header-detail">
+        <img src="@(string.IsNullOrEmpty(rootCategory.DescriptionIcon) ? " />Images/FrontEndV1/img_mainDetail.jpg" : rootCategory.DescriptionIcon)" alt="@rootCategory.Name" title="@rootCategory.Name" />
+        @if (rootCategory != null && !rootCategory.IsNullOrEmpty)
+        {
+            <h2>@rootCategory.Name</h2>
+        }
+    </div>
+</div>
+<div class="category-content">
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="@Url.RouteUrl("FrontEndHomeIndex")">Trang chủ</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            @if (rootCategory != null)
+            {
+                <li>
+                    @if (string.IsNullOrEmpty(rootCategory.Link))
+                    {
+                        <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname = StringHelper.StringFilter(rootCategory.Name), categoryid = rootCategory.Id })">@rootCategory.Name</a>
+                    }
+                    else
+                    {
+                        <a href="@rootCategory.Link">@rootCategory.Name</a>
+                    }
+                    <i class="fa fa-angle-right"></i>
+                </li>
+            }
+            @if (category != null && category != rootCategory)
+            {
+                if (category.ParentCategory != null && category.ParentCategory != rootCategory)
+                {
+                    <li>
+                        @if (string.IsNullOrEmpty(category.ParentCategory.Link))
+                        {
+                            <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname = StringHelper.StringFilter(category.ParentCategory.Name), categoryid = category.ParentCategory.Id })">@category.ParentCategory.Name</a>
+                        }
+                        else
+                        {
+                            <a href="@category.ParentCategory.Link">@category.ParentCategory.Name</a>
+                        }
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                }
+            }
+            @if (category != null && category != rootCategory)
+            {
+                <li>
+                    <span>@category.Name</span>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="clear">
+        <div class="category-detail">
+            @if (category.Categories != null && category.Categories.Any())
+            {
+                <ul>
+                    @foreach (var item in category.Categories.OrderBy(o => o.OrdinalNumber))
+                    {
+                        <li>
+                            <h2>
+                                @if (string.IsNullOrEmpty(item.Link))
+                                {
+                                    <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryName = StringHelper.StringFilter(item.Name), categoryId = item.Id })">@item.Name</a>
+                                }
+                                else
+                                {
+                                    <a href="@item.Link">@item.Name</a>
+                                }
+                            </h2>
+                            @{Html.RenderAction("ArticlesByCategory1", "Article", new { categoryId = item.Id });                }
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        <div class="right-content">
+            @if (rootCategory != null)
+            {
+                long cat = (category != null && !category.IsNullOrEmpty) ? category.Id : 0;
+                @Html.Partial("_RightMenu2", rootCategory, new ViewDataDictionary { { "categoryId", cat } });
+
+            }
+            @if (category != null && !category.IsNullOrEmpty)
+            {
+                Html.RenderAction("MostViewed", "Shared", new { categoryId = category.Id, categoryName = category.Name });
+                Html.RenderAction("Featured", "Shared", new { categoryId = category.Id, articleId = -1, category = category.Name });
+            }
+            else
+            {
+                if (rootCategory != null && !rootCategory.IsNullOrEmpty)
+                {
+                    Html.RenderAction("MostViewed", "Shared", new { categoryId = rootCategory.Id, categoryName = rootCategory.Name });
+                    Html.RenderAction("Featured", "Shared", new { categoryId = rootCategory.Id, articleId = -1, categoryName = rootCategory.Name });
+                }
+                else
+                {
+                    Html.RenderAction("MostViewed2", "Shared");
+                }
+            }            
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+    jQuery(document).ready(function () {
+        var a = 'category_menu_' + '@rootCategory.Id';
+        if ('#' + a) {
+            $('#' + a).addClass('active');
+        }
+    });
+    </script>
+}

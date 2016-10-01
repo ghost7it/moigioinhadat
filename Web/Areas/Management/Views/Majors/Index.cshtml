@@ -1,0 +1,606 @@
+﻿@using Entities.Enums;
+@using Entities.Models;
+@{
+    ViewBag.Title = "Quản lý danh mục ngành, khóa";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+    var canDelete = RoleHelper.CheckPermission(ModuleEnum.Majors, ActionEnum.Delete);
+    var canCreate = RoleHelper.CheckPermission(ModuleEnum.Majors, ActionEnum.Create);
+    var canUpdate = RoleHelper.CheckPermission(ModuleEnum.Majors, ActionEnum.Update);
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Quản lý danh mục ngành/khóa</a>
+        </li>
+    </ul>
+</div>
+@*Bắt đầu nội dung tùy chỉnh*@
+<div class="row">
+    <div class="col-md-6">
+        <div class="portlet blue-hoki box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cubes"></i>Danh mục ngành/khóa
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="tree_4" class="tree-demo">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="portlet green-meadow box create-or-update">
+
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    @Styles.Render("~/Content/adminv1/style", "~/Content/adminv1/select2", "~/Content/adminv1/datatable")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/adminv1/jstree", "~/bundles/adminv1/select2", "~/bundles/adminv1/datatable")
+}
+@section Scripts2 {
+    <script type="text/javascript">
+        var MajorsTableEditable = function () {
+            var handleTable = function () {
+                function restoreRow(oTable, nRow) {
+                    var aData = oTable.fnGetData(nRow);
+                    var jqTds = $('>td', nRow);
+
+                    for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
+                        oTable.fnUpdate(aData[i], nRow, i, false);
+                    }
+
+                    oTable.fnDraw();
+                }
+
+                function editRow(oTable, nRow) {
+                    var aData = oTable.fnGetData(nRow);
+                    var jqTds = $('>td', nRow);
+                    jqTds[0].innerHTML = '<input type="text" class="form-control" value="' + aData[0] + '">';
+                    jqTds[1].innerHTML = '<input type="text" class="form-control" value="' + aData[1] + '">';
+                    jqTds[2].innerHTML = '<a class="edit" href="javascript:;">Ghi nhận</a>';
+                    jqTds[3].innerHTML = '<a class="cancel" href="javascript:;">Hủy bỏ</a>';
+                    $(jqTds[0]).find('input').focus();
+                }
+
+                function saveRow(oTable, nRow) {
+                    var jqInputs = $('input', nRow);
+                    oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
+                    oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
+                    if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                        oTable.fnUpdate('<a class="edit" href="javascript:;">Cập nhật</a>', nRow, 2, false);
+                    }
+                    else {
+                        oTable.fnUpdate('', nRow, 2, false);
+                    }
+                    if ('@canDelete' == 'true' || '@canDelete' == 'True') {
+                        oTable.fnUpdate('<a class="delete" href="javascript:;">Xóa</a>', nRow, 3, false);
+                    }
+                    else {
+                        oTable.fnUpdate('', nRow, 3, false);
+                    }
+                    oTable.fnDraw();
+                }
+                function updateRowId(oTable, nRow, id) {
+                    $(nRow).attr('data-objectid', id);
+                    oTable.fnDraw();
+                }
+                var table = $('#majors_editable');
+
+                var oTable = table.dataTable({
+                    "lengthMenu": [
+                        [10, 15, 20, -1],
+                        [10, 15, 20, "All"]
+                    ],
+                    "pageLength": 10,
+                    "language": {
+                        "search": "Tìm kiếm: ",
+                        "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",
+                        "info": "Tổng số _TOTAL_ bản ghi",
+                        "infoFiltered": "(tìm trong tổng số _MAX_ bản ghi)",
+                        "infoEmpty": "Không tìm thấy bản ghi nào",
+                        "emptyTable": "Không có dữ liệu",
+                        "zeroRecords": "Không tìm thấy dữ liệu",
+                        "paginate": {
+                            "previous": "Trang trước",
+                            "next": "Trang sau",
+                            "last": "Trang cuối",
+                            "first": "Trang đầu",
+                            "page": "Trang",
+                            "pageOf": " trong tổng số"
+                        }
+                    },
+                    "columnDefs": [{
+                        'orderable': true,
+                        'targets': [0]
+                    }, {
+                        "searchable": true,
+                        "targets": [0]
+                    }],
+                    "order": [
+                        [0, "asc"]
+                    ]
+                });
+
+                var tableWrapper = $("#majors_editable_wrapper");
+
+                tableWrapper.find(".dataTables_length select").select2({
+                    showSearchInput: false
+                });
+
+                var nEditing = null;
+                var nNew = false;
+
+                $('#majors_add_new').click(function (e) {
+                    e.preventDefault();
+                    if (nNew && nEditing) {
+                        oTable.fnDeleteRow(nEditing); // cancel
+                        nEditing = null;
+                        nNew = false;
+                        return;
+                    }
+                    if (nEditing) {
+                        restoreRow(oTable, nEditing);
+                        nEditing = null;
+                    }
+                    var aiNew = oTable.fnAddData(['', '', '', '']);
+                    var nRow = oTable.fnGetNodes(aiNew[0]);
+                    editRow(oTable, nRow);
+                    nEditing = nRow;
+                    nNew = true;
+                });
+
+                table.on('click', '.delete', function (e) {
+                    e.preventDefault();
+                    if (confirm("Bạn có chắc chắn muốn xóa ngành học này không?") == false) {
+                        return;
+                    }
+                    var nRow = $(this).parents('tr')[0];
+                    var $id = $(nRow).attr('data-objectid');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.RouteUrl("MajorsDelete")',
+                        dataType: 'json',
+                        data: { id: $id },
+                        success: function (result) {
+                            if (result.success == true) {
+                                oTable.fnDeleteRow(nRow);
+                                //var tree = $('#tree_4').jstree(true);
+                                //tree.refresh();
+                                //var organizationId = $('#hiddenOrganizationId').val();
+                                //var parentNode = 'root_' + organizationId;
+                                //var tree = $('#tree_4').jstree(true);
+                                //tree.refresh_node(parentNode);
+                                //tree.open_node(parentNode);
+                                var currentNode = 'node_' + $id;
+                                $('#tree_4').jstree(true).delete_node(currentNode);
+                                showNoty('Đã xóa ngành học thành công!', 'success', 'center', 5000);
+                            }
+                            else {
+                                showNoty(result.message, 'error', 'center', 5000);
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, error) {
+                            showNoty('Đã xảy ra lỗi khi thực hiện yêu cầu của bạn. Vui lòng kiểm tra và thử lại!', 'error', 'center', 5000);
+                            //location.reload(true);
+                        }
+                    });
+                });
+
+                table.on('click', '.cancel', function (e) {
+                    e.preventDefault();
+                    if (nNew) {
+                        oTable.fnDeleteRow(nEditing);
+                        nEditing = null;
+                        nNew = false;
+                    } else {
+                        restoreRow(oTable, nEditing);
+                        nEditing = null;
+                    }
+                });
+
+                table.on('click', '.edit', function (e) {
+                    e.preventDefault();
+                    if (nNew && nEditing && this.innerHTML != "Ghi nhận") {
+                        oTable.fnDeleteRow(nEditing); // cancel
+                        nEditing = null;
+                        nNew = false;
+                    }
+                    var nRow = $(this).parents('tr')[0];
+                    if (nEditing !== null && nEditing != nRow) {
+                        restoreRow(oTable, nEditing);
+                        editRow(oTable, nRow);
+                        nEditing = nRow;
+                    } else if (nEditing == nRow && this.innerHTML == "Ghi nhận") {
+                        if ($($(nRow).find('input')[1]).val() == '') {
+                            showNoty('Vui lòng nhập tên!', 'error', 'center', 5000);
+                            return false;
+                        }
+                        saveRow(oTable, nEditing);
+                        //nEditing = null;
+                        var $id = $(nEditing).attr('data-objectid');
+                        $id = !isNaN($id) ? $id : 0;
+                        var data2submit = JSON.stringify({
+                            'Id': $id,
+                            'Code': $(nRow).find('td')[0].innerHTML,
+                            'Name': $(nRow).find('td')[1].innerHTML,
+                            'OrganizationId': $('#hiddenOrganizationId').val(),
+                        });
+                        var URL = '@Url.RouteUrl("MajorsCreateOrUpdate")';
+                        $.ajax({
+                            type: 'POST',
+                            url: URL,
+                            dataType: 'json',
+                            contentType: 'application/json; charset=utf-8',
+                            data: data2submit,
+                            success: function (result) {
+                                if (result.success == true) {
+                                    updateRowId(oTable, nEditing, result.id);
+                                    //var tree = $('#tree_4').jstree(true);
+                                    //tree.refresh();
+                                    var organizationId = $('#hiddenOrganizationId').val();
+                                    var parentNode = 'root_' + organizationId;
+                                    var tree = $('#tree_4').jstree(true);
+                                    tree.refresh_node(parentNode);
+                                    tree.open_node(parentNode);
+                                    showNoty('Đã ghi nhận thành công!', 'success', 'center', 5000);
+                                }
+                                else {
+                                    showNoty(result.message, 'error', 'center', 5000);
+                                }
+                            },
+                            error: function (xhr, ajaxOptions, error) {
+                                showNoty('Đã xảy ra lỗi khi thực hiện yêu cầu của bạn. Vui lòng kiểm tra và thử lại!', 'error', 'center', 5000);
+                                //location.reload(true);
+                            },
+                            complete: function (result) {
+                                nEditing = null;
+                                nNew = false;
+                            }
+                        });
+                    } else {
+                        editRow(oTable, nRow);
+                        nEditing = nRow;
+                    }
+                });
+            }
+            return {
+                init: function () {
+                    handleTable();
+                }
+            };
+        }();
+    </script>
+    <script type="text/javascript">
+        var CourseTableEditable = function () {
+            var handleTable = function () {
+                function restoreRow(oTable, nRow) {
+                    var aData = oTable.fnGetData(nRow);
+                    var jqTds = $('>td', nRow);
+
+                    for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
+                        oTable.fnUpdate(aData[i], nRow, i, false);
+                    }
+
+                    oTable.fnDraw();
+                }
+
+                function editRow(oTable, nRow) {
+                    var aData = oTable.fnGetData(nRow);
+                    var jqTds = $('>td', nRow);
+                    jqTds[0].innerHTML = '<input type="text" class="form-control" value="' + aData[0] + '">';
+                    jqTds[1].innerHTML = '<input type="text" class="form-control" value="' + aData[1] + '">';
+                    jqTds[2].innerHTML = '<input type="text" class="form-control" value="' + aData[2] + '">';
+                    jqTds[3].innerHTML = '<input type="text" class="form-control" value="' + aData[3] + '">';
+                    jqTds[4].innerHTML = '<a class="edit" href="javascript:;">Ghi nhận</a>';
+                    jqTds[5].innerHTML = '<a class="cancel" href="javascript:;">Hủy bỏ</a>';
+                    $(jqTds[0]).find('input').focus();
+                }
+
+                function saveRow(oTable, nRow) {
+                    var jqInputs = $('input', nRow);
+                    oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
+                    oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
+                    oTable.fnUpdate(jqInputs[2].value, nRow, 2, false);
+                    oTable.fnUpdate(jqInputs[3].value, nRow, 3, false);
+                    if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                        oTable.fnUpdate('<a class="edit" href="javascript:;">Cập nhật</a>', nRow, 4, false);
+                    }
+                    else {
+                        oTable.fnUpdate('', nRow, 4, false);
+                    }
+                    if ('@canDelete' == 'true' || '@canDelete' == 'True') {
+                        oTable.fnUpdate('<a class="delete" href="javascript:;">Xóa</a>', nRow, 5, false);
+                    }
+                    else {
+                        oTable.fnUpdate('', nRow, 5, false);
+                    }
+                    oTable.fnDraw();
+                }
+                function updateRowId(oTable, nRow, id) {
+                    $(nRow).attr('data-objectid', id);
+                    oTable.fnDraw();
+                }
+                var table = $('#course_editable');
+
+                var oTable = table.dataTable({
+                    "lengthMenu": [
+                        [10, 15, 20, -1],
+                        [10, 15, 20, "All"]
+                    ],
+                    "pageLength": 10,
+                    "language": {
+                        "search": "Tìm kiếm: ",
+                        "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",
+                        "info": "Tổng số _TOTAL_ bản ghi",
+                        "infoFiltered": "(tìm trong tổng số _MAX_ bản ghi)",
+                        "infoEmpty": "Không tìm thấy bản ghi nào",
+                        "emptyTable": "Không có dữ liệu",
+                        "zeroRecords": "Không tìm thấy dữ liệu",
+                        "paginate": {
+                            "previous": "Trang trước",
+                            "next": "Trang sau",
+                            "last": "Trang cuối",
+                            "first": "Trang đầu",
+                            "page": "Trang",
+                            "pageOf": " trong tổng số"
+                        }
+                    },
+                    "columnDefs": [{
+                        'orderable': true,
+                        'targets': [0]
+                    }, {
+                        "searchable": true,
+                        "targets": [0]
+                    }],
+                    "order": [
+                        [0, "asc"]
+                    ]
+                });
+
+                var tableWrapper = $("#course_editable_wrapper");
+
+                tableWrapper.find(".dataTables_length select").select2({
+                    showSearchInput: false
+                });
+
+                var nEditing = null;
+                var nNew = false;
+
+                $('#course_add_new').click(function (e) {
+                    e.preventDefault();
+                    if (nNew && nEditing) {
+                        oTable.fnDeleteRow(nEditing); // cancel
+                        nEditing = null;
+                        nNew = false;
+                        return;
+                    }
+                    if (nEditing) {
+                        restoreRow(oTable, nEditing);
+                        nEditing = null;
+                    }
+                    var aiNew = oTable.fnAddData(['', '', '', '', '', '']);
+                    var nRow = oTable.fnGetNodes(aiNew[0]);
+                    editRow(oTable, nRow);
+                    nEditing = nRow;
+                    nNew = true;
+                });
+
+                table.on('click', '.delete', function (e) {
+                    e.preventDefault();
+                    if (confirm("Bạn có chắc chắn muốn xóa khóa học này không?") == false) {
+                        return;
+                    }
+                    var nRow = $(this).parents('tr')[0];
+                    var $id = $(nRow).attr('data-objectid');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.RouteUrl("CourseDelete")',
+                        dataType: 'json',
+                        data: { id: $id },
+                        success: function (result) {
+                            if (result.success == true) {
+                                oTable.fnDeleteRow(nRow);
+                                var currentNode = 'subnode_' + $id;
+                                $('#tree_4').jstree(true).delete_node(currentNode);
+                                showNoty('Đã xóa khóa học thành công!', 'success', 'center', 5000);
+                            }
+                            else {
+                                showNoty(result.message, 'error', 'center', 5000);
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, error) {
+                            showNoty('Đã xảy ra lỗi khi thực hiện yêu cầu của bạn. Vui lòng kiểm tra và thử lại!', 'error', 'center', 5000);
+                            //location.reload(true);
+                        }
+                    });
+                });
+
+                table.on('click', '.cancel', function (e) {
+                    e.preventDefault();
+                    if (nNew) {
+                        oTable.fnDeleteRow(nEditing);
+                        nEditing = null;
+                        nNew = false;
+                    } else {
+                        restoreRow(oTable, nEditing);
+                        nEditing = null;
+                    }
+                });
+
+                table.on('click', '.edit', function (e) {
+                    e.preventDefault();
+                    if (nNew && nEditing && this.innerHTML != "Ghi nhận") {
+                        oTable.fnDeleteRow(nEditing); // cancel
+                        nEditing = null;
+                        nNew = false;
+                    }
+                    var nRow = $(this).parents('tr')[0];
+                    if (nEditing !== null && nEditing != nRow) {
+                        restoreRow(oTable, nEditing);
+                        editRow(oTable, nRow);
+                        nEditing = nRow;
+                    } else if (nEditing == nRow && this.innerHTML == "Ghi nhận") {
+                        if ($($(nRow).find('input')[1]).val() == '') {
+                            showNoty('Vui lòng nhập tên!', 'error', 'center', 5000);
+                            return false;
+                        }
+                        saveRow(oTable, nEditing);
+                        //nEditing = null;
+                        var $id = $(nEditing).attr('data-objectid');
+                        $id = !isNaN($id) ? $id : 0;
+                        var data2submit = JSON.stringify({
+                            'Id': $id,
+                            'Code': $(nRow).find('td')[0].innerHTML,
+                            'Name': $(nRow).find('td')[1].innerHTML,
+                            'StartYear': $(nRow).find('td')[2].innerHTML,
+                            'FinishYear': $(nRow).find('td')[3].innerHTML,
+                            'MajorsId': $('#hiddenMajorsId').val(),
+                        });
+                        var URL = '@Url.RouteUrl("CourseCreateOrUpdate")';
+                        $.ajax({
+                            type: 'POST',
+                            url: URL,
+                            dataType: 'json',
+                            contentType: 'application/json; charset=utf-8',
+                            data: data2submit,
+                            success: function (result) {
+                                if (result.success == true) {
+                                    updateRowId(oTable, nEditing, result.id);
+                                    var majorsId = $('#hiddenMajorsId').val();
+                                    var parentNode = 'node_' + majorsId;
+                                    var tree = $('#tree_4').jstree(true);
+                                    tree.refresh_node(parentNode);
+                                    tree.open_node(parentNode);
+                                    showNoty('Đã ghi nhận thành công!', 'success', 'center', 5000);
+                                }
+                                else {
+                                    showNoty(result.message, 'error', 'center', 5000);
+                                }
+                            },
+                            error: function (xhr, ajaxOptions, error) {
+                                showNoty('Đã xảy ra lỗi khi thực hiện yêu cầu của bạn. Vui lòng kiểm tra và thử lại!', 'error', 'center', 5000);
+                                //location.reload(true);
+                            },
+                            complete: function (result) {
+                                nEditing = null;
+                                nNew = false;
+                            }
+                        });
+                    } else {
+                        editRow(oTable, nRow);
+                        nEditing = nRow;
+                    }
+                });
+            }
+            return {
+                init: function () {
+                    handleTable();
+                }
+            };
+        }();
+    </script>
+
+    <script type="text/javascript">
+        var UITree = function () {
+            var ajaxTreeSample = function () {
+                $("#tree_4").jstree({
+                    "core": {
+                        "themes": {
+                            "responsive": true
+                        },
+                        "multiple": false,
+                        "check_callback": true,
+                        'data': {
+                            'url': function (node) {
+                                return node.id === '#' ? '@Url.RouteUrl("MajorsGetOrganizationJson")' : '@Url.RouteUrl("MajorsGetMajorsCourseJson")';
+                            },
+                            'data': function (node) {
+                                return { 'parent': node.id };
+                            }
+                        }
+                    },
+                    "types": {
+                        "default": {
+                            "icon": "fa fa-folder icon-state-warning icon-lg"
+                        },
+                        "file": {
+                            "icon": "fa fa-file icon-state-warning icon-lg"
+                        }
+                    },
+                    'plugins': ["wholerow", "types", "contextmenu", "dnd"],
+                });
+
+            }
+            return {
+                init: function () {
+                    ajaxTreeSample();
+                }
+            };
+        }();
+    </script>
+    <script type="text/javascript">
+        var ShowDetail = function (id) {
+            $('.create-or-update').html('<div style="padding:30px;">Vui lòng đợi...</div>');
+            AdminVersionOne.blockUI({
+                message: 'Vui lòng đợi!',
+                overlayColor: 'none',
+                cenrerY: true,
+                boxed: true
+            });
+            var tmp = id.split('_');
+            var id1 = tmp[1];
+            var $url = tmp[0] == "root" ? '@Url.RouteUrl("MajorsListMajors")' : '@Url.RouteUrl("MajorsListCourse")';
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                async: true,
+                url: $url,
+                data: { id: id1 },
+                dataType: 'html',
+                success: function (data) {
+                    $('.create-or-update').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('.create-or-update').html('<div style="padding:30px;">Không tải được dữ liệu.</div>');
+                },
+                complete: function (result) {
+                    AdminVersionOne.unblockUI();
+                    if (tmp[0] == "root") {
+                        MajorsTableEditable.init();
+                    }
+                    else {
+                        CourseTableEditable.init();
+                    }
+                }
+            });
+            return;
+        };
+        jQuery(document).ready(function () {
+            UITree.init();
+            $('#tree_4')
+                .on('changed.jstree', function (e, data) {
+                    var i, j, r = [];
+                    for (i = 0, j = data.selected.length; i < j; i++) {
+                        r.push(data.instance.get_node(data.selected[i]).id);
+                    }
+                    var x = r.join(', ');
+                    //var tmp = x.split('_');
+                    //if (tmp.length > 1)
+                    ShowDetail(x);
+                })
+                .jstree();
+        });
+    </script>
+}

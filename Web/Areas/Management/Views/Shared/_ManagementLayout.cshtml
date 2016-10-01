@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Images/AdminV1/adminfav2.png" />
+    @Html.Partial("_Head")
+    @Html.Partial("_Css1")
+    @RenderSection("styles", required: false)
+    @Html.Partial("_Css2")
+    @RenderSection("styles2", required: false)
+</head>
+<body class="page-container-bg-solid page-sidebar-closed-hide-logo">
+    @Html.Partial("_Header")
+
+    <div class="page-container">
+        @Html.Partial("_Menu")
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+
+    <div class="modal fade" id="ajaxmodal" role="basic" aria-hidden="true">
+        <div class="page-loading page-loading-boxed">
+            <img src="~/Images/AdminV1/loading-spinner-grey.gif" alt="" class="loading">
+            <span>
+                &nbsp;&nbsp;Đang tải dữ liệu...
+            </span>
+        </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_Scripts")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            AdminVersionOne.init();
+            Layout.init();
+            showNoty('@ViewBag.Success', 'success', 'center', 5000);
+            showNoty('@ViewBag.Error', 'error', 'center', 5000);
+            $(document).on('click', '.btn-change-password', function (e) {
+                e.preventDefault();
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                var $url = '@Url.RouteUrl("AccountChangePasswordPost")';
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    data: $('.form-change-password').serialize(),
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                            $('.modal-header .close').click();
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        AdminVersionOne.unblockUI();
+                    }
+                });
+            });
+        });
+    </script>
+    @RenderSection("scripts2", required: false)
+</body>
+
+</html>

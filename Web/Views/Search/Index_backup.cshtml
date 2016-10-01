@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Entities.Models.Article>
+@using Common;
+@{
+    ViewBag.Title = "Kết quả tìm kiếm";
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+    var pagingInfo = (Common.PagingInfo)ViewBag.PagingInfo;
+}
+<div class="content">
+    <div class="left_detail">
+        <h2>Kết quả tìm kiếm cho "@ViewBag.Keywords"</h2>
+
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <h3 class="title">
+                    <a href="@Url.RouteUrl("FrontEndArticleDetail2", new { title = StringHelper.StringFilter(item.Title), id = item.Id })">
+                        @Html.Raw(item.Title.HighlightKeywords((string)ViewBag.Keywords, "yellow", false))
+                    </a>
+                </h3>
+                <div class="clear" style="margin-bottom:10px;">
+                    <p class="pic">
+                        <a href="@Url.RouteUrl("FrontEndArticleDetail2", new { title = StringHelper.StringFilter(item.Title), id = item.Id })">
+                            <img alt="@item.Title" src="@(string.IsNullOrEmpty(item.ImageDescription) ? "http://www.placehold.it/180x108/EFEFEF/AAAAAA&text=No+image" : item.ImageDescription)" title="@item.Title">
+                        </a>
+                    </p>
+                    <div>
+                        @Html.Raw(item.Description)
+                    </div>
+                </div>
+            }
+            <div class="navigation">
+                Trang
+                @Html.Raw(Html.pageLinks(pagingInfo.TotalPages, pagingInfo.CurrentPage, x => Url.RouteUrl("FrontEndSearchIndex", new { keywords = ViewBag.Keywords, p = x })))               
+            </div>
+        }
+    </div>
+    <div class="right_detail">
+        @{Html.RenderAction("MostViewed2", "Shared");}
+    </div>
+    <div class="clear"></div>
+</div>

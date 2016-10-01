@@ -1,0 +1,263 @@
+﻿@model Entities.Models.Profile
+@{
+    ViewBag.Title = "Thông tin hồ sơ: " + Model.Name;
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+}
+
+<div class="content">
+    <div class="left_detail">
+        <div class="clear"></div>
+        <div class="profile-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet light">
+                        <div class="portlet-body form">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-body">
+                                    <h2 > Thông tin hồ sơ - @Model.Name </h2>
+                                    <h3 class="form-section">Thông tin cơ bản</h3>
+                                    <div class="row">
+                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Họ và tên:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @Model.Name
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Ngày sinh:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("dd/MM/yyyy") : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Giới tính:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.Sex.HasValue ? Model.Sex.Value == false ? "Nam" : "Nữ" : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Địa chỉ email:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @Model.Email
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Điện thoại:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @Model.CellPhone
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                            <div class="profile-userpic">
+                                                <img src="@(string.IsNullOrEmpty(Model.ProfilePicture) ? "http://www.placehold.it/200x200/EFEFEF/AAAAAA&text=No+image" :  Model.ProfilePicture)" class="img-responsive" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="form-section">Thông tin trường/khóa</h3>
+                                    <div class="row">
+                                        @if (Model.ProfileOrganizations != null && Model.ProfileOrganizations.Any())
+                                        {
+                                            foreach (var item in Model.ProfileOrganizations.OrderBy(o => o.StartYear))
+                                            {
+                                                <div class="col-md-6" style="border-bottom:1px solid #e5e5e5;box-sizing: border-box  !important;">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Trường:</label>
+                                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                            <p class="form-control-static">
+                                                                @item.Organization.Name
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Ngành:</label>
+                                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                            <p class="form-control-static">
+                                                                @(item.Majors != null ? item.Majors.Name : "")
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Khóa:</label>
+                                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                            <p class="form-control-static">
+                                                                @(item.Course != null ? item.Course.Name : "")
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Năm nhập học:</label>
+                                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                            <p class="form-control-static">
+                                                                @item.StartYear
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Năm tốt nghiệp:</label>
+                                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                            <p class="form-control-static">
+                                                                @item.GraduateYear
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <h3 class="form-section">Thông tin bổ sung</h3>
+                                    <div class="row">
+                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Điện thoại nhà riêng:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @Model.HomePhone
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Điện thoại cơ quan:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @Model.OfficePhone
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Quê quán:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    @{
+                                                        string nativeLand = string.IsNullOrEmpty(Model.NativeLand) ? "" : Model.NativeLand;
+                                                        nativeLand = Model.NativeLandDistrict == null ? nativeLand : string.IsNullOrEmpty(nativeLand) ? Model.NativeLandDistrict.Name : nativeLand + ", " + Model.NativeLandDistrict.Name;
+                                                        nativeLand = Model.NativeLandProvince == null ? nativeLand : string.IsNullOrEmpty(nativeLand) ? Model.NativeLandProvince.Name : nativeLand + ", " + Model.NativeLandProvince.Name;
+                                                    }
+                                                    <p class="form-control-static">
+                                                        @nativeLand
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Nơi ở hiện tại:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    @{
+                                                        string currentResidence = string.IsNullOrEmpty(Model.CurrentResidence) ? "" : Model.CurrentResidence;
+                                                        currentResidence = Model.CurrentResidenceDistrict == null ? currentResidence : string.IsNullOrEmpty(currentResidence) ? Model.CurrentResidenceDistrict.Name : currentResidence + ", " + Model.CurrentResidenceDistrict.Name;
+                                                        currentResidence = Model.CurrentResidenceProvince == null ? currentResidence : string.IsNullOrEmpty(currentResidence) ? Model.CurrentResidenceProvince.Name : currentResidence + ", " + Model.CurrentResidenceProvince.Name;
+                                                    }
+                                                    <p class="form-control-static">
+                                                        @currentResidence
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Thông tin khác:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    @Html.Raw(Model.ExtraInfomation)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Quốc tịch:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.Country != null ? Model.Country.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Dân tộc:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.Nation != null ? Model.Nation.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Tôn giáo:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.Religion != null ? Model.Religion.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Cơ quan làm việc hiện tại:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.CurrentOrganization != null ? Model.CurrentOrganization.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Chức vụ hiện tại:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.CurrentPosition != null ? Model.CurrentPosition.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Học vị hiện tại:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.CurrentDegree != null ? Model.CurrentDegree.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Học hàm hiện tại:</label>
+                                                <div class="col-md-6" style="box-sizing: border-box  !important;">
+                                                    <p class="form-control-static">
+                                                        @(Model.CurrentRank != null ? Model.CurrentRank.Name : "")
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <a href="@Url.RouteUrl("FrontEndProfileUpdate")" class="btn green">
+                                                Cập nhật hồ sơ của bạn <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <a href="@Url.RouteUrl("FrontEndProfileChangePassword")" class="btn blue">
+                                                Đổi mật khẩu <i class="fa fa-key"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right_detail">
+        @{Html.RenderAction("MostViewed2", "Shared");}
+    </div>
+    <div class="clear"></div>
+</div>
+@section styles{
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/bootstrap-fileinput")
+    @Styles.Render("~/Content/components")
+    @Styles.Render("~/Content/plugins")
+    @Styles.Render("~/Content/datepicker")
+    @Styles.Render("~/Content/font-awesome")
+    @Styles.Render("~/Content/custom")
+}

@@ -1,0 +1,67 @@
+﻿@using Entities.Models;
+@model IEnumerable<Category>
+@{
+    Category category = (Category)ViewBag.Category;
+    ViewBag.Title = category.Name;
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+}
+
+
+<div class="topSlider_detail list-category">
+    <div class="content_slider_detail">
+        <img src="@(string.IsNullOrEmpty(category.DescriptionIcon) ? "/Images/FrontEndV1/bg01.jpg" : category.DescriptionIcon)" alt="@category.Name" title="@category.Name" />
+        <h2>@category.Name</h2>
+        <h3>@(Html.Raw(category.Description))</h3>
+    </div>
+</div>
+<div class="content full">
+    <div class="category">
+        <h2>&nbsp;</h2>
+        <ul>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <li>
+                        <div class="cat-icon">
+                            <img src="@(string.IsNullOrEmpty(item.SmallIcon) ? "http://www.placehold.it/70x70/EFEFEF/AAAAAA&text=No+image" : item.SmallIcon)" class="img-responsive" alt="">
+                        </div>
+                        <div class="text">
+                            <h4>
+                                @if (string.IsNullOrEmpty(item.Link))
+                                { 
+                                <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryName = Common.StringHelper.StringFilter(item.Name), categoryId = item.Id })">
+                                    @item.Name
+                                </a>
+                                }
+                                else
+                                {
+                                    <a href="@item.Link">@item.Name</a>
+                                }
+                            </h4>
+                            <div>
+                                @Html.Raw(item.Description)
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+        <div class="clear"></div>
+    </div>    
+    <div class="clear"></div>
+    <h2>&nbsp;</h2>
+    @{Html.RenderAction("LeftArticle1Category", "Shared");}
+    <h2>&nbsp;</h2>
+    @{Html.RenderAction("LeftArticle2Category", "Shared");}
+</div>
+@section scripts{
+    <script type="text/javascript">
+    jQuery(document).ready(function () {
+        var a = 'category_menu_' + '@category.Id';
+        if ('#' + a) {
+            $('#' + a).addClass('active');
+        }
+    });
+    </script>
+}

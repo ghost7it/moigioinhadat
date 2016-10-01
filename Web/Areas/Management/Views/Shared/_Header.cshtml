@@ -1,0 +1,51 @@
+﻿<div class="page-header navbar navbar-static-top">
+    <div class="page-header-inner">
+        <div class="page-logo">
+            <a href="@Url.Action("Index","Home")">
+                <img src="~/Images/AdminV1/logo-default.png" alt="logo" class="logo-default" />
+            </a>
+            <div class="menu-toggler sidebar-toggler">
+                @*Thêm class "hide" vào thẻ này nếu muốn ẩn nút menu*@
+            </div>
+        </div>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+        </a>
+        <div class="page-actions">
+            <h4>CAIT Content Management</h4>
+        </div>
+        <div class="page-top">
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown dropdown-user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <img alt="" class="img-circle hide1" src="@(Session["ProfilePicture"] == null || Session["ProfilePicture"].ToString().Trim() == "" ? "http://www.placehold.it/39x39/EFEFEF/AAAAAA&text=Admin" : Session["ProfilePicture"].ToString())" />
+                            <span class="username username-hide-on-mobile">
+                                @(Session["AccountName"] == null || Session["AccountName"].ToString().Trim() == "Admin" ? "" : Session["AccountName"].ToString())
+                            </span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.RouteUrl("AccountRead", new { id = Session["AccountId"] })">
+                                    <i class="icon-user"></i> Cập nhật hồ sơ
+                                </a>
+                            </li>
+                            <li>
+                                @*<a href="@Url.RouteUrl("AccountRead", new { id = Session["AccountId"] })#tab_1_2">
+                                    <i class="icon-settings"></i> Đổi mật khẩu
+                                </a>*@
+                                <a href="@Url.RouteUrl("AccountChangePassword")" data-target="#ajaxmodal" data-toggle="modal"><i class="icon-settings"></i> Đổi mật khẩu</a>
+                            </li>
+                            <li>
+                                <a href="@Url.RouteUrl("Login")">
+                                    <i class="icon-key"></i> Đăng xuất
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"> </div>

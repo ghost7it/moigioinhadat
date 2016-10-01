@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Entities.Models.AlbumDetail>
+
+<h2>@(string.IsNullOrEmpty(ViewBag.AlbumName) ? "Các đối tác" : ViewBag.AlbumName)</h2>
+@if (Model != null && Model.Any())
+{
+    <div id="logoParade">
+        @foreach (var item in Model.OrderBy(o => o.OrdinalNumber))
+        {
+            <a href="@(string.IsNullOrEmpty(item.Link) ? "javascript:void(0);" : item.Link)" target="@(string.IsNullOrEmpty(item.Link) ? "_self" : "_blank")"><img src="@item.PhotoLocation" alt="@item.Title" border="0" title="@item.Title" /></a>
+        }
+    </div>
+}
+<div class="clear"></div>

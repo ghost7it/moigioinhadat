@@ -1,0 +1,953 @@
+﻿@model Entities.ViewModels.RegisterProfileViewModel
+@{
+    ViewBag.Title = "Nhập hồ sơ cựu sinh viên";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+
+
+    //var errors = (from modelstate in ViewData.ModelState.AsQueryable().Where(f => f.Value.Errors.Count > 0) select new { Title = modelstate.Key, Message = modelstate.Value.Errors.FirstOrDefault().ErrorMessage }).ToList();
+
+
+    //foreach (ModelState state in ViewData.ModelState.Values)
+    //{
+    //    foreach (ModelError error in state.Errors)
+    //    {
+    //        sb.AppendFormat("<div>{0}</div>", error.ErrorMessage);
+    //    }
+    //}
+    //var isValid = ViewData.ModelState.IsValid.ToString();
+
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Nhập hồ sơ cựu sinh viên</a>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tab-pane" id="tab_6">
+            <div class="portlet box grey-cascade" id="form_wizard_1">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Nhập hồ sơ cựu sinh viên - <span class="step-title">Step 1 of 4</span>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    @using (Html.BeginForm("Create", "Profile", FormMethod.Post, new { @class = "form-horizontal", id = "submit_form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-wizard">
+                            <div class="form-body">
+                                <ul class="nav nav-pills nav-justified steps">
+                                    <li>
+                                        <a href="#tab1" data-toggle="tab" class="step">
+                                            <span class="number">1</span>
+                                            <span class="desc">
+                                                <i class="fa fa-check"></i> Thông tin cơ bản
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab2" data-toggle="tab" class="step">
+                                            <span class="number">2</span>
+                                            <span class="desc">
+                                                <i class="fa fa-check"></i> Thông tin trường/khóa
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab3" data-toggle="tab" class="step active">
+                                            <span class="number">3</span>
+                                            <span class="desc">
+                                                <i class="fa fa-check"></i> Thông tin bổ sung
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab4" data-toggle="tab" class="step">
+                                            <span class="number">4</span>
+                                            <span class="desc">
+                                                <i class="fa fa-check"></i> Xem lại
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div id="bar" class="progress progress-striped" role="progressbar">
+                                    <div class="progress-bar progress-bar-success">
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="alert alert-danger display-none">
+                                        <button class="close" data-dismiss="alert"></button>
+                                        Thông tin bạn nhập chưa chính xác hoặc còn thiếu. Vui lòng kiểm tra lại!
+                                    </div>
+                                    <div class="alert alert-success display-none">
+                                        <button class="close" data-dismiss="alert"></button>
+                                        Bạn đã nhập đầy đủ và chính xác các thông tin!
+                                    </div>
+                                    @if (!ViewData.ModelState.IsValid)
+                                    {
+                                        <div class="alert alert-danger">
+                                            <button class="close" data-dismiss="alert"></button>
+                                            @Html.ValidationSummary(true)
+                                        </div>
+                                    }
+                                    <div class="tab-pane active" id="tab1">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">
+                                                Họ và tên <span class="required"> * </span>
+                                            </label>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Ngày sinh</label>
+                                            <div class="col-md-4">
+                                                <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
+                                                    @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control" })
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">
+                                                Giới tính
+                                            </label>
+                                            <div class="col-md-4">
+                                                <div class="radio-list">
+                                                    <label>
+                                                        <input type="radio" name="Sex" value="false" data-title="Nam" />
+                                                        Nam
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="Sex" value="true" data-title="Nữ" />
+                                                        Nữ
+                                                    </label>
+                                                </div>
+                                                <div id="form_Sex_error">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">
+                                                Địa chỉ Email <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">
+                                                Điện thoại di động
+                                            </label>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.CellPhone, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">
+                                                Ảnh đại diện
+                                            </label>
+                                            <input type="hidden" name="ProfilePicture" id="ProfilePicture" />
+                                            <div class="col-md-9">
+                                                <div>
+                                                    <div class="col-md-3 thumbnail" style="height:150px;">
+                                                        <img id="Image_Preview" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=No+image" alt="" style="height:100%;" />
+                                                    </div>
+                                                    <div class="col-md-4" style="line-height:150px;">
+                                                        <button type="button" class="btn btn-default select-image"><i class="fa fa-sm"></i> Chọn ảnh</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab2">
+                                        <h3 class="block">Vui lòng nhập thông tin trường/khóa bạn đã theo học</h3>
+                                        <div class="organization">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Trường</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("OrganizationId", (IEnumerable<SelectListItem>)ViewBag.Organizations, "---Chọn trường bạn đã theo học---", new { @class = "form-control sel-organizationid" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Năm nhập học</label>
+                                                <div class="col-md-4">
+                                                    @Html.TextBoxFor(model => model.StartYear, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Năm tốt nghiệp</label>
+                                                <div class="col-md-4">
+                                                    @Html.TextBoxFor(model => model.GraduateYear, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Ngành</label>
+                                                <div class="col-md-4">
+                                                    <select name="MajorsId" id="MajorsId" class="form-control sel-majorsid">
+                                                        <option value="">--Chọn ngành--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Khóa</label>
+                                                <div class="col-md-4">
+                                                    <select name="CourseId" id="CourseId" class="form-control sel-courseid">
+                                                        <option value="">--Chọn khóa--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="display-none organization-holder">
+                                            <div class="organization">
+                                                <h4 class="form-section">Thêm trường</h4>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Trường</label>
+                                                    <div class="col-md-4">
+                                                        @Html.DropDownList("OrganizationId", (IEnumerable<SelectListItem>)ViewBag.Organizations, "---Chọn trường bạn đã theo học---", new { @class = "form-control sel-organizationid" })
+                                                    </div>
+                                                    <button class="btn btn-danger remove-organization" type="button">Xóa trường này</button>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Năm nhập học</label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" name="StartYear" class="form-control" value="" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Năm tốt nghiệp</label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" name="GraduateYear" class="form-control" value="" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Ngành</label>
+                                                    <div class="col-md-4">
+                                                        <select name="MajorsId" id="MajorsId" class="form-control sel-majorsid">
+                                                            <option value="">--Chọn ngành--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Khóa</label>
+                                                    <div class="col-md-4">
+                                                        <select name="CourseId" id="CourseId" class="form-control sel-courseid">
+                                                            <option value="">--Chọn khóa--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-default more-organization" type="button">Thêm trường khác</button>
+                                    </div>
+                                    <div class="tab-pane" id="tab3">
+                                        <h3 class="block">Thông tin mở rộng</h3>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">
+                                                Điện thoại nhà riêng
+                                            </label>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.HomePhone, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">
+                                                Điện thoại cơ quan
+                                            </label>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.OfficePhone, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="province">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">
+                                                    Quê quán
+                                                </label>
+                                                <div class="col-md-4">
+                                                    @Html.TextBoxFor(model => model.NativeLand, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tỉnh/TP (quê quán)</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("NativeLandProvinceId", (IEnumerable<SelectListItem>)ViewBag.NativeLandProvinces, "---Chọn tỉnh/tp---", new { @class = "form-control sel-province" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Quận/Huyện (quê quán)</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("NativeLandDistrictId", (IEnumerable<SelectListItem>)ViewBag.NativeLandDistricts, "---Chọn quận/huyện---", new { @class = "form-control sel-district" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="province">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">
+                                                    Nơi ở hiện tại
+                                                </label>
+                                                <div class="col-md-4">
+                                                    @Html.TextBoxFor(model => model.CurrentResidence, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tỉnh/TP (nơi ở hiện tại)</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("CurrentResidenceProvinceId", (IEnumerable<SelectListItem>)ViewBag.CurrentResidenceProvinces, "---Chọn tỉnh/tp---", new { @class = "form-control sel-province" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Quận/Huyện (nơi ở hiện tại)</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("CurrentResidenceDistrictId", (IEnumerable<SelectListItem>)ViewBag.CurrentResidenceDistricts, "---Chọn quận/huyện---", new { @class = "form-control sel-district" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <hr />
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">
+                                                    Thông tin khác (khen thưởng, giải thưởng quốc gia, quốc tế)
+                                                </label>
+                                                <div class="col-md-4">
+                                                    @Html.TextAreaFor(model => model.ExtraInfomation, new { @class = "form-control", placeholder = "Khen thưởng, Giải thưởng cấp quốc gia, quốc tế..." })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Quốc tịch</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("CountryId", (IEnumerable<SelectListItem>)ViewBag.Countries, "---Chọn quốc tịch---", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Dân tộc</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("NationId", (IEnumerable<SelectListItem>)ViewBag.Nations, "---Chọn dân tộc---", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Tôn giáo</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("ReligionId", (IEnumerable<SelectListItem>)ViewBag.Religions, "---Chọn tôn giáo---", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Cơ quan làm việc hiện tại</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("CurrentOrganizationId", (IEnumerable<SelectListItem>)ViewBag.CurrentOrganizations, "---Chọn cơ quan làm việc hiện tại---", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Chức vụ hiện tại</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("CurrentPositionId", (IEnumerable<SelectListItem>)ViewBag.Positions, "---Chọn chức vụ hiện tại---", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Học vị hiện tại</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("CurrentDegreeId", (IEnumerable<SelectListItem>)ViewBag.Degrees, "---Chọn học vị hiện tại---", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Học hàm hiện tại</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("CurrentRankId", (IEnumerable<SelectListItem>)ViewBag.Ranks, "---Chọn học hàm hiện tại---", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="tab-pane" id="tab4">
+                                        <h3 class="block">Xác nhận đăng ký</h3>
+                                        <h4 class="form-section">Thông tin cơ bản</h4>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Họ và tên:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="Name">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Ngày sinh:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="DateOfBirth">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Giới tính:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="Sex">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Địa chỉ Email:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="Email">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Điện thoại di động:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CellPhone">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Ảnh đại diện:</label>
+                                            <div class="col-md-4">
+                                                <img src="" id="ProfilePicture_Preview" alt="" style="max-height:150px; max-width:200px;" />
+                                            </div>
+                                        </div>
+                                        <h4 class="form-section">Thông tin trường/khóa</h4>
+                                        <div class="form-control-static" data-display="organization" style="display:block;"></div>
+                                        <h4 class="form-section">Thông tin bổ sung</h4>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Điện thoại nhà riêng:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="HomePhone">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Điện thoại cơ quan:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="OfficePhone">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Quê quán:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="NativeLand">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Quận/Huyện (quê quán)</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="NativeLandDistrictId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Tỉnh/TP (quê quán)</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="NativeLandProvinceId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Nơi ở hiện tại:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CurrentResidence">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Quận/Huyện (nơi ở hiện tại)</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CurrentResidenceDistrictId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Tỉnh/TP (nơi ở hiện tại)</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CurrentResidenceProvinceId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Thông tin khác:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="ExtraInfomation">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Quốc tịch:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CountryId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Dân tộc:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="NationId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Tôn giáo:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="ReligionId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Cơ quan làm việc hiện tại:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CurrentOrganizationId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Chức vụ hiện tại:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CurrentPositionId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Học vị hiện tại:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CurrentDegreeId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Học hàm hiện tại:</label>
+                                            <div class="col-md-4">
+                                                <p class="form-control-static" data-display="CurrentRankId">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <a href="javascript:;" class="btn default button-previous">
+                                            <i class="m-icon-swapleft"></i> Quay lại
+                                        </a>
+                                        <a href="javascript:;" class="btn blue button-next">
+                                            Tiếp theo <i class="m-icon-swapright m-icon-white"></i>
+                                        </a>
+                                        <a href="javascript:;" class="btn green button-submit">
+                                            Ghi nhận <i class="fa fa-check"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Styles{
+    @Styles.Render("~/Content/adminv1/datepicker")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/adminv1/datepicker")
+    @Scripts.Render("~/bundles/jqueryval2")
+    @Scripts.Render("~/bundles/additional")
+    @Scripts.Render("~/bundles/bootstrap-wizard")
+    <script type="text/javascript" src="~/Editor/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="~/Editor/ckfinder/ckfinder.js"></script>
+    <script type="text/javascript">
+    function GetMajorsByOrganization(id, organization) {
+        var URL = ('@Url.RouteUrl("SharedGetMajorsByOrganization", new { organizationId = "organizationIdReplacement" })').replace('organizationIdReplacement', id);
+        //alert(URL)
+        $.getJSON(URL, function (data) {
+            var items = "<option value=''>---Chọn ngành---</option>";
+            var course = $(organization).closest(".organization").find("select[name=CourseId]");
+            $(course).html("<option value=''>---Chọn khóa---</option>");
+            if (data) {
+                $.each(data, function (i, item) {
+                    items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+            }
+            //alert($('.sel-majorsid[data-profileorganization="' + po + '"]').html());
+            //$('.sel-majorsid[data-profileorganization="' + po + '"]').html(items);
+
+
+            //var organization = $('.sel-organizationid[data-profileorganization="' + po + '"]');
+            var majors = $(organization).closest(".organization").find("select[name=MajorsId]")
+            $(majors).html(items);
+
+            //$("#PrtID").select2({
+            //    placeholder: "--Chọn phường/xã--",
+            //    allowClear: true
+            //});
+        });
+    };
+    function GetCourseByMajors(id, majors) {
+        var URL = ('@Url.RouteUrl("SharedGetCourseByMajors", new { majorsId = "objectIdReplacement" })').replace('objectIdReplacement', id);
+            $.getJSON(URL, function (data) {
+                var items = "<option value=''>---Chọn khóa---</option>";
+                if (data) {
+                    $.each(data, function (i, item) {
+                        items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                    });
+                }
+                var course = $(majors).closest(".organization").find("select[name=CourseId]");
+                $(course).html(items);
+            });
+        };
+        function GetDistrictsByProvince(id, province) {
+            var URL = ('@Url.RouteUrl("SharedGetDistrictsByProvince", new { provinceId = "objectIdReplacement" })').replace('objectIdReplacement', id);
+            $.getJSON(URL, function (data) {
+                var items = "<option value=''>---Chọn quận/huyện---</option>";
+                if (data) {
+                    $.each(data, function (i, item) {
+                        items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                    });
+                }
+                var district = $(province).closest(".province").find(".sel-district");
+                $(district).html(items);
+            });
+        };
+        var FormWizard = function () {
+            return {
+                init: function () {
+                    if (!jQuery().bootstrapWizard) {
+                        return;
+                    }
+
+                    function format(state) {
+                        if (!state.id) return state.text; // optgroup
+                        return "<img class='flag' src='../../assets/global/img/flags/" + state.id.toLowerCase() + ".png'/>&nbsp;&nbsp;" + state.text;
+                    }
+
+                    //$("#OrganizationId").select2({
+                    //    placeholder: "Select",
+                    //    allowClear: true,
+                    //    formatResult: format,
+                    //    formatSelection: format,
+                    //    escapeMarkup: function (m) {
+                    //        return m;
+                    //    }
+                    //});
+
+                    var form = $('#submit_form');
+                    var error = $('.alert-danger', form);
+                    var success = $('.alert-success', form);
+
+                    form.validate({
+                        doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+                        errorElement: 'span', //default input error message container
+                        errorClass: 'help-block help-block-error', // default input error message class
+                        focusInvalid: true, // do not focus the last invalid input
+                        rules: {
+                            //account
+                            Name: {
+                                minlength: 5,
+                                required: true
+                            },
+                            Sex: {
+                                required: false
+                            },
+                            Email: {
+                                required: true,
+                                email: true
+                            },
+                            StartYear: {
+                                digits: true,
+                                required: false,
+                                minlength: 4,
+                                maxlength: 4
+                            },
+                            GraduateYear: {
+                                digits: true,
+                                required: false,
+                                minlength: 4,
+                                maxlength: 4
+                            },
+                            OrganizationId: {
+                                required: true
+                            }
+                        },
+
+                        messages: {
+                            //'payment[]': {
+                            //    required: "Please select at least one option",
+                            //    minlength: jQuery.validator.format("Please select at least one option")
+                            //},
+                            Name: {
+                                required: "Vui lòng nhập họ và tên!",
+                                minlength: 'Họ và tên phải có ít nhất 5 ký tự!'
+                            },
+                            Email: {
+                                required: "Vui lòng nhập địa chỉ email!",
+                                email: "Địa chỉ email không đúng định dạng!"
+                            },
+                            StartYear: {
+                                digits: "Vui lòng chỉ nhập số!",
+                                minlength: "Vui lòng nhập đủ 4 ký tự số!",
+                                maxlength: "Vui lòng chỉ nhập 4 ký tự số!"
+                            },
+                            GraduateYear: {
+                                digits: "Vui lòng chỉ nhập số!",
+                                minlength: "Vui lòng nhập đủ 4 ký tự số!",
+                                maxlength: "Vui lòng chỉ nhập 4 ký tự số!"
+                            },
+                            OrganizationId: {
+                                required: "Vui lòng chọn trường!",
+                            }
+                        },
+
+                        errorPlacement: function (error, element) { // render error placement for each input type
+                            if (element.attr("name") == "Sex") { // for uniform radio buttons, insert the after the given container
+                                error.insertAfter("#form_Sex_error");
+                            } else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                                error.insertAfter("#form_payment_error");
+                            } else {
+                                error.insertAfter(element); // for other inputs, just perform default behavior
+                            }
+                        },
+
+                        invalidHandler: function (event, validator) { //display error alert on form submit
+                            success.hide();
+                            error.show();
+                            //Metronic.scrollTo(error, -200);
+                        },
+
+                        highlight: function (element) { // hightlight error inputs
+                            $(element)
+                                .closest('.form-group').removeClass('has-success').addClass('has-error'); // set error class to the control group
+                        },
+
+                        unhighlight: function (element) { // revert the change done by hightlight
+                            $(element)
+                                .closest('.form-group').removeClass('has-error'); // set error class to the control group
+                        },
+
+                        success: function (label) {
+                            if (label.attr("for") == "Sex" || label.attr("for") == "payment[]") { // for checkboxes and radio buttons, no need to show OK icon
+                                label
+                                    .closest('.form-group').removeClass('has-error').addClass('has-success');
+                                label.remove(); // remove error label here
+                            } else { // display success icon for other inputs
+                                label
+                                    .addClass('valid') // mark the current input as valid and display OK icon
+                                .closest('.form-group').removeClass('has-error').addClass('has-success'); // set success class to the control group
+                            }
+                        },
+
+                        submitHandler: function (form) {
+                            success.show();
+                            error.hide();
+                            //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+                            form.submit();
+                        }
+
+                    });
+                    //initialize datepicker
+                    $('.date-picker').datepicker({
+                        autoclose: true
+                    });
+                    $('.date-picker .form-control').change(function () {
+                        form.validate().element($(this));
+                    })
+                    var displayConfirm = function () {
+                        $('#tab4 .form-control-static', form).each(function () {
+                            var input = $('[name="' + $(this).attr("data-display") + '"]', form);
+                            if (input.is(":radio")) {
+                                input = $('[name="' + $(this).attr("data-display") + '"]:checked', form);
+                            }
+                            if (input.is(":text") || input.is("textarea")) {
+                                $(this).html(input.val());
+                            } else if (input.is("select")) {
+                                if (input.val() != '') {
+                                    $(this).html(input.find('option:selected').text());
+                                }
+                            } else if (input.is(":radio") && input.is(":checked")) {
+                                $(this).html(input.attr("data-title"));
+                            } else if ($(this).attr("data-display") == 'organization') {
+                                var html = '';
+                                var abcd = '<div class="form-group">\
+                                            <label class="control-label col-md-3">Trường:</label>\
+                                            <div class="col-md-4">\
+                                                <p>{1}</p>\
+                                            </div>\
+                                        </div>\
+                                        <div class="form-group">\
+                                            <label class="control-label col-md-3">Năm nhập học:</label>\
+                                            <div class="col-md-4">\
+                                                <p>{2}</p>\
+                                            </div>\
+                                        </div>\
+                                        <div class="form-group">\
+                                            <label class="control-label col-md-3">Năm tốt nghiệp:</label>\
+                                            <div class="col-md-4">\
+                                                    <p>{3}</p>\
+                                            </div>\
+                                        </div>\
+                                        <div class="form-group">\
+                                            <label class="control-label col-md-3">Ngành:</label>\
+                                            <div class="col-md-4">\
+                                                    <p>{4}</p>\
+                                            </div>\
+                                        </div>\
+                                        <div class="form-group">\
+                                            <label class="control-label col-md-3">Khóa:</label>\
+                                            <div class="col-md-4">\
+                                                <p>{5}</p>\
+                                            </div>\
+                                        </div>'
+                                $('[name="OrganizationId"]', form).each(function () {
+                                    if ($(this).val() != '') {
+                                        var majors = $(this).closest(".organization").find("select[name=MajorsId]");
+                                        var course = $(this).closest(".organization").find("select[name=CourseId]");
+                                        var sy = $(this).closest(".organization").find("input[name=StartYear]");
+                                        var gy = $(this).closest(".organization").find("input[name=GraduateYear]");
+
+                                        var t1 = $(this).find('option:selected').text();
+                                        var t2 = $(sy).val();
+                                        var t3 = $(gy).val();
+                                        var t4 = ($(majors).val() != '') ? $(majors).find('option:selected').text() : '';
+                                        var t5 = ($(course).val() != '') ? $(course).find('option:selected').text() : '';
+                                        if (html == '') {
+                                            html += abcd.replace('{1}', t1).replace('{2}', t2).replace('{3}', t3).replace('{4}', t4).replace('{5}', t5);
+                                        }
+                                        else {
+                                            html += '<h4>Thêm trường</h4>';
+                                            html += abcd.replace('{1}', t1).replace('{2}', t2).replace('{3}', t3).replace('{4}', t4).replace('{5}', t5);
+
+                                        }
+                                    }
+                                });
+                                $(this).html(html);
+                            }
+                            $('#ProfilePicture_Preview').attr('src', $('#Image_Preview').attr('src'));
+                        });
+                    }
+
+                    var handleTitle = function (tab, navigation, index) {
+                        var total = navigation.find('li').length;
+                        var current = index + 1;
+                        // set wizard title
+                        $('.step-title', $('#form_wizard_1')).text('Step ' + (index + 1) + ' of ' + total);
+                        // set done steps
+                        jQuery('li', $('#form_wizard_1')).removeClass("done");
+                        var li_list = navigation.find('li');
+                        for (var i = 0; i < index; i++) {
+                            jQuery(li_list[i]).addClass("done");
+                        }
+
+                        if (current == 1) {
+                            $('#form_wizard_1').find('.button-previous').hide();
+                        } else {
+                            $('#form_wizard_1').find('.button-previous').show();
+                        }
+
+                        if (current >= total) {
+                            $('#form_wizard_1').find('.button-next').hide();
+                            $('#form_wizard_1').find('.button-submit').show();
+                            displayConfirm();
+                        } else {
+                            $('#form_wizard_1').find('.button-next').show();
+                            $('#form_wizard_1').find('.button-submit').hide();
+                        }
+                    }
+
+                    $('#form_wizard_1').bootstrapWizard({
+                        'nextSelector': '.button-next',
+                        'previousSelector': '.button-previous',
+                        onTabClick: function (tab, navigation, index, clickedIndex) {
+                            return false;
+                        },
+                        onNext: function (tab, navigation, index) {
+                            success.hide();
+                            error.hide();
+
+                            if (form.valid() == false) {
+                                return false;
+                            }
+
+                            handleTitle(tab, navigation, index);
+                        },
+                        onPrevious: function (tab, navigation, index) {
+                            success.hide();
+                            error.hide();
+
+                            handleTitle(tab, navigation, index);
+                        },
+                        onTabShow: function (tab, navigation, index) {
+                            var total = navigation.find('li').length;
+                            var current = index + 1;
+                            var $percent = (current / total) * 100;
+                            $('#form_wizard_1').find('.progress-bar').css({
+                                width: $percent + '%'
+                            });
+                        }
+                    });
+
+                    $('#form_wizard_1').find('.button-previous').hide();
+                    $('#form_wizard_1 .button-submit').click(function (e) {
+                        //alert('ok men')
+                        $('#submit_form').submit();
+                    }).hide();
+
+                    //apply validation on select2 dropdown value change, this only needed for chosen dropdown integration.
+                    $('#OrganizationId', form).change(function () {
+                        form.validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input
+                    });
+                }
+
+            };
+
+        }();
+        jQuery(document).ready(function () {
+            $('#Name').focus();
+            FormWizard.init();
+            $(document).on('change', '.sel-organizationid', function (e) {
+                GetMajorsByOrganization($(this).val(), $(this));
+            });
+            $(document).on('change', '.sel-majorsid', function (e) {
+                GetCourseByMajors($(this).val(), $(this));
+            });
+            $(document).on('change', '.sel-province', function (e) {
+                GetDistrictsByProvince($(this).val(), $(this));
+            });
+            $(document).on('click', '.more-organization', function () {
+                var html = $('.organization-holder').html();
+                $(html).insertBefore('.more-organization');
+            });
+            $(document).on('click', '.remove-organization', function () {
+                var organization = $(this).closest(".organization");
+                $(organization).remove();
+            });
+            CKEDITOR.inline('ExtraInfomation', {
+                toolbar: [
+                    ['Bold', 'Italic', '-', 'Link', 'Unlink'], ['FontSize', 'TextColor', 'BGColor']
+                ]
+            });
+            $(document).on('click', '.select-image', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/tai-khoan-nguoi-dung/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#ProfilePicture').val(fileUrl);
+                    $('#Image_Preview').attr('src', fileUrl);
+                };
+                finder.popup();
+            });
+
+            //var errorArray = {};
+            //errorArray[""] = 'Some error message for the Slug text box';
+            //$('#submit_form').validate().showErrors(errorArray);
+
+        });
+    </script>
+}

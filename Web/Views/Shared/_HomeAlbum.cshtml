@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Entities.Models.AlbumDetail>
+<div class="left_slider">
+    @if (Model != null && Model.Any())
+    {
+        <ul class="bxslider">
+            @foreach (var item in Model.OrderBy(o => o.OrdinalNumber))
+            {
+                <li>
+                    <a href="@(string.IsNullOrEmpty(item.Link) ? "javascript:void(0);" : item.Link)"><img src="@item.PhotoLocation" alt="@item.Title" title="@item.Title" /></a>
+                </li>
+            }
+        </ul>
+    }
+</div>

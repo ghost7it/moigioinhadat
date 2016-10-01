@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Entities.Models.Category>
+@using Common;
+@if (Model != null && Model.Any())
+{
+    <div class="right_nav">
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li><a href="@(string.IsNullOrEmpty(item.Link) ? Url.RouteUrl("FrontEndArticleIndex", new { categoryName = StringHelper.StringFilter(item.Name), categoryId = item.Id }) : item.Link)">@item.Name</a></li>
+            }
+        </ul>
+    </div>
+}

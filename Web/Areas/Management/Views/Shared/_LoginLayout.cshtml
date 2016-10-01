@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Images/AdminV1/adminfav2.png" />
+    @Html.Partial("_Head")
+    @Html.Partial("_Css1")
+    @RenderSection("styles", required: false)
+    @Html.Partial("_Css2")
+</head>
+<body class="login">
+    <div class="logo">
+        <a href="@Url.Action("Index", "Login")">
+            <img src="~/Images/AdminV1/logo-default.png" alt="" />
+        </a>
+    </div>
+    <div class="menu-toggler sidebar-toggler">
+    </div>
+    <div class="content">
+        @RenderBody()
+    </div>
+    <div class="copyright">
+        @if (DateTime.Now.Year <= 2014)
+        {
+            <span>2014</span>
+        }
+        else
+        {
+            <span>2014-@DateTime.Now.Year</span>
+        }
+        &copy; <a title="eBtech" target="_blank" href="http://ebtech.vn">eBtech</a>
+    </div>
+
+    @Html.Partial("_Scripts")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            AdminVersionOne.init();
+            Layout.init();
+            Login.init();
+        });
+    </script>
+    @RenderSection("scripts2", required: false)
+</body>
+
+</html>

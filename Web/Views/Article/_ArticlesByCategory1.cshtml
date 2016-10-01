@@ -1,0 +1,47 @@
+﻿@using Common
+@using Entities.Models
+@model IEnumerable<Entities.Models.Article>
+@{
+    Category category = (Category)ViewBag.Category;
+}
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model.Take(2))
+    {
+        <div style="margin-bottom:10px;" class="clear list1">
+            <p class="pic">
+                <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(category.Name), title = StringHelper.StringFilter(item.Title), categoryId = category.Id, id = item.Id })">
+                    <img alt="" src="@(string.IsNullOrEmpty(item.ImageDescription) ? "http://www.placehold.it/80x63/ffffff/AAAAAA&text=No+image" : item.ImageDescription)" title="@item.Title">
+                </a>
+            </p>
+            <div>
+                <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(category.Name), title = StringHelper.StringFilter(item.Title), categoryId = category.Id, id = item.Id })" title="@item.Title">
+                    @item.Title
+                </a>
+                <p>
+                    @if (!string.IsNullOrEmpty(item.Description))
+                    {
+                        @Common.CommonHelper.RemoveHtmlTags(item.Description, 80)<span>...</span>
+                    }
+                </p>
+
+            </div>
+        </div>
+    }
+    <div class="clear list2">
+        @foreach (var item in Model.Skip(2))
+        {
+            <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(category.Name), title = StringHelper.StringFilter(item.Title), categoryId = category.Id, id = item.Id })" title="@item.Title">
+                <i class="fa fa-angle-right"></i> @item.Title
+            </a>
+        }
+    </div>
+}
+@if (string.IsNullOrEmpty(category.Link))
+{
+    <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryName = StringHelper.StringFilter(category.Name), categoryId = category.Id })" title="Xem tiếp" class="readon">xem tiếp</a>
+}
+else
+{
+    <a href="@category.Link" title="Xem tiếp" class="readon">xem tiếp</a>
+}

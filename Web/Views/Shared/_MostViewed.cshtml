@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Entities.Models.Article>
+@using Common;
+@if (Model != null && Model.Any())
+{
+    <div class="right_new">
+        <h2>Tin nhiều người đọc</h2>
+        <ul>
+            @foreach (var item in Model)
+            {
+                if (ViewBag.CategoryName != null)
+                { 
+                <li><a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), title = StringHelper.StringFilter(item.Title), categoryId = ViewBag.CategoryId, id = item.Id })">@item.Title</a></li>
+                }
+                else
+                {
+                    <li><a href="@Url.RouteUrl("FrontEndArticleDetail2", new { title = StringHelper.StringFilter(item.Title), id = item.Id })">@item.Title</a></li>
+                }
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,132 @@
+﻿@model Entities.Models.Account
+@{
+    ViewBag.Title = "Nhập tài khoản mới";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="@Url.RouteUrl("AccountIndex")">Danh sách tài khoản</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Nhập tài khoản mới</a>
+        </li>
+    </ul>
+</div>
+@*Bắt đầu nội dung tùy chỉnh*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="tab-pane" id="tab_6">
+            <div class="portlet box grey-cascade">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-user"></i>Nhập tài khoản mới
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    @using (Html.BeginForm("Create", "Account", FormMethod.Post, new { @class = "form-horizontal form-bordered form-row-stripped", @enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-body">
+                            @if (!ViewData.ModelState.IsValid)
+                            {
+                                <div class="alert alert-danger">
+                                    <button data-close="alert" class="close"></button>
+                                    @Html.ValidationSummary(true)
+                                </div>
+                            }
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Password, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @type = "password" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Password)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PhoneNumber, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                </div>
+                            </div>
+                            <div class="form-group last">
+                                @Html.LabelFor(model => model.ProfilePicture, new { @class = "col-md-3 control-label" })
+                                @Html.HiddenFor(model => model.ProfilePicture)
+                                <div class="col-md-9">
+
+                                    <div>
+                                        <div class="col-md-3 thumbnail" style="height:150px;">
+                                            <img id="Image_Preview" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=No+image" alt="" style="height:100%;" />
+                                        </div>
+                                        <div class="col-md-4" style="line-height:150px;">
+                                            <button type="button" class="btn btn-default select-image"><i class="fa fa-sm"></i> Chọn ảnh</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn green"><i class="fa fa-check"></i> Ghi nhận</button>
+                                    <a href="@Url.RouteUrl("AccountIndex")" class="btn default">Hủy bỏ</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/adminv1/jqueryval")
+    <script type="text/javascript" src="~/Editor/ckfinder/ckfinder.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            $('#Name').focus();
+            $(document).on('click', '.select-image', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/tai-khoan-nguoi-dung/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#ProfilePicture').val(fileUrl);
+                    $('#Image_Preview').attr('src', fileUrl);
+                };
+                finder.popup();
+            });
+        });
+    </script>
+}

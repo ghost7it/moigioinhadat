@@ -1,0 +1,75 @@
+﻿@model Entities.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+}
+
+<div class="content">
+    <div class="left_detail">
+        <h2>Đăng nhập</h2>
+        <div class="clear"></div>
+        <div class="row">
+            <div class="col-md-12 form">
+                @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "login-form form-horizontal" }))
+                {
+                    <div class="form-body">
+                        @Html.AntiForgeryToken()
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                        <div class="alert alert-danger">
+                            <button class="close" data-dismiss="alert"></button>
+                            @Html.ValidationSummary(true)
+                        </div>
+                        }
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-4">
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>
+                        </div>
+                        <div class="forget-password">
+                            <h4>Quên mật khẩu?</h4>
+                            <p>
+                                Bấm <a href="@Url.RouteUrl("FrontEndLoginForgetPassword")">
+                                    vào đây
+                                </a>
+                                để khôi phục mật khẩu.
+                            </p>
+                        </div>
+                    </div>
+    <div class="form-actions">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-4">
+                <button type="submit" class="btn green-haze pull-right">
+                    Đăng nhập <i class="m-icon-swapright m-icon-white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+                }
+                    </div>
+        </div>
+    </div>
+    <div class="right_detail">
+        @{Html.RenderAction("MostViewed2", "Shared");}
+    </div>
+    <div class="clear"></div>
+</div>
+@section styles{
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/components")
+    @Styles.Render("~/Content/plugins")
+    @Styles.Render("~/Content/font-awesome")
+    @Styles.Render("~/Content/custom")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

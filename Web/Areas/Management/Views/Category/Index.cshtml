@@ -1,0 +1,461 @@
+﻿@using Entities.Models;
+@using Entities.Enums;
+@model Category
+@{
+    ViewBag.Title = "Quản lý chuyên mục";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+    var canCreate = RoleHelper.CheckPermission(ModuleEnum.Category, ActionEnum.Create);
+}
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Quản lý chuyên mục</a>
+        </li>
+    </ul>
+</div>
+@*Bắt đầu nội dung tùy chỉnh*@
+<div class="row">
+    <div class="col-md-6">
+        <div class="portlet blue-hoki box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-link"></i>Danh sách chuyên mục
+                </div>
+            </div>
+            <div class="portlet-body">
+                <input type="text" value="" style="box-shadow:inset 0 0 4px #eee; width:120px; margin:0; padding:6px 12px; border-radius:4px; border:1px solid silver; font-size:1.1em;" id="demo_q" placeholder="Tìm kiếm" />
+                @if (canCreate)
+                {
+                    <div class="pull-right" style="margin-bottom:10px;">
+                        <a href="@Url.RouteUrl("CategoryCreateOrUpdate", new { id = 0 })" class="ajaxify btn green btn-creat-new">Nhập chuyên mục mới <i class="fa fa-plus"></i></a>
+                    </div>
+                }
+                <div style="clear:both;"></div>
+                <div id="tree_4" class="tree-demo">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="portlet green-meadow box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>Thêm mới/cập nhật chuyên mục
+                </div>
+            </div>
+            <div class="portlet-body form page-content-body" id="action_area">
+            </div>
+            <div class="display-none default-message">
+                <div style="padding:30px;">
+                    <p>
+                        Chọn 1 chuyên mục để cập nhật
+                        @if (canCreate)
+                        {
+                            <span>, hoặc</span> <a href="@Url.RouteUrl("CategoryCreateOrUpdate", new { id=0})" class="ajaxify btn green btn-creat-new">Nhập chuyên mục mới <i class="fa fa-plus"></i></a>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    @Styles.Render("~/Content/adminv1/style")
+
+    <style type="text/css">
+        .popover, .popover-title {
+            background-color: olivedrab;
+            min-width: 380px;
+        }
+
+            .popover * {
+                color: #fff;
+            }
+
+        .popover-title {
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/adminv1/jstree")
+    <script type="text/javascript" src="~/Editor/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="~/Editor/ckfinder/ckfinder.js"></script>
+}
+@section Scripts2 {
+    <script type="text/javascript">
+        function ArticleFilter(p) {
+            AdminVersionOne.blockUI({
+                message: 'Vui lòng đợi!',
+                overlayColor: 'none',
+                cenrerY: true,
+                boxed: true
+            });
+            var key = $('.search-article').val();
+            var $url = ('@Url.RouteUrl("CategoryGetArticleToCreateLink", new { p = "objectReplacement", key = "keyReplacement" })').replace('objectReplacement', p).replace('keyReplacement', key);
+
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                async: true,
+                url: $url,
+                dataType: 'html',
+                success: function (result) {
+                    $('.modal-content').html(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    showNoty(errorThrown, 'error', 'center', 5000);
+                },
+                complete: function (result) {
+                    AdminVersionOne.unblockUI();
+                }
+            });
+        }
+        var UITree = function () {
+            var ajaxTreeSample = function () {
+                $("#tree_4").jstree({
+                    "core": {
+                        "themes": {
+                            "responsive": true
+                        },
+                        "multiple": false,
+                        "check_callback": true,
+                        'data': {
+                            'url': function (node) {
+                                return node.id === '#' ? '@Url.RouteUrl("CategoryGetCategoryTypeJson")' : '@Url.RouteUrl("CategoryGetCategoryJson")';
+                            },
+                            'data': function (node) {
+                                return { 'parent': node.id };
+                            }
+                        }
+                    },
+                    "types": {
+                        "default": {
+                            "icon": "fa fa-folder icon-state-warning icon-lg"
+                        },
+                        "file": {
+                            "icon": "fa fa-file icon-state-warning icon-lg"
+                        }
+                    },
+                    'plugins': ["wholerow", "types", "contextmenu", "dnd", "search"],
+                    'contextmenu': {
+                        'items': {}
+                    }
+                });
+
+            }
+            return {
+                init: function () {
+                    ajaxTreeSample();
+                }
+            };
+        }();
+        var ShowDetail = function (id) {
+            $('#action_area').html('<div style="padding:30px;">Vui lòng đợi...</div>');
+            AdminVersionOne.blockUI({
+                message: 'Vui lòng đợi!',
+                overlayColor: 'none',
+                cenrerY: true,
+                boxed: true
+            });
+            var $url = '@Url.RouteUrl("CategoryCreateOrUpdate")';
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                async: true,
+                url: $url,
+                data: { id: id },
+                dataType: 'html',
+                success: function (data) {
+                    $('#action_area').html(data);
+                    UpdateCategory();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#action_area').html('<div style="padding:30px;">Không tải được dữ liệu.</div>');
+                },
+                complete: function (result) {
+                    AdminVersionOne.unblockUI();
+                }
+            });
+            return;
+        };
+
+        var UpdateCategory = function () {
+            if ($('#CategoryId').val() != '') {
+                $('#CategoryTypeId').prop('disabled', 'disabled');
+                $('#DisplayType').prop('disabled', 'disabled');
+            }
+            else {
+                $('#CategoryTypeId').prop('disabled', false);
+                $('#DisplayType').prop('disabled', false);
+            }
+        }
+        var to = false;
+        $('#demo_q').keyup(function () {
+            if (to) { clearTimeout(to); }
+            to = setTimeout(function () {
+                var v = $('#demo_q').val().trim();
+                $('#tree_4').jstree(true).search(v);
+            }, 250);
+        });
+        jQuery(document).ready(function () {
+            UITree.init();
+
+            $('#action_area').html($('.default-message').html());
+            $('#tree_4')
+                .on('changed.jstree', function (e, data) {
+                    var i, j, r = [];
+                    for (i = 0, j = data.selected.length; i < j; i++) {
+                        r.push(data.instance.get_node(data.selected[i]).id);
+                    }
+                    var x = r.join(', ');
+                    var tmp = x.split('_');
+                    if (tmp.length > 1)
+                        ShowDetail(tmp[1]);
+                })
+                .jstree();
+            $(document).on('click', '.btn-reset', function (e) {
+                $('#action_area').html($('.default-message').html());
+                var ref = $('#tree_4').jstree(true);
+                var sel = ref.get_selected();
+                if (!sel.length) { return false; }
+                ref.deselect_node(sel);
+            });
+            $(document).on('click', '.select-image1', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#DescriptionIcon').val(fileUrl);
+                    $('#Image_Preview1').attr('src', fileUrl);
+                };
+                finder.popup();
+            });
+            $(document).on('click', '.select-image2', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#SmallIcon').val(fileUrl);
+                    $('#Image_Preview2').attr('src', fileUrl);
+                };
+                finder.popup();
+            });
+            $(document).on('change', '#CategoryId', function () {
+                UpdateCategory();
+            });
+            $(document).on('click', '.btn-delete', function (e) {
+                e.preventDefault();
+                var $id = $('#action_area #Id').val();
+                if ($id == 0) {
+                    return;
+                }
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                var $url = '@Url.RouteUrl("CategoryDelete")';
+
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    data: { id: $id },
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                            if ($id != 0) {
+                                var currentNode = 'node_' + $id;
+                                $('#tree_4').jstree(true).delete_node(currentNode);
+
+                            }
+                            $('#action_area').html($('.default-message').html());
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        AdminVersionOne.unblockUI();
+                    }
+                });
+                return;
+
+            });
+            //Nhập chuyên mục
+            $(document).on('click', '.btn-create-update', function () {
+                var c = $.trim($('#CategoryId').val());
+                var ct = $.trim($('#CategoryTypeId').val());
+                if (c == '' && ct == '') {
+                    showNoty('Vui lòng chọn chuyên mục cha hoặc loại chuyên mục!', 'error', 'center', 5000);
+                    return false;
+                }
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                for (instance in CKEDITOR.instances) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+                var $id = $('#action_area #Id').val();
+                var $url = $id == 0 ? '@Url.RouteUrl("CategoryCreate")' : '@Url.RouteUrl("CategoryUpdate")';
+
+                var formData = new FormData($('.form-create-update')[0]);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    data: { id: $id },
+                    data: formData,
+                    dataType: 'json',
+                    enctype: 'multipart/form-data',
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                            var tree = $('#tree_4').jstree(true);
+                            if (result.CategoryTypeId) {
+                                var parentNode = 'nodetype_' + result.CategoryTypeId;
+                                tree.refresh_node(parentNode);
+                                tree.open_node(parentNode);
+                            }
+                            else {
+                                if (result.CategoryId) {
+                                    var parentNode = 'node_' + result.CategoryId;
+                                    tree.refresh_node(parentNode);
+                                    tree.open_node(parentNode);
+                                }
+                            }
+                            if (result.NewName && $id != 0) {
+                                var currentNode = 'node_' + $id;
+                                tree.rename_node(currentNode, result.NewName);
+
+                            }
+                            $('#action_area').html($('.default-message').html());
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        //Bỏ chọn cái node hiện tại
+                        if ($id != 0) {
+                            $('#tree_4').jstree(true).deselect_node('node_' + $id);
+                        }
+                        AdminVersionOne.unblockUI();
+                    }
+                });
+                return;
+            });
+            $(document).on('click', '.next-article-page', function () {
+                var page = $(this).attr("data-page");
+                ArticleFilter(page);
+                return;
+            });
+            $(document).on('keyup', '.search-article', function (e) {
+                if (e.which == 13) {
+                    ArticleFilter(1);
+                }
+                return;
+            });
+            $(document).on('click', '.btn-search-article', function () {
+                ArticleFilter(1);
+                return;
+            });
+            $(document).on('click', '.create-link', function () {
+                $('#Link').val($(this).attr('data-link'));
+                $('.modal-header .close').click();
+                return;
+            });
+
+            $('body').on('mouseenter', '.has-popover2', function () {
+                var el;
+                var url2;
+                el = $(this);
+
+                var type = $('#DisplayType').val();
+                switch (type) {
+                    case '1': {
+                        url2 = '/Images/AdminV1/01.jpg';
+                        break;
+                    }
+                    case '2': {
+                        url2 = '/Images/AdminV1/02.jpg';
+                        break;
+                    }
+                    case '3': {
+                        url2 = '/Images/AdminV1/03.jpg';
+                        break;
+                    }
+                    case '4': {
+                        url2 = '/Images/AdminV1/04.jpg';
+                        break;
+                    }
+                    case '5': {
+                        url2 = '/Images/AdminV1/05.jpg';
+                        break;
+                    }
+                }
+                $('.popover').remove();
+                el.popover({
+                    placement: el.data('placement') || 'left',
+                    container: 'body',
+                    content: function () {
+                        var html = '<div style="width:350px; "><img src="' + url2 + '" alt="" style="width:350px; height:100%;" /></div>';
+                        return html;
+                    },
+                });
+                el.popover('show');
+            });
+            $('body').on('mouseleave', '.has-popover2', function () {
+                $('.popover').remove();
+                $(this).popover('destroy')
+            });
+            $(document).on('change', '#DisplayType', function () {
+                var type = $(this).val();
+                var url = '';
+                switch (type) {
+                    case '1': {
+                        url = '/Images/AdminV1/01-thumb.jpg';
+                        break;
+                    }
+                    case '2': {
+                        url = '/Images/AdminV1/02-thumb.jpg';
+                        break;
+                    }
+                    case '3': {
+                        url = '/Images/AdminV1/03-thumb.jpg';
+                        break;
+                    }
+                    case '4': {
+                        url = '/Images/AdminV1/04-thumb.jpg';
+                        break;
+                    }
+                    case '5': {
+                        url = '/Images/AdminV1/05-thumb.jpg';
+                        break;
+                    }
+                }
+                $('#DisplayType_Preview').attr('src', url);
+            });
+        });
+    </script>
+}

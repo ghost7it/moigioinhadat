@@ -1,0 +1,112 @@
+﻿@model Entities.Models.Feedback
+@using CaptchaMvc.HtmlHelpers
+@using CaptchaMvc.Interface
+@{
+    ViewBag.Title = "Phản hồi thông tin";
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+    bool success = false;
+    if (ViewBag.Success != null) { success = (bool)ViewBag.Success; }
+    ICaptcha captcha = Html.Captcha("Đổi mã khác", "Nhập mã bảo mật phía trên:", 5, "Vui lòng nhập mã bảo mật!", false);
+}
+
+<div class="content">
+    <div class="left_detail">
+        <h2>Phản hồi thông tin</h2>
+        <div class="clear"></div>
+        <div class="row">
+            <div class="col-md-12 form">
+                @if (success)
+                {
+                    <div>
+                        Phản hồi của bạn đã được ghi nhận thành công. Chúng tôi sẽ trả lời bạn trong thời gian sớm nhất.
+                    </div>
+                }
+                else
+                {
+                    using (Html.BeginForm("Feedback", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <div class="form-body">
+                            <p>Vui lòng nhập các thông tin bên dưới để gửi thông tin phản hồi cho chúng tôi!</p>
+                            @Html.AntiForgeryToken()
+                            <input name="IsResponded" type="hidden" value="false" />
+                            <input type="hidden" name="FeedbackDate" value="@DateTime.Now" />
+                            @Html.ValidationSummary(true)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PhoneNumber, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Title, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Title)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Content, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-7">
+                                    @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = "7", cols = "20" })
+                                    @Html.ValidationMessageFor(model => model.Content)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Mã bảo mật</label>
+                                <div class="col-md-4">
+                                    @captcha.RenderMarkup()
+                                    @Html.ValidationMessage("CaptchaInputText")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-4">
+                                    <a href="@Url.RouteUrl("FrontEndHomeIndex")" class="btn default">Hủy bỏ</a>
+                                    <button type="submit" class="btn green"><i class="fa fa-check"></i> Gửi phản hồi</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="right_detail">
+       @{Html.RenderAction("MostViewed2", "Shared");}
+    </div>
+    <div class="clear"></div>
+</div>
+@section styles{
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/components")
+    @Styles.Render("~/Content/plugins")
+    @Styles.Render("~/Content/font-awesome")
+    @Styles.Render("~/Content/custom")
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            $('#CaptchaInputText').addClass('form-control');
+            $('#Name').focus();
+        });
+    </script>
+    @captcha.RenderScript()
+}

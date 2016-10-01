@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Entities.Models.Article>
+@using Common;
+<div class="box_right_honors">
+    <h2><a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), categoryId = ViewBag.CategoryId })">@ViewBag.CategoryName</a></h2>
+    @Html.Raw(ViewBag.CategoryDescription)
+    @if (Model != null && Model.Any())
+    {
+        int i = 0;
+        <ul>
+            @foreach (var item in Model.OrderByDescending(o => o.Id))
+            {
+                i++;
+                <li class="@(i==3?"last":"")">
+                    <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), title = StringHelper.StringFilter(item.Title), categoryId = ViewBag.CategoryId, id = item.Id })">
+                        <img alt="@item.Title" title="@item.Title" src="@(string.IsNullOrEmpty(item.ImageDescription) ? "http://www.placehold.it/55x68/EFEFEF/AAAAAA&text=Alumni" : item.ImageDescription)" />
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @Html.Partial("_Head")
+    @Styles.Render("~/Content/category2")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <div id="wrapper">
+        @Html.Partial("_Header")
+        @RenderBody()
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_Scripts")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

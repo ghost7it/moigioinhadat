@@ -1,0 +1,17 @@
+﻿@{
+    Entities.Models.SystemInformation systemInformation = new Entities.Models.SystemInformation();
+    if (ViewBag.SystemInformation != null)
+    {
+        systemInformation = (Entities.Models.SystemInformation)ViewBag.SystemInformation;
+    }
+    ViewBag.Title = string.IsNullOrEmpty(systemInformation.SiteName) ? "Trang chủ" : systemInformation.SiteName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{Html.RenderAction("LeftArticle1", "Shared");}
+@{Html.RenderAction("LeftArticle2", "Shared");}
+@section styles{
+    @Styles.Render("~/Content/bxslider")
+}
+@section scripts{    
+    @Scripts.Render("~/bundles/bxslider")
+}

@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Entities.Models.AlbumDetail>
+<div class="right_slider">
+    @if (Model != null && Model.Any())
+    {
+        int i = 0;
+        <ul>
+            @foreach (var item in Model.OrderBy(o => o.OrdinalNumber).Take(4))
+            {
+                i++;
+                <li class="@(i % 2 == 0 ? "last" : "")">
+                    <a href="@(string.IsNullOrEmpty(item.Link) ? "javascript:void(0);" : item.Link)"><img src="@item.PhotoLocation" alt="@item.Title" title="@item.Title" /></a>
+                </li>
+            }
+        </ul>
+    }
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,224 @@
+﻿@using Entities.Models;
+@using Common;
+@model Entities.Models.Article
+@{
+    ViewBag.Title = @Model.Title;
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+    Category rootCategory = new Category().NullCategory();
+    Category category = new Category().NullCategory();
+}
+@if (ViewBag.RootCategory != null)
+{
+    try
+    {
+        rootCategory = (Category)ViewBag.RootCategory;
+    }
+    catch { }
+}
+@if (ViewBag.Category != null)
+{
+    try
+    {
+        category = (Category)ViewBag.Category;
+    }
+    catch { }
+}
+<div class="topSlider_detail">
+    <div class="content_slider_detail">
+        <img src="@(string.IsNullOrEmpty(rootCategory.DescriptionIcon) ? "/Images/FrontEndV1/img_mainDetail.jpg" : rootCategory.DescriptionIcon)" alt="@rootCategory.Name" title="@rootCategory.Name" />
+        @if (rootCategory != null && !rootCategory.IsNullOrEmpty)
+        {
+            <h2>@rootCategory.Name</h2>
+        }
+    </div>
+</div>
+<div class="content">
+    <div class="left_detail">
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="@Url.RouteUrl("FrontEndHomeIndex")">Trang chủ</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                @if (rootCategory != null)
+                {
+                    <li>
+                        @if (string.IsNullOrEmpty(rootCategory.Link))
+                        {
+                            <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname = StringHelper.StringFilter(rootCategory.Name), categoryid = rootCategory.Id })">@rootCategory.Name</a>
+                        }
+                        else
+                        {
+                            <a href="@rootCategory.Link">@rootCategory.Name</a>
+                        }
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                }
+                @if (category != null && category != rootCategory)
+                {
+                    if (category.ParentCategory != null && category.ParentCategory != rootCategory)
+                    {
+                        <li>
+                            @if (string.IsNullOrEmpty(category.ParentCategory.Link))
+                            {
+                                <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname = StringHelper.StringFilter(category.ParentCategory.Name), categoryid = category.ParentCategory.Id })">@category.ParentCategory.Name</a>
+                            }
+                            else
+                            {
+                                <a href="@category.ParentCategory.Link">@category.ParentCategory.Name</a>
+                            }
+                            <i class="fa fa-angle-right"></i>
+                        </li>
+                    }
+                }
+                @if (category != null && category != rootCategory)
+                {
+                    <li>
+                        <span>@category.Name</span>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        @if (category != null && !category.IsNullOrEmpty)
+        {
+            <h2>@category.Name</h2>
+        }
+        else
+        {
+            if (rootCategory != null && !rootCategory.IsNullOrEmpty)
+            {
+                <h2>@rootCategory.Name</h2>
+            }
+        }
+        <h3 class="article-title">
+            @Model.Title
+        </h3>
+        <div class="article-date">
+            @if (Model.UpdateDate.HasValue)
+            {
+                <span>@Model.UpdateDate.Value.ToString("hh:mm:ss")</span> @:Ngày
+                <span>@Model.UpdateDate.Value.ToString("dd/MM/yyyy")</span>
+                @: GMT+7
+            }
+            else
+            {
+                <span>@Model.CreateDate.ToString("hh:mm:ss")</span> @:Ngày
+                <span>@Model.CreateDate.ToString("dd/MM/yyyy")</span>
+                @: GMT+7
+            }
+        </div>
+
+        @Html.Raw(Model.Content)
+        <div class="more-articles clear">
+            <h4>Các tin khác</h4>
+            @if (category != null && !category.IsNullOrEmpty)
+            {
+                Html.RenderAction("Featured2", "Shared", new { categoryId = category.Id, articleId = Model.Id, categoryName = category.Name });
+            }
+            else if (rootCategory != null && !rootCategory.IsNullOrEmpty)
+            {
+                Html.RenderAction("Featured2", "Shared", new { categoryId = rootCategory.Id, articleId = Model.Id, categoryName = rootCategory.Name });
+            }
+        </div>
+    </div>
+    <div class="right_detail">
+        @if (rootCategory != null && !rootCategory.IsNullOrEmpty)
+        {
+            var cssClass = "";
+            <div class="right_info">
+                <h2>
+                    @if (string.IsNullOrEmpty(rootCategory.Link))
+                    {
+                        <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname=StringHelper.StringFilter(rootCategory.Name), categoryid=rootCategory.Id })">@rootCategory.Name</a>
+                    }
+                    else
+                    {
+                        <a href="@rootCategory.Link">@rootCategory.Name</a>
+                    }
+                </h2>
+                @if (rootCategory.Categories != null && rootCategory.Categories.Any())
+                {
+                    <ul>
+                        @foreach (var item in rootCategory.Categories.OrderBy(o => o.OrdinalNumber))
+                        {
+
+                            if (category != null && !category.IsNullOrEmpty && category.Id == item.Id)
+                            {
+                                cssClass = "active";
+                            }
+                            else
+                            {
+                                cssClass = "";
+                            }
+                            <li class="@cssClass">
+                                @if (string.IsNullOrEmpty(item.Link))
+                                {
+                                    <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname=StringHelper.StringFilter(item.Name), categoryid=item.Id })"><b>@item.Name</b></a>
+                                }
+                                else
+                                {
+                                    <a href="@item.Link">@item.Name</a>
+                                }
+                            </li>
+                            if (item.Categories != null && item.Categories.Any())
+                            {
+                                foreach (var item2 in item.Categories.OrderBy(o => o.OrdinalNumber))
+                                {
+                                    if (category != null && !category.IsNullOrEmpty && category.Id == item2.Id)
+                                    {
+                                        cssClass = "active";
+                                    }
+                                    else
+                                    {
+                                        cssClass = "";
+                                    }
+                                    <li class="@cssClass">
+                                        @if (string.IsNullOrEmpty(item2.Link))
+                                        {
+                                            <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryname=StringHelper.StringFilter(item2.Name), categoryid=item2.Id })">@item2.Name</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@item2.Link">@item2.Name</a>
+                                        }
+                                    </li>
+                                        cssClass = "";
+                                }
+                            }
+                            cssClass = "";
+                        }
+                    </ul>
+                }
+            </div>
+        }
+        @if (category != null && !category.IsNullOrEmpty)
+        {
+            Html.RenderAction("MostViewed", "Shared", new { categoryId = category.Id, categoryName = category.Name });
+            Html.RenderAction("Featured", "Shared", new { categoryId = category.Id, articleId = -1, categoryName = rootCategory.Name });
+        }
+        else
+        {
+            if (rootCategory != null && !rootCategory.IsNullOrEmpty)
+            {
+                Html.RenderAction("MostViewed", "Shared", new { categoryId = rootCategory.Id, categoryName = rootCategory.Name });
+                Html.RenderAction("Featured", "Shared", new { categoryId = rootCategory.Id, articleId = -1, categoryName = rootCategory.Name });
+            }
+            else
+            {
+                Html.RenderAction("MostViewed2", "Shared");
+            }
+        }
+    </div>
+    <div class="clear"></div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+    jQuery(document).ready(function () {
+        var a = 'category_menu_' + '@rootCategory.Id';
+        if ('#' + a) {
+            $('#' + a).addClass('active');
+        }
+    });
+    </script>
+}

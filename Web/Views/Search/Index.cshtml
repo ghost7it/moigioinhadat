@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Entities.Models.Article>
+@using Common;
+@{
+    ViewBag.Title = "Kết quả tìm kiếm";
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+    var pagingInfo = (Common.PagingInfo)ViewBag.PagingInfo;
+}
+<div class="content">
+    <div class="left_detail search">
+        <h2>Tìm kiếm</h2>
+        <div class="search-box">
+            <input type="text" name="keywords" id="keywords" placeholder="Tìm kiếm bài viết..." value="@ViewBag.Keywords" class="keywords" />
+            <button class="search-button" title="Tìm kiếm" type="button">Tìm kiếm</button>
+        </div>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <h3>
+                    <a href="@Url.RouteUrl("FrontEndArticleDetail2", new { title = StringHelper.StringFilter(item.Title), id = item.Id })">
+                        @Html.Raw(item.Title.HighlightKeywords((string)ViewBag.Keywords, "yellow", false))
+                    </a>
+                </h3>
+                <div class="clear" style="margin-bottom:20px;">
+                    
+                    <div>
+                        @Html.Raw(item.Description.HighlightKeywords((string)ViewBag.Keywords, "yellow", false))
+                    </div>
+                </div>
+            }
+            <div class="navigation">
+                Trang
+                @Html.Raw(Html.pageLinks(pagingInfo.TotalPages, pagingInfo.CurrentPage, x => Url.RouteUrl("FrontEndSearchIndex", new { keywords = ViewBag.Keywords, p = x })))               
+            </div>
+        }
+    </div>
+    <div class="right_detail">
+        @{Html.RenderAction("MostViewed2", "Shared");}
+    </div>
+    <div class="clear"></div>
+</div>

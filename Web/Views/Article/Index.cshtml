@@ -1,0 +1,63 @@
+﻿@using Entities.Models;
+@using Common;
+@model IEnumerable<Entities.Models.Article>
+@{
+    ViewBag.Title = ViewBag.CategoryName;
+    Layout = "~/Views/Shared/_DetailLayout.cshtml";
+    Category rootCategory = (Category)ViewBag.RootCategory;
+    Category category = (Category)ViewBag.Category;
+    long categoryId = (long)ViewBag.CategoryId;
+    var pagingInfo = (PagingInfo)ViewBag.PagingInfo;
+}
+
+<div class="topSlider_detail">
+    <div class="content_slider_detail">
+        <img src="@(string.IsNullOrEmpty(rootCategory.DescriptionIcon) ? "/Images/FrontEndV1/img_mainDetail.jpg" : rootCategory.DescriptionIcon)" alt="@rootCategory.Name" title="@rootCategory.Name" />
+        <h2 style="text-transform:uppercase;">@rootCategory.Name</h2>
+    </div>
+</div>
+<div class="content">
+    <div class="left_detail">
+        <h2 style="text-transform:uppercase;">@category.Name</h2>
+        <div style="margin:20px 0;">
+            @Html.Raw(category.Description)
+        </div>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <h3 class="title">
+                    <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(category.Name), title = StringHelper.StringFilter(item.Title), categoryId = category.Id, id = item.Id })" title="@item.Title">
+                        @item.Title
+                    </a>
+                </h3>
+                <div class="clear" style="margin-bottom:10px;">
+                    <p class="pic">
+                        <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(category.Name), title = StringHelper.StringFilter(item.Title), categoryId = category.Id, id = item.Id })">
+                            <img alt="@item.Title" src="@(string.IsNullOrEmpty(item.ImageDescription) ? "http://www.placehold.it/180x108/EFEFEF/AAAAAA&text=No+image" : item.ImageDescription)" title="@item.Title">
+                        </a>
+                    </p>
+                    <div>
+                        @Html.Raw(item.Description)
+                        <a title="Xem chi tiết" href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(category.Name), title = StringHelper.StringFilter(item.Title), categoryId = category.Id, id = item.Id })" class="readon">xem tiếp</a>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            }
+            <div class="navigation">
+                Trang
+                @Html.Raw(Html.pageLinks(pagingInfo.TotalPages, pagingInfo.CurrentPage, x => Url.RouteUrl("FrontEndArticleIndex", new { categoryName = StringHelper.StringFilter(category.Name), categoryId = category.Id, p = x })))
+            </div>
+        }
+    </div>
+
+
+    <div class="right_detail">
+        @if (rootCategory != null)
+        {
+            long cat = (category != null && !category.IsNullOrEmpty) ? category.Id : 0;
+            @Html.Partial("_RightMenu2", rootCategory, new ViewDataDictionary { { "categoryId", cat } });
+        }
+    </div>
+    <div class="clear"></div>
+</div>

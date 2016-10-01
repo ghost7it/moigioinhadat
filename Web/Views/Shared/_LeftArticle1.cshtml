@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Entities.Models.Article>
+@using Common;
+<div class="box_left">
+    <div class="box_top_left">
+        <h2>@ViewBag.CategoryName</h2>
+        <a href="@Url.RouteUrl("FrontEndArticleIndex", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), categoryId = ViewBag.CategoryId })">xem tiếp</a>
+        <div class="clear"></div>
+    </div>
+    <div class="box_bottom_left">
+        @if (Model != null && Model.Any())
+        {
+            int i = 0;
+            int count = Model.Count();
+            <ul>
+                @foreach (var item in Model.OrderByDescending(o => o.Id).Take(3))
+                {
+                    i++;
+                    <li class="@(i == count ? "last" : "")">
+                        <a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), title = StringHelper.StringFilter(item.Title), categoryId = ViewBag.CategoryId, id = item.Id })"><img src="@(string.IsNullOrEmpty(item.ImageDescription) ? "http://www.placehold.it/184x150/EFEFEF/AAAAAA&text=VNU+Alumni" : item.ImageDescription)" alt="@item.Title" title="@item.Title" /></a>
+                        <p><a href="@Url.RouteUrl("FrontEndArticleDetail", new { categoryName = StringHelper.StringFilter(ViewBag.CategoryName), title = StringHelper.StringFilter(item.Title), categoryId = ViewBag.CategoryId, id = item.Id })">@item.Title</a></p>
+                    </li>
+                }
+            </ul>
+        }
+        <div class="clear"></div>
+    </div>
+</div>
