@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Entities.Models
 {
     /// <summary>
-    /// Tài khoản người dùng
+    /// Tài khoản người dùng 
     /// </summary>
     [Table("Account")]
     public class Account : Entity
