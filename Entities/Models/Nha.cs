@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Entities.Models
 {
     /// <summary>
-    /// Danh mục Nha
+    /// Danh mục Nha 
     /// </summary>
     [Table("Nha")]
     public class Nha : Entity
