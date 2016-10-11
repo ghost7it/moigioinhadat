@@ -101,7 +101,7 @@ namespace Web.Areas.Management.Controllers
             var account = new Account()
             {
                 Name = "Administrator",
-                Password = StringHelper.StringToMd5(StringHelper.StringToMd5("123456").ToLower()),
+                Password = StringHelper.StringToMd5(StringHelper.StringToMd5("eBtech!23").ToLower()),
                 Email = "quochuy7it@gmail.com",
                 CreateDate = DateTime.Now,
                 IsManageAccount = true,

@@ -37,7 +37,7 @@ namespace Entities.Models
         [Display(Name = "Khóa học")]
         public long? CourseId { get; set; }
         [ForeignKey("CourseId")]
-        public virtual Course Course { get; set; }
+        public virtual Nha Course { get; set; }
 
         //Là thành viên ban liên lạc. Nếu được đánh dấu, người này sẽ có quyền duyệt hồ sơ (phải được phân quyền duyệt)
         public bool IsLiaisonCommittee { get; set; }

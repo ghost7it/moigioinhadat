@@ -38,7 +38,7 @@ namespace Entities.Models
         [Display(Name = "Thuộc khoa/bộ môn")]
         public long? SubordinatedOrganizationId { get; set; }
 
-        public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<Nha> Courses { get; set; }
         public virtual ICollection<ProfileOrganization> ProfileOrganizations { get; set; }
 
         public string Describe()

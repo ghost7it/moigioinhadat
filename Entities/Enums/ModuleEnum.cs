@@ -103,6 +103,6 @@ namespace Entities.Enums
         [ModuleGroupAttribute(ModuleGroupCode = 4, ModuleGroupName = "Ban liên lạc")]
         [Description("Phê duyệt hồ sơ thành viên")]
         [ActionAttribute(ActionType.Read, ActionType.Verify)]
-        ProfileApproveCommittee = 252
+        ProfileApproveCommittee = 252,
     }
 }

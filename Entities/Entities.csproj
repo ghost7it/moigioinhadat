@@ -68,6 +68,16 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryType.cs" />
     <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\CapDoTheoDoi.cs" />
+    <Compile Include="Models\DanhGiaPhuHopVoi.cs" />
+    <Compile Include="Models\QuanLyCongViec.cs" />
+    <Compile Include="Models\NhuCauThueHistory.cs" />
+    <Compile Include="Models\NhuCauThue.cs" />
+    <Compile Include="Models\Khach.cs" />
+    <Compile Include="Models\NhaHistory.cs" />
+    <Compile Include="Models\NoiThatKhachThueCu.cs" />
+    <Compile Include="Models\MatBang.cs" />
+    <Compile Include="Models\Nha.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Degree.cs" />
     <Compile Include="Models\District.cs" />
