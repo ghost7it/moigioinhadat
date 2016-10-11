@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Entities.Models
 {
     /// <summary>
-    /// Danh mục học vị
+    /// Danh mục học vị 
     /// </summary>
     [Table("Degree")]
     [DropDown(ValueField = "Id", TextField = "Name")]
