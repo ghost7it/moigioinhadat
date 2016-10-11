@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Entities.Models
 {
     /// <summary>
-    /// Bài viết
+    /// Bài viết 
     /// </summary>
     [Table("Article")]
     public class Article : Entity
