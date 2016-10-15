@@ -7,7 +7,7 @@ namespace Entities.Enums
     /// </summary>
     public enum ModuleEnum
     {
-        //Nhóm chức năng quản trị hệ thống, bắt đầu từ 100
+        #region -- Nhóm chức năng quản trị hệ thống, bắt đầu từ 100 --
         [ModuleGroupAttribute(ModuleGroupCode = 1, ModuleGroupName = "Quản trị hệ thống")]
         [Description("Quản lý tài khoản")]
         [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
@@ -73,9 +73,9 @@ namespace Entities.Enums
         [Description("Thông tin phản hồi")]
         [ActionAttribute(ActionType.Read, ActionType.Update, ActionType.Delete)]
         Feedback = 114,
+        #endregion
 
-
-        //Nhóm chức năng quản trị nội dung, bắt đầu từ 200
+        #region -- Nhóm chức năng quản trị nội dung, bắt đầu từ 200 --
         [ModuleGroupAttribute(ModuleGroupCode = 2, ModuleGroupName = "Quản trị nội dung")]
         [Description("Quản lý bài viết")]
         [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
@@ -88,21 +88,44 @@ namespace Entities.Enums
         [Description("Quản lý album ảnh")]
         [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
         Album = 203,
+        #endregion
 
-
-        //Nhóm chức năng quản lý hồ sơ cựu sinh viên, bắt đầu từ 250
-        [ModuleGroupAttribute(ModuleGroupCode = 3, ModuleGroupName = "Quản lý hồ sơ cựu sinh viên")]
-        [Description("Quản lý hồ sơ")]
+        #region -- Nhóm chức năng quản lý nhà, bắt đầu từ 250 --
+        [ModuleGroupAttribute(ModuleGroupCode = 3, ModuleGroupName = "Quản lý nhà cho thuê")]
+        [Description("Quản lý dữ liệu nhà")]
         [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete, ActionType.Verify)]
-        Profile = 250,
-        [ModuleGroupAttribute(ModuleGroupCode = 3, ModuleGroupName = "Quản lý hồ sơ cựu sinh viên")]
-        [Description("Phê duyệt hồ sơ")]
-        [ActionAttribute(ActionType.Read, ActionType.Update, ActionType.Verify)]
-        ProfileApprove = 251,
+        Nha = 250,
+        [ModuleGroupAttribute(ModuleGroupCode = 3, ModuleGroupName = "Quản lý nhà cho thuê")]
+        [Description("Phân công công việc")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        PhanCongNha = 251,
 
-        [ModuleGroupAttribute(ModuleGroupCode = 4, ModuleGroupName = "Ban liên lạc")]
-        [Description("Phê duyệt hồ sơ thành viên")]
-        [ActionAttribute(ActionType.Read, ActionType.Verify)]
-        ProfileApproveCommittee = 252,
+        #region -- Nhóm chức năng quản lý khách, bắt đầu từ 300 --
+        [ModuleGroupAttribute(ModuleGroupCode = 4, ModuleGroupName = "Quản lý khách thuê")]
+        [Description("Quản lý dữ liệu khách")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete, ActionType.Verify)]
+        Khach = 300,
+        [ModuleGroupAttribute(ModuleGroupCode = 4, ModuleGroupName = "Quản lý khách thuê")]
+        [Description("Phân công công việc")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        PhanCongKhach = 301,
+        #endregion
+
+        #region -- Nhóm chức năng nhu cầu thuê, bắt đầu từ 350 --
+        [ModuleGroupAttribute(ModuleGroupCode = 5, ModuleGroupName = "Quản lý nhu cầu thuê")]
+        [Description("Quản lý dữ liệu nhu cầu thuê")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete, ActionType.Verify)]
+        NhuCauThue = 351,
+        [ModuleGroupAttribute(ModuleGroupCode = 5, ModuleGroupName = "Quản lý khách thuê")]
+        [Description("Phân công công việc")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        PheDuyetNhuCauThue = 352,
+        #endregion
+
+        //[ModuleGroupAttribute(ModuleGroupCode = 4, ModuleGroupName = "Ban liên lạc")]
+        //[Description("Phê duyệt hồ sơ thành viên")]
+        //[ActionAttribute(ActionType.Read, ActionType.Verify)]
+        //ProfileApproveCommittee = 252,
+        #endregion
     }
 }

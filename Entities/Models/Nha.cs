@@ -26,7 +26,7 @@ namespace Entities.Models
         public long QuanId { get; set; }
 
         [Display(Name = "Đường")]
-        public string Duong { get; set; }
+        public long DuongId { get; set; }
 
         [Display(Name = "Số nhà")]
         public string SoNha { get; set; }
@@ -51,7 +51,6 @@ namespace Entities.Models
 
         [Display(Name = "Tổng diện tích sử dụng (m2)")]
         public float TongDienTichSuDung { get; set; }
-
 
         [Display(Name = "Đi chung chủ")]
         public bool DiChungChu { get; set; }
@@ -81,7 +80,7 @@ namespace Entities.Models
         public string SoDienThoai { get; set; }
 
         [Display(Name = "Ngày CN hẹn liên hệ lại")]
-        public DateTime NgayCNHenLienHeLai { get; set; }
+        public DateTime? NgayCNHenLienHeLai { get; set; }
 
         [Display(Name = "Cấp độ theo dõi")]
         public int CapDoTheoDoiId { get; set; }
@@ -98,6 +97,7 @@ namespace Entities.Models
         [Display(Name = "Nhân viên phụ trách")]
         public long NhanVienPhuTrachId { get; set; }
 
+        //0: Chờ duyệt - 1: Đã duyệt - 2: Hủy bỏ
         [Display(Name = "Trạng thái")]
         public int TrangThai { get; set; }
 

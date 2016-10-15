@@ -13,19 +13,19 @@ namespace Entities.Models
     /// Danh mục loại mặt bằng
     /// </summary>
     [Table("MatBang")]
-    [DropDown(ValueField = "Id", TextField = "MatBang")]
+    [DropDown(ValueField = "Id", TextField = "Name")]
     public class MatBang : Entity
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Display(Name = "Loại mặt bằng")]
         public string Name { get; set; }
 
         public string Describe()
         {
-            return "{ Id : \"" + Id + "\", Name : \"" + Name + "\" }";
+            return "{ MatBangId : \"" + Id + "\", Name : \"" + Name + "\" }";
         }
     }
 }

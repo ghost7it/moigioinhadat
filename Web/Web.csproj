@@ -168,6 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Management\Controllers\AccountController.cs" />
     <Compile Include="Areas\Management\Controllers\AlbumController.cs" />
+    <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
     <Compile Include="Areas\Management\Controllers\CategoryController.cs" />
@@ -181,7 +182,6 @@
     <Compile Include="Areas\Management\Controllers\NationController.cs" />
     <Compile Include="Areas\Management\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Management\Controllers\PositionController.cs" />
-    <Compile Include="Areas\Management\Controllers\ProfileController.cs" />
     <Compile Include="Areas\Management\Controllers\ProvinceController.cs" />
     <Compile Include="Areas\Management\Controllers\RankController.cs" />
     <Compile Include="Areas\Management\Controllers\ReligionController.cs" />
@@ -1598,6 +1598,8 @@
     <Content Include="Content\FrontEndV1\fonts\Myriad-Pro-Bold.eot" />
     <Content Include="Content\FrontEndV1\fonts\Myriad-Pro-Bold.ttf" />
     <Content Include="Content\FrontEndV1\fonts\Myriad-Pro-Bold.woff" />
+    <Content Include="Areas\Management\Views\Nha\Create.cshtml" />
+    <Content Include="Areas\Management\Views\Nha\Index.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\AdminV1\jquery.validate.js" />

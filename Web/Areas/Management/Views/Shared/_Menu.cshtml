@@ -99,6 +99,7 @@ RouteHelper.IsCurrentController("Role", ViewContext);}
                     </ul>
                 </li>
             }
+
             @{isActiveController = RouteHelper.IsCurrentController("Article", ViewContext);}
             @if (RoleHelper.CheckPermission(ModuleEnum.Article, ActionEnum.Create) ||
                RoleHelper.CheckPermission(ModuleEnum.Article, ActionEnum.Read) ||
@@ -148,6 +149,59 @@ RouteHelper.IsCurrentController("Role", ViewContext);}
                     </ul>
                 </li>
             }
+
+            @* Menu quản lý nhà cho thuê -------------------------------------------------------------------------------------- *@
+            @{isActiveController = RouteHelper.IsCurrentController("Nha", ViewContext);}
+            @if (RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Create) ||
+               RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Read) ||
+    RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Verify))
+            {
+                <li class="@(isActiveController ? "active open" : "") ">
+                    <a href="javascript:;">
+                        <i class="icon-speech"></i>
+                        <span class="title">Quản lý nhà</span>
+                        @if (isActiveController)
+                        {
+                            <span class="selected"></span>
+                        }
+                        <span class="arrow open"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        @if (RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Create))
+                        {
+                            isActive = RouteHelper.IsCurrentControllerAndAction("Nha", "Create", ViewContext);
+                            <li class="@(isActive ? "active" : "") ">
+                                <a href="@Url.RouteUrl("NhaCreate")">
+                                    <i class="fa fa-edit"></i>
+                                    Thêm mới nhà
+                                </a>
+                            </li>
+                        }
+                        @if (RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Read))
+                        {
+                            isActive = RouteHelper.IsCurrentControllerAndAction("Article", "Index", ViewContext);
+                            <li class="@(isActive ? "active" : "") ">
+                                <a href="@Url.RouteUrl("ArticleIndex")">
+                                    <i class="fa fa-list"></i>
+                                    Danh sách nhà
+                                </a>
+                            </li>
+                        }
+                        @if (RoleHelper.CheckPermission(ModuleEnum.PhanCongNha, ActionEnum.Read))
+                        {
+                            isActive = RouteHelper.IsCurrentControllerAndAction("Article", "Publish", ViewContext);
+                            <li class="@(isActive ? "active" : "") ">
+                                <a href="@Url.RouteUrl("ArticlePublish")">
+                                    <i class="fa fa-check-square-o"></i>
+                                    Phân công công việc
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @* /Menu quản lý nhà cho thuê -------------------------------------------------------------------------------------- *@
+    
             @if (RoleHelper.CheckPermission(ModuleEnum.Album, ActionEnum.Read))
             {
                 isActiveController = RouteHelper.IsCurrentController("Album", ViewContext);
@@ -301,55 +355,55 @@ RouteHelper.IsCurrentController("Role", ViewContext);}
                     </a>
                 </li>
             }
-            @{isActiveController = RouteHelper.IsCurrentController("Profile", ViewContext);}
-            @if (RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Create) ||
-    RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Read) ||
-    RoleHelper.CheckPermission(ModuleEnum.ProfileApproveCommittee, ActionEnum.Read))
-            {
-                <li class="@(isActiveController ? "active open last" : "last") ">
-                    <a href="javascript:;">
-                        <i class="fa fa-briefcase"></i>
-                        <span class="title">Cựu sinh viên</span>
-                        @if (isActiveController)
+            @*@{isActiveController = RouteHelper.IsCurrentController("Profile", ViewContext);}
+                        @if (RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Create) ||
+                RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Read) ||
+                RoleHelper.CheckPermission(ModuleEnum.ProfileApproveCommittee, ActionEnum.Read))
                         {
-                            <span class="selected"></span>
-                        }
-                        <span class="arrow open"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        @if (RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Create))
-                        {
-                            isActive = RouteHelper.IsCurrentControllerAndAction("Profile", "Create", ViewContext);
-                            <li class="@(isActive ? "active" : "") ">
-                                <a href="@Url.RouteUrl("ProfileCreate")">
-                                    <i class="fa fa-mortar-board"></i>
-                                    Nhập hồ sơ
+                            <li class="@(isActiveController ? "active open last" : "last") ">
+                                <a href="javascript:;">
+                                    <i class="fa fa-briefcase"></i>
+                                    <span class="title">Cựu sinh viên</span>
+                                    @if (isActiveController)
+                                    {
+                                        <span class="selected"></span>
+                                    }
+                                    <span class="arrow open"></span>
                                 </a>
+                                <ul class="sub-menu">
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Create))
+                                    {
+                                        isActive = RouteHelper.IsCurrentControllerAndAction("Profile", "Create", ViewContext);
+                                        <li class="@(isActive ? "active" : "") ">
+                                            <a href="@Url.RouteUrl("ProfileCreate")">
+                                                <i class="fa fa-mortar-board"></i>
+                                                Nhập hồ sơ
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Read))
+                                    {
+                                        isActive = RouteHelper.IsCurrentControllerAndAction("Profile", "Index", ViewContext);
+                                        <li class="@(isActive ? "active" : "") ">
+                                            <a href="@Url.RouteUrl("ProfileIndex")">
+                                                <i class="fa fa-list"></i>
+                                                Danh sách hồ sơ
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.ProfileApproveCommittee, ActionEnum.Read))
+                                    {
+                                        isActive = RouteHelper.IsCurrentControllerAndAction("Profile", "List", ViewContext);
+                                        <li class="@(isActive ? "active" : "") ">
+                                            <a href="@Url.RouteUrl("ProfileList")">
+                                                <i class="fa fa-list"></i>
+                                                Duyệt hồ sơ
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
                             </li>
-                        }
-                        @if (RoleHelper.CheckPermission(ModuleEnum.Profile, ActionEnum.Read))
-                        {
-                            isActive = RouteHelper.IsCurrentControllerAndAction("Profile", "Index", ViewContext);
-                            <li class="@(isActive ? "active" : "") ">
-                                <a href="@Url.RouteUrl("ProfileIndex")">
-                                    <i class="fa fa-list"></i>
-                                    Danh sách hồ sơ
-                                </a>
-                            </li>
-                        }
-                        @if (RoleHelper.CheckPermission(ModuleEnum.ProfileApproveCommittee, ActionEnum.Read))
-                        {
-                            isActive = RouteHelper.IsCurrentControllerAndAction("Profile", "List", ViewContext);
-                            <li class="@(isActive ? "active" : "") ">
-                                <a href="@Url.RouteUrl("ProfileList")">
-                                    <i class="fa fa-list"></i>
-                                    Duyệt hồ sơ
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </li>
-            }
+                        }*@
         </ul>
     </div>
 </div>
