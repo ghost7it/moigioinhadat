@@ -179,9 +179,9 @@ RouteHelper.IsCurrentController("Role", ViewContext);}
                         }
                         @if (RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Read))
                         {
-                            isActive = RouteHelper.IsCurrentControllerAndAction("Article", "Index", ViewContext);
+                            isActive = RouteHelper.IsCurrentControllerAndAction("Nha", "Index", ViewContext);
                             <li class="@(isActive ? "active" : "") ">
-                                <a href="@Url.RouteUrl("ArticleIndex")">
+                                <a href="@Url.RouteUrl("NhaIndex")">
                                     <i class="fa fa-list"></i>
                                     Danh sách nhà
                                 </a>

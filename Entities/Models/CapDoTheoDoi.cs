@@ -13,6 +13,7 @@ namespace Entities.Models
     /// Danh mục Cấp độ theo dõi
     /// </summary>
     [Table("CapDoTheoDoi")]
+    [DropDown(ValueField = "Id", TextField = "Name")]
     public class CapDoTheoDoi : Entity
     {
         [Key]

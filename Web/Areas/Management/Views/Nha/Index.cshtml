@@ -1,10 +1,10 @@
 ﻿@using Entities.Enums;
 @{
-    ViewBag.Title = "Danh sách bài viết đang biên tập";
+    ViewBag.Title = "Danh sách nhà";
     Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
-    var canDelete = RoleHelper.CheckPermission(ModuleEnum.Article, ActionEnum.Delete);
-    var canCreate = RoleHelper.CheckPermission(ModuleEnum.Article, ActionEnum.Create);
-    var canUpdate = RoleHelper.CheckPermission(ModuleEnum.Article, ActionEnum.Update);
+    var canDelete = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Delete);
+    var canCreate = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Create);
+    var canUpdate = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Update);
 }
 <div class="page-bar">
     <ul class="page-breadcrumb">
@@ -14,7 +14,7 @@
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="javascript:void(0);">Danh sách bài viết đang biên tập</a>
+            <a href="javascript:void(0);">Danh sách nhà</a>
         </li>
     </ul>
 </div>
@@ -25,12 +25,12 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-check-square font-green-sharp bold"></i>
-                    <span class="caption-subject font-green-sharp bold ">Danh sách bài viết đang biên tập</span>
+                    <span class="caption-subject font-green-sharp bold ">Danh sách nhà</span>
                 </div>
                 @if (canCreate)
                 {
                     <div class="actions">
-                        <a href="@Url.RouteUrl("ArticleCreate")" class="btn btn-sm green"><i class="fa fa-plus"></i> Biên tập bài viết mới</a>
+                        <a href="@Url.RouteUrl("NhaCreate")" class="btn btn-sm green"><i class="fa fa-plus"></i> Thêm nhà mới</a>
                     </div>
                 }
             </div>
@@ -62,18 +62,26 @@
                                     <input type="checkbox" class="group-checkable" />
                                 </th>
                                 <th>
-                                    Tiêu đề bài viết
+                                    Tên người liên hệ
                                 </th>
                                 <th>
-                                    Ngày cập nhật
+                                    Số điện thoại
                                 </th>
                                 <th>
-                                    Người biên tập
+                                    Quận
+                                </th>
+                                <th>
+                                    Đường
+                                </th>
+                                <th>
+                                    Tổng giá thuê
+                                </th>
+                                <th>
+                                    Cấp độ theo dõi
                                 </th>
                                 <th>
                                     Trạng thái
                                 </th>
-                                <th>Chuyên mục</th>
                                 <th>
                                     Hành động
                                 </th>

@@ -18,7 +18,7 @@ namespace Entities.Models
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Loại mặt bằng")]
         public string Name { get; set; }

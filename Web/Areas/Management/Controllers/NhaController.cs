@@ -10,6 +10,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Web.Areas.Management.Filters;
+using Web.Areas.Management.Helpers;
+using Web.Helpers;
+
 namespace Web.Areas.Management.Controllers
 {
     [RouteArea("Management", AreaPrefix = "quan-ly")]
@@ -27,7 +30,8 @@ namespace Web.Areas.Management.Controllers
         [ValidationPermission(Action = ActionEnum.Create, Module = ModuleEnum.Nha)]
         public async Task<ActionResult> Create()
         {
-            ViewBag.CategoryTypes = await _repository.GetRepository<CategoryType>().GetAllAsync();
+            SetViewBag();
+
             return View();
         }
 
@@ -42,8 +46,6 @@ namespace Web.Areas.Management.Controllers
             {
                 Nha nha = new Nha();
 
-                ViewBag.DangMatBang = await _repository.GetRepository<MatBang>().GetAllAsync();
-
                 nha.MatBangId = Convert.ToInt64(model.MatBangId);
                 nha.QuanId = Convert.ToInt64(model.QuanId);
                 nha.DuongId = Convert.ToInt64(model.DuongId);
@@ -55,9 +57,9 @@ namespace Web.Areas.Management.Controllers
                 nha.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
                 nha.SoTang = 0;
                 nha.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
-                nha.DiChungChu = Convert.ToBoolean(model.DiChungChu);
-                nha.Ham = Convert.ToBoolean(model.Ham);
-                nha.ThangMay = Convert.ToBoolean(model.ThangMay);
+                nha.DiChungChu = model.DiChungChu == "1" ? true : false;
+                nha.Ham = model.Ham == "1" ? true : false;
+                nha.ThangMay = model.ThangMay == "1" ? true : false;
                 nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
                 nha.DanhGiaPhuHopVoiId = Convert.ToInt32(model.DanhGiaPhuHopVoiId);
                 nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
@@ -89,6 +91,105 @@ namespace Web.Areas.Management.Controllers
                 ModelState.AddModelError(string.Empty, "Nhập dữ liệu nhà mới không thành công! Vui lòng kiểm tra và thử lại!");
                 return View(model);
             }
+        }
+
+        protected void SetViewBag()
+        {
+            //Mặt bằng
+            var matBang = _repository.GetRepository<MatBang>().GetAll();
+            ViewBag.MatBang = matBang.ToList().ToSelectList();
+
+            //Địa chỉ quận - đường
+            NhaCreatingViewModel model = new NhaCreatingViewModel();
+            var quan = _repository.GetRepository<Quan>().GetAll().OrderBy(o => o.Name).ToList();
+            ViewBag.QuanDropdownlist = new SelectList(quan, "Id", "Name", model.QuanId);
+            ViewBag.DuongDropdownlist = new SelectList(_repository.GetRepository<Duong>().GetAll(o => o.QuanId == model.QuanId).OrderBy(o => o.Name).ToList(), "Id", "Name", model.DuongId);
+
+            var listYesOrNo = new SelectList(new[] 
+            {
+                new { ID = "0", Name = "Không" },
+                new { ID = "1", Name = "Có" },
+            }, "ID", "Name", 1);
+
+            ViewBag.ListYesOrNo = listYesOrNo;
+
+            //Nội thất khách thuê cũ
+            var noiThatKhachThueCu = _repository.GetRepository<NoiThatKhachThueCu>().GetAll();
+            ViewBag.NoiThatKhachThueCu = noiThatKhachThueCu.ToList().ToSelectList();
+
+            //Đánh giá phù hợp với
+            var danhGiaPhuHopVoi = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
+            ViewBag.DanhGiaPhuHopVoi = danhGiaPhuHopVoi.ToList().ToSelectList();
+
+            //Cấp độ theo dõi
+            var capDoTheoDoi = _repository.GetRepository<CapDoTheoDoi>().GetAll();
+            ViewBag.CapDoTheoDoi = capDoTheoDoi.ToList().ToSelectList();
+        }
+
+
+        [Route("danh-sach-nha-json", Name = "GetNhaJson")]
+        public ActionResult GetNhaJson(byte status)
+        {
+            string drawReturn = "1";
+
+            int skip = 0;
+            int take = 10;
+
+            string start = Request.Params["start"];//Đang hiển thị từ bản ghi thứ mấy
+            string length = Request.Params["length"];//Số bản ghi mỗi trang
+            string draw = Request.Params["draw"];//Số lần request bằng ajax (hình như chống cache)
+            string key = Request.Params["search[value]"];//Ô tìm kiếm            
+            string orderDir = Request.Params["order[0][dir]"];//Trạng thái sắp xếp xuôi hay ngược: asc/desc
+            orderDir = string.IsNullOrEmpty(orderDir) ? "asc" : orderDir;
+            string orderColumn = Request.Params["order[0][column]"];//Cột nào đang được sắp xếp (cột thứ mấy trong html table)
+            orderColumn = string.IsNullOrEmpty(orderColumn) ? "1" : orderColumn;
+            string orderKey = Request.Params["columns[" + orderColumn + "][data]"];//Lấy tên của cột đang được sắp xếp
+            orderKey = string.IsNullOrEmpty(orderKey) ? "UpdateDate" : orderKey;
+
+            if (!string.IsNullOrEmpty(start))
+                skip = Convert.ToInt16(start);
+            if (!string.IsNullOrEmpty(length))
+                take = Convert.ToInt16(length);
+            if (!string.IsNullOrEmpty(draw))
+                drawReturn = draw;
+
+            string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
+            if (!string.IsNullOrEmpty(objectStatus))
+                byte.TryParse(objectStatus.ToString(), out status);
+            Paging paging = new Paging()
+            {
+                TotalRecord = 0,
+                Skip = skip,
+                Take = take,
+                OrderDirection = orderDir
+            };
+            var articles = _repository.GetRepository<Nha>().GetAll(ref paging,
+                                                                   orderKey,
+                                                                   o => (key == null ||
+                                                                         key == "" ||
+                                                                         o.TenNguoiLienHeVaiTro.Contains(key) ||
+                                                                         o.SoDienThoai.Contains(key)) &&
+                                                                         (o.TrangThai == status))
+                                                                         .Join(_repository.GetRepository<MatBang>().GetAll(), b => b.MatBangId, c => c.Id, (b, c) => new { Nha = b, MatBang = c })
+                                                                         .Join(_repository.GetRepository<Quan>().GetAll(), b => b.Nha.QuanId, c => c.Id, (b, c) => new { Nha = b, Quan = c })
+                                                                         .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.Nha.DuongId, c => c.Id, (b, c) => new { Nha = b, Duong = c })
+                                                                         .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.Nha.Nha.NoiThatKhachThueCuId, c => c.Id, (b, c) => new { Nha = b, NoiThatKhachThueCu = c }).ToList();
+
+            return Json(new
+            {
+                draw = drawReturn,
+                recordsTotal = paging.TotalRecord,
+                recordsFiltered = paging.TotalRecord,
+                data = articles.Select(o => new
+                {
+                    o.Article.Id,
+                    o.Article.Title,
+                    UpdateDate = o.Article.UpdateDate.HasValue ? o.Article.UpdateDate.Value.ToString("dd/MM/yyyy") : o.Article.CreateDate.ToString("dd/MM/yyyy"),
+                    CreateBy = o.Account.Name,
+                    Status = ((Entities.Enums.ArticleStatusEnum)o.Article.Status).GetDescription(),
+                    CategoryName = string.Join(", ", _repository.GetRepository<ArticleCategory>().GetAll(x => x.ArticleId == o.Article.Id).Select(x => x.Category.Name).ToList())
+                })
+            }, JsonRequestBehavior.AllowGet);
         }
 
         //[Route("cap-nhat-bai-viet/{id?}", Name = "ArticleUpdate")]
@@ -243,62 +344,7 @@ namespace Web.Areas.Management.Controllers
         //{
         //    return View();
         //}
-        //[Route("danh-sach-bai-viet-json", Name = "ArticleGetArticlesJson")]
-        //public ActionResult GetArticlesJson(byte status)
-        //{
-        //    string drawReturn = "1";
 
-        //    int skip = 0;
-        //    int take = 10;
-
-        //    string start = Request.Params["start"];//Đang hiển thị từ bản ghi thứ mấy
-        //    string length = Request.Params["length"];//Số bản ghi mỗi trang
-        //    string draw = Request.Params["draw"];//Số lần request bằng ajax (hình như chống cache)
-        //    string key = Request.Params["search[value]"];//Ô tìm kiếm            
-        //    string orderDir = Request.Params["order[0][dir]"];//Trạng thái sắp xếp xuôi hay ngược: asc/desc
-        //    orderDir = string.IsNullOrEmpty(orderDir) ? "asc" : orderDir;
-        //    string orderColumn = Request.Params["order[0][column]"];//Cột nào đang được sắp xếp (cột thứ mấy trong html table)
-        //    orderColumn = string.IsNullOrEmpty(orderColumn) ? "1" : orderColumn;
-        //    string orderKey = Request.Params["columns[" + orderColumn + "][data]"];//Lấy tên của cột đang được sắp xếp
-        //    orderKey = string.IsNullOrEmpty(orderKey) ? "UpdateDate" : orderKey;
-
-        //    if (!string.IsNullOrEmpty(start))
-        //        skip = Convert.ToInt16(start);
-        //    if (!string.IsNullOrEmpty(length))
-        //        take = Convert.ToInt16(length);
-        //    if (!string.IsNullOrEmpty(draw))
-        //        drawReturn = draw;
-
-        //    string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
-        //    if (!string.IsNullOrEmpty(objectStatus))
-        //        byte.TryParse(objectStatus.ToString(), out status);
-        //    Paging paging = new Paging()
-        //    {
-        //        TotalRecord = 0,
-        //        Skip = skip,
-        //        Take = take,
-        //        OrderDirection = orderDir
-        //    };
-        //    var articles = _repository.GetRepository<Article>().GetAll(ref paging, orderKey, o => (key == null || key == "" || o.Title.Contains(key) || o.Description.Contains(key) || o.Content.Contains(key)) &&
-        //        (o.Status == status))
-        //        .Join(_repository.GetRepository<Account>().GetAll(), b => b.CreateBy, c => c.Id, (b, c) => new { Article = b, Account = c }).ToList();
-
-        //    return Json(new
-        //    {
-        //        draw = drawReturn,
-        //        recordsTotal = paging.TotalRecord,
-        //        recordsFiltered = paging.TotalRecord,
-        //        data = articles.Select(o => new
-        //        {
-        //            o.Article.Id,
-        //            o.Article.Title,
-        //            UpdateDate = o.Article.UpdateDate.HasValue ? o.Article.UpdateDate.Value.ToString("dd/MM/yyyy") : o.Article.CreateDate.ToString("dd/MM/yyyy"),
-        //            CreateBy = o.Account.Name,
-        //            Status = ((Entities.Enums.ArticleStatusEnum)o.Article.Status).GetDescription(),
-        //            CategoryName = string.Join(", ", _repository.GetRepository<ArticleCategory>().GetAll(x => x.ArticleId == o.Article.Id).Select(x => x.Category.Name).ToList())
-        //        })
-        //    }, JsonRequestBehavior.AllowGet);
-        //}
         //[HttpPost]
         //[Route("xet-trang-thai-bai-viet/{ids?}/{status?}", Name = "ArticleSetArticleStatus")]
         //public async Task<ActionResult> SetArticleStatus(string ids, byte status)

@@ -9,7 +9,7 @@ namespace Entities.ViewModels
 
         [Required(ErrorMessage = "Vui lòng chọn quận")]
         [Display(Name = "Quận")]
-        public string QuanId { get; set; }
+        public long QuanId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn đường")]
         [Display(Name = "Đường")]
