@@ -19,6 +19,9 @@ namespace Entities.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
+        [Display(Name = "Tên khách")]
+        public string TenKhach { get; set; }
+
         [Display(Name = "Tên người liên hệ - vai trò")]
         public string TenNguoiLienHeVaiTro { get; set; }
 
