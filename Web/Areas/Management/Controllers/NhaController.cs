@@ -128,9 +128,11 @@ namespace Web.Areas.Management.Controllers
 
 
         [Route("danh-sach-nha-json", Name = "GetNhaJson")]
-        public ActionResult GetNhaJson(byte status)
+        public ActionResult GetNhaJson()
         {
             string drawReturn = "1";
+
+            byte status;
 
             int skip = 0;
             int take = 10;
@@ -168,12 +170,10 @@ namespace Web.Areas.Management.Controllers
                                                                    o => (key == null ||
                                                                          key == "" ||
                                                                          o.TenNguoiLienHeVaiTro.Contains(key) ||
-                                                                         o.SoDienThoai.Contains(key)) &&
-                                                                         (o.TrangThai == status))
-                                                                         .Join(_repository.GetRepository<MatBang>().GetAll(), b => b.MatBangId, c => c.Id, (b, c) => new { Nha = b, MatBang = c })
-                                                                         .Join(_repository.GetRepository<Quan>().GetAll(), b => b.Nha.QuanId, c => c.Id, (b, c) => new { Nha = b, Quan = c })
-                                                                         .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.Nha.DuongId, c => c.Id, (b, c) => new { Nha = b, Duong = c })
-                                                                         .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.Nha.Nha.NoiThatKhachThueCuId, c => c.Id, (b, c) => new { Nha = b, NoiThatKhachThueCu = c }).ToList();
+                                                                         o.SoDienThoai.Contains(key)))
+                                                                         .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
+                                                                         .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, g => g.Id, (b, g) => new { Nha = b, Duong = g })
+                                                                         .Join(_repository.GetRepository<CapDoTheoDoi>().GetAll(), b => b.Nha.Nha.CapDoTheoDoiId, y => y.Id, (b, y) => new { Nha = b, CapDoTheoDoi = y }).ToList();
 
             return Json(new
             {
@@ -182,12 +182,14 @@ namespace Web.Areas.Management.Controllers
                 recordsFiltered = paging.TotalRecord,
                 data = articles.Select(o => new
                 {
-                    o.Article.Id,
-                    o.Article.Title,
-                    UpdateDate = o.Article.UpdateDate.HasValue ? o.Article.UpdateDate.Value.ToString("dd/MM/yyyy") : o.Article.CreateDate.ToString("dd/MM/yyyy"),
-                    CreateBy = o.Account.Name,
-                    Status = ((Entities.Enums.ArticleStatusEnum)o.Article.Status).GetDescription(),
-                    CategoryName = string.Join(", ", _repository.GetRepository<ArticleCategory>().GetAll(x => x.ArticleId == o.Article.Id).Select(x => x.Category.Name).ToList())
+                    o.Nha.Nha.Nha.Id,
+                    Quan = o.Nha.Nha.Quan.Name,
+                    Duong = o.Nha.Duong.Name,
+                    o.Nha.Nha.Nha.TenNguoiLienHeVaiTro,
+                    o.Nha.Nha.Nha.SoDienThoai,
+                    o.Nha.Nha.Nha.TongGiaThue,
+                    CapDoTheoDoi = o.CapDoTheoDoi.Name,
+                    TrangThai = o.Nha.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"
                 })
             }, JsonRequestBehavior.AllowGet);
         }
@@ -345,99 +347,97 @@ namespace Web.Areas.Management.Controllers
         //    return View();
         //}
 
-        //[HttpPost]
-        //[Route("xet-trang-thai-bai-viet/{ids?}/{status?}", Name = "ArticleSetArticleStatus")]
-        //public async Task<ActionResult> SetArticleStatus(string ids, byte status)
-        //{
-        //    try
-        //    {
-        //        byte succeed = 0;
-        //        string[] articleIds = Regex.Split(ids, ",");
-        //        if (articleIds != null && articleIds.Any())
-        //            foreach (var item in articleIds)
-        //            {
-        //                long articleId = 0;
-        //                long.TryParse(item, out articleId);
-        //                bool result = await SetArticleStatus(articleId, status);
-        //                if (result)
-        //                    succeed++;
-        //            }
-        //        return Json(new { success = true, message = string.Format(@"Đã ghi nhận thành công trạng thái {0} bài viết.", succeed) }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { success = false, message = "Đã xảy ra lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        ///// <summary>
-        ///// Xét trạng thái của bài viết
-        ///// </summary>
-        ///// <param name="articleId"></param>
-        ///// <param name="status"></param>
-        ///// <returns></returns>
-        //private async Task<bool> SetArticleStatus(long articleId, byte status)
-        //{
-        //    var article = await _repository.GetRepository<Article>().ReadAsync(articleId);
-        //    if (article == null)
-        //        return false;
-        //    article.Status = status;
-        //    if (status == 4)
-        //    {
-        //        article.PublishDate = DateTime.Now;
-        //        article.PublishBy = AccountId;
-        //    }
-        //    int result = await _repository.GetRepository<Article>().UpdateAsync(article, AccountId);
-        //    if (result > 0)
-        //    {
-        //        //TODO: Ghi nhật ký
-        //        return true;
-        //    }
-        //    return false;
-        //}
-        //[HttpPost]
-        //[Route("xoa-bai-viet/{ids?}", Name = "ArticleDeleteArticles")]
-        //[ValidationPermission(Action = ActionEnum.Delete, Module = ModuleEnum.Article)]
-        //public async Task<ActionResult> DeleteArticles(string ids)
-        //{
-        //    try
-        //    {
-        //        byte succeed = 0;
-        //        string[] articleIds = Regex.Split(ids, ",");
-        //        if (articleIds != null && articleIds.Any())
-        //            foreach (var item in articleIds)
-        //            {
-        //                long articleId = 0;
-        //                long.TryParse(item, out articleId);
-        //                bool result = await DeleteArticles(articleId);
-        //                if (result)
-        //                    succeed++;
-        //            }
-        //        return Json(new { success = true, message = string.Format(@"Đã xóa thành công {0} bài viết.", succeed) }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { success = false, message = "Không xóa được bài viết. Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //private async Task<bool> DeleteArticles(long articleId)
-        //{
-        //    var article = await _repository.GetRepository<Article>().ReadAsync(articleId);
-        //    if (article == null)
-        //        return false;
-        //    //Nếu bài viết đang biên tập hoặc được trả lại biên tập thì mới cho xóa
-        //    if (article.Status == 1 || article.Status == 3)
-        //    {
-        //        //Xóa ArticleCategory
-        //        await _repository.GetRepository<ArticleCategory>().DeleteAsync(o => o.ArticleId == articleId, AccountId);
-        //        int result = await _repository.GetRepository<Article>().DeleteAsync(article, AccountId);
-        //        if (result > 0)
-        //        {
-        //            //TODO: Ghi nhật ký
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+        [HttpPost]
+        [Route("xet-trang-thai-nha/{ids?}/{status?}", Name = "NhaSetNhaStatus")]
+        public async Task<ActionResult> SetNhaStatus(string ids, byte status)
+        {
+            try
+            {
+                byte succeed = 0;
+                string[] articleIds = Regex.Split(ids, ",");
+                if (articleIds != null && articleIds.Any())
+                    foreach (var item in articleIds)
+                    {
+                        long articleId = 0;
+                        long.TryParse(item, out articleId);
+                        bool result = await SetNhaStatus(articleId, status);
+                        if (result)
+                            succeed++;
+                    }
+                return Json(new { success = true, message = string.Format(@"Đã ghi nhận thành công trạng thái {0} bản ghi.", succeed) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Đã xảy ra lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
+        /// Xét trạng thái của bài viết
+        /// </summary>
+        /// <param name="articleId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        private async Task<bool> SetNhaStatus(long articleId, byte status)
+        {
+            var article = await _repository.GetRepository<Nha>().ReadAsync(articleId);
+            if (article == null)
+                return false;
+            article.TrangThai = status;
+
+            int result = await _repository.GetRepository<Nha>().UpdateAsync(article, AccountId);
+
+            if (result > 0)
+            {
+                //TODO: HuyTQ - Lưu lịch sử thay đổi
+                return true;
+            }
+            return false;
+        }
+
+        [HttpPost]
+        [Route("xoa-nha/{ids?}", Name = "NhaDeleteNhas")]
+        [ValidationPermission(Action = ActionEnum.Delete, Module = ModuleEnum.Nha)]
+        public async Task<ActionResult> DeleteNhas(string ids)
+        {
+            try
+            {
+                byte succeed = 0;
+                string[] articleIds = Regex.Split(ids, ",");
+                if (articleIds != null && articleIds.Any())
+                    foreach (var item in articleIds)
+                    {
+                        long articleId = 0;
+                        long.TryParse(item, out articleId);
+                        bool result = await DeleteArticles(articleId);
+                        if (result)
+                            succeed++;
+                    }
+                return Json(new { success = true, message = string.Format(@"Đã xóa thành công {0} bảng ghi.", succeed) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Không xóa được bài viết. Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private async Task<bool> DeleteArticles(long articleId)
+        {
+            var article = await _repository.GetRepository<Nha>().ReadAsync(articleId);
+            if (article == null)
+                return false;
+
+            int result = await _repository.GetRepository<Nha>().DeleteAsync(article, AccountId);
+
+            if (result > 0)
+            {
+                //TODO: HuyTQ - Lưu lịch sử thay đổi
+                return true;
+            }
+
+            return false;
+        }
+
         ///// <summary>
         ///// Xem chi tiết bài viết theo modal dialog
         ///// </summary>
