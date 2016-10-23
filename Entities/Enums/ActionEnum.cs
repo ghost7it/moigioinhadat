@@ -10,7 +10,7 @@
         Update = 3,
         Delete = 4,
         Verify = 5,
-        Publish = 6,
+        Publish = 6
     }
     public class ActionType
     {

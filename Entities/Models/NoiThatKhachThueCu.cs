@@ -13,7 +13,7 @@ namespace Entities.Models
     /// Danh mục Nội thất khách thuê cũ
     /// </summary>
     [Table("NoiThatKhachThueCu")]
-    [DropDown(ValueField = "Id", TextField = "NoiThatKhachThueCu")]
+    [DropDown(ValueField = "Id", TextField = "Name")]
     public class NoiThatKhachThueCu : Entity
     {
         [Key]

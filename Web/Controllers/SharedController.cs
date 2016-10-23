@@ -326,6 +326,33 @@ namespace Web.Controllers
             }
         }
 
+        [Route("~/danh-sach-duong-theo-quan-shared/{majorsId?}", Name = "SharedGetDuongByQuan")]
+        public JsonResult GetDuongsByQuan(long? quanId)
+        {
+            try
+            {
+                if (quanId.HasValue)
+                {
+                    var duong = _repository.GetRepository<Duong>().GetAll(o => o.QuanId == quanId).OrderBy(o => o.Name).ToList();
+                    var result = duong.Select(o => new SelectListItem
+                    {
+                        Value = o.Id.ToString(),
+                        Text = o.Name
+                    });
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new List<Course>().ToSelectList(), JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch
+            {
+                return Json(new List<Course>().ToSelectList(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
         //Khối tin chính ở bên trái, trang chủ (Dùng cho chuyên mục hiển thị danh sách chuyên mục con)
         public ActionResult LeftArticle1Category()
         {

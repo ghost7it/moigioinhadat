@@ -70,6 +70,8 @@
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CapDoTheoDoi.cs" />
     <Compile Include="Models\DanhGiaPhuHopVoi.cs" />
+    <Compile Include="Models\Duong.cs" />
+    <Compile Include="Models\Quan.cs" />
     <Compile Include="Models\QuanLyCongViec.cs" />
     <Compile Include="Models\NhuCauThueHistory.cs" />
     <Compile Include="Models\NhuCauThue.cs" />
