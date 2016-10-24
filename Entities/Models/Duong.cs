@@ -21,8 +21,6 @@ namespace Entities.Models
         [Required(ErrorMessage = "Vui lòng chọn quận/huyện")]
         [Display(Name = "Chọn quận/huyện")]
         public long QuanId { get; set; }
-        [ForeignKey("QuanId")]
-        public virtual Quan Quan { get; set; }
 
         public string Describe()
         {

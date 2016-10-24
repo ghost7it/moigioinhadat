@@ -62,10 +62,10 @@ namespace Entities.Models
         public bool ThangMay { get; set; }
 
         [Display(Name = "Nội thất/ Khách thuê cũ")]
-        public int NoiThatKhachThueCuId { get; set; }
+        public long NoiThatKhachThueCuId { get; set; }
 
         [Display(Name = "Đánh giá phù hợp với")]
-        public int DanhGiaPhuHopVoiId { get; set; }
+        public long DanhGiaPhuHopVoiId { get; set; }
 
         [Display(Name = "Tổng giá thuê")]
         public decimal TongGiaThue { get; set; }

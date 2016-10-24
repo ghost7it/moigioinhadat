@@ -55,7 +55,7 @@ namespace Web.Areas.Management.Controllers
                 nha.BeNgangLotLong = string.IsNullOrEmpty(model.BeNgangLotLong) ? 0 : float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
                 nha.DienTichDat = string.IsNullOrEmpty(model.DienTichDat) ? 0 : float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
                 nha.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
-                nha.SoTang = 0;
+                nha.SoTang = string.IsNullOrEmpty(model.SoTang) ? 0 : Convert.ToInt32(model.SoTang);
                 nha.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
                 nha.DiChungChu = model.DiChungChu == "1" ? true : false;
                 nha.Ham = model.Ham == "1" ? true : false;
@@ -194,158 +194,95 @@ namespace Web.Areas.Management.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        //[Route("cap-nhat-bai-viet/{id?}", Name = "ArticleUpdate")]
-        //[ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Article)]
-        //public async Task<ActionResult> Update(long id)
-        //{
-        //    //ViewBag.Categories = await _repository.GetRepository<Category>().GetAllAsync(o => o.CategoryId == null);
-        //    ViewBag.CategoryTypes = await _repository.GetRepository<CategoryType>().GetAllAsync();
-        //    Article article = await _repository.GetRepository<Article>().ReadAsync(id);
-        //    //Nếu bài viết có trạng thái KHÁC đang biên tập thì không cho sửa
-        //    if (article.Status != 1)
-        //    {
-        //        TempData["Error"] = "Bài viết không cho phép sửa!";
-        //        return RedirectToAction("Index");
-        //    }
-        //    ArticleUpdatingViewModel model = new ArticleUpdatingViewModel()
-        //    {
-        //        Id = article.Id,
-        //        Title = article.Title,
-        //        Description = article.Description,
-        //        Content = article.Content,
-        //        ImageDescription = article.ImageDescription,
-        //        EventStartDate = article.EventStartDate.HasValue ? article.EventStartDate.Value.ToString("dd/MM/yyyy") : "",
-        //        EventFinishDate = article.EventFinishDate.HasValue ? article.EventFinishDate.Value.ToString("dd/MM/yyyy") : ""
-        //    };
-        //    List<long> articleCategoryIds = new List<long>();
-        //    var articleCategory = await _repository.GetRepository<ArticleCategory>().GetAllAsync(o => o.ArticleId == id);
-        //    if (articleCategory != null && articleCategory.Any())
-        //    {
-        //        articleCategoryIds = articleCategory.Select(o => o.CategoryId).ToList();
-        //    }
-        //    ViewBag.articleCategoryIds = articleCategoryIds;
-        //    return View(model);
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[ValidateInput(false)]
-        //[Route("cap-nhat-bai-viet")]
-        //[ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Article)]
-        //public async Task<ActionResult> Update(long id, ArticleUpdatingViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        Article article = await _repository.GetRepository<Article>().ReadAsync(id);
-        //        article.Title = StringHelper.KillChars(model.Title);
-        //        article.Description = StringHelper.KillChars(model.Description);
-        //        article.Content = StringHelper.KillChars(model.Content);
-        //        article.ImageDescription = StringHelper.KillChars(model.ImageDescription);
-        //        article.UpdateDate = DateTime.Now;
-        //        article.UpdateBy = AccountId;
-        //        if (!string.IsNullOrEmpty(model.EventStartDate))
-        //        {
-        //            try
-        //            {
-        //                DateTime date = DateTime.ParseExact(model.EventStartDate, "dd/MM/yyyy", null);
-        //                article.EventStartDate = date;
-        //            }
-        //            catch
-        //            {
-        //                article.EventStartDate = null;
-        //            }
-        //        }
-        //        if (!string.IsNullOrEmpty(model.EventFinishDate))
-        //        {
-        //            try
-        //            {
-        //                DateTime date = DateTime.ParseExact(model.EventFinishDate, "dd/MM/yyyy", null);
-        //                article.EventFinishDate = date;
-        //            }
-        //            catch
-        //            {
-        //                article.EventFinishDate = null;
-        //            }
-        //        }
-        //        int result = await _repository.GetRepository<Article>().UpdateAsync(article, AccountId);
-        //        if (result > 0)
-        //        {
-        //            //Cập nhật danh mục cho bài viết
-        //            List<long> articleCategoryIds = new List<long>();
-        //            //Danh sách danh mục hiện tại của bài viết
-        //            var articleCategory1 = await _repository.GetRepository<ArticleCategory>().GetAllAsync(o => o.ArticleId == id);
-        //            //articleCategory1 = article.ArticleCategories;//Chưa thử lại cách này
-        //            //Id Danh sách danh mục hiện tại của bài viết
-        //            if (articleCategory1 != null && articleCategory1.Any())
-        //            {
-        //                articleCategoryIds = articleCategory1.Select(o => o.CategoryId).ToList();
-        //            }
+        [Route("cap-nhat-nha/{id?}", Name = "NhaUpdate")]
+        [ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Nha)]
+        public async Task<ActionResult> Update(long id)
+        {
+            Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
-        //            //Nếu người dùng chọn danh mục nào đó (hoặc danh mục đã được chọn từ lúc biên tập)
-        //            if (model.CategoryId != null && model.CategoryId.Any())
-        //            {
-        //                var articleCategory = model.CategoryId.Select(o => new ArticleCategory()
-        //                {
-        //                    ArticleId = article.Id,
-        //                    CategoryId = Convert.ToInt64(o.ToString())
-        //                });
-        //                //Danh sách danh mục hiện tại không chứa danh mục được chọn thì xóa
-        //                var articleCategoryDelete = articleCategory1.Where(o => !articleCategory.Any(x => x.CategoryId == o.CategoryId));
-        //                try
-        //                {
-        //                    int result2 = await _repository.GetRepository<ArticleCategory>().DeleteAsync(articleCategoryDelete, AccountId);
-        //                }
-        //                catch { }
-        //                //Danh sách danh mục được chọn không có trong danh mục hiện tại thì thêm
-        //                var articleCategoryAdd = articleCategory.Where(o => !articleCategoryIds.Contains(o.CategoryId));
-        //                try
-        //                {
-        //                    int result2 = await _repository.GetRepository<ArticleCategory>().CreateAsync(articleCategoryAdd, AccountId);
-        //                }
-        //                catch { }
-        //            }
-        //            else
-        //            {//Nếu người dùng không chọn vào danh mục nào thì xóa tất cái hiện tại
-        //                int result3 = await _repository.GetRepository<ArticleCategory>().DeleteAsync(articleCategory1, AccountId);
-        //            }
-        //            TempData["Success"] = "Cập nhật bài viết thành công!";
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            //ViewBag.Categories = await _repository.GetRepository<Category>().GetAllAsync(o => o.CategoryId == null);
-        //            ViewBag.CategoryTypes = await _repository.GetRepository<CategoryType>().GetAllAsync();
-        //            List<long> articleCategoryIds = new List<long>();
-        //            var articleCategory = await _repository.GetRepository<ArticleCategory>().GetAllAsync(o => o.ArticleId == id);
-        //            if (articleCategory != null && articleCategory.Any())
-        //            {
-        //                articleCategoryIds = articleCategory.Select(o => o.CategoryId).ToList();
-        //            }
-        //            ViewBag.listArticleCategory = articleCategoryIds;
-        //            ModelState.AddModelError(string.Empty, "Cập nhật bài viết không thành công! Vui lòng kiểm tra và thử lại!");
-        //            return View(model);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        //ViewBag.Categories = await _repository.GetRepository<Category>().GetAllAsync(o => o.CategoryId == null);
-        //        ViewBag.CategoryTypes = await _repository.GetRepository<CategoryType>().GetAllAsync();
-        //        List<long> articleCategoryIds = new List<long>();
-        //        var articleCategory = await _repository.GetRepository<ArticleCategory>().GetAllAsync(o => o.ArticleId == id);
-        //        if (articleCategory != null && articleCategory.Any())
-        //        {
-        //            articleCategoryIds = articleCategory.Select(o => o.CategoryId).ToList();
-        //        }
-        //        ViewBag.articleCategoryIds = articleCategoryIds;
-        //        ModelState.AddModelError(string.Empty, "Vui lòng nhập chính xác các thông tin!");
-        //        return View(model);
-        //    }
-        //}
-        //[Route("xuat-ban-bai-viet", Name = "ArticlePublish")]
-        //[ValidationPermission(Action = ActionEnum.Publish, Module = ModuleEnum.ArticlePublish)]
-        //public ActionResult Publish()
-        //{
-        //    return View();
-        //}
+            SetViewBag();
+
+            NhaUpdatingViewModel model = new NhaUpdatingViewModel()
+            {
+                Id = nha.Id,
+                SoNha = nha.SoNha,
+                TenToaNha = nha.TenToaNha,
+                MatTienTreoBien = nha.MatTienTreoBien,
+                BeNgangLotLong = nha.BeNgangLotLong,
+                DienTichDat = nha.DienTichDat,
+                DienTichDatSuDungTang1 = nha.DienTichDatSuDungTang1,
+                SoTang = nha.SoTang,
+                TongDienTichSuDung = nha.TongDienTichSuDung,
+                DiChungChu = nha.DiChungChu,
+                Ham = nha.Ham,
+                ThangMay = nha.ThangMay,
+                TongGiaThue = nha.TongGiaThue,
+                GiaThueBQ = nha.GiaThueBQ,
+                TenNguoiLienHeVaiTro = nha.TenNguoiLienHeVaiTro,
+                SoDienThoai = nha.SoDienThoai,
+                NgayCNHenLienHeLai = nha.NgayCNHenLienHeLai.HasValue ? nha.NgayCNHenLienHeLai.Value.ToString("dd/MM/yyyy") : "",
+                GhiChu = nha.GhiChu,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        [Route("cap-nhat-nha")]
+        [ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Nha)]
+        public async Task<ActionResult> Update(long id, NhaUpdatingViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
+
+                nha.MatBangId = model.MatBangId;
+                nha.QuanId = model.QuanId;
+                nha.DuongId = model.DuongId;
+                nha.SoNha = StringHelper.KillChars(model.SoNha);
+                nha.TenToaNha = StringHelper.KillChars(model.TenToaNha);
+                nha.MatTienTreoBien = model.MatTienTreoBien;
+                nha.BeNgangLotLong = model.BeNgangLotLong;
+                nha.DienTichDat = model.DienTichDat;
+                nha.DienTichDatSuDungTang1 = model.DienTichDatSuDungTang1;
+                nha.SoTang = model.SoTang;
+                nha.TongDienTichSuDung = model.TongDienTichSuDung;
+                nha.DiChungChu = model.DiChungChu;
+                nha.Ham = model.Ham;
+                nha.ThangMay = model.ThangMay;
+                nha.NoiThatKhachThueCuId = model.NoiThatKhachThueCuId;
+                nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
+                nha.TongGiaThue = model.TongGiaThue;
+                nha.GiaThueBQ = model.GiaThueBQ;
+                nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
+                nha.SoDienThoai = model.SoDienThoai;
+                nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : Convert.ToDateTime(model.NgayCNHenLienHeLai);
+                nha.CapDoTheoDoiId = model.CapDoTheoDoiId;
+                nha.GhiChu = model.GhiChu;
+
+                int result = await _repository.GetRepository<Nha>().UpdateAsync(nha, AccountId);
+
+                if (result > 0)
+                {
+                    //TODO: HuyTQ - Ghi lịch sử
+
+                    TempData["Success"] = "Cập nhật bài viết thành công!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Cập nhật bài viết không thành công! Vui lòng kiểm tra và thử lại!");
+                    return View(model);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Vui lòng nhập chính xác các thông tin!");
+                return View(model);
+            }
+        }
 
         [HttpPost]
         [Route("xet-trang-thai-nha/{ids?}/{status?}", Name = "NhaSetNhaStatus")]
@@ -438,20 +375,28 @@ namespace Web.Areas.Management.Controllers
             return false;
         }
 
-        ///// <summary>
-        ///// Xem chi tiết bài viết theo modal dialog
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[Route("xem-chi-tiet-bai-viet-modal/{id?}", Name = "ArticleDetailModal")]
-        //public async Task<ActionResult> DetailModal(long id)
-        //{
-        //    var article = await _repository.GetRepository<Article>().ReadAsync(id);
-        //    var account = await _repository.GetRepository<Account>().ReadAsync(article.CreateBy);
-        //    ViewBag.CreateBy = account.Name;
-        //    //Lấy danh sách chuyên mục
-        //    ViewBag.ArticleCategory = await _repository.GetRepository<ArticleCategory>().GetAllAsync(o => o.ArticleId == id);
-        //    return PartialView("_DetailModal", article);
-        //}
+        /// <summary>
+        /// Xem chi tiết bài viết theo modal dialog
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("xem-chi-tiet-nha-modal/{id?}", Name = "NhaDetailModal")]
+        public async Task<ActionResult> DetailModal(long id)
+        {
+            var article = await _repository.GetRepository<Nha>().ReadAsync(id);
+
+            //var account = await _repository.GetRepository<Account>().ReadAsync(article.NguoiTaoId);
+
+            ViewBag.MatBang = (await _repository.GetRepository<MatBang>().ReadAsync(article.MatBangId)).Name;
+            ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
+            ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
+            ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId)).Name;
+            ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(article.DanhGiaPhuHopVoiId)).Name;
+            ViewBag.CapDoTheoDoi = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(article.CapDoTheoDoiId)).Name;
+
+            //ViewBag.CreateBy = account.Name;
+            //ViewBag.ArticleCategory = await _repository.GetRepository<ArticleCategory>().GetAllAsync(o => o.ArticleId == id);
+            return PartialView("_DetailModal", article);
+        }
     }
 }

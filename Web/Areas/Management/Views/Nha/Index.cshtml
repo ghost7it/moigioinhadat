@@ -137,7 +137,8 @@
                                             re = '<a class="btn btn-xs blue PendingPublish" data-objectid="' + data.Id + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
                                         }
                                         if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
+                                            //re = re + '<a href="' + ('@Url.RouteUrl("ArticleUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '">' + data.TenNguoiLienHeVaiTro + '</a>'
+                                            re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("NhaUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';
                                         }
                                         if ('@canDelete' == 'true' || '@canDelete' == 'True') {
                                             re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
@@ -172,18 +173,18 @@
                                 "orderable": true,
                                 "data": null,
                                 "render": function (data, type, full) {
-                                    var sel = $('select.object-filter').val();
+                                    @*var sel = $('select.object-filter').val();
                                     if (sel == '1') {
-                                        if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                                        if ('@can' == 'true' || '@canUpdate' == 'True') {
                                             return '<a href="' + ('@Url.RouteUrl("ArticleUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '">' + data.TenNguoiLienHeVaiTro + '</a>';
                                         }
                                         else {
                                             return '';
                                         }
                                     }
-                                    else {
-                                        return '<a href="' + ('@Url.RouteUrl("ArticleDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.Title + '</a>'
-                                    }
+                                    else {*@
+                                        return '<a href="' + ('@Url.RouteUrl("NhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
+                                    //}
                                 }
                             },
                     { data: "SoDienThoai" },
