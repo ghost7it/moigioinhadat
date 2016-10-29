@@ -16,8 +16,7 @@
 <body class="login">
     <div class="logo">
         <a href="@Url.Action("Index", "Login")">
-            @*<img src="~/Images/AdminV1/logo-default.png" alt="" />*@
-            @*<span style="font-size: 16px;">HỆ THỐNG QUẢN LÝ<br/>DỮ LIỆU NHÀ ĐÁT</span>*@
+            <img src="~/Images/AdminV1/logo-default.png" alt="" />
         </a>
     </div>
     <div class="menu-toggler sidebar-toggler">
@@ -26,15 +25,15 @@
         @RenderBody()
     </div>
     <div class="copyright">
-        @if (DateTime.Now.Year <= 2016)
+        @if (DateTime.Now.Year <= 2014)
         {
-            <span>2016</span>
+            <span>2014</span>
         }
         else
         {
-            <span>2016-@DateTime.Now.Year</span>
+            <span>2014-@DateTime.Now.Year</span>
         }
-        &copy; <a title="Vua mặt bằng" target="_blank" href="http://vuamatbang.com">Vuamatbang.com</a>
+        &copy; <a title="eBtech" target="_blank" href="http://ebtech.vn">eBtech</a>
     </div>
 
     @Html.Partial("_Scripts")

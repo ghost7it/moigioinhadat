@@ -10,8 +10,7 @@ namespace Web.Controllers
         [Route(Name = "FrontEndHomeIndex")]
         public ActionResult Index()
         {
-            return RedirectToRoute("ManagementHome");
-            //return View();
+            return View();
         }
         [Route("~/phan-hoi-thong-tin", Name = "FrontEndHomeFeedback")]
         public ActionResult Feedback()
@@ -28,7 +27,6 @@ namespace Web.Controllers
             if (ModelState.IsValid)
             {
                 Feedback feedback = new Feedback();
-
                 feedback.Name = StringHelper.KillChars(model.Name);
                 feedback.Email = StringHelper.KillChars(model.Email);
                 feedback.PhoneNumber = StringHelper.KillChars(model.PhoneNumber);
