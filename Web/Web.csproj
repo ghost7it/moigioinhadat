@@ -168,7 +168,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Management\Controllers\AccountController.cs" />
     <Compile Include="Areas\Management\Controllers\AlbumController.cs" />
-    <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
@@ -200,7 +199,9 @@
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LoginController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -210,7 +211,6 @@
     </Compile>
     <Compile Include="Helpers\DropDownHelper.cs" />
     <Compile Include="Helpers\ExcelResult.cs" />
-    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\PageInfo.cs" />
     <Compile Include="HtmlHelpers\CommonHelper.cs" />
     <Compile Include="HtmlHelpers\MainMenuHelper.cs" />
@@ -1547,11 +1547,11 @@
     <Content Include="Content\FrontEndV1\fonts\Myriad-Pro-Bold.woff" />
     <Content Include="Areas\Management\Views\Nha\Create.cshtml" />
     <Content Include="Areas\Management\Views\Nha\Index.cshtml" />
-    <Content Include="Areas\Management\Views\KhachThue\Create.cshtml" />
-    <Content Include="Areas\Management\Views\KhachThue\Index.cshtml" />
+    <Content Include="Areas\Management\Views\Nha\_DetailModal.cshtml" />
     <Content Include="Areas\Management\Views\Nha\Update.cshtml" />
     <Content Include="Areas\Management\Views\Nha\_DetailModal.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
+    <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\AdminV1\jquery.validate.js" />
     <Content Include="Scripts\AdminV1\jquery.validate.min.js" />
@@ -2068,6 +2068,8 @@
     <Content Include="Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Login\ForgetPassword.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2118,7 +2120,6 @@
     <Content Include="Views\Profile\Register.cshtml" />
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\Public\Index.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Profile\Detail.cshtml" />
     <Content Include="Views\Profile\Update.cshtml" />
     <Content Include="Views\Article\Category5.cshtml" />
@@ -2126,7 +2127,6 @@
     <Content Include="Views\Shared\_LeftArticle2Category.cshtml" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <Content Include="Views\Shared\_MostViewed2.cshtml" />
-    <Content Include="Views\Login\ForgetPassword.cshtml" />
     <Content Include="Views\Article\Category1.cshtml" />
     <Content Include="Views\Shared\_Layout_Category1.cshtml" />
     <Content Include="Views\Shared\_Head.cshtml" />
