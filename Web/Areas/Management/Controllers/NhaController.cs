@@ -385,8 +385,6 @@ namespace Web.Areas.Management.Controllers
         {
             var article = await _repository.GetRepository<Nha>().ReadAsync(id);
 
-            //var account = await _repository.GetRepository<Account>().ReadAsync(article.NguoiTaoId);
-
             ViewBag.MatBang = (await _repository.GetRepository<MatBang>().ReadAsync(article.MatBangId)).Name;
             ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
             ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
