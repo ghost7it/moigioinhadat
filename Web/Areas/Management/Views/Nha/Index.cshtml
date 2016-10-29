@@ -118,16 +118,17 @@
                     },
                     onError: function (grid) {
                         // hành động khi tải dữ liệu bị lỗi
+                        var sel = $('select.object-filter').val();
+                        console.debug('ttt: ', sel)
                     },
                     dataTable: {
                         "ajax": {
-                            "url": '@Url.RouteUrl("GetNhaJson")',
+                            "url": '@Url.RouteUrl("NhaGetNhaJson", new { status = 1 })',
                         },
                         "columnDefs": [{
                             "targets": -1,
                             "data": null,
                             "render": function (data, type, full) {
-                                console.debug('data ', data);
                                 var sel = $('select.object-filter').val();
                                 switch (sel) {
                                     //Lọc theo chờ duyệt
@@ -183,7 +184,7 @@
                                         }
                                     }
                                     else {*@
-                                        return '<a href="' + ('@Url.RouteUrl("NhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
+                                    return '<a href="' + ('@Url.RouteUrl("NhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
                                     //}
                                 }
                             },

@@ -127,12 +127,12 @@ namespace Web.Areas.Management.Controllers
         }
 
 
-        [Route("danh-sach-nha-json", Name = "GetNhaJson")]
-        public ActionResult GetNhaJson()
+        [Route("danh-sach-nha-json", Name = "NhaGetNhaJson")]
+        public ActionResult GetNhaJson(byte status)
         {
             string drawReturn = "1";
 
-            byte status;
+            //byte status;
 
             int skip = 0;
             int take = 10;
