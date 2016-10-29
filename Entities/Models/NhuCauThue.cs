@@ -27,8 +27,14 @@ namespace Entities.Models
         [Display(Name = "Quận")]
         public long QuanId { get; set; }
 
+        [Display(Name = "Tên Quận")]
+        public string QuanName { get; set; }
+
         [Display(Name = "Đường")]
-        public string Duong { get; set; }
+        public long DuongId { get; set; }
+
+        [Display(Name = "Tên Đường")]
+        public string DuongName { get; set; }
 
         [Display(Name = "Số nhà")]
         public string SoNha { get; set; }
@@ -73,7 +79,7 @@ namespace Entities.Models
         public decimal GiaThueBQ { get; set; }
 
         [Display(Name = "Ngày CN hẹn liên hệ lại")]
-        public DateTime NgayCNHenLienHeLai { get; set; }
+        public DateTime? NgayCNHenLienHeLai { get; set; }
 
         [Display(Name = "Cấp độ theo dõi")]
         public int CapDoTheoDoiId { get; set; }
@@ -82,7 +88,7 @@ namespace Entities.Models
         public string GhiChu { get; set; }
 
         [Display(Name = "Ngày tạo")]
-        public DateTime NgayTao { get; set; }
+        public DateTime? NgayTao { get; set; }
 
         [Display(Name = "Người tạo")]
         public long NguoiTaoId { get; set; }
