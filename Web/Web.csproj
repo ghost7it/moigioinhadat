@@ -1549,6 +1549,7 @@
     <Content Include="Areas\Management\Views\Nha\Index.cshtml" />
     <Content Include="Areas\Management\Views\Nha\_DetailModal.cshtml" />
     <Content Include="Areas\Management\Views\Nha\Update.cshtml" />
+    <Content Include="Areas\Management\Views\Nha\_DetailModal.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
