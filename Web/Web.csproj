@@ -1550,6 +1550,7 @@
     <Content Include="Areas\Management\Views\KhachThue\Create.cshtml" />
     <Content Include="Areas\Management\Views\KhachThue\Index.cshtml" />
     <Content Include="Areas\Management\Views\Nha\Update.cshtml" />
+    <Content Include="Areas\Management\Views\Nha\_DetailModal.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\AdminV1\jquery.validate.js" />
