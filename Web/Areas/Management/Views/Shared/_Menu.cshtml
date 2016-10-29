@@ -200,8 +200,60 @@ RouteHelper.IsCurrentController("Role", ViewContext);}
                     </ul>
                 </li>
             }
-            @* /Menu quản lý nhà cho thuê -------------------------------------------------------------------------------------- *@
-    
+            @* /Menu quản lý khách thuê -------------------------------------------------------------------------------------- *@
+
+@* Menu quản lý khách thuê -------------------------------------------------------------------------------------- *@
+@{isActiveController = RouteHelper.IsCurrentController("Khach", ViewContext);}
+@if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create) ||
+               RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read) ||
+    RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Verify))
+            {
+    <li class="@(isActiveController ? "active open" : "") ">
+        <a href="javascript:;">
+            <i class="icon-speech"></i>
+            <span class="title">Quản lý khách thuê</span>
+            @if (isActiveController)
+                        {
+                <span class="selected"></span>
+                        }
+            <span class="arrow open"></span>
+        </a>
+        <ul class="sub-menu">
+            @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create))
+                        {
+                            isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Create", ViewContext);
+                <li class="@(isActive ? "active" : "") ">
+                    <a href="@Url.RouteUrl("KhachThueCreate")">
+                        <i class="fa fa-edit"></i>
+                        Thêm mới khách thuê
+                    </a>
+                </li>
+                        }
+            @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read))
+                        {
+                            isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
+                <li class="@(isActive ? "active" : "") ">
+                    <a href="@Url.RouteUrl("KhachThueIndex")">
+                        <i class="fa fa-list"></i>
+                        Danh sách khách thuê
+                    </a>
+                </li>
+                        }
+            @*@if (RoleHelper.CheckPermission(ModuleEnum.PhanCongNha, ActionEnum.Read))
+                        {
+                            isActive = RouteHelper.IsCurrentControllerAndAction("Article", "Publish", ViewContext);
+                <li class="@(isActive ? "active" : "") ">
+                    <a href="@Url.RouteUrl("ArticlePublish")">
+                        <i class="fa fa-check-square-o"></i>
+                        Phân công công việc
+                    </a>
+                </li>
+                        }*@
+        </ul>
+    </li>
+            }
+    @* /Menu quản lý khách thuê -------------------------------------------------------------------------------------- *@
+
             @if (RoleHelper.CheckPermission(ModuleEnum.Album, ActionEnum.Read))
             {
                 isActiveController = RouteHelper.IsCurrentController("Album", ViewContext);
