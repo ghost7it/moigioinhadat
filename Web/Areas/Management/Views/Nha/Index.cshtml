@@ -38,10 +38,10 @@
             <div class="portlet-body">
                 <div class="table-container">
                     <div class="table-actions-wrapper">
-                        @if (canUpdate)
-                        {
-                            <button class="btn btn-sm yellow-casablanca table-group-action-RecentlyAdded display-hide"><i class="fa fa-edit"></i> Biên tập lại</button>
-                        }
+                        @*@if (canUpdate)
+                            {
+                                <button class="btn btn-sm yellow-casablanca table-group-action-RecentlyAdded display-hide"><i class="fa fa-edit"></i> Biên tập lại</button>
+                            }*@
                         @if (canApprove)
                         {
                             <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
@@ -73,9 +73,9 @@
                                 <th>
                                     Quận
                                 </th>
-                                <th>
-                                    Đường
-                                </th>
+                                @*<th>
+                                        Đường
+                                    </th>*@
                                 <th>
                                     Tổng giá thuê
                                 </th>
@@ -144,6 +144,7 @@
                                         if ('@canDelete' == 'true' || '@canDelete' == 'True') {
                                             re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
                                         }
+                                        re = re + '<a class="btn btn-xs blue" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
                                         return re;
                                         break;
                                         //Lọc theo đã duyệt
@@ -190,7 +191,7 @@
                             },
                     { data: "SoDienThoai" },
                     { data: "Quan" },
-                    { data: "Duong" },
+                    //{ data: "Duong" },
                     { data: "TongGiaThue" },
                     { data: "CapDoTheoDoi" },
                     { data: "TrangThai" },

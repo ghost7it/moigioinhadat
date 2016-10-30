@@ -259,6 +259,7 @@ namespace Web.Areas.Management.Controllers
         {
             return View();
         }
+
         [Route("danh-sach-bai-viet-json", Name = "ArticleGetArticlesJson")]
         public ActionResult GetArticlesJson(byte status)
         {
@@ -315,6 +316,7 @@ namespace Web.Areas.Management.Controllers
                 })
             }, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         [Route("xet-trang-thai-bai-viet/{ids?}/{status?}", Name = "ArticleSetArticleStatus")]
         public async Task<ActionResult> SetArticleStatus(string ids, byte status)

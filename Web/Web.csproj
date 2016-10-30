@@ -212,6 +212,7 @@
     </Compile>
     <Compile Include="Helpers\DropDownHelper.cs" />
     <Compile Include="Helpers\ExcelResult.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\PageInfo.cs" />
     <Compile Include="HtmlHelpers\CommonHelper.cs" />
     <Compile Include="HtmlHelpers\MainMenuHelper.cs" />
@@ -1548,9 +1549,11 @@
     <Content Include="Content\FrontEndV1\fonts\Myriad-Pro-Bold.woff" />
     <Content Include="Areas\Management\Views\Nha\Create.cshtml" />
     <Content Include="Areas\Management\Views\Nha\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Nha\_DetailModal.cshtml" />
     <Content Include="Areas\Management\Views\Nha\Update.cshtml" />
     <Content Include="Areas\Management\Views\Nha\_DetailModal.cshtml" />
+    <Content Include="Areas\Management\Views\Nha\TimKhachModal.cshtml" />
+    <Content Include="Areas\Management\Views\KhachThue\Create.cshtml" />
+    <Content Include="Areas\Management\Views\KhachThue\Index.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
