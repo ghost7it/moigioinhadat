@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <title></title>
+    @Html.Partial("_Head")
+    @Html.Partial("_Css1")
+    @RenderSection("styles", required: false)
+    @Html.Partial("_Css2")
+    @RenderSection("styles2", required: false)
+</head>
+<body>
+    @RenderBody()
+    @Html.Partial("_Scripts")
+    @RenderSection("scripts", required: false)
+    @RenderSection("scripts2", required: false)
+</body>
+
+</html>

@@ -3,10 +3,11 @@ namespace Entities.ViewModels
 {
     public class KhachThueCreatingViewModel
     {
-        [Required(ErrorMessage = "Vui lòng nhập tên khách")]
+        //[Required(ErrorMessage = "Vui lòng nhập tên khách")]
         [Display(Name = "Tên khách")]
         public string TenKhach { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng nhập tên người liên hệ")]
         [Display(Name = "Tên người liên hệ - vai trò")]
         public string TenNguoiLienHeVaiTro { get; set; }
 
@@ -53,7 +54,7 @@ namespace Entities.ViewModels
         [Display(Name = "Đường")]
         public string DuongId { get; set; }
 
-        [Display(Name = "Tên Đường")]
+        [Display(Name = "Tên Đường")] 
         public string DuongName { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập số nhà")]
@@ -63,22 +64,22 @@ namespace Entities.ViewModels
         [Display(Name = "Tên tòa nhà")]
         public string TenToaNha { get; set; }
 
-        [Display(Name = "Mặt tiền treo biển")]
+        [Display(Name = "Mặt tiền treo biển (m)")]
         public string MatTienTreoBien { get; set; }
 
         [Display(Name = "Bề ngang lọt lòng (m)")]
         public string BeNgangLotLong { get; set; }
 
-        [Display(Name = "Diện tích đất (m)")]
+        [Display(Name = "Diện tích đất (m2)")]
         public string DienTichDat { get; set; }
 
-        [Display(Name = "Diện tích đất sử dụng tầng 1 (m)")]
+        [Display(Name = "Diện tích đất sử dụng tầng 1 (m2)")]
         public string DienTichDatSuDungTang1 { get; set; }
 
         [Display(Name = "Số tầng")]
         public string SoTang { get; set; }
 
-        [Display(Name = "Tổng diện tích sử dụng")]
+        [Display(Name = "Tổng diện tích sử dụng (m2)")]
         public string TongDienTichSuDung { get; set; }
 
         [Display(Name = "Đi chung chủ")]
@@ -93,10 +94,10 @@ namespace Entities.ViewModels
         [Display(Name = "Nột thất/khách thuê cũ")]
         public string NoiThatKhachThueCuId { get; set; }
 
-        [Display(Name = "Tổng giá thuê")]
+        [Display(Name = "Tổng giá thuê (triệu VNĐ)")]
         public string TongGiaThue { get; set; }
 
-        [Display(Name = "Giá thuê BQ/m2")]
+        [Display(Name = "Giá thuê BQ/m2 (triệu VNĐ)")]
         public string GiaThueBQ { get; set; }
 
         [Display(Name = "Ngày CN hẹn liên hệ lại")]

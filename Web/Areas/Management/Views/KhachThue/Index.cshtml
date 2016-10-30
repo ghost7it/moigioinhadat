@@ -65,7 +65,7 @@
                                     <input type="checkbox" class="group-checkable" />
                                 </th>
                                 <th style="background: #85e0e0 !important">
-                                    Tên khách thuê
+                                    Tên người liên hệ
                                 </th>
                                 <th style="background: #85e0e0 !important; ">
                                     Số điện thoại
@@ -108,242 +108,243 @@
 }
 @section Scripts2 {
     <script type="text/javascript">
-        var Article = function () {
-            var handleArticle = function () {
-                var grid = new DatatableAjaxSource();
-                grid.init({
-                    src: $("#datatable_ajax_source"),
-                    onSuccess: function (grid) {
-                        // hành động khi tải xong dữ liệu
+    var Article = function () {
+        var handleArticle = function () {
+            var grid = new DatatableAjaxSource();
+            grid.init({
+                src: $("#datatable_ajax_source"),
+                onSuccess: function (grid) {
+                    // hành động khi tải xong dữ liệu
+                },
+                onError: function (grid) {
+                    // hành động khi tải dữ liệu bị lỗi
+                },
+                dataTable: {
+                    "ajax": {
+                        "url": '@Url.RouteUrl("GetKhachThueJson")',
                     },
-                    onError: function (grid) {
-                        // hành động khi tải dữ liệu bị lỗi
-                    },
-                    dataTable: {
-                        "ajax": {
-                            "url": '@Url.RouteUrl("GetKhachThueJson")',
-                        },
-                        "columnDefs": [{
-                            "targets": -1,
-                            "data": null,
-                            "render": function (data, type, full) {
-                                console.debug('data ', data);
-                                var sel = $('select.object-filter').val();
-                                switch (sel) {
-                                    //Lọc theo chờ duyệt
-                                    case '1':
-                                        var re = '';
-                                        if ('@canApprove' == 'true' || '@canApprove' == 'True') {
-                                            re = '<a class="btn btn-xs blue PendingPublish font-size-small" data-objectid="' + data.NhuCauThueId + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
-                                        }
-                                        if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded font-size-small" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
-                                        }
-                                        if ('@canDelete' == 'true' || '@canDelete' == 'True') {
-                                            re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.Id + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
-                                        }
-                                        if ('@canDelete' == 'true' || '@canDelete' == 'True') {
-                                            re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #ccb3ff !important" data-objectid="' + data.NhuCauThueId + '" data-objectidkhach="false" href="#"><i class="fa fa-trash-o"></i> Xóa nhu cầu</a>';
-                                        }
-                                        if ('@canDelete' == 'true' || '@canUpdate' == 'True') {
-                                            re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" data-objectid="' + data.Id + '" href="#"><i class="fa fa-plus"></i> Thêm nhu cầu</a>';
-                                        }
-                                        return re;
-                                        break;
-                                        //Lọc theo đã duyệt
-                                    case '2':
-                                        if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            return '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
-                                        }
-                                        else {
-                                            return '';
-                                        }
-                                        break;
-                                    default:
-                                        return '';
-                                }
-                            },
-                        }],
-                        "columns": [
-                            {
-                                "searchable": false,
-                                "orderable": false,
-                                "data": "Id",
-                                "render": function (data, type, full) {
-                                    return '<input type="checkbox" value="' + data + '" class="checkboxes">';
-                                }
-                            },
-                            {
-                                "searchable": true,
-                                "orderable": true,
-                                "data": null,
-                                "render": function (data, type, full) {
-                                    var sel = $('select.object-filter').val();
-                                    if (sel == '1') {
-                                        if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            return '<a href="' + ('@Url.RouteUrl("ArticleUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '">' + data.TenKhach + '</a>';
-                                        }
-                                        else {
-                                            return '';
-                                        }
+                    "columnDefs": [{
+                        "targets": -1,
+                        "data": null,
+                        "render": function (data, type, full) {
+                            console.debug('data ', data);
+                            var sel = $('select.object-filter').val();
+                            switch (sel) {
+                                //Lọc theo chờ duyệt
+                                case '1':
+                                    var re = '';
+                                    if ('@canApprove' == 'true' || '@canApprove' == 'True') {
+                                        re = '<a class="btn btn-xs blue PendingPublish font-size-small" data-objectid="' + data.NhuCauThueId + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
+                                    }
+                                    if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                                        //re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded font-size-small" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
+                                        re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
+                                    }
+                                    if ('@canDelete' == 'true' || '@canDelete' == 'True') {
+                                        re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.Id + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
+                                    }
+                                    if ('@canDelete' == 'true' || '@canDelete' == 'True') {
+                                        re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #ccb3ff !important" data-objectid="' + data.NhuCauThueId + '" data-objectidkhach="false" href="#"><i class="fa fa-trash-o"></i> Xóa nhu cầu</a>';
+                                    }
+                                    if ('@canCreate' == 'true' || '@canCreate' == 'True') {
+                                            re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("NhuCauCreate", new { id = "objectId" })').replace("objectId", data.Id) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-plus"></i> Thêm nhu cầu</a>';
+                                    }
+                                    return re;
+                                    break;
+                                    //Lọc theo đã duyệt
+                                case '2':
+                                    if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                                        return '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
                                     }
                                     else {
-                                        return '<a href="' + ('@Url.RouteUrl("ArticleDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenKhach + '</a>'
+                                        return '';
                                     }
-                                }
-                            },
-                    { data: "SoDienThoai" },
-                    { data: "Quan" },
-                    { data: "Duong" },
-                    { data: "TongGiaThue" },
-                    //{ data: "CapDoTheoDoi" },
-                    { data: "TrangThai" },
-                    { data: null }
-                        ],
-                        "order": [
-                            [2, "desc"]
-                        ] // ép sắp xếp theo cột thứ 3
-                    }
-                });
-                grid.getTableWrapper().on('change', '.object-filter', function (e) {
-                    var sel = $(this).val();
-                    e.preventDefault();
-                    grid.setAjaxParam("objectStatus", $(this).val());
-                    grid.getDataTable().ajax.reload();
-                    grid.clearAjaxParams();
-                    switch (sel) {
-                        case '1':
-                            {
-                                $('.table-group-action-PendingPublish').removeClass('display-hide');
-                                $('.table-group-action-RecentlyAdded').addClass('display-hide');
-                                $('.table-group-action-Delete').removeClass('display-hide');
+                                    break;
+                                default:
+                                    return '';
                             }
-                            break;
-                        case '2':
-                            {
-                                $('.table-group-action-PendingPublish').addClass('display-hide');
-                                $('.table-group-action-RecentlyAdded').removeClass('display-hide');
-                                $('.table-group-action-Delete').addClass('display-hide');
+                        },
+                    }],
+                    "columns": [
+                        {
+                            "searchable": false,
+                            "orderable": false,
+                            "data": "Id",
+                            "render": function (data, type, full) {
+                                return '<input type="checkbox" value="' + data + '" class="checkboxes">';
                             }
-                            break;
-                    }
-                });
-
-                //Duyệt nhiều record
-                grid.getTableWrapper().on('click', '.table-group-action-PendingPublish', function (e) {
-                    e.preventDefault();
-                    if (grid.getSelectedRowsCount() > 0) {
-                        SetArticleStatus(grid.getSelectedRows(), 2);
-                    } else if (grid.getSelectedRowsCount() === 0) {
-                        showNoty('Chưa có bản ghi nào được chọn!', 'error', 'center', 5000);
-                    }
-                });
-
-                //Xóa nhiều bài viết
-                grid.getTableWrapper().on('click', '.table-group-action-Delete', function (e) {
-                    e.preventDefault();
-                    if (grid.getSelectedRowsCount() > 0) {
-                        if (confirm('Bạn có chắc chắn muốn xóa không?')) {
-                            DeleteArticle(grid.getSelectedRows());
+                        },
+                        {
+                            "searchable": true,
+                            "orderable": true,
+                            "data": null,
+                            "render": function (data, type, full) {
+                                @* var sel = $('select.object-filter').val();
+                                    if (sel == '1') {
+                                        if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                                            return '<a href="' + ('@Url.RouteUrl("ArticleUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '">' + data.TenKhach + '</a>';
+                                        }
+                                        else {
+                                            return '';
+                                        }
+                                    }
+                                    else { *@
+                                return '<a href="' + ('@Url.RouteUrl("KhachDetailModal", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
+                                //}
+                            }
+                        },
+                { data: "SoDienThoai" },
+                { data: "Quan" },
+                { data: "Duong" },
+                { data: "TongGiaThue" },
+                //{ data: "CapDoTheoDoi" },
+                { data: "TrangThai" },
+                { data: null }
+                    ],
+                    "order": [
+                        [2, "desc"]
+                    ] // ép sắp xếp theo cột thứ 3
+                }
+            });
+            grid.getTableWrapper().on('change', '.object-filter', function (e) {
+                var sel = $(this).val();
+                e.preventDefault();
+                grid.setAjaxParam("objectStatus", $(this).val());
+                grid.getDataTable().ajax.reload();
+                grid.clearAjaxParams();
+                switch (sel) {
+                    case '1':
+                        {
+                            $('.table-group-action-PendingPublish').removeClass('display-hide');
+                            $('.table-group-action-RecentlyAdded').addClass('display-hide');
+                            $('.table-group-action-Delete').removeClass('display-hide');
                         }
-                    } else if (grid.getSelectedRowsCount() === 0) {
-                        showNoty('Chưa có bản ghi nào được chọn!', 'error', 'center', 5000);
-                    }
-                });
+                        break;
+                    case '2':
+                        {
+                            $('.table-group-action-PendingPublish').addClass('display-hide');
+                            $('.table-group-action-RecentlyAdded').removeClass('display-hide');
+                            $('.table-group-action-Delete').addClass('display-hide');
+                        }
+                        break;
+                }
+            });
 
-                //Duyệt
-                grid.getTableWrapper().on('click', '.PendingPublish', function (e) {
-                    e.preventDefault();
-                    var ids = $(this).attr('data-objectid');
-                    SetArticleStatus(ids, 2);
-                });
+            //Duyệt nhiều record
+            grid.getTableWrapper().on('click', '.table-group-action-PendingPublish', function (e) {
+                e.preventDefault();
+                if (grid.getSelectedRowsCount() > 0) {
+                    SetArticleStatus(grid.getSelectedRows(), 2);
+                } else if (grid.getSelectedRowsCount() === 0) {
+                    showNoty('Chưa có bản ghi nào được chọn!', 'error', 'center', 5000);
+                }
+            });
 
-                //Xóa 1 bài viết
-                grid.getTableWrapper().on('click', '.Delete', function (e) {
-                    e.preventDefault();
+            //Xóa nhiều bài viết
+            grid.getTableWrapper().on('click', '.table-group-action-Delete', function (e) {
+                e.preventDefault();
+                if (grid.getSelectedRowsCount() > 0) {
                     if (confirm('Bạn có chắc chắn muốn xóa không?')) {
-                        var ids = $(this).attr('data-objectid');
-                        var isKhach = $(this).attr('data-objectidkhach');
-                        DeleteArticle(ids, isKhach);
+                        DeleteArticle(grid.getSelectedRows(), true);
+                    }
+                } else if (grid.getSelectedRowsCount() === 0) {
+                    showNoty('Chưa có bản ghi nào được chọn!', 'error', 'center', 5000);
+                }
+            });
+
+            //Duyệt
+            grid.getTableWrapper().on('click', '.PendingPublish', function (e) {
+                e.preventDefault();
+                var ids = $(this).attr('data-objectid');
+                SetArticleStatus(ids, 2);
+            });
+
+            //Xóa 1 bài viết
+            grid.getTableWrapper().on('click', '.Delete', function (e) {
+                e.preventDefault();
+                if (confirm('Bạn có chắc chắn muốn xóa không?')) {
+                    var ids = $(this).attr('data-objectid');
+                    var isKhach = $(this).attr('data-objectidkhach');
+                    DeleteArticle(ids, isKhach);
+                }
+            });
+
+            //Hàm đổi trạng thái bài viết: 0: Chờ duyệt | 1: Đã duyệt
+            var SetArticleStatus = function (ids, status) {
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                var $url = ('@Url.RouteUrl("KhachThueSetKhachThueStatus", new { ids = "objectIds", status = "objectStatus" })').replace("objectIds", ids).replace("objectStatus", status);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        grid.getDataTable().ajax.reload();
+                        AdminVersionOne.unblockUI();
                     }
                 });
-
-                //Hàm đổi trạng thái bài viết: 0: Chờ duyệt | 1: Đã duyệt
-                var SetArticleStatus = function (ids, status) {
-                    AdminVersionOne.blockUI({
-                        message: 'Vui lòng đợi!',
-                        overlayColor: 'none',
-                        cenrerY: true,
-                        boxed: true
-                    });
-                    var $url = ('@Url.RouteUrl("KhachThueSetKhachThueStatus", new { ids = "objectIds", status = "objectStatus" })').replace("objectIds", ids).replace("objectStatus", status);
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        async: true,
-                        url: $url,
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.success) {
-                                showNoty(result.message, 'success', 'center', 5000);
-                            }
-                            else
-                                showNoty(result.message, 'error', 'center', 5000);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            showNoty(errorThrown, 'error', 'center', 5000);
-                        },
-                        complete: function (result) {
-                            grid.getDataTable().ajax.reload();
-                            AdminVersionOne.unblockUI();
-                        }
-                    });
-                    return;
-                }
-
-                //Hàm xóa bài viết
-                var DeleteArticle = function (ids, isKhach) {
-                    AdminVersionOne.blockUI({
-                        message: 'Vui lòng đợi!',
-                        overlayColor: 'none',
-                        cenrerY: true,
-                        boxed: true
-                    });
-                    var $url = ('@Url.RouteUrl("KhachThueDeleteKhachThues", new { ids = "objectIds", isKhach = "objectidkhach" })').replace("objectIds", ids).replace("objectidkhach", isKhach);
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        async: true,
-                        url: $url,
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.success) {
-                                showNoty(result.message, 'success', 'center', 5000);
-                            }
-                            else
-                                showNoty(result.message, 'error', 'center', 5000);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            showNoty(errorThrown, 'error', 'center', 5000);
-                        },
-                        complete: function (result) {
-                            grid.getDataTable().ajax.reload();
-                            AdminVersionOne.unblockUI();
-                        }
-                    });
-                    return;
-                }
+                return;
             }
-            return {
-                init: function () {
-                    handleArticle();
-                }
-            };
-        }();
-        jQuery(document).ready(function () {
-            Article.init();
 
-        });
+            //Hàm xóa bài viết
+            var DeleteArticle = function (ids, isKhach) {
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                var $url = ('@Url.RouteUrl("KhachThueDeleteKhachThues", new { ids = "objectIds", isKhach = "objectidkhach" })').replace("objectIds", ids).replace("objectidkhach", isKhach);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        grid.getDataTable().ajax.reload();
+                        AdminVersionOne.unblockUI();
+                    }
+                });
+                return;
+            }
+        }
+        return {
+            init: function () {
+                handleArticle();
+            }
+        };
+    }();
+    jQuery(document).ready(function () {
+        Article.init();
+
+    });
     </script>
 }
 
