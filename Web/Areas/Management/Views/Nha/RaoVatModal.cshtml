@@ -1,0 +1,22 @@
+﻿@{
+   
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">Nội dung đăng rao vặt</h4>
+</div>
+<div class="modal-body" style="height: auto;">
+    @Html.Raw(ViewBag.Content)
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" data-dismiss="modal">Đóng lại</button>
+</div>
+<style type="text/css">
+    .modal-dialog {
+        width: 50%;
+    }
+
+    .static-info {
+        margin-bottom: 10px;
+    }
+</style>

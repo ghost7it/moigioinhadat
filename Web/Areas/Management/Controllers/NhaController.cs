@@ -109,8 +109,8 @@ namespace Web.Areas.Management.Controllers
             var quan = _repository.GetRepository<Quan>().GetAll().OrderBy(o => o.Name).ToList();
             if (isCreate)
             {
-                ViewBag.QuanDropdownlist = new SelectList(quan, "Id", "Name", model.QuanId);
-                ViewBag.DuongDropdownlist = new SelectList(_repository.GetRepository<Duong>().GetAll(o => o.QuanId == model.QuanId).OrderBy(o => o.Name).ToList(), "Id", "Name", model.DuongId);
+            ViewBag.QuanDropdownlist = new SelectList(quan, "Id", "Name", model.QuanId);
+            ViewBag.DuongDropdownlist = new SelectList(_repository.GetRepository<Duong>().GetAll(o => o.QuanId == model.QuanId).OrderBy(o => o.Name).ToList(), "Id", "Name", model.DuongId);
             }
             else
             {
@@ -147,69 +147,69 @@ namespace Web.Areas.Management.Controllers
         {
             try
             {
-                string drawReturn = "1";
+            string drawReturn = "1";
 
-                int skip = 0;
-                int take = 10;
+            int skip = 0;
+            int take = 10;
 
-                string start = Request.Params["start"];//Đang hiển thị từ bản ghi thứ mấy
-                string length = Request.Params["length"];//Số bản ghi mỗi trang
-                string draw = Request.Params["draw"];//Số lần request bằng ajax (hình như chống cache)
-                string key = Request.Params["search[value]"];//Ô tìm kiếm            
-                string orderDir = Request.Params["order[0][dir]"];//Trạng thái sắp xếp xuôi hay ngược: asc/desc
-                orderDir = string.IsNullOrEmpty(orderDir) ? "asc" : orderDir;
-                string orderColumn = Request.Params["order[0][column]"];//Cột nào đang được sắp xếp (cột thứ mấy trong html table)
-                orderColumn = string.IsNullOrEmpty(orderColumn) ? "1" : orderColumn;
-                string orderKey = Request.Params["columns[" + orderColumn + "][data]"];//Lấy tên của cột đang được sắp xếp
-                orderKey = string.IsNullOrEmpty(orderKey) ? "UpdateDate" : orderKey;
+            string start = Request.Params["start"];//Đang hiển thị từ bản ghi thứ mấy
+            string length = Request.Params["length"];//Số bản ghi mỗi trang
+            string draw = Request.Params["draw"];//Số lần request bằng ajax (hình như chống cache)
+            string key = Request.Params["search[value]"];//Ô tìm kiếm            
+            string orderDir = Request.Params["order[0][dir]"];//Trạng thái sắp xếp xuôi hay ngược: asc/desc
+            orderDir = string.IsNullOrEmpty(orderDir) ? "asc" : orderDir;
+            string orderColumn = Request.Params["order[0][column]"];//Cột nào đang được sắp xếp (cột thứ mấy trong html table)
+            orderColumn = string.IsNullOrEmpty(orderColumn) ? "1" : orderColumn;
+            string orderKey = Request.Params["columns[" + orderColumn + "][data]"];//Lấy tên của cột đang được sắp xếp
+            orderKey = string.IsNullOrEmpty(orderKey) ? "UpdateDate" : orderKey;
 
-                if (!string.IsNullOrEmpty(start))
-                    skip = Convert.ToInt16(start);
-                if (!string.IsNullOrEmpty(length))
-                    take = Convert.ToInt16(length);
-                if (!string.IsNullOrEmpty(draw))
-                    drawReturn = draw;
+            if (!string.IsNullOrEmpty(start))
+                skip = Convert.ToInt16(start);
+            if (!string.IsNullOrEmpty(length))
+                take = Convert.ToInt16(length);
+            if (!string.IsNullOrEmpty(draw))
+                drawReturn = draw;
 
-                string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
-                if (!string.IsNullOrEmpty(objectStatus))
+            string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
+            if (!string.IsNullOrEmpty(objectStatus))
                     int.TryParse(objectStatus.ToString(), out status);
-                Paging paging = new Paging()
-                {
-                    TotalRecord = 0,
-                    Skip = skip,
-                    Take = take,
-                    OrderDirection = orderDir
-                };
+            Paging paging = new Paging()
+            {
+                TotalRecord = 0,
+                Skip = skip,
+                Take = take,
+                OrderDirection = orderDir
+            };
 
-                var articles = _repository.GetRepository<Nha>().GetAll(ref paging,
-                                                                           orderKey,
-                                                                           o => (key == null ||
-                                                                                 key == "" ||
-                                                                                 o.TenNguoiLienHeVaiTro.Contains(key) ||
-                                                                                 o.SoDienThoai.Contains(key)) &&
-                                                                                 (o.TrangThai == status))
-                                                                                 .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
-                                                                                 .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, g => g.Id, (b, g) => new { Nha = b, Duong = g })
-                                                                                 .Join(_repository.GetRepository<CapDoTheoDoi>().GetAll(), b => b.Nha.Nha.CapDoTheoDoiId, y => y.Id, (b, y) => new { Nha = b, CapDoTheoDoi = y }).ToList();
+            var articles = _repository.GetRepository<Nha>().GetAll(ref paging,
+                                                                   orderKey,
+                                                                   o => (key == null ||
+                                                                         key == "" ||
+                                                                         o.TenNguoiLienHeVaiTro.Contains(key) ||
+                                                                         o.SoDienThoai.Contains(key)) &&
+                                                                         (o.TrangThai == status))
+                                                                         .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
+                                                                         .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, g => g.Id, (b, g) => new { Nha = b, Duong = g })
+                                                                         .Join(_repository.GetRepository<CapDoTheoDoi>().GetAll(), b => b.Nha.Nha.CapDoTheoDoiId, y => y.Id, (b, y) => new { Nha = b, CapDoTheoDoi = y }).ToList();
 
-                return Json(new
+            return Json(new
+            {
+                draw = drawReturn,
+                recordsTotal = paging.TotalRecord,
+                recordsFiltered = paging.TotalRecord,
+                data = articles.Select(o => new
                 {
-                    draw = drawReturn,
-                    recordsTotal = paging.TotalRecord,
-                    recordsFiltered = paging.TotalRecord,
-                    data = articles.Select(o => new
-                    {
-                        o.Nha.Nha.Nha.Id,
-                        Quan = o.Nha.Nha.Quan.Name,
-                        Duong = o.Nha.Duong.Name,
-                        o.Nha.Nha.Nha.TenNguoiLienHeVaiTro,
-                        o.Nha.Nha.Nha.SoDienThoai,
-                        o.Nha.Nha.Nha.TongGiaThue,
-                        CapDoTheoDoi = o.CapDoTheoDoi.Name,
-                        TrangThai = o.Nha.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"
-                    })
-                }, JsonRequestBehavior.AllowGet);
-            }
+                    o.Nha.Nha.Nha.Id,
+                    Quan = o.Nha.Nha.Quan.Name,
+                    Duong = o.Nha.Duong.Name,
+                    o.Nha.Nha.Nha.TenNguoiLienHeVaiTro,
+                    o.Nha.Nha.Nha.SoDienThoai,
+                    o.Nha.Nha.Nha.TongGiaThue,
+                    CapDoTheoDoi = o.CapDoTheoDoi.Name,
+                    TrangThai = o.Nha.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"
+                })
+            }, JsonRequestBehavior.AllowGet);
+        }
             catch (Exception ex)
             {
 
@@ -551,7 +551,6 @@ namespace Web.Areas.Management.Controllers
         }
 
         [Route("phan-cong/{id?}/{khachId?}/{nhaId?}/{accountId?}", Name = "PhanCong")]
-        //[ValidationPermission(Action = ActionEnum.Create, Module = ModuleEnum.Nha)]
         public async Task<ActionResult> PhanCong(long id, long khachId, long nhaId, long accountId) //id: NhuCauThueId
         {
             if (ModelState.IsValid)
@@ -566,7 +565,7 @@ namespace Web.Areas.Management.Controllers
                 qlcv.NhuCauThueId = id;
                 qlcv.NgayTao = DateTime.Now;
                 qlcv.NguoiTaoId = AccountId;
-                qlcv.TrangThai = 0; //Chờ gửi đi cho nhân viên
+                qlcv.TrangThai = 0; //Chờ duyệt
 
                 int result = 0;
                 try
@@ -586,5 +585,11 @@ namespace Web.Areas.Management.Controllers
                 return View();
             }
         }
+
+
+
+
+
+
     }
 }

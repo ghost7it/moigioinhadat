@@ -1,0 +1,87 @@
+﻿@model  IEnumerable<Entities.ViewModels.NhaUpdatingViewModel>
+@*@using Entities.Models;*@
+@{
+    //IEnumerable<Entities.ViewModels.AccountUpdatingViewModel> listAccount = (IEnumerable<Entities.ViewModels.AccountUpdatingViewModel>)ViewBag.Accounts;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">Danh sách Nhà thuê phù hợp với khách</h4>
+</div>
+<div class="modal-body" style="height: auto;">
+    <table class="table table-hover table_phancong">
+        <thead>
+            <tr>
+                <th>Tên tòa nhà</th>
+                <th>Số nhà</th>
+                <th>Số điện thoại</th>
+                <th>Tên người liên hệ</th>
+                <th>Diện tích đất</th>
+                <th>Tổng giá thuê</th>
+                <th>Chọn nhân viên chăm sóc</th>
+            </tr>
+        </thead>
+        <tbody>
+           @if (Model != null && Model.Any())
+               {
+               foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.TenToaNha
+                        </td>
+                        <td>@item.SoNha</td>
+                        <td>@item.SoDienThoai</td>
+                        <td>@item.TenNguoiLienHeVaiTro</td>
+                        <td>@item.DienTichDat</td>
+                        <td>@item.TongGiaThue</td>
+                        <td style="display: flex;">
+                            @item.NhanVienPhuTrachName
+                            @Html.DropDownList("NhanVienPhuTrachId", (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "form-control getuserid " + @item.DaPhanCong, @style = "width: 150px;" })
+                            <a href="@Url.RouteUrl("PhanCongCreate", new { nhaId = item.Id, khachId = item.KhachId, nhucauthueId = item.NhuCauThueId })" class="@item.DaPhanCong"><i class="fa fa-user"></i>&nbsp; Phân công</a>
+                            @if(item.DaPhanCong == "hidden")
+                            { 
+                                <span>Đã phân công</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" data-dismiss="modal">Đóng lại</button>
+</div>
+<style type="text/css">
+    .modal-dialog {
+        width: 86%;
+    }
+
+    .static-info {
+        margin-bottom: 10px;
+    }
+    .getuserid {
+        height:24px;
+        margin-right:5px;
+        padding:0;
+    }
+</style>
+<script>
+    $(function () {
+        $('.getuserid').change(function () {
+            var trIndex = $(this).closest("tr").index();
+            var arrUrl = $(".table_phancong tbody tr:eq(" + trIndex + ") a").attr("href").split("/");
+            var url = "";
+            if (arrUrl != undefined && arrUrl.length > 7) {
+                for (var i = 0; i < 7; i++) {
+                    url = url + arrUrl[i] + "/";
+                }
+            }
+            $(".table_phancong tbody tr:eq(" + trIndex + ") a").attr("href", url + $(this).val());
+        });
+
+        $(".modal-dialog .table_phancong tr").each(function () {
+            var selectValue = $(this).find("select option:eq(0)").val();
+            $(this).find("a").attr("href", $(this).find("a").attr("href") + "/" + selectValue);
+        });
+    })
+</script>
