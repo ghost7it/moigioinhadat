@@ -500,43 +500,43 @@ namespace Web.Areas.Management.Controllers
             }
         }
 
-         [Route("tim-khach-cho-nha/{id?}", Name = "TimKhach")]
-        //[ValidationPermission(Action = ActionEnum.Create, Module = ModuleEnum.Nha)]
-        public async Task<ActionResult> TimKhach()
-        {
-            if (ModelState.IsValid)
-            {
-                QuanLyCongViecViewModel quanLyCongViecModel = new QuanLyCongViecViewModel();
+        // [Route("tim-khach-cho-nha/{id?}", Name = "TimKhach")]
+        ////[ValidationPermission(Action = ActionEnum.Create, Module = ModuleEnum.Nha)]
+        //public async Task<ActionResult> TimKhach()
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        QuanLyCongViecViewModel quanLyCongViecModel = new QuanLyCongViecViewModel();
 
-                QuanLyCongViec qlcv = new QuanLyCongViec();
+        //        QuanLyCongViec qlcv = new QuanLyCongViec();
 
-                //qlcv.NhanVienPhuTrachId = Convert.ToInt64(model.);
-                //qlcv.KhachId = Convert.ToInt64(model.QuanId);
-                //qlcv.NhaId = Convert.ToInt64(model.DuongId);
-                //qlcv.NhuCauThueId = StringHelper.KillChars(model.SoNha);
-                //qlcv.NoiDungCongViec = StringHelper.KillChars(model.TenToaNha);
-                //qlcv.NgayTao = DateTime.Now;
-                //qlcv.NguoiTaoId = AccountId;
-                //qlcv.TrangThai = 0; //Chờ duyệt
+        //        //qlcv.NhanVienPhuTrachId = Convert.ToInt64(model.);
+        //        //qlcv.KhachId = Convert.ToInt64(model.QuanId);
+        //        //qlcv.NhaId = Convert.ToInt64(model.DuongId);
+        //        //qlcv.NhuCauThueId = StringHelper.KillChars(model.SoNha);
+        //        //qlcv.NoiDungCongViec = StringHelper.KillChars(model.TenToaNha);
+        //        //qlcv.NgayTao = DateTime.Now;
+        //        //qlcv.NguoiTaoId = AccountId;
+        //        //qlcv.TrangThai = 0; //Chờ duyệt
 
-                int result = 0;
-                try
-                {
-                    result = await _repository.GetRepository<QuanLyCongViec>().CreateAsync(qlcv, AccountId);
-                }
-                catch { }
-                if (result > 0)
-                {
-                    TempData["Success"] = "Phân công thành công!";
-                }
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Phân công không thành công! Vui lòng kiểm tra và thử lại!");
-                return View();
-            }
-        }
+        //        int result = 0;
+        //        try
+        //        {
+        //            result = await _repository.GetRepository<QuanLyCongViec>().CreateAsync(qlcv, AccountId);
+        //        }
+        //        catch { }
+        //        if (result > 0)
+        //        {
+        //            TempData["Success"] = "Phân công thành công!";
+        //        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Phân công không thành công! Vui lòng kiểm tra và thử lại!");
+        //        return View();
+        //    }
+        //}
 
 
 

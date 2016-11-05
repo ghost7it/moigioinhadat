@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using Web.Areas.Management.Filters;
 using Web.Areas.Management.Helpers;
@@ -990,6 +991,52 @@ namespace Web.Areas.Management.Controllers
                 khachthueviewmodel.TrangThaiNhuCau = nhucauthue.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt";
             }
             return PartialView("_DetailModal", khachthueviewmodel);
+        }
+
+        [Route("tim-nha-cho-khach/{id?}", Name = "TimNha")]
+        public async Task<ActionResult> TimNha(long id, long nhucauId)
+        {
+            try
+            {
+                var nha = await _repository.GetRepository<Nha>().ReadAsync(id);
+
+                var result = _repository.GetRepository<NhuCauThue>().GetAll().Where(delegate(NhuCauThue nct) { return (nct.MatBangId.Equals(nha.MatBangId)) || (nct.QuanId.Equals(nha.QuanId) || (nct.DuongId.Equals(nha.DuongId))); })
+                 .Join(_repository.GetRepository<Khach>().GetAll(), b => b.KhachId, c => c.Id, (b, c) => new { NhuCauThue = b, Khach = c }).ToList();
+
+                var data = result.Select(o => new KhachThueUpdatingViewModel
+                {
+                    Id = o.NhuCauThue.Id,
+                    TenKhach = o.Khach.TenNguoiLienHeVaiTro,
+                    SoDienThoai = o.Khach.SoDienThoai,
+                    QuanName = o.NhuCauThue.QuanName,
+                    DuongName = o.NhuCauThue.DuongName,
+                    DienTichDat = o.NhuCauThue.DienTichDat.ToString(),
+                    TongGiaThue = o.NhuCauThue.TongGiaThue.ToString()
+                });
+
+                //Phân công nhân viên chăm sóc
+                int NhanVienChamSocRoleGroupId = Convert.ToInt32(WebConfigurationManager.AppSettings["NhanVienChamSocRoleGroupId"]);
+
+                var account = _repository.GetRepository<AccountRole>().GetAll().Where(o => o.RoleId == NhanVienChamSocRoleGroupId)
+                  .Join(_repository.GetRepository<Account>().GetAll(), b => b.AccountId, c => c.Id, (b, c) => new { AccountRole = b, Account = c }).ToList();
+
+                var obj = new List<object>();
+
+                foreach (var item in account)
+                {
+                    obj.Add(new { ID = item.Account, Name = item.Account.Name });
+                }
+
+                var listAccount = new SelectList(obj, "ID", "Name", 1);
+
+                ViewBag.Accounts = listAccount;
+
+                return PartialView("TimNhaModal", data);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
