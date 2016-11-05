@@ -40,6 +40,15 @@ namespace Entities.Models
         [Display(Name = "Người tạo")]
         public long NguoiTaoId { get; set; }
 
+        [Display(Name = "Ẩn thông tin nhà")]
+        public string NhaHiddenField { get; set; }
+
+        [Display(Name = "Ẩn thông tin nhu cầu")]
+        public string NhuCauHiddenField { get; set; }
+
+        [Display(Name = "Ẩn thông tin khách")]
+        public string KhachHiddenField { get; set; }
+
         [Display(Name = "Trạng thái")]
         public int TrangThai { get; set; }
 
