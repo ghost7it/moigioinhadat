@@ -126,8 +126,6 @@
                                         @Html.ValidationMessageFor(model => model.DiChungChu)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Ham, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
@@ -170,6 +168,9 @@
                                         @Html.ValidationMessageFor(model => model.GiaThueBQ)
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+                           
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TenNguoiLienHeVaiTro, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
@@ -198,6 +199,62 @@
                                     <div class="col-md-9">
                                         @Html.DropDownList("CapDoTheoDoiId", (IEnumerable<SelectListItem>)ViewBag.CapDoTheoDoi, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.CapDoTheoDoiId)
+                                    </div>
+                                </div>
+                                <div class="form-group last">
+                                    @Html.LabelFor(model => model.ImageDescription1, new { @class = "col-md-3 control-label" })
+                                    @Html.HiddenFor(model => model.ImageDescription1)
+                                    <div class="col-md-9">
+                                        <div>
+                                            <div class="col-md-6 thumbnail" style="height:150px;">
+                                                <img id="Image_Preview1" src="http://www.placehold.it/400x150/EFEFEF/AAAAAA&amp;text=No+image" alt="" style="height:100%;" />
+                                            </div>
+                                            <div class="col-md-6" style="line-height:150px;">
+                                                <button type="button" class="btn btn-default select-image1"><i class="fa fa-sm"></i> Chọn ảnh</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group last">
+                                    @Html.LabelFor(model => model.ImageDescription2, new { @class = "col-md-3 control-label" })
+                                    @Html.HiddenFor(model => model.ImageDescription2)
+                                    <div class="col-md-9">
+                                        <div>
+                                            <div class="col-md-6 thumbnail" style="height:150px;">
+                                                <img id="Image_Preview2" src="http://www.placehold.it/400x150/EFEFEF/AAAAAA&amp;text=No+image" alt="" style="height:100%;" />
+                                            </div>
+                                            <div class="col-md-6" style="line-height:150px;">
+                                                <button type="button" class="btn btn-default select-image2"><i class="fa fa-sm"></i> Chọn ảnh</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group last">
+                                    @Html.LabelFor(model => model.ImageDescription3, new { @class = "col-md-3 control-label" })
+                                    @Html.HiddenFor(model => model.ImageDescription3)
+                                    <div class="col-md-9">
+                                        <div>
+                                            <div class="col-md-6 thumbnail" style="height:150px;">
+                                                <img id="Image_Preview3" src="http://www.placehold.it/400x150/EFEFEF/AAAAAA&amp;text=No+image" alt="" style="height:100%;" />
+                                            </div>
+                                            <div class="col-md-6" style="line-height:150px;">
+                                                <button type="button" class="btn btn-default select-image3"><i class="fa fa-sm"></i> Chọn ảnh</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group last">
+                                    @Html.LabelFor(model => model.ImageDescription4, new { @class = "col-md-3 control-label" })
+                                    @Html.HiddenFor(model => model.ImageDescription4)
+                                    <div class="col-md-9">
+                                        <div>
+                                            <div class="col-md-6 thumbnail" style="height:150px;">
+                                                <img id="Image_Preview4" src="http://www.placehold.it/400x150/EFEFEF/AAAAAA&amp;text=No+image" alt="" style="height:100%;" />
+                                            </div>
+                                            <div class="col-md-6" style="line-height:150px;">
+                                                <button type="button" class="btn btn-default select-image4"><i class="fa fa-sm"></i> Chọn ảnh</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -235,12 +292,45 @@
     <script type="text/javascript">
         CKFinder.setupCKEditor(null, '/Editor/ckfinder');
         jQuery(document).ready(function () {
-            $(document).on('click', '.select-image', function () {
+            $(document).on('click', '.select-image1', function () {
                 var finder = new CKFinder();
                 finder.startupPath = 'Images:/bai-viet/';
                 finder.selectActionFunction = function (fileUrl) {
-                    $('#ImageDescription').val(fileUrl);
-                    $('#Image_Preview').attr('src', fileUrl);
+                    $('#ImageDescription1').val(fileUrl);
+                    $('#Image_Preview1').attr('src', fileUrl);
+                };
+                finder.popup();
+
+            });
+
+            $(document).on('click', '.select-image2', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/bai-viet/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#ImageDescription2').val(fileUrl);
+                    $('#Image_Preview2').attr('src', fileUrl);
+                };
+                finder.popup();
+
+            });
+
+            $(document).on('click', '.select-image3', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/bai-viet/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#ImageDescription3').val(fileUrl);
+                    $('#Image_Preview3').attr('src', fileUrl);
+                };
+                finder.popup();
+
+            });
+
+            $(document).on('click', '.select-image4', function () {
+                var finder = new CKFinder();
+                finder.startupPath = 'Images:/bai-viet/';
+                finder.selectActionFunction = function (fileUrl) {
+                    $('#ImageDescription4').val(fileUrl);
+                    $('#Image_Preview4').attr('src', fileUrl);
                 };
                 finder.popup();
 

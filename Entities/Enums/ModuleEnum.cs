@@ -122,6 +122,29 @@ namespace Entities.Enums
         PheDuyetNhuCauThue = 352,
         #endregion
 
+        #region -- Nhóm chức năng quản lý công việc, bắt đầu từ 400 --
+        [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
+        [Description("Nhận thông báo khi có dữ liệu nhà, khách mới")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete, ActionType.Verify)]
+        NhanThongBao = 400,
+        [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
+        [Description("Nhận mail nhắc nhở công việc cho nhân viên")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        GuiMailNhacViec = 401,
+        [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
+        [Description("Chuyển giao dữ liệu từ NV cũ sang NV mới")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        BanGiaoThongTin = 402,
+        [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
+        [Description("Quản lý dữ liệu trùng lặp")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        QuanLyDuLieuTrungLap = 403,
+        [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
+        [Description("Danh sách công việc")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        DanhSachCongViec = 404,
+        #endregion
+
         //[ModuleGroupAttribute(ModuleGroupCode = 4, ModuleGroupName = "Ban liên lạc")]
         //[Description("Phê duyệt hồ sơ thành viên")]
         //[ActionAttribute(ActionType.Read, ActionType.Verify)]

@@ -97,6 +97,18 @@ namespace Entities.Models
         [Display(Name = "Nhân viên phụ trách")]
         public long NhanVienPhuTrachId { get; set; }
 
+        [Display(Name = "Ảnh mô tả 1")]
+        public string ImageDescription1 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 2")]
+        public string ImageDescription2 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 3")]
+        public string ImageDescription3 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 4")]
+        public string ImageDescription4 { get; set; }
+
         //0: Chờ duyệt - 1: Đã duyệt - 2: Hủy bỏ
         [Display(Name = "Trạng thái")]
         public int TrangThai { get; set; }

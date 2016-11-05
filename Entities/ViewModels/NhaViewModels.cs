@@ -14,7 +14,7 @@ namespace Entities.ViewModels
 
         [Required(ErrorMessage = "Vui lòng chọn đường")]
         [Display(Name = "Đường")]
-        public string DuongId { get; set; }
+        public long DuongId { get; set; }
 
         [Display(Name = "Số nhà")]
         [StringLength(200, ErrorMessage = "Số nhà không được vượt quá 200 ký tự!")]
@@ -58,15 +58,18 @@ namespace Entities.ViewModels
         public string DanhGiaPhuHopVoiId { get; set; }
 
         [Display(Name = "Tổng giá thuê")]
+        [Required(ErrorMessage = "Vui lòng nhập tổng giá thuê")]
         public string TongGiaThue { get; set; }
 
         [Display(Name = "Giá thuê BQ/m2")]
         public string GiaThueBQ { get; set; }
 
         [Display(Name = "Tên người liên hệ - vai trò")]
+        [Required(ErrorMessage = "Vui lòng nhập tên người liên hệ - vai trò")]
         public string TenNguoiLienHeVaiTro { get; set; }
 
         [Display(Name = "Số điện thoại")]
+        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
         public string SoDienThoai { get; set; }
 
         [Display(Name = "Ngày CN hẹn liên hệ lại")]
@@ -87,6 +90,18 @@ namespace Entities.ViewModels
 
         [Display(Name = "Nhân viên phụ trách")]
         public string NhanVienPhuTrachId { get; set; }
+
+        [Display(Name = "Ảnh mô tả 1")]
+        public string ImageDescription1 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 2")]
+        public string ImageDescription2 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 3")]
+        public string ImageDescription3 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 4")]
+        public string ImageDescription4 { get; set; }
 
         [Display(Name = "Trạng thái")]
         public string TrangThai { get; set; }
@@ -179,6 +194,18 @@ namespace Entities.ViewModels
 
         [Display(Name = "Nhân viên phụ trách")]
         public long NhanVienPhuTrachId { get; set; }
+
+        [Display(Name = "Ảnh mô tả 1")]
+        public string ImageDescription1 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 2")]
+        public string ImageDescription2 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 3")]
+        public string ImageDescription3 { get; set; }
+
+        [Display(Name = "Ảnh mô tả 4")]
+        public string ImageDescription4 { get; set; }
 
         [Display(Name = "Trạng thái")]
         public int TrangThai { get; set; }
