@@ -59,7 +59,7 @@
             {
                 <li class="@(isActiveController ? "active open" : "") ">
                     <a href="javascript:;">
-                        <i class="icon-speech"></i>
+                        <i class="fa fa-university"></i>
                         <span class="title">Quản lý nhà</span>
                         @if (isActiveController)
                         {
@@ -101,7 +101,7 @@
                 {
                     <li class="@(isActiveController ? "active open" : "") ">
                         <a href="javascript:;">
-                            <i class="icon-speech"></i>
+                            <i class="fa fa-users"></i>
                             <span class="title">Quản lý khách thuê</span>
                             @if (isActiveController)
                             {
@@ -143,7 +143,7 @@
                     {
                         <li class="@(isActiveController ? "active open" : "") ">
                             <a href="javascript:;">
-                                <i class="icon-speech"></i>
+                                <i class="fa fa-briefcase"></i>
                                 <span class="title">Quản lý công việc</span>
                                 @if (isActiveController)
                                 {
@@ -157,7 +157,7 @@
                                     isActive = RouteHelper.IsCurrentControllerAndAction("PhanCongCongViec", "Index", ViewContext);
                                     <li class="@(isActive ? "active" : "") ">
                                         <a href="@Url.RouteUrl("PhanCongCongViecIndex")">
-                                            <i class="fa fa-list"></i>
+                                            <i class="fa fa-check-square-o"></i>
                                             Quản lý phân công
                                         </a>
                                     </li>
@@ -199,7 +199,7 @@
                                             isActive = RouteHelper.IsCurrentControllerAndAction("Import", "ImportIndex", ViewContext);
                                             <li class="@(isActive ? "active" : "") ">
                                                 <a href="@Url.RouteUrl("ImportIndex")">
-                                                    <i class="fa fa-edit"></i>
+                                                    <i class="fa fa-share"></i>
                                                     Import dữ liệu
                                                 </a>
                                             </li>
@@ -209,7 +209,7 @@
                                         isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Create", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
                                             <a href="@Url.RouteUrl("KhachThueCreate")">
-                                                <i class="fa fa-edit"></i>
+                                                <i class="fa fa-reply"></i>
                                                 Export dữ liệu
                                             </a>
                                         </li>
@@ -219,7 +219,7 @@
                                         isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Create", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
                                             <a href="@Url.RouteUrl("KhachThueCreate")">
-                                                <i class="fa fa-edit"></i>
+                                                <i class="fa fa-times-circle"></i>
                                                 Xóa nhà trùng lặp
                                             </a>
                                         </li>
@@ -229,7 +229,7 @@
                                         isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
                                             <a href="@Url.RouteUrl("KhachThueIndex")">
-                                                <i class="fa fa-list"></i>
+                                                <i class="fa fa-times-circle"></i>
                                                 Xóa khách trùng lặp
                                             </a>
                                         </li>
@@ -239,7 +239,7 @@
                                         isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
                                             <a href="@Url.RouteUrl("KhachThueIndex")">
-                                                <i class="fa fa-list"></i>
+                                                <i class="fa fa-refresh"></i>
                                                 Chuyển giao dữ liệu
                                             </a>
                                         </li>
