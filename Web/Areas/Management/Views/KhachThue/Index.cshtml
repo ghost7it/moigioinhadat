@@ -140,16 +140,16 @@
                                         //re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded font-size-small" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
                                         re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
                                     }
-                                    if ('@canDelete' == 'true' || '@canDelete' == 'True') {
-                                        re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.Id + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
+                                    if ('@canCreate' == 'true' || '@canCreate' == 'True') {
+                                        re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small"  href="' + ('@Url.RouteUrl("NhuCauCreate", new { id = "objectId" })').replace("objectId", data.Id) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-plus"></i> Thêm nhu cầu</a>';
                                     }
                                     if ('@canDelete' == 'true' || '@canDelete' == 'True') {
                                         re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #ccb3ff !important" data-objectid="' + data.NhuCauThueId + '" data-objectidkhach="false" href="#"><i class="fa fa-trash-o"></i> Xóa nhu cầu</a>';
                                     }
-                                    if ('@canCreate' == 'true' || '@canCreate' == 'True') {
-                                            re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("NhuCauCreate", new { id = "objectId" })').replace("objectId", data.Id) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-plus"></i> Thêm nhu cầu</a>';
+                                    if ('@canDelete' == 'true' || '@canDelete' == 'True') {
+                                        re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.Id + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
                                     }
-                                    re = re + '<a class="btn btn-xs timnha blue font-size-small" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal" style="margin-top:5px"><i class="fa fa-search"></i> Tìm nhà cho khách</a>';
+                                    re = re + '<a class="btn btn-xs timnha blue font-size-small" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal" style="margin-top:5px"><i class="fa fa-search"></i> Nhà cho khách</a>';
                                     return re;
                                     break;
                                     //Lọc theo đã duyệt
