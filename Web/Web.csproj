@@ -1567,7 +1567,7 @@
     <Content Include="Areas\Management\Views\Nha\TimKhachModal.cshtml" />
     <Content Include="Areas\Management\Views\PhanCongCongViec\Create.cshtml" />
     <Content Include="Areas\Management\Views\PhanCongCongViec\Index.cshtml" />
-    <Content Include="Areas\Management\Views\PhanCongCongViec\UpdateKhach.cshtml" />
+    <Content Include="Areas\Management\Views\PhanCongCongViec\UpdatePhanCongCongViec.cshtml" />
     <Content Include="Areas\Management\Views\PhanCongCongViec\_DetailModal.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
