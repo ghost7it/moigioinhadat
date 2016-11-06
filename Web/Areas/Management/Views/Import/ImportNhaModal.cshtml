@@ -6,9 +6,12 @@
 </div>
 <div class="modal-body">
     <div class="row">
-                @using (Html.BeginForm("ImportNha", "Import", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal form-bordered form-row-stripped" }))
+        @using (Html.BeginForm("ImportNha", "Import", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal form-bordered form-row-stripped" }))
         {
-            <input id="uploadFile" name="uploadFile" type="file" /><input type="submit" value="UploadFile" title="Upload file" onclick="return CheckFileName();" />
+            <div style="display: flex; margin: 10px 10px 10px 20px">
+                <input id="uploadFile" name="uploadFile" type="file" style="margin-right: 68px;" />
+                <input type="submit" value="UploadFile" title="Upload file" onclick="return CheckFileName();" />
+            </div>
         }
     </div>
 </div>
