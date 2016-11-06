@@ -35,7 +35,7 @@ namespace Web.Areas.Management.Controllers
             SetViewBag();
             //return View();
             var article = await _repository.GetRepository<Khach>().ReadAsync(id);
-            var khachthueviewmodel = new KhachThueCreatingViewModel();
+            var khachthueviewmodel = new KhachThueCreatingViewModel();  
 
             if (article != null)
             {
