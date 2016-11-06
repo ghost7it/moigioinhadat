@@ -35,7 +35,7 @@ namespace Web.Areas.Management.Controllers
             SetViewBag();
             //return View();
             var article = await _repository.GetRepository<Khach>().ReadAsync(id);
-            var khachthueviewmodel = new KhachThueCreatingViewModel();  
+            var khachthueviewmodel = new KhachThueCreatingViewModel();
 
             if (article != null)
             {
@@ -245,7 +245,7 @@ namespace Web.Areas.Management.Controllers
                 khachthueviewmodel.SoTang = articleNhuCau.SoTang.ToString();
                 khachthueviewmodel.TongDienTichSuDung = articleNhuCau.TongDienTichSuDung.ToString();
                 khachthueviewmodel.DiChungChu = articleNhuCau.DiChungChu ? "1" : "0";
-                khachthueviewmodel.Ham = articleNhuCau.Ham? "1":"0";
+                khachthueviewmodel.Ham = articleNhuCau.Ham ? "1" : "0";
                 khachthueviewmodel.ThangMay = articleNhuCau.ThangMay ? "1" : "0";
                 khachthueviewmodel.NoiThatKhachThueCuId = articleNhuCau.NoiThatKhachThueCuId.ToString();
                 khachthueviewmodel.TongGiaThue = articleNhuCau.TongGiaThue.ToString();
@@ -279,7 +279,7 @@ namespace Web.Areas.Management.Controllers
                     article.SPChinh = model.SPChinh;
                     try
                     {
-                         result = await _repository.GetRepository<Khach>().UpdateAsync(article, AccountId);
+                        result = await _repository.GetRepository<Khach>().UpdateAsync(article, AccountId);
                     }
                     catch (Exception ex)
                     {
@@ -328,7 +328,7 @@ namespace Web.Areas.Management.Controllers
                         }
                     }
                 }
-                if(result1 > 0)
+                if (result1 > 0)
                 {
                     TempData["Success"] = "Cập nhật dữ liệu khách thuê  thành công!";
                 }
@@ -676,9 +676,9 @@ namespace Web.Areas.Management.Controllers
         }
 
         public string GetPhanCong(long khachId, long nhaId, long nhucauthueId)
-        { 
+        {
             var phancong = _repository.GetRepository<QuanLyCongViec>().GetAll().SingleOrDefault(o => o.NhuCauThueId == nhucauthueId && o.KhachId == khachId && o.NhaId == nhaId);
-            if(phancong != null)
+            if (phancong != null)
                 return "hidden";
             return "block";
         }
@@ -702,31 +702,31 @@ namespace Web.Areas.Management.Controllers
                 var nhanvienchamsocname = "";
                 var khachthue = await _repository.GetRepository<Khach>().ReadAsync(id);
                 var nhucauthue = await _repository.GetRepository<NhuCauThue>().ReadAsync(nhucauId);
-                
+
                 //if (phancong != null)
                 //{
                 //    var nhanvien = _repository.GetRepository<Account>().GetAll().SingleOrDefault(o => o.Id == phancong.NhanVienPhuTrachId);
                 //    if (nhanvien != null) nhanvienchamsocname = nhanvien.Name;
                 //}
 
-                var result = _repository.GetRepository<Nha>().GetAll().Where(o=>o.MatBangId.Equals(nhucauthue.MatBangId) || o.QuanId.Equals(nhucauthue.QuanId) || o.DuongId.Equals(nhucauthue.DuongId)).ToList();
-                 //.Join(_repository.GetRepository<NhuCauThue>().GetAll(), b => b., c => c.Id, (b, c) => new { NhuCauThue = b, Nha = c }).ToList();
-                
+                var result = _repository.GetRepository<Nha>().GetAll().Where(o => o.MatBangId.Equals(nhucauthue.MatBangId) || o.QuanId.Equals(nhucauthue.QuanId) || o.DuongId.Equals(nhucauthue.DuongId)).ToList();
+                //.Join(_repository.GetRepository<NhuCauThue>().GetAll(), b => b., c => c.Id, (b, c) => new { NhuCauThue = b, Nha = c }).ToList();
+
                 var data = result.Select(o => new NhaUpdatingViewModel
                 {
                     Id = o.Id,
                     TenToaNha = o.TenToaNha,
                     SoNha = o.SoNha,
                     SoDienThoai = o.SoDienThoai,
-                    //KhachId = khachthue == null ? 0: khachthue.Id,
-                    //NhuCauThueId = nhucauthue == null ? 0 : nhucauthue.Id,
+                    KhachId = khachthue == null ? 0 : khachthue.Id,
+                    NhuCauThueId = nhucauthue == null ? 0 : nhucauthue.Id,
                     TenNguoiLienHeVaiTro = o.TenNguoiLienHeVaiTro,
                     DienTichDat = o.DienTichDat == null ? 0 : o.DienTichDat,
                     TongGiaThue = o.TongGiaThue == null ? 0 : o.TongGiaThue,
-                    //DaPhanCong = GetPhanCong(khachthue == null ? 0 : khachthue.Id, o.Id, nhucauthue == null ? 0 : nhucauthue.Id),
-                    //NhanVienPhuTrachName = GetNhanVienPhuTrach(khachthue == null ? 0 : khachthue.Id, o.Id, nhucauthue == null ? 0 : nhucauthue.Id)
+                    DaPhanCong = GetPhanCong(khachthue == null ? 0 : khachthue.Id, o.Id, nhucauthue == null ? 0 : nhucauthue.Id),
+                    NhanVienPhuTrachName = GetNhanVienPhuTrach(khachthue == null ? 0 : khachthue.Id, o.Id, nhucauthue == null ? 0 : nhucauthue.Id)
                 });
-
+                //aaa
                 //Phân công nhân viên chăm sóc
                 int NhanVienChamSocRoleGroupId = Convert.ToInt32(WebConfigurationManager.AppSettings["NhanVienChamSocRoleGroupId"]);
 
@@ -751,7 +751,7 @@ namespace Web.Areas.Management.Controllers
                 throw;
             }
         }
-
+        //aa
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
@@ -762,32 +762,32 @@ namespace Web.Areas.Management.Controllers
         {
             //if (ModelState.IsValid)
             //{
-                QuanLyCongViec item  = new QuanLyCongViec();
-                item.NhanVienPhuTrachId = phutrachId;
-                item.KhachId = khachId;
-                item.NgayTao = DateTime.Now;
-                item.NguoiTaoId = AccountId;
-                item.NhaId = nhaId;
-                item.NhuCauThueId = nhucauthueId;
-                item.TrangThai = 0; //Chờ gửi thông tin cho người phụ trách
-                int resultphancong = 0;
-                try
-                {
-                    resultphancong = await _repository.GetRepository<QuanLyCongViec>().CreateAsync(item, AccountId);
-                }
-                catch (Exception ex)
-                {
-                }
-                if (resultphancong > 0)
-                {
-                    TempData["Success"] = "Phân công công việc thành công!";
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Phân công công việc không thành công! Vui lòng kiểm tra và thử lại!");
-                    return View();
-                }
-                return RedirectToAction("Index");
+            QuanLyCongViec item = new QuanLyCongViec();
+            item.NhanVienPhuTrachId = phutrachId;
+            item.KhachId = khachId;
+            item.NgayTao = DateTime.Now;
+            item.NguoiTaoId = AccountId;
+            item.NhaId = nhaId;
+            item.NhuCauThueId = nhucauthueId;
+            item.TrangThai = 0; //Chờ gửi thông tin cho người phụ trách
+            int resultphancong = 0;
+            try
+            {
+                resultphancong = await _repository.GetRepository<QuanLyCongViec>().CreateAsync(item, AccountId);
+            }
+            catch (Exception ex)
+            {
+            }
+            if (resultphancong > 0)
+            {
+                TempData["Success"] = "Phân công công việc thành công!";
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Phân công công việc không thành công! Vui lòng kiểm tra và thử lại!");
+                return View();
+            }
+            return RedirectToAction("Index");
         }
 
     }
