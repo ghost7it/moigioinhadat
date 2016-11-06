@@ -39,7 +39,7 @@
                             <a href="@Url.RouteUrl("PhanCongCreate", new { nhaId = item.Id, khachId = item.KhachId, nhucauthueId = item.NhuCauThueId })" class="@item.DaPhanCong"><i class="fa fa-user"></i>&nbsp; Phân công</a>
                             @if(item.DaPhanCong == "hidden")
                             { 
-                                <span>Đã phân công</span>
+                                <span style="margin-left: 15px; color: #428bca;font-style:italic"> <i class="fa fa-check-square"></i> Đã phân công</span>
                             }
                         </td>
                     </tr>

@@ -169,8 +169,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Management\Controllers\AccountController.cs" />
     <Compile Include="Areas\Management\Controllers\AlbumController.cs" />
-    <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
     <Compile Include="Areas\Management\Controllers\ImportController.cs" />
+    <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
