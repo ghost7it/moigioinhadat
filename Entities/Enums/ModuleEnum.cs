@@ -132,23 +132,33 @@ namespace Entities.Enums
         [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
         GuiMailNhacViec = 401,
         [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
-        [Description("Chuyển giao dữ liệu từ NV cũ sang NV mới")]
-        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
-        BanGiaoThongTin = 402,
-        [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
-        [Description("Quản lý dữ liệu trùng lặp")]
-        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
-        QuanLyDuLieuTrungLap = 403,
-        [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
         [Description("Danh sách công việc")]
         [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
-        DanhSachCongViec = 404,
+        DanhSachCongViec = 402,
         #endregion
 
-        //[ModuleGroupAttribute(ModuleGroupCode = 4, ModuleGroupName = "Ban liên lạc")]
-        //[Description("Phê duyệt hồ sơ thành viên")]
-        //[ActionAttribute(ActionType.Read, ActionType.Verify)]
-        //ProfileApproveCommittee = 252,
+        #region -- Nhóm chức năng quản lý dữ liệu, bắt đầu từ 450 --
+        [ModuleGroupAttribute(ModuleGroupCode = 7, ModuleGroupName = "Quản lý dữ liệu")]
+        [Description("Import dữ liệu")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete, ActionType.Verify)]
+        Import = 450,
+        [ModuleGroupAttribute(ModuleGroupCode = 7, ModuleGroupName = "Quản lý dữ liệu")]
+        [Description("Export dữ liệu")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        Export = 451,
+        [ModuleGroupAttribute(ModuleGroupCode = 7, ModuleGroupName = "Quản lý dữ liệu")]
+        [Description("Xóa nhà trùng lặp")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        XoaNhaTrung = 452,
+        [ModuleGroupAttribute(ModuleGroupCode = 7, ModuleGroupName = "Quản lý dữ liệu")]
+        [Description("Xóa khách trùng lặp")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        XoaKhachTrungLap = 453,
+        [ModuleGroupAttribute(ModuleGroupCode = 7, ModuleGroupName = "Quản lý dữ liệu")]
+        [Description("Chuyển giao dữ liệu")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        ChuyenGiaoDuLieu = 454
+        #endregion
         #endregion
     }
 }

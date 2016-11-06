@@ -1,0 +1,43 @@
+﻿@{
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">Import dữ liệu nhà</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+                @using (Html.BeginForm("ImportNha", "Import", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal form-bordered form-row-stripped" }))
+        {
+            <input id="uploadFile" name="uploadFile" type="file" /><input type="submit" value="UploadFile" title="Upload file" onclick="return CheckFileName();" />
+        }
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" data-dismiss="modal">Đóng lại</button>
+</div>
+<script type="text/javascript">
+    function CheckFileName() {
+        var fileName = document.getElementById("uploadFile").value;
+        if (fileName == "") {
+            alert("Bạn chưa chọn file.");
+            return false;
+        }
+        else if (fileName.split(".")[1].toUpperCase() == "XLS" || fileName.split(".")[1].toUpperCase() == "XLSX")
+            return true;
+        else {
+            alert("Không hỗ trợ định dạng file " + fileName.split(".")[1] + ". Vui lòng chỉ upload file có định dạng xls / xlsx");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<style type="text/css">
+    .modal-dialog {
+        width: 680px;
+    }
+
+    .static-info {
+        margin-bottom: 10px;
+    }
+</style>

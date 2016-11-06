@@ -54,7 +54,7 @@ namespace Entities.ViewModels
         [Display(Name = "Đường")]
         public string DuongId { get; set; }
 
-        [Display(Name = "Tên Đường")] 
+        [Display(Name = "Tên Đường")]
         public string DuongName { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập số nhà")]

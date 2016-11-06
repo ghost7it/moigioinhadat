@@ -194,11 +194,11 @@
                         <span class="arrow open"></span>
                     </a>
                     <ul class="sub-menu">
-                        @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create))
+                        @if (RoleHelper.CheckPermission(ModuleEnum.Import, ActionEnum.Create))
                         {
-                            isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Create", ViewContext);
+                            isActive = RouteHelper.IsCurrentControllerAndAction("Import", "ImportIndex", ViewContext);
                             <li class="@(isActive ? "active" : "") ">
-                                <a href="@Url.RouteUrl("KhachThueCreate")">
+                                <a href="@Url.RouteUrl("ImportIndex")">
                                     <i class="fa fa-edit"></i>
                                     Import dữ liệu
                                 </a>

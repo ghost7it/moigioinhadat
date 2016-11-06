@@ -23,5 +23,7 @@ namespace Entities.Enums
         NhuCauThue = 5,
         [Description("Quản lý công việc")]
         CongViec = 6,
+        [Description("Quản lý dữ liệu")]
+        DuLieu = 7,
     }
 }

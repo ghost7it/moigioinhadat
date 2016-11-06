@@ -14,7 +14,7 @@ namespace Entities.ViewModels
 
         [Required(ErrorMessage = "Vui lòng chọn đường")]
         [Display(Name = "Đường")]
-        public long DuongId { get; set; }
+        public string DuongId { get; set; }
 
         [Display(Name = "Số nhà")]
         [StringLength(200, ErrorMessage = "Số nhà không được vượt quá 200 ký tự!")]
@@ -58,18 +58,15 @@ namespace Entities.ViewModels
         public string DanhGiaPhuHopVoiId { get; set; }
 
         [Display(Name = "Tổng giá thuê")]
-        [Required(ErrorMessage = "Vui lòng nhập tổng giá thuê")]
         public string TongGiaThue { get; set; }
 
         [Display(Name = "Giá thuê BQ/m2")]
         public string GiaThueBQ { get; set; }
 
         [Display(Name = "Tên người liên hệ - vai trò")]
-        [Required(ErrorMessage = "Vui lòng nhập tên người liên hệ - vai trò")]
         public string TenNguoiLienHeVaiTro { get; set; }
 
         [Display(Name = "Số điện thoại")]
-        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
         public string SoDienThoai { get; set; }
 
         [Display(Name = "Ngày CN hẹn liên hệ lại")]
@@ -90,6 +87,12 @@ namespace Entities.ViewModels
 
         [Display(Name = "Nhân viên phụ trách")]
         public string NhanVienPhuTrachId { get; set; }
+
+        [Display(Name = "Đã phân công")]
+        public string DaPhanCong { get; set; }
+
+        [Display(Name = "Tên nhân viên phụ trách")]
+        public string NhanVienPhuTrachName { get; set; }
 
         [Display(Name = "Ảnh mô tả 1")]
         public string ImageDescription1 { get; set; }
@@ -194,6 +197,18 @@ namespace Entities.ViewModels
 
         [Display(Name = "Nhân viên phụ trách")]
         public long NhanVienPhuTrachId { get; set; }
+
+        [Display(Name = "Khách")]
+        public long KhachId { get; set; }
+
+        [Display(Name = "Nhu cầu thuê")]
+        public long NhuCauThueId { get; set; }
+
+        [Display(Name = "Đã phân công")]
+        public string DaPhanCong { get; set; }
+
+        [Display(Name = "Tên nhân viên phụ trách")]
+        public string NhanVienPhuTrachName { get; set; }
 
         [Display(Name = "Ảnh mô tả 1")]
         public string ImageDescription1 { get; set; }

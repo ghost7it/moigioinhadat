@@ -144,6 +144,7 @@ namespace Web.Areas.Management.Controllers
             ViewBag.RoleId = id;
             var role = await _repository.GetRepository<Role>().ReadAsync(id);
             ViewBag.RoleName = role.Name;
+            var t = await _repository.GetRepository<ModuleRole>().GetAllAsync();
             ViewBag.ModuleRoles = await _repository.GetRepository<ModuleRole>().GetAllAsync();
             return View();
         }

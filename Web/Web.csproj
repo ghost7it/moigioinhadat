@@ -169,6 +169,7 @@
     <Compile Include="Areas\Management\Controllers\AccountController.cs" />
     <Compile Include="Areas\Management\Controllers\AlbumController.cs" />
     <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
+    <Compile Include="Areas\Management\Controllers\ImportController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
@@ -1557,6 +1558,11 @@
     <Content Include="Areas\Management\Views\KhachThue\CreateNhuCau.cshtml" />
     <Content Include="Areas\Management\Views\Shared\_ModalLayout.cshtml" />
     <Content Include="Areas\Management\Views\KhachThue\UpdateKhach.cshtml" />
+    <Content Include="Areas\Management\Views\Import\ImportNhaModal.cshtml" />
+    <Content Include="Areas\Management\Views\Import\Index.cshtml" />
+    <Content Include="Areas\Management\Views\KhachThue\TimNhaModal.cshtml" />
+    <Content Include="Areas\Management\Views\Nha\RaoVatModal.cshtml" />
+    <Content Include="Areas\Management\Views\Nha\TimKhachModal.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
