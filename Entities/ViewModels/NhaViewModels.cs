@@ -85,8 +85,8 @@ namespace Entities.ViewModels
         [Display(Name = "Người tạo")]
         public string NguoiTaoId { get; set; }
 
-        [Display(Name = "Nhân viên phụ trách")]
-        public string NhanVienPhuTrachId { get; set; }
+        //[Display(Name = "Nhân viên phụ trách")]
+        //public string NhanVienPhuTrachId { get; set; }
 
         [Display(Name = "Đã phân công")]
         public string DaPhanCong { get; set; }
@@ -195,8 +195,8 @@ namespace Entities.ViewModels
         [Display(Name = "Người tạo")]
         public long NguoiTaoId { get; set; }
 
-        [Display(Name = "Nhân viên phụ trách")]
-        public long NhanVienPhuTrachId { get; set; }
+        //[Display(Name = "Nhân viên phụ trách")]
+        //public long NhanVienPhuTrachId { get; set; }
 
         [Display(Name = "Khách")]
         public long KhachId { get; set; }

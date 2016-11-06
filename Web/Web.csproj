@@ -183,6 +183,7 @@
     <Compile Include="Areas\Management\Controllers\MajorsController.cs" />
     <Compile Include="Areas\Management\Controllers\NationController.cs" />
     <Compile Include="Areas\Management\Controllers\OrganizationController.cs" />
+    <Compile Include="Areas\Management\Controllers\PhanCongCongViecController.cs" />
     <Compile Include="Areas\Management\Controllers\PositionController.cs" />
     <Compile Include="Areas\Management\Controllers\ProvinceController.cs" />
     <Compile Include="Areas\Management\Controllers\RankController.cs" />
@@ -1563,6 +1564,10 @@
     <Content Include="Areas\Management\Views\KhachThue\TimNhaModal.cshtml" />
     <Content Include="Areas\Management\Views\Nha\RaoVatModal.cshtml" />
     <Content Include="Areas\Management\Views\Nha\TimKhachModal.cshtml" />
+    <Content Include="Areas\Management\Views\PhanCongCongViec\Create.cshtml" />
+    <Content Include="Areas\Management\Views\PhanCongCongViec\Index.cshtml" />
+    <Content Include="Areas\Management\Views\PhanCongCongViec\UpdateKhach.cshtml" />
+    <Content Include="Areas\Management\Views\PhanCongCongViec\_DetailModal.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />

@@ -135,6 +135,10 @@ namespace Entities.Enums
         [Description("Danh sách công việc")]
         [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
         DanhSachCongViec = 402,
+        [ModuleGroupAttribute(ModuleGroupCode = 6, ModuleGroupName = "Quản lý công việc")]
+        [Description("Phân công công việc")]
+        [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
+        PhanCongCongViec = 403,
         #endregion
 
         #region -- Nhóm chức năng quản lý dữ liệu, bắt đầu từ 450 --

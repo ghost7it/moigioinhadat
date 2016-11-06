@@ -94,8 +94,8 @@ namespace Entities.Models
         [Display(Name = "Người tạo")]
         public long NguoiTaoId { get; set; }
 
-        [Display(Name = "Nhân viên phụ trách")]
-        public long NhanVienPhuTrachId { get; set; }
+        //[Display(Name = "Nhân viên phụ trách")]
+        //public long NhanVienPhuTrachId { get; set; }
 
         [Display(Name = "Ảnh mô tả 1")]
         public string ImageDescription1 { get; set; }

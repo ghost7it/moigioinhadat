@@ -1,0 +1,254 @@
+﻿@*@using Entities.Models;*@
+@model Entities.ViewModels.KhachThueCreatingViewModel
+@{
+    //IEnumerable<Entities.Models.ArticleCategory> articleCategory = (IEnumerable<Entities.Models.ArticleCategory>)ViewBag.ArticleCategory;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">Xem chi tiết khách thuê nhà</h4>
+</div>
+<div class="modal-body">
+    <div class="row" style="background: #f5f5f0;padding-top:10px">
+        <div class="col-md-6">
+            @*<div class="row static-info">
+                    <div class="col-md-4 name">
+                        Tên khách:
+                    </div>
+                    <div class="col-md-8 value">
+                        @Model.TenKhach
+                    </div>
+                </div>*@
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Tên người liên hệ - vai trò:
+                </div>
+                <div class="col-md-8 value">
+                    @Model.TenNguoiLienHeVaiTro
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Số điện thoại:
+                </div>
+                <div class="col-md-8 value">
+                    @Model.SoDienThoai
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Lĩnh vực:
+                </div>
+                <div class="col-md-8 value">
+                    @Model.LinhVuc
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    SP chính
+                </div>
+                <div class="col-md-8 value">
+                    @Model.SPChinh
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Phân khúc
+                </div>
+                <div class="col-md-8 value">
+                    @Model.PhanKhuc
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Ghi chú
+                </div>
+                <div class="col-md-8 value">
+                    @Model.GhiChu
+                </div>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row" style="background: #f0f5f5;padding-top:10px">
+        <div class="col-md-6">
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Loại mặt bằng
+                </div>
+                <div class="col-md-8 value">
+                    @Model.MatBangId
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Quận
+                </div>
+                <div class="col-md-8 value">
+                    @Model.QuanName
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Đường
+                </div>
+                <div class="col-md-8 value">
+                    @Model.DuongName
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Số nhà
+                </div>
+                <div class="col-md-8 value">
+                    @Model.SoNha
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Tên tòa nhà
+                </div>
+                <div class="col-md-8 value">
+                    @Model.TenToaNha
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Mặt tiền treo biển
+                </div>
+                <div class="col-md-8 value">
+                    @Model.MatTienTreoBien (m)
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Bề ngang lọt lòng
+                </div>
+                <div class="col-md-8 value">
+                    @Model.BeNgangLotLong (m)
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Diện tích đất
+                </div>
+                <div class="col-md-8 value">
+                    @Model.DienTichDat (m2)
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Diện tích đất sử dụng tầng 1
+                </div>
+                <div class="col-md-8 value">
+                    @Model.DienTichDatSuDungTang1 (m2)
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Cấp độ theo dõi
+                </div>
+                <div class="col-md-8 value">
+                    @Model.CapDoTheoDoiId
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Số tầng
+                </div>
+                <div class="col-md-8 value">
+                    @Model.SoTang
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Tổng diện tích sử dụng
+                </div>
+                <div class="col-md-8 value">
+                    @Model.TongDienTichSuDung (m2)
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Đi chung chủ
+                </div>
+                <div class="col-md-8 value">
+                    @Model.DiChungChu
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Hầm
+                </div>
+                <div class="col-md-8 value">
+                    @Model.Ham
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Thang máy
+                </div>
+                <div class="col-md-8 value">
+                    @Model.ThangMay
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Nột thất/khách thuê cũ
+                </div>
+                <div class="col-md-8 value">
+                    @Model.NoiThatKhachThueCuId
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Tổng giá thuê
+                </div>
+                <div class="col-md-8 value">
+                    @Model.TongGiaThue (triệu VNĐ)
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Giá thuê BQ/m2
+                </div>
+                <div class="col-md-8 value">
+                    @Model.GiaThueBQ (triệu VNĐ)
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Ngày chủ nhà hẹn liên hệ lại
+                </div>
+                <div class="col-md-8 value">
+                    @Model.NgayCNHenLienHeLai
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Ghi chú nhu cầu
+                </div>
+                <div class="col-md-8 value">
+                    @Model.GhiChuNhuCau
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+  
+<div class="modal-footer">
+    <button type="button" class="btn default" data-dismiss="modal">Đóng lại</button>
+</div>
+<style type="text/css">
+    .modal-dialog {
+        width: 960px;
+    }
+
+    .static-info {
+        margin-bottom: 10px;
+    }
+</style>
