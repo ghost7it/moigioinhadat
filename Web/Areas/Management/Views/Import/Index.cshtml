@@ -1,0 +1,65 @@
+﻿@using Entities.Enums;
+@{
+    ViewBag.Title = "Import dữ liệu";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Import</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-check-square font-green-sharp bold"></i>
+                    <span class="caption-subject font-green-sharp bold ">Import dữ liệu</span>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <div class="alert-box warning">
+                    <span><i class="fa fa-warning"></i> Chú ý: </span>Yêu cầu bắt buộc để import dữ liệu là file import phải đúng template. Vui lòng tải teamplate tại đây.
+                </div>
+                <a class="btn btn-xs blue btn-import" href="@Url.RouteUrl("ImportNhaModal")" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-share"></i> Import dữ liệu nhà</a>
+                <a class="btn btn-xs blue btn-import" href="@Url.RouteUrl("ImportKhachModal")" data-ta data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-share"></i> Import dữ liệu khách</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .alert-box {
+        color: #555;
+        padding: 10px 10px 10px 36px;
+        margin-bottom: 20px;
+    }
+
+        .alert-box span {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+    .warning {
+        background-color: #fff8c4;
+        border: 1px solid #f2c779;
+    }
+
+    .btn-import {
+        padding: 10px;
+        margin-right: 10px;
+    }
+</style>
+
+
+
+
