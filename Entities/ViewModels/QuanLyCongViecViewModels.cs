@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Entities.ViewModels
@@ -39,5 +40,23 @@ namespace Entities.ViewModels
 
         [Display(Name = "Ẩn thông tin khách")]
         public string KhachHiddenField { get; set; }
+
+        [Display(Name = "Các trường dữ liệu nhà cần ẩn")]
+        public string NhaField { get; set; }
+
+        [Display(Name = "Các trường dữ liệu khách cần ẩn")]
+        public string KhachField { get; set; }
+
+        public List<FieldHidden> FieldHidden { get; set; }
+    }
+
+    public class FieldHidden{
+        public string FieldKey { get; set; }
+        public string FieldName{ get; set; }
+        public bool IsSelected { get; set; }
+
+        public bool IsNha { get; set; }
+        public bool IsNhuCau { get; set; }
+
     }
 }

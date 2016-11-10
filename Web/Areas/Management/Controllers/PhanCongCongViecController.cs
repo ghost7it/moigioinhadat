@@ -58,7 +58,7 @@ namespace Web.Areas.Management.Controllers
                     ViewBag.DienTichDatSuDungTang1 = nhucauthue.DienTichDatSuDungTang1 + " (m2)";
                     ViewBag.TongDienTichSuDung = nhucauthue.TongDienTichSuDung + " (m2)";
                     ViewBag.SoTang = nhucauthue.SoTang;
-                    ViewBag.DiChungChu = nhucauthue.DiChungChu? "Có" : "Không";
+                    ViewBag.DiChungChu = nhucauthue.DiChungChu ? "Có" : "Không";
                     ViewBag.Ham = nhucauthue.Ham ? "Có" : "Không";
                     ViewBag.ThangMay = nhucauthue.ThangMay ? "Có" : "Không";
                     var noithat = await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nhucauthue.NoiThatKhachThueCuId);
@@ -66,7 +66,7 @@ namespace Web.Areas.Management.Controllers
                     {
                         ViewBag.NoiThat = noithat.Name;
                     }
-                    
+
                     ViewBag.TongGiaThue = nhucauthue.TongGiaThue + " (triệu VNĐ)";
                     ViewBag.GiaThueBQ = nhucauthue.GiaThueBQ + " (triệu VNĐ/m2)";
                 }
@@ -131,7 +131,55 @@ namespace Web.Areas.Management.Controllers
 
                 ViewBag.Accounts = listAccount;
                 quanlycongviecviewmodel.NhanVienPhuTrachId = article.NhanVienPhuTrachId;
-               
+
+                var listNha = new List<FieldHidden>();
+                listNha.Add(new FieldHidden { FieldKey = "SoNha", FieldName = "Số nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
+                listNha.Add(new FieldHidden { FieldKey = "TenToaNha", FieldName = "Tên tòa nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
+                listNha.Add(new FieldHidden { FieldKey = "MatTienTreoBien", FieldName = "Mặt tiền treo biển", IsSelected = false, IsNha = true, IsNhuCau = true });
+                listNha.Add(new FieldHidden { FieldKey = "BeNgangLotLong", FieldName = "Bề ngang lọt lòng", IsSelected = false, IsNha = true, IsNhuCau = true });
+                listNha.Add(new FieldHidden { FieldKey = "DienTichDat", FieldName = "Diện tích đất", IsSelected = false, IsNha = true, IsNhuCau = true });
+                listNha.Add(new FieldHidden { FieldKey = "DienTichDatSuDungTang1", FieldName = "Diện tích đất sử dụng tầng 1", IsSelected = false, IsNha = true, IsNhuCau = true });
+                listNha.Add(new FieldHidden { FieldKey = "TongDienTichSuDung", FieldName = "Tổng diện tích sử dụng", IsSelected = false, IsNha = true, IsNhuCau = true });
+
+                if (!string.IsNullOrEmpty(article.NhaHiddenField))
+                {
+                    string[] arrnhahidden = article.NhaHiddenField.Split(',');
+                    if (arrnhahidden.Count() > 0)
+                    {
+                        for (var i = 0; i < arrnhahidden.Count(); i++)
+                        {
+                            foreach (var item in listNha.Where(w => w.FieldKey == arrnhahidden[i] && w.IsNha == true))
+                            {
+                                item.IsSelected = true;
+                            }
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(article.NhuCauHiddenField))
+                {
+                    string[] arrnhucauhidden = article.NhuCauHiddenField.Split(',');
+                    if (arrnhucauhidden.Count() > 0)
+                    {
+                        for (var i = 0; i < arrnhucauhidden.Count(); i++)
+                        {
+                            foreach (var item in listNha.Where(w => w.FieldKey == arrnhucauhidden[i] && w.IsNhuCau == true))
+                            {
+                                item.IsSelected = true;
+                            }
+                        }
+                    }
+                }
+
+
+                //var listKhach = new Dictionary<string, string>();
+                //listKhach.Add("MatTienTreoBien", "Mặt tiền treo biển");
+                //listKhach.Add("BeNgangLotLong", "Bề ngang lọt lòng");
+                //listKhach.Add("DienTichDat", "Diện tích đất");
+                //listKhach.Add("DienTichDatSuDungTang1", "Diện tích đất sử dụng tầng 1");
+                //listKhach.Add("TongDienTichSuDung", "Tổng diện tích sử dụng");
+
+                quanlycongviecviewmodel.FieldHidden = listNha;
             }
             return View("UpdatePhanCongCongViec", quanlycongviecviewmodel);
         }
@@ -141,83 +189,61 @@ namespace Web.Areas.Management.Controllers
         [ValidateInput(false)]
         [Route("sua-phan-cong-cong-viec/{id?}")]
         [ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.PhanCongCongViec)]
-        public async Task<ActionResult> UpdatePhanCongCongViec(KhachThueCreatingViewModel model, long id, long nhucauId)
+        public async Task<ActionResult> UpdatePhanCongCongViec(QuanLyCongViecViewModel model, long id)
         {
             int result = 0;
-            int result1 = 0;
             if (ModelState.IsValid)
             {
-                var article = await _repository.GetRepository<Khach>().ReadAsync(id);
+                var article = await _repository.GetRepository<QuanLyCongViec>().ReadAsync(id);
                 if (article != null)
                 {
-                    article.TenKhach = model.TenKhach;
-                    article.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
-                    article.GhiChu = model.GhiChu;
-                    article.LinhVuc = model.LinhVuc;
-                    article.PhanKhuc = model.PhanKhuc;
-                    article.SoDienThoai = model.SoDienThoai;
-                    article.SPChinh = model.SPChinh;
+                    article.NhanVienPhuTrachId = model.NhanVienPhuTrachId;
+                    article.NoiDungCongViec = model.NoiDungCongViec;
+                    var listFieldHidden = model.FieldHidden;
+                    if (listFieldHidden.Any())
+                    {
+                        var nhahiddenfield = "";
+                        var nhucauhiddenfield = "";
+                        foreach (FieldHidden item in listFieldHidden)
+                        {
+                            if (item.IsNha && item.IsSelected)
+                            {
+                                nhahiddenfield += item.FieldKey;
+                                if (item != listFieldHidden[listFieldHidden.Count - 1])
+                                {
+                                    nhahiddenfield += ",";
+                                }
+                            }
+                            if (item.IsNhuCau && item.IsSelected)
+                            {
+                                nhucauhiddenfield += item.FieldKey;
+                                if (item != listFieldHidden[listFieldHidden.Count - 1])
+                                {
+                                    nhucauhiddenfield += ",";
+                                }
+                            }
+                        }
+                        article.NhaHiddenField = nhahiddenfield;
+                        article.NhuCauHiddenField = nhucauhiddenfield;
+                    }
                     try
                     {
-                        result = await _repository.GetRepository<Khach>().UpdateAsync(article, AccountId);
+                        result = await _repository.GetRepository<QuanLyCongViec>().UpdateAsync(article, AccountId);
                     }
                     catch (Exception ex)
                     {
                     }
                     if (result > 0)
                     {
-                        var nhucauthue = await _repository.GetRepository<NhuCauThue>().ReadAsync(nhucauId);
-                        if (nhucauthue != null)
-                        {
-                            nhucauthue.BeNgangLotLong = string.IsNullOrEmpty(model.BeNgangLotLong) ? 0 : float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
-                            nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
-                            nhucauthue.DiChungChu = model.DiChungChu == "1" ? true : false;
-                            nhucauthue.DienTichDat = string.IsNullOrEmpty(model.DienTichDat) ? 0 : float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
-                            nhucauthue.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
-                            nhucauthue.DuongId = Convert.ToInt64(model.DuongId);
-                            var item1 = await _repository.GetRepository<Duong>().ReadAsync(nhucauthue.DuongId);
-                            if (item1 != null) { nhucauthue.DuongName = item1.Name; }
-                            nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
-                            nhucauthue.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
-                            nhucauthue.Ham = model.Ham == "1" ? true : false;
-                            nhucauthue.KhachId = id;
-                            nhucauthue.MatBangId = Convert.ToInt32(model.MatBangId);
-                            nhucauthue.MatTienTreoBien = string.IsNullOrEmpty(model.MatTienTreoBien) ? 0 : float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
-                            nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                            nhucauthue.NguoiTaoId = AccountId;
-                            nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
-                            nhucauthue.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
-                            nhucauthue.QuanId = Convert.ToInt64(model.QuanId);
-                            var item = await _repository.GetRepository<Quan>().ReadAsync(nhucauthue.QuanId);
-                            if (item != null) { nhucauthue.QuanName = item.Name; }
-                            nhucauthue.SoNha = StringHelper.KillChars(model.SoNha);
-                            nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
-                            nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
-                            nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
-                            nhucauthue.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
-                            nhucauthue.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
-                            nhucauthue.NgayTao = DateTime.Now;
-                            nhucauthue.TrangThai = 0; //Chờ duyệt
-                            try
-                            {
-                                result1 = await _repository.GetRepository<NhuCauThue>().UpdateAsync(nhucauthue, AccountId);
-                            }
-                            catch (Exception ex)
-                            {
-                            }
-                        }
+                        TempData["Success"] = "Cập nhật dữ liệu quản lý công việc thành công!";
                     }
-                }
-                if (result1 > 0)
-                {
-                    TempData["Success"] = "Cập nhật dữ liệu khách thuê  thành công!";
                 }
                 return RedirectToAction("Index");
             }
             else
             {
                 //ViewBag.DangMatBang = await _repository.GetRepository<MatBang>().GetAllAsync();
-                ModelState.AddModelError(string.Empty, "Cập nhật dữ liệu khách thuê không thành công! Vui lòng kiểm tra và thử lại!");
+                ModelState.AddModelError(string.Empty, "Cập nhật dữ liệu quản lý công việc không thành công! Vui lòng kiểm tra và thử lại!");
                 return View(model);
             }
         }
@@ -444,48 +470,125 @@ namespace Web.Areas.Management.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Route("xem-chi-tiet-khach-thue-modal/{id?}/{nhucauId?}", Name = "KhachDetailModal1")]
-        public async Task<ActionResult> DetailModal(long id, long nhucauId)
+        [Route("xem-chi-tiet-phan-cong-cong-viec-modal/{id?}", Name = "PhanCongCongViecDetailModal")]
+        public async Task<ActionResult> DetailModal(long id)
         {
-            var article = await _repository.GetRepository<Khach>().ReadAsync(id);
-            var nhucauthue = await _repository.GetRepository<NhuCauThue>().ReadAsync(nhucauId);
-            var khachthueviewmodel = new KhachThueCreatingViewModel();
-
+            var article = await _repository.GetRepository<QuanLyCongViec>().ReadAsync(id);
             if (article != null)
             {
-                khachthueviewmodel.TenKhach = article.TenKhach;
-                khachthueviewmodel.TenNguoiLienHeVaiTro = article.TenNguoiLienHeVaiTro;
-                khachthueviewmodel.GhiChu = article.GhiChu;
-                khachthueviewmodel.LinhVuc = article.LinhVuc;
-                khachthueviewmodel.PhanKhuc = article.PhanKhuc;
-                khachthueviewmodel.SoDienThoai = article.SoDienThoai.ToString();
-                khachthueviewmodel.SPChinh = article.SPChinh.ToString();
+                var khach = await _repository.GetRepository<Khach>().ReadAsync(article.KhachId);
+                if (khach != null)
+                {
+                    ViewBag.TenKhach = khach.TenNguoiLienHeVaiTro;
+                    ViewBag.SoDienThoaiKhach = khach.SoDienThoai;
+                }
+
+                var nhucauthue = await _repository.GetRepository<NhuCauThue>().ReadAsync(article.NhuCauThueId);
+                if (nhucauthue != null)
+                {
+                    ViewBag.QuanName = nhucauthue.QuanName;
+                    ViewBag.DuongName = nhucauthue.DuongName;
+                    var matbang = await _repository.GetRepository<MatBang>().ReadAsync(nhucauthue.MatBangId);
+                    if (matbang != null)
+                    {
+                        ViewBag.LoaiMatBang = matbang.Name;
+                    }
+                    ViewBag.MatTienTreoBien = nhucauthue.MatTienTreoBien + " (m)";
+                    ViewBag.BeNgangLotLong = nhucauthue.BeNgangLotLong + " (m)";
+                    ViewBag.DienTichDat = nhucauthue.DienTichDat + " (m2)";
+                    ViewBag.DienTichDatSuDungTang1 = nhucauthue.DienTichDatSuDungTang1 + " (m2)";
+                    ViewBag.TongDienTichSuDung = nhucauthue.TongDienTichSuDung + " (m2)";
+                    ViewBag.SoTang = nhucauthue.SoTang;
+                    ViewBag.DiChungChu = nhucauthue.DiChungChu ? "Có" : "Không";
+                    ViewBag.Ham = nhucauthue.Ham ? "Có" : "Không";
+                    ViewBag.ThangMay = nhucauthue.ThangMay ? "Có" : "Không";
+                    var noithat = await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nhucauthue.NoiThatKhachThueCuId);
+                    if (noithat != null)
+                    {
+                        ViewBag.NoiThat = noithat.Name;
+                    }
+
+                    ViewBag.TongGiaThue = nhucauthue.TongGiaThue + " (triệu VNĐ)";
+                    ViewBag.GiaThueBQ = nhucauthue.GiaThueBQ + " (triệu VNĐ/m2)";
+                }
+
+                var nha = await _repository.GetRepository<Nha>().ReadAsync(article.NhaId);
+                if (nha != null)
+                {
+                    var matbang1 = await _repository.GetRepository<MatBang>().ReadAsync(nha.MatBangId);
+                    if (matbang1 != null)
+                    {
+                        ViewBag.LoaiMatBang1 = matbang1.Name;
+                    }
+                    var quan = await _repository.GetRepository<Quan>().ReadAsync(nha.QuanId);
+                    if (quan != null)
+                    {
+                        ViewBag.QuanName1 = quan.Name;
+                    }
+                    var duong = await _repository.GetRepository<Duong>().ReadAsync(nha.DuongId);
+                    if (duong != null)
+                    {
+                        ViewBag.DuongName1 = duong.Name;
+                    }
+
+                    ViewBag.SoNha = nha.SoNha;
+                    ViewBag.TenToaNha = nha.TenToaNha;
+                    ViewBag.TenChuNha = nha.TenNguoiLienHeVaiTro;
+                    ViewBag.SoDienThoai1 = nha.SoDienThoai;
+                    ViewBag.MatTienTreoBien1 = nha.MatTienTreoBien + " (m)";
+                    ViewBag.BeNgangLotLong1 = nha.BeNgangLotLong + " (m)";
+                    ViewBag.DienTichDat1 = nha.DienTichDat + " (m2)";
+                    ViewBag.DienTichDatSuDungTang11 = nha.DienTichDatSuDungTang1 + " (m2)";
+                    ViewBag.SoTang1 = nha.SoTang;
+                    ViewBag.TongDienTichSuDung1 = nha.TongDienTichSuDung + " (m2)";
+                    ViewBag.DiChungChu1 = nha.DiChungChu ? "Có" : "Không";
+                    ViewBag.Ham1 = nha.Ham ? "Có" : "Không";
+                    ViewBag.ThangMay1 = nha.ThangMay ? "Có" : "Không";
+                    var noithat1 = await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nha.NoiThatKhachThueCuId);
+                    if (noithat1 != null)
+                    {
+                        ViewBag.NoiThat1 = noithat1.Name;
+                    }
+
+                    ViewBag.TongGiaThue1 = nha.TongGiaThue + " (triệu VNĐ)";
+                    ViewBag.GiaThueBQ1 = nha.GiaThueBQ + " (triệu VNĐ/m2)";
+                }
+
+                var acc = await _repository.GetRepository<Account>().ReadAsync(article.NhanVienPhuTrachId);
+                if (acc != null)
+                {
+                    ViewBag.AccoutName = acc.Name;
+                }
+                var listNha = new List<FieldHidden>();
+                listNha.Add(new FieldHidden { FieldKey = "SoNha", FieldName = "Số nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
+                listNha.Add(new FieldHidden { FieldKey = "TenToaNha", FieldName = "Tên tòa nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
+                listNha.Add(new FieldHidden { FieldKey = "MatTienTreoBien", FieldName = "Mặt tiền treo biển", IsSelected = false, IsNha = true, IsNhuCau = true });
+                listNha.Add(new FieldHidden { FieldKey = "BeNgangLotLong", FieldName = "Bề ngang lọt lòng", IsSelected = false, IsNha = true, IsNhuCau = true });
+                listNha.Add(new FieldHidden { FieldKey = "DienTichDat", FieldName = "Diện tích đất", IsSelected = false, IsNha = true, IsNhuCau = true });
+                listNha.Add(new FieldHidden { FieldKey = "DienTichDatSuDungTang1", FieldName = "Diện tích đất sử dụng tầng 1", IsSelected = false, IsNha = true, IsNhuCau = true });
+                listNha.Add(new FieldHidden { FieldKey = "TongDienTichSuDung", FieldName = "Tổng diện tích sử dụng", IsSelected = false, IsNha = true, IsNhuCau = true });
+
+                if (!string.IsNullOrEmpty(article.NhaHiddenField))
+                {
+                    string fieldhidden = "";
+                    string[] arrnhahidden = article.NhaHiddenField.Split(',');
+                    if (arrnhahidden.Count() > 0)
+                    {
+                        for (var i = 0; i < arrnhahidden.Count(); i++)
+                        {
+                            var item = listNha.FirstOrDefault(w => w.FieldKey == arrnhahidden[i]);
+                            if (item != null)
+                            {
+                                fieldhidden += item.FieldName + " ,";
+                            }
+                        }
+                    }
+                    ViewBag.HiddenField = fieldhidden;
+                }
+                ViewBag.NoiDungCongViec = article.NoiDungCongViec;
+                
             }
-            if (nhucauthue != null)
-            {
-                khachthueviewmodel.MatBangId = (await _repository.GetRepository<MatBang>().ReadAsync(nhucauthue.MatBangId)).Name;
-                khachthueviewmodel.BeNgangLotLong = nhucauthue.BeNgangLotLong.ToString();
-                khachthueviewmodel.CapDoTheoDoiId = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(nhucauthue.CapDoTheoDoiId)).Name;
-                khachthueviewmodel.DiChungChu = nhucauthue.DiChungChu == true ? "Có" : "Không";
-                khachthueviewmodel.DienTichDat = nhucauthue.DienTichDat.ToString();
-                khachthueviewmodel.DienTichDatSuDungTang1 = nhucauthue.DienTichDatSuDungTang1.ToString();
-                khachthueviewmodel.DuongName = nhucauthue.DuongName;
-                khachthueviewmodel.GhiChuNhuCau = nhucauthue.GhiChu;
-                khachthueviewmodel.GiaThueBQ = nhucauthue.GiaThueBQ.ToString();
-                khachthueviewmodel.Ham = nhucauthue.Ham == true ? "Có" : "Không";
-                khachthueviewmodel.MatTienTreoBien = nhucauthue.MatTienTreoBien.ToString();
-                khachthueviewmodel.NgayCNHenLienHeLai = string.Format("{0:dd/MM/yyyy}", nhucauthue.NgayCNHenLienHeLai);
-                khachthueviewmodel.NoiThatKhachThueCuId = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nhucauthue.NoiThatKhachThueCuId)).Name;
-                khachthueviewmodel.QuanName = nhucauthue.QuanName;
-                khachthueviewmodel.SoNha = nhucauthue.SoNha.ToString();
-                khachthueviewmodel.SoTang = nhucauthue.SoTang.ToString();
-                khachthueviewmodel.TenToaNha = nhucauthue.TenToaNha;
-                khachthueviewmodel.ThangMay = nhucauthue.ThangMay == true ? "Có" : "Không";
-                khachthueviewmodel.TongDienTichSuDung = nhucauthue.TongDienTichSuDung.ToString();
-                khachthueviewmodel.TongGiaThue = nhucauthue.TongGiaThue.ToString();
-                khachthueviewmodel.TrangThaiNhuCau = nhucauthue.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt";
-            }
-            return PartialView("_DetailModal", khachthueviewmodel);
+            return PartialView("_DetailModal");
         }
     }
 }
