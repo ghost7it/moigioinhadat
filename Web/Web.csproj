@@ -169,8 +169,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Management\Controllers\AccountController.cs" />
     <Compile Include="Areas\Management\Controllers\AlbumController.cs" />
+    <Compile Include="Areas\Management\Controllers\ExportController.cs" />
     <Compile Include="Areas\Management\Controllers\ImportController.cs" />
     <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
+    <Compile Include="Areas\Management\Controllers\DanhSachCongViecController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
@@ -1569,6 +1571,14 @@
     <Content Include="Areas\Management\Views\PhanCongCongViec\Index.cshtml" />
     <Content Include="Areas\Management\Views\PhanCongCongViec\UpdatePhanCongCongViec.cshtml" />
     <Content Include="Areas\Management\Views\PhanCongCongViec\_DetailModal.cshtml" />
+    <Content Include="Areas\Management\Views\Import\ImportKhachModal.cshtml" />
+    <Content Include="Areas\Management\Views\Export\Index.cshtml" />
+    <Content Include="Areas\Management\Views\DanhSachCongViec\_DetailModal.cshtml" />
+    <Content Include="Areas\Management\Views\DanhSachCongViec\Create.cshtml" />
+    <Content Include="Areas\Management\Views\DanhSachCongViec\Index.cshtml" />
+    <Content Include="Areas\Management\Views\DanhSachCongViec\RaoVatModal.cshtml" />
+    <Content Include="Areas\Management\Views\DanhSachCongViec\TimKhachModal.cshtml" />
+    <Content Include="Areas\Management\Views\DanhSachCongViec\Update.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />

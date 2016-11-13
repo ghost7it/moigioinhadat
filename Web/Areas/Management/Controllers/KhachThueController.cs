@@ -39,13 +39,13 @@ namespace Web.Areas.Management.Controllers
 
             if (article != null)
             {
-                khachthueviewmodel.TenKhach = article.TenKhach;
+                //khachthueviewmodel.TenKhach = article.TenKhach;
                 khachthueviewmodel.TenNguoiLienHeVaiTro = article.TenNguoiLienHeVaiTro;
                 khachthueviewmodel.GhiChu = article.GhiChu;
-                khachthueviewmodel.LinhVuc = article.LinhVuc;
-                khachthueviewmodel.PhanKhuc = article.PhanKhuc;
+                //khachthueviewmodel.LinhVuc = article.LinhVuc;
+                //khachthueviewmodel.PhanKhuc = article.PhanKhuc;
                 khachthueviewmodel.SoDienThoai = article.SoDienThoai.ToString();
-                khachthueviewmodel.SPChinh = article.SPChinh.ToString();
+                //khachthueviewmodel.SPChinh = article.SPChinh.ToString();
             }
             return PartialView("CreateNhuCau", khachthueviewmodel);
         }
@@ -133,13 +133,13 @@ namespace Web.Areas.Management.Controllers
                 Khach khach = new Khach();
 
                 khach.GhiChu = StringHelper.KillChars(model.GhiChu);
-                khach.LinhVuc = StringHelper.KillChars(model.LinhVuc);
+                //khach.LinhVuc = StringHelper.KillChars(model.LinhVuc);
                 khach.NgayTao = DateTime.Now;
                 khach.NguoiTaoId = AccountId;
-                khach.PhanKhuc = StringHelper.KillChars(model.PhanKhuc);
+                //khach.PhanKhuc = StringHelper.KillChars(model.PhanKhuc);
                 khach.SoDienThoai = StringHelper.KillChars(model.SoDienThoai);
-                khach.SPChinh = StringHelper.KillChars(model.SPChinh);
-                khach.TenKhach = StringHelper.KillChars(model.TenKhach);
+                //khach.SPChinh = StringHelper.KillChars(model.SPChinh);
+                //khach.TenKhach = StringHelper.KillChars(model.TenKhach);
                 khach.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
                 khach.TrangThai = 0; //Chờ duyệt
                 int result = 0;
@@ -640,13 +640,13 @@ namespace Web.Areas.Management.Controllers
 
             if (article != null)
             {
-                khachthueviewmodel.TenKhach = article.TenKhach;
+                //khachthueviewmodel.TenKhach = article.TenKhach;
                 khachthueviewmodel.TenNguoiLienHeVaiTro = article.TenNguoiLienHeVaiTro;
                 khachthueviewmodel.GhiChu = article.GhiChu;
-                khachthueviewmodel.LinhVuc = article.LinhVuc;
-                khachthueviewmodel.PhanKhuc = article.PhanKhuc;
+                //khachthueviewmodel.LinhVuc = article.LinhVuc;
+                //khachthueviewmodel.PhanKhuc = article.PhanKhuc;
                 khachthueviewmodel.SoDienThoai = article.SoDienThoai.ToString();
-                khachthueviewmodel.SPChinh = article.SPChinh.ToString();
+                //khachthueviewmodel.SPChinh = article.SPChinh.ToString();
             }
             if (nhucauthue != null)
             {
