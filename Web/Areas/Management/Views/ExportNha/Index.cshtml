@@ -1,6 +1,6 @@
 ﻿@using Entities.Enums;
 @{
-    ViewBag.Title = "Danh sách phân công công việc";
+    ViewBag.Title = "Danh sách nhà";
     Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
     var canDelete = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Delete);
     var canCreate = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Create);
@@ -15,7 +15,7 @@
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="javascript:void(0);">Danh sách phân công công việc</a>
+            <a href="javascript:void(0);">Danh sách nhà</a>
         </li>
     </ul>
 </div>
@@ -26,52 +26,44 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-check-square font-green-sharp bold"></i>
-                    <span class="caption-subject font-green-sharp bold ">Danh sách phân công công việc</span>
+                    <span class="caption-subject font-green-sharp bold ">Danh sách nhà</span>
                 </div>
-                @*@if (canCreate)
-                {
-                    <div class="actions">
-                        <a href="@Url.RouteUrl("NhaCreate")" class="btn btn-sm green"><i class="fa fa-plus"></i> Thêm nhà mới</a>
-                    </div>
-                }*@
             </div>
             <div class="portlet-body">
                 <div class="table-container">
                     <div class="table-actions-wrapper">
-                        @*@if (canUpdate)
-                            {
-                                <button class="btn btn-sm yellow-casablanca table-group-action-RecentlyAdded display-hide"><i class="fa fa-edit"></i> Biên tập lại</button>
-                            }*@
-                        @if (canApprove)
+                        @*@if (canApprove)
                         {
-                            <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
-                        }
-                        @if (canDelete)
-                        {
-                            <button class="btn btn-sm red-flamingo table-group-action-Delete"><i class="fa fa-trash-o"></i> Xóa</button>
-                        }
-                        <span></span>
+                            <button class="btn btn-sm blue table-group-action-Delete"><i class="fa fa-check"></i> Export</button>
+                        }*@
                     </div>
                     <div class="table-actions-2-wrapper">
                         Lọc theo trạng thái&nbsp;&nbsp;<select class=" form-control input-inline input-small input-sm object-filter">
-                            <option value="0">Chờ duyệt</option>
-                            <option value="1">Đã duyệt</option>
+                        <option value="3">Tất cả</option>    
+                        <option value="0">Chờ duyệt</option>
+                        <option value="1">Đã duyệt</option>
                         </select>&nbsp;&nbsp;&nbsp;
                     </div>
                     <table class="table table-striped table-bordered table-hover" id="datatable_ajax_source">
                         <thead>
                             <tr role="row" class="heading">
-                                <th class="table-checkbox">
+                                @*<th class="table-checkbox">
                                     <input type="checkbox" class="group-checkable" />
+                                </th>*@
+                                <th>
+                                    Tên người liên hệ
                                 </th>
                                 <th>
-                                    Tên nhân viên phụ trách
+                                    Số điện thoại
                                 </th>
                                 <th>
-                                    Tên khách
+                                    Quận
                                 </th>
                                 <th>
-                                    Tên nhà
+                                    Tổng giá thuê
+                                </th>
+                                <th>
+                                    Cấp độ theo dõi
                                 </th>
                                 <th>
                                     Trạng thái
@@ -113,7 +105,7 @@
                     },
                     dataTable: {
                         "ajax": {
-                            "url": '@Url.RouteUrl("GetPhanCongJson", new { status = 0 })',
+                            "url": '@Url.RouteUrl("ExportNhaGetNhaJson", new { status = 3 })',
                         },
                         "columnDefs": [{
                             "targets": -1,
@@ -125,28 +117,30 @@
                                     case '0':
                                         var re = '';
                                         if ('@canApprove' == 'true' || '@canApprove' == 'True') {
-                                            re = '<a class="btn btn-xs blue PendingPublish" data-objectid="' + data.Id + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
+                                            re = '<a class="btn btn-xs blue Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-check"></i> Export</a>';
                                         }
-                                        if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                                        @*if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
                                             //re = re + '<a href="' + ('@Url.RouteUrl("ArticleUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '">' + data.TenNguoiLienHeVaiTro + '</a>'
-                                            re = re + '<a class="btn btn-xs green  RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("PhanCongCongViecUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';
-                                        }
-                                        if ('@canDelete' == 'true' || '@canDelete' == 'True') {
-                                            re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
-                                        }
+                                            re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("NhaUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';
+                                        }*@
                                         return re;
                                         break;
                                         //Lọc theo đã duyệt
                                     case '1':
                                         if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            re = '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
-                                            @*re = re + '<a class="btn btn-xs blue" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
-                                            re = re + '<a class="btn btn-xs blue" href="' + ('@Url.RouteUrl("RaoVatModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-share"></i> Đăng rao vặt</a>';*@
+                                            re = '<a class="btn btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Export</a>';
                                             return re;
                                         }
                                         else {
                                             return '';
                                         }
+                                        break;
+                                    case '3':
+                                        var re = '';
+                                        if ('@canApprove' == 'true' || '@canApprove' == 'True') {
+                                            re = '<a class="btn btn-xs blue Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-check"></i> Export</a>';
+                                        }
+                                        return re;
                                         break;
                                     default:
                                         return '';
@@ -154,14 +148,14 @@
                             },
                         }],
                         "columns": [
-                            {
-                                "searchable": false,
-                                "orderable": false,
-                                "data": "Id",
-                                "render": function (data, type, full) {
-                                    return '<input type="checkbox" value="' + data + '" class="checkboxes">';
-                                }
-                            },
+                            //{
+                            //    "searchable": false,
+                            //    "orderable": false,
+                            //    "data": "Id",
+                            //    "render": function (data, type, full) {
+                            //        return '<input type="checkbox" value="' + data + '" class="checkboxes">';
+                            //    }
+                            //},
                             {
                                 "searchable": true,
                                 "orderable": true,
@@ -177,25 +171,20 @@
                                         }
                                     }
                                     else {*@
-                                    return '<a href="' + ('@Url.RouteUrl("PhanCongCongViecDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNhanVienPhuTrach + '</a>'
+                                    return '<a href="' + ('@Url.RouteUrl("ExportNhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
                                     //}
                                 }
                             },
-                    //{ data: "SoDienThoai" },
-                    //{ data: "Quan" },
-                    //{ data: "TongGiaThue" },
-                    //{ data: "CapDoTheoDoi" },
-                    //{ data: "TenToaNha" },
-                    //{ data: "TenNguoiLienHeVaiTro" },
-                    //{ data: "TenNhanVienPhuTrach" },
-                    //{ data: "TenToaNha" },
-                    { data: "TenKhach" },
-                    { data: "TenToaNha" },
+                    { data: "SoDienThoai" },
+                    { data: "Quan" },
+                    //{ data: "Duong" },
+                    { data: "TongGiaThue" },
+                    { data: "CapDoTheoDoi" },
                     { data: "TrangThai" },
                     { data: null }
                         ],
                         "order": [
-                            [4, "desc"]
+                            [1, "desc"]
                         ] // ép sắp xếp theo cột thứ 3
                     }
                 });
@@ -237,8 +226,8 @@
                 grid.getTableWrapper().on('click', '.table-group-action-Delete', function (e) {
                     e.preventDefault();
                     if (grid.getSelectedRowsCount() > 0) {
-                        if (confirm('Bạn có chắc chắn muốn xóa không?')) {
-                            DeleteArticle(grid.getSelectedRows());
+                        if (confirm('Bạn có chắc chắn muốn export không?')) {
+                            ExportArticle(grid.getSelectedRows());
                         }
                     } else if (grid.getSelectedRowsCount() === 0) {
                         showNoty('Chưa có bản ghi nào được chọn!', 'error', 'center', 5000);
@@ -255,9 +244,9 @@
                 //Xóa 1 bài viết
                 grid.getTableWrapper().on('click', '.Delete', function (e) {
                     e.preventDefault();
-                    if (confirm('Bạn có chắc chắn muốn xóa không?')) {
+                    if (confirm('Bạn có chắc chắn muốn export không?')) {
                         var ids = $(this).attr('data-objectid');
-                        DeleteArticle(ids);
+                        ExportArticle(ids);
                     }
                 });
 
@@ -269,7 +258,7 @@
                         cenrerY: true,
                         boxed: true
                     });
-                    var $url = ('@Url.RouteUrl("PhanCongCongViecSetPhanCongCongViecStatus", new { ids = "objectIds", status = "objectStatus" })').replace("objectIds", ids).replace("objectStatus", status);
+                    var $url = ('@Url.RouteUrl("NhaSetNhaStatus", new { ids = "objectIds", status = "objectStatus" })').replace("objectIds", ids).replace("objectStatus", status);
                     $.ajax({
                         type: 'POST',
                         cache: false,
@@ -295,14 +284,14 @@
                 }
 
                 //Hàm xóa bài viết
-                var DeleteArticle = function (ids) {
+                var ExportArticle = function (ids) {
                     AdminVersionOne.blockUI({
                         message: 'Vui lòng đợi!',
                         overlayColor: 'none',
                         cenrerY: true,
                         boxed: true
                     });
-                    var $url = ('@Url.RouteUrl("PhanCongCongViecDeletePhanCongCongViecs", new { ids = "objectIds" })').replace("objectIds", ids);
+                    var $url = ('@Url.RouteUrl("NhaExportNhas", new { ids = "objectIds" })').replace("objectIds", ids);
                     $.ajax({
                         type: 'POST',
                         cache: false,
@@ -337,7 +326,7 @@
             Article.init();
 
         });
-</script>
+    </script>
 }
 
 

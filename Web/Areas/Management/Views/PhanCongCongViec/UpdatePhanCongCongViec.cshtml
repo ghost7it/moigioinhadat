@@ -1,26 +1,33 @@
-﻿@using Entities.Models;
-@model Entities.ViewModels.QuanLyCongViecViewModel
+﻿@model Entities.ViewModels.QuanLyCongViecViewModel
 @{
     ViewBag.Title = "Cập nhật phân công công việc";
     Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
     //IEnumerable<CategoryType> categoryTypes = (IEnumerable<CategoryType>)ViewBag.CategoryTypes;
 }
-<div class="row modal-dialog">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <div class="col-md-12">
-        <div class="tab-pane" id="tab_6">
-            <div class="portlet box grey-cascade">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-edit"></i>Cập nhật phân công công việc
-                    </div>
-                </div>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Cập nhật phân công công việc</a>
+        </li>
+    </ul>
+</div>
 
-                <div class="portlet-body form">
-                    Chức năng này đang trong quá trình test
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-check-square font-green-sharp bold"></i>
+                    <span class="caption-subject font-green-sharp bold ">Cập nhật phân công công việc</span>
                 </div>
-                    @*<div class="portlet-body form">
-                @using (Html.BeginForm("UpdateKhach", "KhachThue", FormMethod.Post, new { @class = "form-horizontal form-bordered form-row-stripped" }))
+            </div>
+            <div class="portlet-body form">
+                @using (Html.BeginForm("UpdatePhanCongCongViec", "PhanCongCongViec", FormMethod.Post, new { @class = "form-horizontal form-bordered form-row-stripped" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="form-body">
@@ -31,213 +38,201 @@
                                 @Html.ValidationSummary(true)
                             </div>
                         }
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TenNguoiLienHeVaiTro, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.TenNguoiLienHeVaiTro, new { @class = "form-control"})
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="javascript:void(0)" class="thongtinkhach thongtintitle" style="margin-top:0">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin khách
+                                </a>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.SoDienThoai, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control "})
-                                </div>
+                            <div class="col-md-12 khachcontent content_wr">
+                                <p>
+                                    <span class="bold"> Tên khách:</span> @ViewBag.TenKhach
+                                </p>
+                                <p>
+                                    <span class="bold">Số điện thoại khách: </span> @ViewBag.SoDienThoaiKhach
+                                </p>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.LinhVuc, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.LinhVuc, new { @class = "form-control "})
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="javascript:void(0)" class="thongtinnhucauthue thongtintitle">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin cầu thuê
+                                </a>
+                            </div>
+                            <div class="nhucauthuecontent content_wr">
+                                <div class="col-md-6 khachcontent">
+                                    <p>
+                                        <span class="bold">Tên quận : </span> @ViewBag.QuanName
+                                    </p>
+                                    <p>
+                                        <span class="bold">Tên đường: </span> @ViewBag.DuongName
+                                    </p>
+                                    <p>
+                                        <span class="bold">Loại mặt bằng : </span> @ViewBag.LoaiMatBang
+                                    </p>
+                                    <p>
+                                        <span class="bold">Mặt tiền treo biển: </span> @ViewBag.MatTienTreoBien
+                                    </p>
+                                    <p>
+                                        <span class="bold">Bề ngang lọt lòng : </span> @ViewBag.BeNgangLotLong
+                                    </p>
+                                    <p>
+                                        <span class="bold">Diện tích đất: </span> @ViewBag.DienTichDat
+                                    </p>
+                                    <p>
+                                        <span class="bold">Diện tích đất sử dụng tầng 1 : </span> @ViewBag.DienTichDatSuDungTang1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Tổng diện tích sử dụng : </span> @ViewBag.TongDienTichSuDung
+                                    </p>
+                                </div>
+                                <div class="col-md-6 khachcontent">
+                                    <p>
+                                        <span class="bold">Số tầng: </span> @ViewBag.SoTang
+                                    </p>
+                                    <p>
+                                        <span class="bold">Đi chung chủ : </span> @ViewBag.DiChungChu
+                                    </p>
+                                    <p>
+                                        <span class="bold">Hầm: </span> @ViewBag.Ham
+                                    </p>
+                                    <p>
+                                        <span class="bold">Thang máy : </span> @ViewBag.ThangMay
+                                    </p>
+                                    <p>
+                                        <span class="bold">Nội thất khách thuê cũ: </span> @ViewBag.NoiThat
+                                    </p>
+                                    <p>
+                                        <span class="bold">Tổng giá thuê : </span> @ViewBag.TongGiaThue
+                                    </p>
+                                    <p>
+                                        <span class="bold">Giá thuê bình quân: </span> @ViewBag.GiaThueBQ
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.SPChinh, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.SPChinh, new { @class = "form-control "})
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="javascript:void(0)" class="thongtinnha thongtintitle">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin nhà cần thuê
+                                </a>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.PhanKhuc, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.PhanKhuc, new { @class = "form-control "})
+                            <div class="nhucauthuecontent content_wr">
+                                <div class="col-md-6 khachcontent">
+                                    <p>
+                                        <span class="bold">Tên quận : </span> @ViewBag.QuanName1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Tên đường: </span> @ViewBag.DuongName1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Loại mặt bằng : </span> @ViewBag.LoaiMatBang1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Số nhà : </span> @ViewBag.SoNha
+                                    </p>
+                                    <p>
+                                        <span class="bold">Tên tòa nhà: </span> @ViewBag.TenToaNha
+                                    </p>
+                                    <p>
+                                        <span class="bold">Tên chủ nhà : </span> @ViewBag.TenChuNha
+                                    </p>
+                                    <p>
+                                        <span class="bold">Số điện thoại: </span> @ViewBag.SoDienThoai1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Mặt tiền treo biển: </span> @ViewBag.MatTienTreoBien1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Bề ngang lọt lòng : </span> @ViewBag.BeNgangLotLong1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Diện tích đất: </span> @ViewBag.DienTichDat1
+                                    </p>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.GhiChu, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextAreaFor(model => model.GhiChu, new { @class = "form-control "})
-                                </div>
-                            </div>
-                        </div>
-                        <div style="clear:both"></div>
-                        <p style="width:100%; height:30px; background:#ddd;font-size:16px; line-height:30px;margin-bottom:0">&nbsp; Thông tin Nhu cầu thuê</p>
-                        <div class="col-md-6 create-form-6">
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.DropDownListFor(model => model.MatBangId, (IEnumerable<SelectListItem>)ViewBag.MatBang, "Chọn mặt bằng", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.MatBangId)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QuanId, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.DropDownListFor(model => model.QuanId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn tỉnh/thành phố", new { @class = "form-control sel-quan" })
-                                    @Html.ValidationMessageFor(model => model.QuanId)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.DuongId, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.DropDownListFor(model => model.DuongId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
-                                    @Html.ValidationMessageFor(model => model.DuongId)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.SoNha, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.SoNha, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.SoNha)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TenToaNha, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.TenToaNha, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TenToaNha)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MatTienTreoBien, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.MatTienTreoBien, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.MatTienTreoBien)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.BeNgangLotLong, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.BeNgangLotLong, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.BeNgangLotLong)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.DienTichDat, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.DienTichDat, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.DienTichDat)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.DienTichDatSuDungTang1, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.DienTichDatSuDungTang1, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.DienTichDatSuDungTang1)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.CapDoTheoDoiId, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("CapDoTheoDoiId", (IEnumerable<SelectListItem>)ViewBag.CapDoTheoDoi, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.CapDoTheoDoiId)
+                                <div class="col-md-6 khachcontent">
+                                    <p>
+                                        <span class="bold">Diện tích đất sử dụng tầng 1 : </span> @ViewBag.DienTichDatSuDungTang11
+                                    </p>
+                                    <p>
+                                        <span class="bold">Tổng diện tích sử dụng : </span> @ViewBag.TongDienTichSuDung1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Số tầng: </span> @ViewBag.SoTang1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Đi chung chủ : </span> @ViewBag.DiChungChu1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Hầm: </span> @ViewBag.Ham1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Thang máy : </span> @ViewBag.ThangMay1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Nội thất khách thuê cũ: </span> @ViewBag.NoiThat1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Tổng giá thuê : </span> @ViewBag.TongGiaThue1
+                                    </p>
+                                    <p>
+                                        <span class="bold">Giá thuê bình quân: </span> @ViewBag.GiaThueBQ1
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.SoTang, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.SoTang, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.SoTang)
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="javascript:void(0)" class="thongtinupdate thongtintitle">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin update
+                                </a>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TongDienTichSuDung, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.TongDienTichSuDung, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TongDienTichSuDung)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.DiChungChu, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("DiChungChu", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.DiChungChu)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Ham, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("Ham", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Ham)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ThangMay, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("ThangMay", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.ThangMay)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.NoiThatKhachThueCuId, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("NoiThatKhachThueCuId", (IEnumerable<SelectListItem>)ViewBag.NoiThatKhachThueCu, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.NoiThatKhachThueCuId)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TongGiaThue, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.TongGiaThue, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TongGiaThue)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.GiaThueBQ, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.GiaThueBQ, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.GiaThueBQ)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.NgayCNHenLienHeLai, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    <div class="input-group input-large date-picker input-daterange" style="width: 100% !important; padding-bottom: 20px;" data-date="@DateTime.Now.ToString("dd/MM/yyyy")" data-date-format="dd/mm/yyyy">
-                                        @Html.TextBoxFor(model => model.NgayCNHenLienHeLai, new { @class = "form-control" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.NgayCNHenLienHeLai)
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.GhiChuNhuCau, new { @class = "col-md-3 control-label" })
-                                <div class="col-md-9">
-                                    @Html.TextAreaFor(model => model.GhiChuNhuCau, new { @class = "form-control", @style = "height: 97px;" })
-                                    @Html.ValidationMessageFor(model => model.GhiChuNhuCau)
+                            <div class="col-md-12 updatecontent content_wr">
+                                <p>
+                                    <span class="bold" style="float:left;margin-top:5px;margin-right:10px"> Nhân viên chăm sóc:</span>
+                                    @Html.DropDownListFor(model=>model.NhanVienPhuTrachId, (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "form-control getuserid ", @style = "width: 250px; float: left; padding-top:0;padding-bottom:0;height:30px" })
+                                </p>
+                                <p style="float:left;width:100%">
+                                    <span class="bold" style="margin-top:5px;margin-right:17px">
+                                        @Html.LabelFor(model => model.NoiDungCongViec, new { @style = "font-weight:bold;font-size:13px" }):
+                                    </span>
+                                        @Html.TextAreaFor(model => model.NoiDungCongViec, new { @style = "height: 120px;float:left;border:1px solid #e5e5e5;width:100%" })
+                                </p>
+                                
+                                <div style="width:100%;float:left;display:block;clear:both">
+                                    <p style="float:left;width:100%">
+                                        <span class="bold" style="float:left;margin-top:5px;display:block"> Ẩn những trường dữ liệu:</span>
+                                    </p>
+                                    @for (int idx = 0; idx < Model.FieldHidden.Count; idx++)
+                                    {
+                                        @Html.HiddenFor(x => Model.FieldHidden[idx].FieldKey)
+                                        @Html.CheckBoxFor(x => Model.FieldHidden[idx].IsSelected)
+                                        @Html.DisplayFor(x => Model.FieldHidden[idx].FieldName)
+                                        @Html.HiddenFor(x => Model.FieldHidden[idx].FieldName)
+                                        @Html.HiddenFor(x => Model.FieldHidden[idx].IsNha)
+                                        @Html.HiddenFor(x => Model.FieldHidden[idx].IsNhuCau)
+                                        <br />
+                                    }
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
                                 <button type="submit" class="btn green"><i class="fa fa-check"></i> Ghi nhận</button>
-                                <a href="@Url.RouteUrl("KhachThueIndex")" class="btn default">Hủy bỏ</a>
+                                <a href="@Url.RouteUrl("PhanCongCongViecIndex")" class="btn default">Hủy bỏ</a>
                             </div>
                         </div>
                     </div>
                 }
-            </div>*@
-                </div>
-        </div>
+            </div>
 
+        </div>
     </div>
 </div>
+
+
 @section Styles{
     @Styles.Render("~/Content/adminv1/datepicker")
 }
@@ -268,6 +263,11 @@
             });
         });
 
+        $(".content_wr:not(.updatecontent)").hide();
+        $(".thongtintitle:not(.thongtinupdate)").click(function () {
+            $(this).parent().next().slideToggle();
+        });
+
         function GetDuongByQuan(id, quan) {
             var URL = ('@Url.RouteUrl("SharedGetDuongByQuan", new { quanId = "objectIdReplacement" })').replace('objectIdReplacement', id);
             $.getJSON(URL, function (data) {
@@ -286,22 +286,22 @@
 
 
 <style type="text/css">
-    .modal-dialog {
-        width: 960px;
-        margin-top: 10px;
+    .thongtintitle{
+        font-weight:bold;
+        margin-bottom:5px;
+        display: block;
+        margin-top:10px
+    }
+    .content_wr {
         margin-bottom: 10px;
-        position:relative;
+        padding-top: 8px;
+        background: #f0f5f5;
+        float:left;
+        width:100%;
     }
-    button.close{
-        position:absolute;
-        top:15px;
-        right:25px;
-        z-index:9999;
+    .thongtinkhach {
     }
-    .readonly, .form .form-horizontal.form-bordered.form-row-stripped .form-control.readonly {
-        background: #f5f5f0 !important;
-    }
-    .font-size-small {
-        font-size: 10px;
+    .updatecontent{
+        padding-bottom:10px
     }
 </style>
