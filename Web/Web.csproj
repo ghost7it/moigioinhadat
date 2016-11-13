@@ -69,6 +69,15 @@
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MigraDoc.DocumentObjectModel">
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.DocumentObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.Rendering">
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.Rendering.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.RtfRendering">
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.RtfRendering.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -80,6 +89,12 @@
     </Reference>
     <Reference Include="Ninject.WebApi.DependencyResolver">
       <HintPath>..\packages\Ninject.WebApi.DependencyResolver.0.1.4758.24814\lib\net45\Ninject.WebApi.DependencyResolver.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp">
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting">
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\PdfSharp.Charting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -159,8 +174,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\PDFFile\" />
     <Folder Include="Scripts\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\tiny_mce\plugins\spellchecker\includes\" />
+    <Folder Include="Uploads\docs\" />
+    <Folder Include="Uploads\files\" />
+    <Folder Include="Uploads\flash\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -171,6 +190,7 @@
     <Compile Include="Areas\Management\Controllers\AlbumController.cs" />
     <Compile Include="Areas\Management\Controllers\ImportController.cs" />
     <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
+    <Compile Include="Areas\Management\Controllers\ExportNhaController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
@@ -1569,6 +1589,8 @@
     <Content Include="Areas\Management\Views\PhanCongCongViec\Index.cshtml" />
     <Content Include="Areas\Management\Views\PhanCongCongViec\UpdatePhanCongCongViec.cshtml" />
     <Content Include="Areas\Management\Views\PhanCongCongViec\_DetailModal.cshtml" />
+    <Content Include="Areas\Management\Views\ExportNha\_DetailModal.cshtml" />
+    <Content Include="Areas\Management\Views\ExportNha\Index.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
@@ -2087,6 +2109,8 @@
     <Content Include="Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Uploads\images\123.jpg" />
+    <Content Include="Uploads\_thumbs\Images\123.jpg" />
     <Content Include="Views\Login\ForgetPassword.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Web.config">

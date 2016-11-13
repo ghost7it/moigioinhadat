@@ -54,9 +54,48 @@ namespace Entities.ViewModels
         public string FieldKey { get; set; }
         public string FieldName{ get; set; }
         public bool IsSelected { get; set; }
-
         public bool IsNha { get; set; }
         public bool IsNhuCau { get; set; }
 
+    }
+
+    public class ListFieldHidden
+    {
+        public List<FieldHidden> lst { get; set; }
+        public ListFieldHidden()
+        {
+            lst = new List<FieldHidden>();
+            lst.Add(new FieldHidden { FieldKey = "SoNha", FieldName = "Số nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
+            lst.Add(new FieldHidden { FieldKey = "TenToaNha", FieldName = "Tên tòa nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
+            lst.Add(new FieldHidden { FieldKey = "MatTienTreoBien", FieldName = "Mặt tiền treo biển", IsSelected = false, IsNha = true, IsNhuCau = true });
+            lst.Add(new FieldHidden { FieldKey = "BeNgangLotLong", FieldName = "Bề ngang lọt lòng", IsSelected = false, IsNha = true, IsNhuCau = true });
+            lst.Add(new FieldHidden { FieldKey = "DienTichDat", FieldName = "Diện tích đất", IsSelected = false, IsNha = true, IsNhuCau = true });
+            lst.Add(new FieldHidden { FieldKey = "DienTichDatSuDungTang1", FieldName = "Diện tích đất sử dụng tầng 1", IsSelected = false, IsNha = true, IsNhuCau = true });
+            lst.Add(new FieldHidden { FieldKey = "TongDienTichSuDung", FieldName = "Tổng diện tích sử dụng", IsSelected = false, IsNha = true, IsNhuCau = true });
+            lst.Add(new FieldHidden { FieldKey = "SoTang", FieldName = "Số tầng", IsSelected = false, IsNha = true, IsNhuCau = true });
+            lst.Add(new FieldHidden { FieldKey = "DiChungChu", FieldName = "Đi chung chủ", IsSelected = false, IsNha = true, IsNhuCau = true });
+            lst.Add(new FieldHidden { FieldKey = "Ham", FieldName = "Hầm", IsSelected = false, IsNha = true, IsNhuCau = true });
+            lst.Add(new FieldHidden { FieldKey = "ThangMay", FieldName = "Thang máy", IsSelected = false, IsNha = true, IsNhuCau = true });
+        }
+    }
+
+    public static class ListOfFieldHidden
+    {
+        public static void Add(this List<FieldHidden> list,
+            string fieldId, string fieldName, bool isNha, bool isSelected, bool isNhuCau )
+        {
+            if (null == list)
+                throw new NullReferenceException();
+
+            var emailData = new FieldHidden
+            {
+                FieldKey = fieldId,
+                FieldName = fieldName,
+                IsNha = isNha,
+                IsNhuCau = isNhuCau,
+                IsSelected = isSelected
+            };
+            list.Add(emailData);
+        }
     }
 }

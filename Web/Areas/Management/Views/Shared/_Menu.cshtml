@@ -216,6 +216,16 @@
                                             </a>
                                         </li>
                                     }
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.Export, ActionEnum.Create))
+                                    {
+                                        isActive = RouteHelper.IsCurrentControllerAndAction("ExportNha", "ExportNhaIndex", ViewContext);
+                                        <li class="@(isActive ? "active" : "") ">
+                                            <a href="@Url.RouteUrl("ExportNhaIndex")">
+                                                <i class="fa fa-reply"></i>
+                                                Export dữ liệu dữ liệu nhà ra file PDF
+                                            </a>
+                                        </li>
+                                    }
                                     @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create))
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Create", ViewContext);

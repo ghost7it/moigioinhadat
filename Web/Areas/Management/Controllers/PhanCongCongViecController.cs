@@ -20,6 +20,7 @@ namespace Web.Areas.Management.Controllers
     [RoutePrefix("phan-cong-cong-viec")]
     public class PhanCongCongViecController : BaseController
     {
+        ListFieldHidden lstfieldhidden = new ListFieldHidden();
         [Route("danh-sach-phan-cong-cong-viec", Name = "PhanCongCongViecIndex")]
         [ValidationPermission(Action = ActionEnum.Read, Module = ModuleEnum.PhanCongCongViec)]
         public ActionResult Index()
@@ -132,15 +133,8 @@ namespace Web.Areas.Management.Controllers
                 ViewBag.Accounts = listAccount;
                 quanlycongviecviewmodel.NhanVienPhuTrachId = article.NhanVienPhuTrachId;
 
-                var listNha = new List<FieldHidden>();
-                listNha.Add(new FieldHidden { FieldKey = "SoNha", FieldName = "Số nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
-                listNha.Add(new FieldHidden { FieldKey = "TenToaNha", FieldName = "Tên tòa nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
-                listNha.Add(new FieldHidden { FieldKey = "MatTienTreoBien", FieldName = "Mặt tiền treo biển", IsSelected = false, IsNha = true, IsNhuCau = true });
-                listNha.Add(new FieldHidden { FieldKey = "BeNgangLotLong", FieldName = "Bề ngang lọt lòng", IsSelected = false, IsNha = true, IsNhuCau = true });
-                listNha.Add(new FieldHidden { FieldKey = "DienTichDat", FieldName = "Diện tích đất", IsSelected = false, IsNha = true, IsNhuCau = true });
-                listNha.Add(new FieldHidden { FieldKey = "DienTichDatSuDungTang1", FieldName = "Diện tích đất sử dụng tầng 1", IsSelected = false, IsNha = true, IsNhuCau = true });
-                listNha.Add(new FieldHidden { FieldKey = "TongDienTichSuDung", FieldName = "Tổng diện tích sử dụng", IsSelected = false, IsNha = true, IsNhuCau = true });
-
+                //var listNha = new List<FieldHidden>();
+                List<FieldHidden> listNha = lstfieldhidden.lst;                
                 if (!string.IsNullOrEmpty(article.NhaHiddenField))
                 {
                     string[] arrnhahidden = article.NhaHiddenField.Split(',');
@@ -559,15 +553,7 @@ namespace Web.Areas.Management.Controllers
                 {
                     ViewBag.AccoutName = acc.Name;
                 }
-                var listNha = new List<FieldHidden>();
-                listNha.Add(new FieldHidden { FieldKey = "SoNha", FieldName = "Số nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
-                listNha.Add(new FieldHidden { FieldKey = "TenToaNha", FieldName = "Tên tòa nhà", IsSelected = false, IsNha = true, IsNhuCau = false });
-                listNha.Add(new FieldHidden { FieldKey = "MatTienTreoBien", FieldName = "Mặt tiền treo biển", IsSelected = false, IsNha = true, IsNhuCau = true });
-                listNha.Add(new FieldHidden { FieldKey = "BeNgangLotLong", FieldName = "Bề ngang lọt lòng", IsSelected = false, IsNha = true, IsNhuCau = true });
-                listNha.Add(new FieldHidden { FieldKey = "DienTichDat", FieldName = "Diện tích đất", IsSelected = false, IsNha = true, IsNhuCau = true });
-                listNha.Add(new FieldHidden { FieldKey = "DienTichDatSuDungTang1", FieldName = "Diện tích đất sử dụng tầng 1", IsSelected = false, IsNha = true, IsNhuCau = true });
-                listNha.Add(new FieldHidden { FieldKey = "TongDienTichSuDung", FieldName = "Tổng diện tích sử dụng", IsSelected = false, IsNha = true, IsNhuCau = true });
-
+                List<FieldHidden> listNha = lstfieldhidden.lst;   
                 if (!string.IsNullOrEmpty(article.NhaHiddenField))
                 {
                     string fieldhidden = "";
