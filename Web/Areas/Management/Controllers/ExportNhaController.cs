@@ -229,7 +229,7 @@ namespace Web.Areas.Management.Controllers
             PdfPage pdfPage = pdf.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(pdfPage);
             //XRect rect;
-            //XPen pen;
+            //XPen pen; 
             double x = 40, y = 70;
             XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
             XFont fontH1 = new XFont("Arial", 16, XFontStyle.Bold, options);
