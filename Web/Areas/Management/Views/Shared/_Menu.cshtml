@@ -207,10 +207,9 @@
                                         }
                                     @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create))
                                     {
-                                        isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Create", ViewContext);
+                                        isActive = RouteHelper.IsCurrentControllerAndAction("Export", "ExportIndex", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
-                                            @*<a href="@Url.RouteUrl("KhachThueCreate")">*@
-                                            <a href="#">
+                                            <a href="@Url.RouteUrl("ExportIndex")">
                                                 <i class="fa fa-reply"></i>
                                                 Export dữ liệu
                                             </a>

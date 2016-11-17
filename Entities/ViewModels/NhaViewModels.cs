@@ -63,6 +63,7 @@ namespace Entities.ViewModels
         [Display(Name = "Giá thuê BQ/m2")]
         public string GiaThueBQ { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng tên người liên hệ - vai trò")]
         [Display(Name = "Tên người liên hệ - vai trò")]
         public string TenNguoiLienHeVaiTro { get; set; }
 

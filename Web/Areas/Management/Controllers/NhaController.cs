@@ -47,7 +47,7 @@ namespace Web.Areas.Management.Controllers
             {
                 Nha nha = new Nha();
 
-                nha.MatBangId = Convert.ToInt64(model.MatBangId);
+                nha.MatBangId = Convert.ToInt32(model.MatBangId);
                 nha.QuanId = Convert.ToInt64(model.QuanId);
                 nha.DuongId = Convert.ToInt64(model.DuongId);
                 nha.SoNha = StringHelper.KillChars(model.SoNha);
