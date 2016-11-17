@@ -161,6 +161,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\tiny_mce\plugins\spellchecker\includes\" />
+    <Folder Include="Uploads\docs\" />
+    <Folder Include="Uploads\files\" />
+    <Folder Include="Uploads\flash\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -170,9 +173,9 @@
     <Compile Include="Areas\Management\Controllers\AccountController.cs" />
     <Compile Include="Areas\Management\Controllers\AlbumController.cs" />
     <Compile Include="Areas\Management\Controllers\ExportController.cs" />
+    <Compile Include="Areas\Management\Controllers\ExportNhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ImportController.cs" />
     <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
-    <Compile Include="Areas\Management\Controllers\DanhSachCongViecController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
@@ -188,6 +191,7 @@
     <Compile Include="Areas\Management\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Management\Controllers\PhanCongCongViecController.cs" />
     <Compile Include="Areas\Management\Controllers\PositionController.cs" />
+    <Compile Include="Areas\Management\Controllers\ProfileController.cs" />
     <Compile Include="Areas\Management\Controllers\ProvinceController.cs" />
     <Compile Include="Areas\Management\Controllers\RankController.cs" />
     <Compile Include="Areas\Management\Controllers\ReligionController.cs" />
@@ -1579,6 +1583,8 @@
     <Content Include="Areas\Management\Views\DanhSachCongViec\RaoVatModal.cshtml" />
     <Content Include="Areas\Management\Views\DanhSachCongViec\TimKhachModal.cshtml" />
     <Content Include="Areas\Management\Views\DanhSachCongViec\Update.cshtml" />
+    <Content Include="Areas\Management\Views\ExportNha\Index.cshtml" />
+    <Content Include="Areas\Management\Views\ExportNha\_DetailModal.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
@@ -2097,6 +2103,8 @@
     <Content Include="Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Uploads\images\123.jpg" />
+    <Content Include="Uploads\_thumbs\Images\123.jpg" />
     <Content Include="Views\Login\ForgetPassword.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Web.config">
