@@ -36,6 +36,7 @@
                         {
                             <button class="btn btn-sm blue table-group-action-Delete"><i class="fa fa-check"></i> Export</button>
                         }*@
+                        <a class="exportfix"  href='#'> Export</a>
                     </div>
                     <div class="table-actions-2-wrapper">
                         Lọc theo trạng thái&nbsp;&nbsp;<select class=" form-control input-inline input-small input-sm object-filter">
@@ -326,6 +327,13 @@
             Article.init();
 
         });
+        $(function () {
+            $(".exportfix").click(function (e) {
+                e.preventDefault();
+                alert("ac");
+            });
+        });
+        
     </script>
 }
 

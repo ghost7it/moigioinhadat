@@ -321,6 +321,121 @@ namespace Web.Areas.Management.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Route("export-nha1/{ids?}", Name = "NhaExportNha1")]
+        //[ValidationPermission(Action = ActionEnum.Delete, Module = ModuleEnum.Nha)]
+        public async Task<ActionResult> ExportNha1(long ids)
+        {
+            var article = await _repository.GetRepository<Nha>().ReadAsync(ids);
+            if (article == null)
+                return View();
+            //PdfDocument pdf = new PdfDocument();
+            //pdf.Info.Title = "Export dữ liệu nhà";
+            //PdfPage pdfPage = pdf.AddPage();
+            //XGraphics graph = XGraphics.FromPdfPage(pdfPage);
+            //XFont font = new XFont("Arial", 13, XFontStyle.Regular);
+            //graph.DrawString("File Test", font, XBrushes.Black, new XRect(0, 0, pdfPage.Width.Point, pdfPage.Height.Point), XStringFormats.TopLeft);
+            //string pdfFilename = "firstpage" + string.Format("{0:ddMMyyyy_HHmmss}", DateTime.Now) + ".pdf";
+            //pdf.Save(Server.MapPath("/Content/PDFFile/" + pdfFilename));
+            //Process.Start(Server.MapPath("/Content/PDFFile/" + pdfFilename));
+
+            PdfDocument pdf = new PdfDocument();
+            pdf.Info.Title = "Export dữ liệu nhà";
+            PdfPage pdfPage = pdf.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(pdfPage);
+            //XRect rect;
+            //XPen pen; 
+            double x = 40, y = 70;
+            XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
+            XFont fontH1 = new XFont("Arial", 16, XFontStyle.Bold, options);
+            XFont font = new XFont("Arial", 11, XFontStyle.Regular, options);
+            XFont fontItalic = new XFont("Arial", 12, XFontStyle.BoldItalic);
+            double ls = font.GetHeight(gfx);
+            // Draw some text
+            gfx.DrawString("Dữ liệu nhà của " + article.TenNguoiLienHeVaiTro,
+            fontH1, XBrushes.Black, x, x);
+            gfx.DrawString("Tên người liên hệ: " + article.TenNguoiLienHeVaiTro, font, XBrushes.Black, x, y);
+            y += ls;
+            gfx.DrawString("Số điện thoại: " + article.SoDienThoai,
+            font, XBrushes.Black, x, y);
+            y += 2 * ls;
+            //// Draw a pie
+            //pen = new XPen(XColors.DarkOrange, 1.5);
+            //pen.DashStyle = XDashStyle.Dot;
+            //gfx.DrawPie(pen, XBrushes.Blue, x + 360, y, 100, 60, -130, 135);
+            // Draw some more text
+            //y += 60 + 2 * ls;
+            gfx.DrawString("Số nhà: " + article.SoNha, font, XBrushes.Black, x, y);
+            y += ls;
+            gfx.DrawString("Tên tòa nhà: " + article.TenToaNha, font, XBrushes.Black, x, y);
+            y += ls;
+            var loaimatbang = await _repository.GetRepository<MatBang>().ReadAsync(article.MatBangId);
+            gfx.DrawString("Loại mặt bằng: " + (loaimatbang != null ? loaimatbang.Name : ""), font, XBrushes.Black, x, y);
+            y += ls * 1.1;
+            double y1 = y;
+            var quan = await _repository.GetRepository<Quan>().ReadAsync(article.QuanId);
+            gfx.DrawString("Quận: " + (quan != null ? quan.Name : ""), font, XBrushes.Black, x, y);
+            //x += 10;
+            y += ls * 1.1;
+            var duong = await _repository.GetRepository<Duong>().ReadAsync(article.DuongId);
+            gfx.DrawString("Đường: " + (duong != null ? duong.Name : ""), font, XBrushes.Black, x, y);
+            y += ls;
+            gfx.DrawString("Mặt tiền treo biển: " + article.MatTienTreoBien + " (m)", font, XBrushes.Black, x, y);
+            y += ls;
+            gfx.DrawString("Bề ngang lọt lòng: " + article.BeNgangLotLong + " (m)", font, XBrushes.Black, x, y);
+            y += ls;
+            gfx.DrawString("Diện tích đất: " + article.DienTichDat + " (m2)", font, XBrushes.Black, x, y);
+            y += ls;
+            gfx.DrawString("Diện tích đất sử dụng tầng 1: " + article.DienTichDatSuDungTang1 + " (m2)", font, XBrushes.Black, x, y);
+            y += ls;
+            gfx.DrawString("Tổng diện tích sử dụng: " + article.TongDienTichSuDung + " (m2)", font, XBrushes.Black, x, y);
+            y += ls;
+            gfx.DrawString("Đi chung chủ: " + (article.DiChungChu ? "Có" : "Không"), font, XBrushes.Black, x + 300, y1);
+            y1 += ls;
+            gfx.DrawString("Hầm: " + (article.Ham ? "Có" : "Không"), font, XBrushes.Black, x + 300, y1);
+            y1 += ls;
+            gfx.DrawString("Thang máy: " + (article.ThangMay ? "Có" : "Không"), font, XBrushes.Black, x + 300, y1);
+            y1 += ls;
+            gfx.DrawString("Số tầng: " + article.SoTang, font, XBrushes.Black, x + 300, y1);
+            y1 += ls;
+            var noithat = await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId);
+            gfx.DrawString("Nội thất khách thuê cũ: " + (noithat != null ? noithat.Name : ""), font, XBrushes.Black, x + 300, y1);
+            y1 += ls;
+            gfx.DrawString("Tổng giá thuê: " + article.TongGiaThue + " (VNĐ)", font, XBrushes.Black, x + 300, y1);
+            y1 += ls;
+            gfx.DrawString("Giá thuê bình quân: " + article.GiaThueBQ + " (VNĐ)", font, XBrushes.Black, x + 300, y1);
+            y1 += ls;
+            gfx.DrawString("Ghi chú: " + article.GhiChu, font, XBrushes.Black, x, y);
+            y += ls * 1.5;
+            gfx.DrawString("Ảnh mô tả", font, XBrushes.Firebrick, x, y);
+            y += ls * 1;
+            if (!string.IsNullOrEmpty(article.ImageDescription1))
+            {
+                AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription1), x, y);
+                y += ls * 1;
+            }
+            if (!string.IsNullOrEmpty(article.ImageDescription2))
+            {
+                AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription2), x, y);
+                y += ls * 1;
+            }
+            if (!string.IsNullOrEmpty(article.ImageDescription3))
+            {
+                AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription3), x, y);
+                y += ls * 1;
+            }
+            if (!string.IsNullOrEmpty(article.ImageDescription4))
+            {
+                AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription4), x, y);
+                y += ls * 1;
+            }
+            string pdfFilename = "ThongTinNha__" + string.Format("{0:ddMMyyyy_HHmmss}", DateTime.Now) + ".pdf";
+            pdf.Save(Server.MapPath("/Content/PDFFile/" + pdfFilename));
+            Process.Start(Server.MapPath("/Content/PDFFile/" + pdfFilename));
+            //DownloadFile(Server.MapPath("/Content/PDFFile/Thongtinnha_13112016_022706.pdf"));
+            return View();
+        }
+
         void DownloadFile(string filePath)
         {
             try

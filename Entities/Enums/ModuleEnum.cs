@@ -162,6 +162,7 @@ namespace Entities.Enums
         [Description("Chuyển giao dữ liệu")]
         [ActionAttribute(ActionType.Read, ActionType.Create, ActionType.Update, ActionType.Delete)]
         ChuyenGiaoDuLieu = 454
+     
         #endregion
         #endregion
     }
