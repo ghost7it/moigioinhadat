@@ -1,0 +1,35 @@
+﻿@model Entities.Models.Nha
+@{
+    //IEnumerable<Entities.Models.ArticleCategory> articleCategory = (IEnumerable<Entities.Models.ArticleCategory>)ViewBag.ArticleCategory;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">Tải file export</h4>  
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                   File Dowload
+                </div>
+                <div class="col-md-8 value">
+                    <a href="@ViewBag.FilePath" download>Tải file tại đây</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn default" data-dismiss="modal">Đóng lại</button>
+</div>  
+<style type="text/css">
+    .modal-dialog {
+        width: 960px; 
+    }
+
+    .static-info {
+        margin-bottom: 10px;
+    }
+</style>
