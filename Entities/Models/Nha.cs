@@ -104,7 +104,7 @@ namespace Entities.Models
         public string ImageDescription2 { get; set; }
 
         [Display(Name = "Ảnh mô tả 3")]
-        public string ImageDescription3 { get; set; }
+        public string ImageDescription3 { get; set; } 
 
         [Display(Name = "Ảnh mô tả 4")]
         public string ImageDescription4 { get; set; }
