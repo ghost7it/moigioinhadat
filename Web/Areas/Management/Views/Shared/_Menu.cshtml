@@ -12,8 +12,7 @@
                 RouteHelper.IsCurrentController("SystemInformation", ViewContext) ||
                 RouteHelper.IsCurrentController("Role", ViewContext);}
             @if (RoleHelper.CheckPermission(ModuleEnum.Account, ActionEnum.Read) ||
-               RoleHelper.CheckPermission(ModuleEnum.Role, ActionEnum.Read) ||
-               RoleHelper.CheckPermission(ModuleEnum.SystemInformation, ActionEnum.Read))
+               RoleHelper.CheckPermission(ModuleEnum.Role, ActionEnum.Read))
             {
                 <li class="@(isActiveController ? "active open start" : "start") ">
                     <a href="javascript:;">
@@ -221,7 +220,7 @@
                                         <li class="@(isActive ? "active" : "") ">
                                             <a href="@Url.RouteUrl("ExportNhaIndex")">
                                                 <i class="fa fa-reply"></i>
-                                                Export dữ liệu dữ liệu nhà ra file PDF
+                                                Export dữ liệu nhà ra file PDF
                                             </a>
                                         </li>
                                     }
