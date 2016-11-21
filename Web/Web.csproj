@@ -188,6 +188,7 @@
     </Compile>
     <Compile Include="Areas\Management\Controllers\ChuyenGiaoDuLieuController.cs" />
     <Compile Include="Areas\Management\Controllers\ExportController.cs" />
+    <Compile Include="Areas\Management\Controllers\ExportNhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ImportController.cs" />
     <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
     <Compile Include="Areas\Management\Controllers\XoaNhaTrungController.cs" />
@@ -1543,6 +1544,7 @@
     <Content Include="Areas\Management\Views\DanhSachCongViec\_DetailModal.cshtml" />
     <Content Include="Areas\Management\Views\ChuyenGiaoDuLieu\Index.cshtml" />
     <Content Include="Areas\Management\Views\XoaNhaTrung\Index.cshtml" />
+    <Content Include="Areas\Management\Views\ExportNha\_ExportNha.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
