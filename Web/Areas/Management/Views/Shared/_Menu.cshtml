@@ -220,16 +220,15 @@
                                         <li class="@(isActive ? "active" : "") ">
                                             <a href="@Url.RouteUrl("ExportNhaIndex")">
                                                 <i class="fa fa-reply"></i>
-                                                Export dữ liệu nhà ra file PDF
+                                                Export nhà ra PDF
                                             </a>
                                         </li>
                                     }
                                     @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create))
                                     {
-                                        isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Create", ViewContext);
+                                        isActive = RouteHelper.IsCurrentControllerAndAction("XoaNhaTrung", "XoaNhaTrungIndex", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
-                                            @*<a href="@Url.RouteUrl("KhachThueCreate")">*@
-                                            <a href="#">
+                                            <a href="@Url.RouteUrl("XoaNhaTrungIndex")">
                                                 <i class="fa fa-times-circle"></i>
                                                 Xóa nhà trùng lặp
                                             </a>
@@ -248,10 +247,9 @@
                                     }
                                     @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read))
                                     {
-                                        isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
+                                        isActive = RouteHelper.IsCurrentControllerAndAction("ChuyenGiaoDuLieu", "ChuyenGiaoDuLieuIndex", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
-                                            <a href="#">
-                                                @*<a href="@Url.RouteUrl("KhachThueIndex")">*@
+                                                <a href="@Url.RouteUrl("ChuyenGiaoDuLieuIndex")">
                                                 <i class="fa fa-refresh"></i>
                                                 Chuyển giao dữ liệu
                                             </a>
