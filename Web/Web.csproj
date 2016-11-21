@@ -70,13 +70,13 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MigraDoc.DocumentObjectModel">
-      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.DocumentObjectModel.dll</HintPath>
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.DocumentObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="MigraDoc.Rendering">
-      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.Rendering.dll</HintPath>
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.Rendering.dll</HintPath>
     </Reference>
     <Reference Include="MigraDoc.RtfRendering">
-      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.RtfRendering.dll</HintPath>
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.RtfRendering.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
@@ -91,10 +91,10 @@
       <HintPath>..\packages\Ninject.WebApi.DependencyResolver.0.1.4758.24814\lib\net45\Ninject.WebApi.DependencyResolver.dll</HintPath>
     </Reference>
     <Reference Include="PdfSharp">
-      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\PdfSharp.dll</HintPath>
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\PdfSharp.dll</HintPath>
     </Reference>
     <Reference Include="PdfSharp.Charting">
-      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\PdfSharp.Charting.dll</HintPath>
+      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\PdfSharp.Charting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -176,7 +176,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\tiny_mce\plugins\spellchecker\includes\" />
-    <Folder Include="Uploads\flash\" />
+    <Folder Include="Uploads\PDFFile\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -1546,6 +1546,8 @@
     <Content Include="Areas\Management\Views\ChuyenGiaoDuLieu\Index.cshtml" />
     <Content Include="Areas\Management\Views\XoaNhaTrung\Index.cshtml" />
     <Content Include="Areas\Management\Views\ExportNha\_ExportNha.cshtml" />
+    <Content Include="Areas\Management\Views\ExportNha\Index.cshtml" />
+    <Content Include="Areas\Management\Views\ExportNha\_DetailModal.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
@@ -2067,8 +2069,6 @@
     <Content Include="Uploads\images\14202775_1137717072933871_1289137750623137847_n.jpg" />
     <Content Include="Uploads\images\qua-cho-con-3-1469083614.jpg" />
     <Content Include="Uploads\_thumbs\Images\123.jpg" />
-    <Content Include="Uploads\_thumbs\Images\14202775_1137717072933871_1289137750623137847_n.jpg" />
-    <Content Include="Uploads\_thumbs\Images\qua-cho-con-3-1469083614.jpg" />
     <Content Include="Views\Login\ForgetPassword.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Web.config">
