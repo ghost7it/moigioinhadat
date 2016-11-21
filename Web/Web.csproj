@@ -69,17 +69,14 @@
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MigraDoc.DocumentObjectModel, Version=1.31.3066.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.DocumentObjectModel.dll</HintPath>
+    <Reference Include="MigraDoc.DocumentObjectModel">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.DocumentObjectModel.dll</HintPath>
     </Reference>
-    <Reference Include="MigraDoc.Rendering, Version=1.31.3066.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.Rendering.dll</HintPath>
+    <Reference Include="MigraDoc.Rendering">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.Rendering.dll</HintPath>
     </Reference>
-    <Reference Include="MigraDoc.RtfRendering, Version=1.31.3066.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\MigraDoc.RtfRendering.dll</HintPath>
+    <Reference Include="MigraDoc.RtfRendering">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.RtfRendering.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
@@ -93,13 +90,11 @@
     <Reference Include="Ninject.WebApi.DependencyResolver">
       <HintPath>..\packages\Ninject.WebApi.DependencyResolver.0.1.4758.24814\lib\net45\Ninject.WebApi.DependencyResolver.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp, Version=1.31.1789.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\PdfSharp.dll</HintPath>
+    <Reference Include="PdfSharp">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\PdfSharp.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.Charting, Version=1.31.1789.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\NC\Downloads\Compressed\PDFsharp-MigraDocFoundation-Assemblies-1_31\GDI+\PdfSharp.Charting.dll</HintPath>
+    <Reference Include="PdfSharp.Charting">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\PdfSharp.Charting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -181,10 +176,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\tiny_mce\plugins\spellchecker\includes\" />
-    <Folder Include="Uploads\docs\" />
-    <Folder Include="Uploads\files\" />
-    <Folder Include="Uploads\flash\" />
-    <Folder Include="Uploads\PDFFile\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -192,10 +183,15 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Management\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Management\Controllers\DanhSachCongViecController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Management\Controllers\ChuyenGiaoDuLieuController.cs" />
     <Compile Include="Areas\Management\Controllers\ExportController.cs" />
     <Compile Include="Areas\Management\Controllers\ExportNhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ImportController.cs" />
     <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
+    <Compile Include="Areas\Management\Controllers\XoaNhaTrungController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
     <Compile Include="Areas\Management\Controllers\HomeController.cs" />
@@ -236,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
+    <Content Include="Areas\Management\Views\DanhSachCongViec\Index.cshtml" />
     <Content Include="Content\AdminV1\about-us.css" />
     <Content Include="Content\AdminV1\address.css" />
     <Content Include="Content\AdminV1\blog.css" />
@@ -1545,100 +1542,8 @@
     <Content Include="Areas\Management\Views\Import\ImportKhachModal.cshtml" />
     <Content Include="Areas\Management\Views\Export\Index.cshtml" />
     <Content Include="Areas\Management\Views\DanhSachCongViec\_DetailModal.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\Create.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\Index.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\RaoVatModal.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\TimKhachModal.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\Update.cshtml" />
-    <Content Include="Areas\Management\Views\ExportNha\Index.cshtml" />
-    <Content Include="Areas\Management\Views\ExportNha\_DetailModal.cshtml" />
-    <Content Include="Content\PDFFile\ChiThao_13112016_005904.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_005520.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_005708.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_012823.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_013019.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_013057.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_013208.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_013232.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_013535.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_014236.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_014413.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_014518.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_014612.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_014737.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_014921.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_015100.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_015342.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_015841.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_020511.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_020822.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_020837.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_021606.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_021622.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_021725.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - chủ nhà_13112016_021955.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_003834.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_011629.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_011913.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_013722.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_014346.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_014409.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_014720.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_015911.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_020515.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo - giáo viên_13112016_021946.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo_13112016_000058.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo_13112016_000146.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo_13112016_000603.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo_13112016_000730.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo_13112016_000808.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo_13112016_001108.pdf" />
-    <Content Include="Content\PDFFile\Chị Thảo_13112016_002525.pdf" />
-    <Content Include="Content\PDFFile\firstpage.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016114806.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016235037.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016235103.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016235258.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016235528.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016235616.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016235723.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016235739.pdf" />
-    <Content Include="Content\PDFFile\firstpage12112016_235938.pdf" />
-    <Content Include="Content\PDFFile\Nguyen Van A_13112016_004120.pdf" />
-    <Content Include="Content\PDFFile\Nguyen Van A_13112016_011145.pdf" />
-    <Content Include="Content\PDFFile\Nguyen Van A_13112016_011343.pdf" />
-    <Content Include="Content\PDFFile\Nguyen Van A_13112016_012836.pdf" />
-    <Content Include="Content\PDFFile\Nguyen Van A_13112016_013238.pdf" />
-    <Content Include="Content\PDFFile\Thongtinnha_13112016_022532.pdf" />
-    <Content Include="Content\PDFFile\Thongtinnha_13112016_022706.pdf" />
-    <Content Include="Content\PDFFile\Thongtinnha_13112016_022712.pdf" />
-    <Content Include="Content\PDFFile\Thongtinnha_13112016_023040.pdf" />
-    <Content Include="Content\PDFFile\Thongtinnha_13112016_023336.pdf" />
-    <Content Include="Content\PDFFile\Thongtinnha_13112016_023345.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__13112016_025154.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__13112016_025203.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__13112016_025413.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__13112016_025647.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__13112016_030055.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__13112016_030100.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__13112016_030337.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__13112016_030425.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_221535.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_221611.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_221714.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_221738.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_221806.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_221845.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_221917.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_222042.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_225616.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_225627.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_225701.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_225915.pdf" />
-    <Content Include="Content\PDFFile\ThongTinNha__19112016_225920.pdf" />
-    <Content Include="Content\PDFFile\Trần Quốc Huy_13112016_012015.pdf" />
-    <Content Include="Content\PDFFile\Trần Quốc Huy_13112016_014631.pdf" />
-    <Content Include="Content\PDFFile\Trần Quốc Huy_13112016_015847.pdf" />
+    <Content Include="Areas\Management\Views\ChuyenGiaoDuLieu\Index.cshtml" />
+    <Content Include="Areas\Management\Views\XoaNhaTrung\Index.cshtml" />
     <Content Include="Areas\Management\Views\ExportNha\_ExportNha.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
@@ -2157,8 +2062,6 @@
     <Content Include="Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Uploads\images\123.jpg" />
-    <Content Include="Uploads\_thumbs\Images\123.jpg" />
     <Content Include="Views\Login\ForgetPassword.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Web.config">
@@ -2232,6 +2135,8 @@
     <Content Include="Views\Shared\_RightMenu2.cshtml" />
     <Content Include="Views\Search\Index_backup.cshtml" />
     <Content Include="Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Template\ImportKhach_Template.xlsx" />
+    <Content Include="Template\ImportNha_Template.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

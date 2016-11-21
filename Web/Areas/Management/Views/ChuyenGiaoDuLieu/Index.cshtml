@@ -1,0 +1,71 @@
+﻿@using Entities.Enums;
+@{
+    ViewBag.Title = "Chuyển giao dữ liệu";
+    Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="@Url.RouteUrl("ManagementHome")">Trang chủ</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);">Chuyển giao dữ liệu</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-check-square font-green-sharp bold"></i>
+                    <span class="caption-subject font-green-sharp bold ">Chuyển giao dữ liệu</span>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("ChuyenGiaoDuLieu", "ChuyenGiaoDuLieu", FormMethod.Post, new { @class = "form-horizontal form-bordered form-row-stripped" }))
+                {
+                    <div style="width: 30%; padding: 6px;">
+                        <p>Người đang phụ trách</p>
+                        @Html.DropDownList("NguoiGiaoId", (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "form-control", @style = "margin: 5px;" })
+                        <p>Người tiếp nhận</p>
+                        @Html.DropDownList("NguoiNhanId", (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "form-control", @style = "margin: 5px;" })
+                        <button type="submit" class="btn green" style="margin-top: 20px;"><i class="fa fa-reply"></i> Chuyển giao dữ liệu</button>
+                        @*<a class="btn btn-xs blue btn-import" href="@Url.RouteUrl("ChuyenGiaoDuLieu")" ><i class="fa fa-reply"></i> Chuyển giao dữ liệu</a>*@
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .alert-box {
+        color: #555;
+        padding: 10px 10px 10px 36px;
+        margin-bottom: 20px;
+    }
+
+        .alert-box span {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+    .warning {
+        background-color: #fff8c4;
+        border: 1px solid #f2c779;
+    }
+
+    .btn-import {
+        padding: 10px;
+        margin-right: 10px;
+    }
+</style>
+
+
+
+

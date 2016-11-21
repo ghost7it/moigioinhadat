@@ -15,7 +15,7 @@
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="javascript:void(0);">Danh sách nhà</a>
+            <a href="javascript:void(0);">Danh sách nhà trùng lặp</a>
         </li>
     </ul>
 </div>
@@ -26,26 +26,12 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-check-square font-green-sharp bold"></i>
-                    <span class="caption-subject font-green-sharp bold ">Danh sách nhà</span>
+                    <span class="caption-subject font-green-sharp bold ">Danh sách nhà trùng lặp</span>
                 </div>
-                @if (canCreate)
-                {
-                    <div class="actions">
-                        <a href="@Url.RouteUrl("NhaCreate")" class="btn btn-sm green"><i class="fa fa-plus"></i> Thêm nhà mới</a>
-                    </div>
-                }
             </div>
             <div class="portlet-body">
                 <div class="table-container">
                     <div class="table-actions-wrapper">
-                        @*@if (canUpdate)
-                            {
-                                <button class="btn btn-sm yellow-casablanca table-group-action-RecentlyAdded display-hide"><i class="fa fa-edit"></i> Biên tập lại</button>
-                            }*@
-                        @if (canApprove)
-                        {
-                            <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
-                        }
                         @if (canDelete)
                         {
                             <button class="btn btn-sm red-flamingo table-group-action-Delete"><i class="fa fa-trash-o"></i> Xóa</button>
@@ -119,7 +105,7 @@
                     },
                     dataTable: {
                         "ajax": {
-                            "url": '@Url.RouteUrl("NhaGetNhaJson", new { status = 0 })',
+                            "url": '@Url.RouteUrl("XoaNhaTrungGetXoaNhaTrungJson")',
                         },
                         "columnDefs": [{
                             "targets": -1,

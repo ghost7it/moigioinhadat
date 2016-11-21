@@ -89,6 +89,8 @@ namespace Web.Areas.Management.Controllers
                 nhucauthue.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
                 nhucauthue.NgayTao = DateTime.Now;
                 nhucauthue.TrangThai = 0; //Chờ duyệt
+                nhucauthue.NguoiPhuTrachId = AccountId;
+
                 int resultnhucauthue = 0;
                 try
                 {

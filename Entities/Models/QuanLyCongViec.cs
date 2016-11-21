@@ -50,7 +50,7 @@ namespace Entities.Models
         public string KhachHiddenField { get; set; }
 
         [Display(Name = "Trạng thái")]
-        public int TrangThai { get; set; }
+        public int TrangThai { get; set; } //0: Chờ duyệt - 1: Đã duyệt (or Chưa hoàn thành) - 2 Đã hoàn thành
 
         public string Describe()
         {

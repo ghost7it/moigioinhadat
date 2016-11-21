@@ -8,8 +8,8 @@ namespace Entities.Enums
     {
         [Description("Quản trị hệ thống")]
         System = 1,
-        [Description("Quản trị nội dung")]
-        Content = 2,
+        //[Description("Quản trị nội dung")]
+        //Content = 2,
         //[Description("Quản lý hồ sơ cựu sinh viên")]
         //Profile = 3,
         //[Description("Ban liên lạc")]

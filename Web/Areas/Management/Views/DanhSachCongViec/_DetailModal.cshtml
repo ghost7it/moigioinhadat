@@ -1,0 +1,245 @@
+﻿@*@using Entities.Models;*@
+@model Entities.ViewModels.QuanLyCongViecViewModel
+@{
+    //IEnumerable<Entities.Models.ArticleCategory> articleCategory = (IEnumerable<Entities.Models.ArticleCategory>)ViewBag.ArticleCategory;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">Xem chi tiết công việc</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <a href="javascript:void(0)" class="thongtinkhach thongtintitle" style="margin-top:0">
+                <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin chung
+            </a>
+        </div>
+        <div class="col-md-12 khachcontent content_wr">
+            <p>
+                <span class="bold">Nhân viên chăm sóc: </span> @ViewBag.AccoutName
+            </p>
+            <p>
+                <span class="bold"> Tên khách:</span> @ViewBag.TenKhach
+            </p>
+            <p>
+                <span class="bold">Số điện thoại khách: </span> @ViewBag.SoDienThoaiKhach
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="javascript:void(0)" class="thongtinnhucauthue thongtintitle">
+                <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin nhu cầu thuê
+            </a>
+        </div>
+        <div class="nhucauthuecontent content_wr">
+            <div class="col-md-6 khachcontent">
+                <p>
+                    <span class="bold">Tên quận : </span> @ViewBag.QuanName
+                </p>
+                <p>
+                    <span class="bold">Tên đường: </span> @ViewBag.DuongName
+                </p>
+                <p>
+                    <span class="bold">Loại mặt bằng : </span> @ViewBag.LoaiMatBang
+                </p>
+                <p>
+                    <span class="bold">Mặt tiền treo biển: </span> @ViewBag.MatTienTreoBien
+                </p>
+                <p>
+                    <span class="bold">Bề ngang lọt lòng : </span> @ViewBag.BeNgangLotLong
+                </p>
+                <p>
+                    <span class="bold">Diện tích đất: </span> @ViewBag.DienTichDat
+                </p>
+                <p>
+                    <span class="bold">Diện tích đất sử dụng tầng 1 : </span> @ViewBag.DienTichDatSuDungTang1
+                </p>
+                <p>
+                    <span class="bold">Tổng diện tích sử dụng : </span> @ViewBag.TongDienTichSuDung
+                </p>
+            </div>
+            <div class="col-md-6 khachcontent">
+                <p>
+                    <span class="bold">Số tầng: </span> @ViewBag.SoTang
+                </p>
+                <p>
+                    <span class="bold">Đi chung chủ : </span> @ViewBag.DiChungChu
+                </p>
+                <p>
+                    <span class="bold">Hầm: </span> @ViewBag.Ham
+                </p>
+                <p>
+                    <span class="bold">Thang máy : </span> @ViewBag.ThangMay
+                </p>
+                <p>
+                    <span class="bold">Nội thất khách thuê cũ: </span> @ViewBag.NoiThat
+                </p>
+                <p>
+                    <span class="bold">Tổng giá thuê : </span> @ViewBag.TongGiaThue
+                </p>
+                <p>
+                    <span class="bold">Giá thuê bình quân: </span> @ViewBag.GiaThueBQ
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="javascript:void(0)" class="thongtinnha thongtintitle">
+                <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin nhà cần thuê
+            </a>
+        </div>
+        <div class="nhucauthuecontent content_wr">
+            <div class="col-md-6 khachcontent">
+                <p>
+                    <span class="bold">Tên quận : </span> @ViewBag.QuanName1
+                </p>
+                <p>
+                    <span class="bold">Tên đường: </span> @ViewBag.DuongName1
+                </p>
+                <p>
+                    <span class="bold">Loại mặt bằng : </span> @ViewBag.LoaiMatBang1
+                </p>
+               @if (ViewBag.IsHideSoNha == 0)
+               {
+                <p>
+                    <span class="bold">Số nhà : </span> @ViewBag.SoNha
+                </p>
+               }
+               @if (ViewBag.IsHideTenToaNha == 0)
+               {
+                   <p>
+                    <span class="bold">Tên tòa nhà: </span> @ViewBag.TenToaNha
+                </p>
+               }
+                
+                <p>
+                    <span class="bold">Tên chủ nhà : </span> @ViewBag.TenChuNha
+                </p>
+                <p>
+                    <span class="bold">Số điện thoại: </span> @ViewBag.SoDienThoai1
+                </p>
+                @if (ViewBag.IsHideMatTienTreoBien == 0)
+                {
+                <p>
+                    <span class="bold">Mặt tiền treo biển: </span> @ViewBag.MatTienTreoBien1
+                </p>    
+                }
+                @if (ViewBag.IsHideBeNgangLotLong == 0)
+                {
+                    <p>
+                    <span class="bold">Bề ngang lọt lòng : </span> @ViewBag.BeNgangLotLong1
+                </p>
+                }
+                @if (ViewBag.IsHideDienTichDat == 0)
+                {
+                    <p>
+                    <span class="bold">Diện tích đất: </span> @ViewBag.DienTichDat1
+                </p>
+                }
+                
+            </div>
+            <div class="col-md-6 khachcontent">
+                @if (ViewBag.IsHideDienTichDatSuDungTang1 == 0)
+                {
+                    <p>
+                    <span class="bold">Diện tích đất sử dụng tầng 1 : </span> @ViewBag.DienTichDatSuDungTang11
+                </p> 
+                }
+               @if (ViewBag.IsHideTongDienTichSuDung == 0)
+               {
+                   <p>
+                    <span class="bold">Tổng diện tích sử dụng : </span> @ViewBag.TongDienTichSuDung1
+                </p>
+               }
+                @if (ViewBag.IsHideSoTang == 0)
+                {
+                    <p>
+                    <span class="bold">Số tầng: </span> @ViewBag.SoTang1
+                </p>
+                }
+                @if (ViewBag.IsHideDiChungChu == 0)
+                {
+                     <p>
+                    <span class="bold">Đi chung chủ : </span> @ViewBag.DiChungChu1
+                </p>
+                }
+               @if (ViewBag.IsHideHam == 0)
+               {
+                    <p>
+                    <span class="bold">Hầm: </span> @ViewBag.Ham1
+                </p>
+               }
+               @if (ViewBag.IsHideThangMay == 0)
+               {
+                    <p>
+                    <span class="bold">Thang máy : </span> @ViewBag.ThangMay1
+                </p>
+               }
+               
+                <p>
+                    <span class="bold">Nội thất khách thuê cũ: </span> @ViewBag.NoiThat1
+                </p>
+                <p>
+                    <span class="bold">Tổng giá thuê : </span> @ViewBag.TongGiaThue1
+                </p>
+                <p>
+                    <span class="bold">Giá thuê bình quân: </span> @ViewBag.GiaThueBQ1
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="javascript:void(0)" class="thongtinupdate thongtintitle">
+                <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin mở rộng
+            </a>
+        </div>
+        <div class="col-md-12 updatecontent content_wr">
+            <p>
+                <span class="bold">Các trường dữ liệu bị ẩn: </span> @ViewBag.HiddenField
+            </p>
+            <p>
+                <span class="bold">Nội dung công việc: </span> @ViewBag.NoiDungCongViec
+            </p>
+        </div>
+    </div>
+
+
+
+</div>
+  
+<div class="modal-footer">
+    <button type="button" class="btn default" data-dismiss="modal">Đóng lại</button>
+</div>
+<style type="text/css">
+    .modal-dialog {
+        width: 960px;
+    }
+
+    .static-info {
+        margin-bottom: 10px;
+    }
+    .thongtintitle {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        margin-top: 10px;
+    }
+
+    .content_wr {
+        margin-bottom: 10px;
+        padding-top: 8px;
+        background: #f0f5f5;
+        float: left;
+        width: 100%;
+    }
+
+    .thongtinkhach {
+    }
+
+    .updatecontent {
+        padding-bottom: 10px;
+    }
+</style>
