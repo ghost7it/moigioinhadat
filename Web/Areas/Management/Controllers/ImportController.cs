@@ -23,7 +23,7 @@ using System.Transactions;
 namespace Web.Areas.Management.Controllers
 {
     [RouteArea("Management", AreaPrefix = "quan-ly")]
-    [RoutePrefix("import")]
+    [RoutePrefix("quan-ly-du-lieu")]
     public class ImportController : BaseController
     {
         [Route("import-du-lieu", Name = "ImportIndex")]

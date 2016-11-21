@@ -67,7 +67,7 @@
                                 <th width="5%" style="text-align: center;">Sửa</th>
                                 <th width="5%" style="text-align: center;">Xóa</th>
                                 <th width="5%" style="text-align: center;">Duyệt</th>
-                                <th width="5%" style="text-align: center; white-space:nowrap;">Xuất bản</th>
+                                @*<th width="5%" style="text-align: center; white-space:nowrap;">Xuất bản</th>*@
                             </tr>
                         </thead>
                         <tbody>
@@ -149,13 +149,13 @@
                                                                @(details.Verify == 1 ? " checked=checked" : "") />
                                                     }
                                                 </td>
-                                                <td style="text-align: center;">
+                                                @*<td style="text-align: center;">
                                                     @if (action.Contains(6))
                                                     {
                                                         <input type="checkbox" name="@idPublish" id="@idPublish"
                                                                @(details.Publish == 1 ? " checked=checked" : "") />
                                                     }
-                                                </td>
+                                                </td>*@
                                             </tr>
                                                     stt++;
                                         }

@@ -113,6 +113,8 @@ namespace Entities.Models
         [Display(Name = "Trạng thái")]
         public int TrangThai { get; set; }
 
+        public long NguoiPhuTrachId { get; set; }
+
         public string Describe()
         {
             return "{ Id : \"" + Id + "\", Name : \"" + Id + "\" }";

@@ -25,7 +25,7 @@ using System.Web.UI;
 namespace Web.Areas.Management.Controllers
 {
     [RouteArea("Management", AreaPrefix = "quan-ly")]
-    [RoutePrefix("export")]
+    [RoutePrefix("quan-ly-du-lieu")]
     public class ExportController : BaseController
     {
         [Route("export-du-lieu", Name = "ExportIndex")]

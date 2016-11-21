@@ -69,6 +69,15 @@
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MigraDoc.DocumentObjectModel">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.DocumentObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.Rendering">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.Rendering.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.RtfRendering">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\MigraDoc.RtfRendering.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -80,6 +89,12 @@
     </Reference>
     <Reference Include="Ninject.WebApi.DependencyResolver">
       <HintPath>..\packages\Ninject.WebApi.DependencyResolver.0.1.4758.24814\lib\net45\Ninject.WebApi.DependencyResolver.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting">
+      <HintPath>C:\Users\MrGhost\AppData\Roaming\Skype\My Skype Received Files\PdfSharp.Charting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -168,32 +183,21 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Management\Controllers\AccountController.cs" />
-    <Compile Include="Areas\Management\Controllers\AlbumController.cs" />
+    <Compile Include="Areas\Management\Controllers\DanhSachCongViecController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Management\Controllers\ChuyenGiaoDuLieuController.cs" />
     <Compile Include="Areas\Management\Controllers\ExportController.cs" />
     <Compile Include="Areas\Management\Controllers\ImportController.cs" />
     <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
-    <Compile Include="Areas\Management\Controllers\DanhSachCongViecController.cs" />
+    <Compile Include="Areas\Management\Controllers\XoaNhaTrungController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
-    <Compile Include="Areas\Management\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
-    <Compile Include="Areas\Management\Controllers\CategoryController.cs" />
-    <Compile Include="Areas\Management\Controllers\CategoryTypeController.cs" />
-    <Compile Include="Areas\Management\Controllers\CountryController.cs" />
-    <Compile Include="Areas\Management\Controllers\DegreeController.cs" />
-    <Compile Include="Areas\Management\Controllers\FeedbackController.cs" />
     <Compile Include="Areas\Management\Controllers\HomeController.cs" />
     <Compile Include="Areas\Management\Controllers\LoginController.cs" />
-    <Compile Include="Areas\Management\Controllers\MajorsController.cs" />
-    <Compile Include="Areas\Management\Controllers\NationController.cs" />
-    <Compile Include="Areas\Management\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Management\Controllers\PhanCongCongViecController.cs" />
-    <Compile Include="Areas\Management\Controllers\PositionController.cs" />
-    <Compile Include="Areas\Management\Controllers\ProvinceController.cs" />
-    <Compile Include="Areas\Management\Controllers\RankController.cs" />
-    <Compile Include="Areas\Management\Controllers\ReligionController.cs" />
     <Compile Include="Areas\Management\Controllers\RoleController.cs" />
     <Compile Include="Areas\Management\Controllers\SharedController.cs" />
-    <Compile Include="Areas\Management\Controllers\SystemInformationController.cs" />
     <Compile Include="Areas\Management\Filters\ValidationPermissionFilter.cs" />
     <Compile Include="Areas\Management\Helpers\DropDownGroupListHtmlHelpers.cs" />
     <Compile Include="Areas\Management\Helpers\HtmlHelperExtensions.cs" />
@@ -227,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\readme.txt" />
+    <Content Include="Areas\Management\Views\DanhSachCongViec\Index.cshtml" />
     <Content Include="Content\AdminV1\about-us.css" />
     <Content Include="Content\AdminV1\address.css" />
     <Content Include="Content\AdminV1\blog.css" />
@@ -1484,10 +1489,6 @@
     <Content Include="Areas\Management\Views\Role\Index.cshtml" />
     <Content Include="Areas\Management\Views\Role\ModuleRole.cshtml" />
     <Content Include="Areas\Management\Views\Shared\NoPermission.cshtml" />
-    <Content Include="Areas\Management\Views\CategoryType\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Category\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Category\_CreateOrUpdate.cshtml" />
-    <Content Include="Areas\Management\Views\Article\Create.cshtml" />
     <Content Include="Editor\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <Content Include="Editor\ckfinder\userfiles\.htaccess" />
     <Content Include="Editor\ckeditor\CHANGES.md" />
@@ -1498,31 +1499,10 @@
     <Content Include="Editor\ckeditor\plugins\wsc\README.md" />
     <Content Include="Editor\ckeditor\README.md" />
     <Content Include="Editor\ckeditor\skins\moono\readme.md" />
-    <Content Include="Areas\Management\Views\Article\Publish.cshtml" />
     <Content Include="Areas\Management\Views\Shared\GeneralError.cshtml" />
-    <Content Include="Areas\Management\Views\Article\Update.cshtml" />
-    <Content Include="Areas\Management\Views\Album\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Album\Detail.cshtml" />
-    <Content Include="Areas\Management\Views\Album\DetailCreate.cshtml" />
-    <Content Include="Areas\Management\Views\Album\DetailUpdate.cshtml" />
     <Content Include="Content\FrontEndV1\fonts\UVNTinTucHepThemBold.eot" />
     <Content Include="Content\FrontEndV1\fonts\UVNTinTucHepThemBold.ttf" />
     <Content Include="Content\FrontEndV1\fonts\UVNTinTucHepThemBold.woff" />
-    <Content Include="Areas\Management\Views\Article\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Country\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Nation\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Religion\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Degree\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Rank\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Province\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Province\_ListProvince.cshtml" />
-    <Content Include="Areas\Management\Views\Province\_ListDistrict.cshtml" />
-    <Content Include="Areas\Management\Views\Position\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Organization\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Majors\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Majors\_ListMajors.cshtml" />
-    <Content Include="Areas\Management\Views\Majors\_ListCourse.cshtml" />
-    <Content Include="Areas\Management\Views\Article\_DetailModal.cshtml" />
     <Content Include="Content\FrontEndV1\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\FrontEndV1\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\FrontEndV1\fonts\fontawesome-webfont.woff" />
@@ -1532,20 +1512,7 @@
     <Content Include="Content\FrontEndV1\fonts\Simple-Line-Icons.eot" />
     <Content Include="Content\FrontEndV1\fonts\Simple-Line-Icons.ttf" />
     <Content Include="Content\FrontEndV1\fonts\Simple-Line-Icons.woff" />
-    <Content Include="Areas\Management\Views\Feedback\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Feedback\Detail.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\Create.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\Index.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\Detail.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\_UnApprovedMessageModal.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\Update.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\CreateAccount.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\Committee.cshtml" />
-    <Content Include="Areas\Management\Views\Category\_GetArticleToCreateLink.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\List.cshtml" />
-    <Content Include="Areas\Management\Views\Profile\DetailProfile.cshtml" />
     <Content Include="Areas\Management\Views\Account\_ChangePassword.cshtml" />
-    <Content Include="Areas\Management\Views\Category\_GetCategoryToCreateLink.cshtml" />
     <Content Include="Content\FrontEndV1\fonts\Myriad-Pro.eot" />
     <Content Include="Content\FrontEndV1\fonts\Myriad-Pro.ttf" />
     <Content Include="Content\FrontEndV1\fonts\Myriad-Pro.woff" />
@@ -1574,11 +1541,8 @@
     <Content Include="Areas\Management\Views\Import\ImportKhachModal.cshtml" />
     <Content Include="Areas\Management\Views\Export\Index.cshtml" />
     <Content Include="Areas\Management\Views\DanhSachCongViec\_DetailModal.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\Create.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\Index.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\RaoVatModal.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\TimKhachModal.cshtml" />
-    <Content Include="Areas\Management\Views\DanhSachCongViec\Update.cshtml" />
+    <Content Include="Areas\Management\Views\ChuyenGiaoDuLieu\Index.cshtml" />
+    <Content Include="Areas\Management\Views\XoaNhaTrung\Index.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />
@@ -1739,7 +1703,6 @@
     <Content Include="Areas\Management\Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Areas\Management\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Management\Views\Login\Index.cshtml" />
-    <Content Include="Areas\Management\Views\SystemInformation\Index.cshtml" />
     <Content Include="Scripts\FrontEndV1\additional-methods.min.js" />
     <Content Include="Scripts\FrontEndV1\bootstrap-datepicker.js" />
     <Content Include="Scripts\FrontEndV1\bootstrap-fileinput.js" />
@@ -2170,6 +2133,8 @@
     <Content Include="Views\Shared\_RightMenu2.cshtml" />
     <Content Include="Views\Search\Index_backup.cshtml" />
     <Content Include="Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Template\ImportKhach_Template.xlsx" />
+    <Content Include="Template\ImportNha_Template.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
