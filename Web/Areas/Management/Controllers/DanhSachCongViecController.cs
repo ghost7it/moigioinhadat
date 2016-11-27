@@ -220,10 +220,20 @@ namespace Web.Areas.Management.Controllers
                 {
                     ViewBag.QuanName = nhucauthue.QuanName;
                     ViewBag.DuongName = nhucauthue.DuongName;
-                    var matbang = await _repository.GetRepository<MatBang>().ReadAsync(nhucauthue.MatBangId);
-                    if (matbang != null)
+                    string[] matbangarr = nhucauthue.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (matbangarr.Count() > 0)
                     {
-                        ViewBag.LoaiMatBang = matbang.Name;
+                        for (var i = 0; i < matbangarr.Count(); i++)
+                        {
+                            if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                            {
+                                ViewBag.LoaiMatBang += (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                                if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                                {
+                                    ViewBag.LoaiMatBang += @"</br>";
+                                }
+                            }
+                        }
                     }
                     ViewBag.MatTienTreoBien = nhucauthue.MatTienTreoBien + " (m)";
                     ViewBag.BeNgangLotLong = nhucauthue.BeNgangLotLong + " (m)";
@@ -247,10 +257,20 @@ namespace Web.Areas.Management.Controllers
                 var nha = await _repository.GetRepository<Nha>().ReadAsync(article.NhaId);
                 if (nha != null)
                 {
-                    var matbang1 = await _repository.GetRepository<MatBang>().ReadAsync(nha.MatBangId);
-                    if (matbang1 != null)
+                    string[] matbangarr = nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (matbangarr.Count() > 0)
                     {
-                        ViewBag.LoaiMatBang1 = matbang1.Name;
+                        for (var i = 0; i < matbangarr.Count(); i++)
+                        {
+                            if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                            {
+                                ViewBag.LoaiMatBang1 += (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                                if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                                {
+                                    ViewBag.LoaiMatBang1 += @"</br>";
+                                }
+                            }
+                        }
                     }
                     var quan = await _repository.GetRepository<Quan>().ReadAsync(nha.QuanId);
                     if (quan != null)

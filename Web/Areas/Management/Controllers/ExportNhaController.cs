@@ -170,7 +170,7 @@ namespace Web.Areas.Management.Controllers
 
             //var account = await _repository.GetRepository<Account>().ReadAsync(article.NguoiTaoId);
 
-            ViewBag.MatBang = (await _repository.GetRepository<MatBang>().ReadAsync(article.MatBangId)).Name;
+            //ViewBag.MatBang = (await _repository.GetRepository<MatBang>().ReadAsync(article.MatBangId)).Name;
             ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
             ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
             ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId)).Name;
@@ -257,9 +257,20 @@ namespace Web.Areas.Management.Controllers
                 y += ls;
                 gfx.DrawString("Tên tòa nhà: " + article.TenToaNha, font, XBrushes.Black, x, y);
                 y += ls;
-                var loaimatbang = await _repository.GetRepository<MatBang>().ReadAsync(article.MatBangId);
-                gfx.DrawString("Loại mặt bằng: " + (loaimatbang != null ? loaimatbang.Name : ""), font, XBrushes.Black, x, y);
+                gfx.DrawString("Loại mặt bằng: ", font, XBrushes.Black, x, y);
                 y += ls * 1.1;
+                string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (matbangarr.Count() > 0)
+                {
+                    for (var i = 0; i < matbangarr.Count(); i++)
+                    {
+                        if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                        {
+                            gfx.DrawString("- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name, font, XBrushes.Black, x + 2, y);
+                            y += ls * 1.1;
+                        }
+                    }
+                }            
                 double y1 = y;
                 var quan = await _repository.GetRepository<Quan>().ReadAsync(article.QuanId);
                 gfx.DrawString("Quận: " + (quan != null ? quan.Name : ""), font, XBrushes.Black, x, y);

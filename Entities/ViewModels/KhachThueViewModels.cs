@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 namespace Entities.ViewModels
 {
     public class KhachThueCreatingViewModel
@@ -42,6 +43,10 @@ namespace Entities.ViewModels
         [Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
         [Display(Name = "Loại mặt bằng")]
         public string MatBangId { get; set; }
+
+        
+        //[Display(Name = "Loại mặt bằng")]
+        //public string MatBangIdArr { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn quận")]
         [Display(Name = "Quận")]
@@ -118,6 +123,8 @@ namespace Entities.ViewModels
 
         [Display(Name = "Trạng thái nhu cầu")]
         public string TrangThaiNhuCau { get; set; }
+
+        public List<MatBangItem> ListMatBangArr { get; set; }
     }
     public class KhachThueUpdatingViewModel
     {
@@ -162,6 +169,9 @@ namespace Entities.ViewModels
         [Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
         [Display(Name = "Loại mặt bằng")]
         public string MatBangId { get; set; }
+
+        //[Display(Name = "Loại mặt bằng")]
+        //public string MatBangIdArr { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn quận")]
         [Display(Name = "Quận")]
@@ -238,5 +248,14 @@ namespace Entities.ViewModels
 
         [Display(Name = "Trạng thái nhu cầu")]
         public string TrangThaiNhuCau { get; set; }
+
+        public List<MatBangItem> ListMatBangArr { get; set; }
+    }
+
+    public class MatBangItem
+    {
+        public long FieldKey { get; set; }
+        public string FieldName { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

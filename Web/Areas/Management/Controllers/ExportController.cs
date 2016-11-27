@@ -43,6 +43,7 @@ namespace Web.Areas.Management.Controllers
         [Route("export-nha", Name = "ExportNha")]
         public ActionResult ExportNha()
         {
+            /*
             var nha = _repository.GetRepository<Nha>().GetAll()
                                                        .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
                                                        .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, g => g.Id, (b, g) => new { Nha = b, Duong = g })
@@ -109,7 +110,7 @@ namespace Web.Areas.Management.Controllers
                     Response.Flush();
                     Response.End();
                 }
-            }
+            } */
             return View();
         }
 
@@ -121,10 +122,11 @@ namespace Web.Areas.Management.Controllers
         public ActionResult ExportKhach()
         {
 
+            /*
             var khachVaNhuCauThue = _repository.GetRepository<NhuCauThue>().GetAll()
                                                        .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { NhuCauThue = b, Quan = e })
                                                        .Join(_repository.GetRepository<Duong>().GetAll(), b => b.NhuCauThue.DuongId, g => g.Id, (b, g) => new { NhuCauThue = b, Duong = g })
-                                                       .Join(_repository.GetRepository<MatBang>().GetAll(), b => b.NhuCauThue.NhuCauThue.MatBangId, y => y.Id, (b, y) => new { NhuCauThue = b, MatBang = y })
+                                                       .Join(_repository.GetRepository<MatBang>().GetAll(), b => b.NhuCauThue.NhuCauThue.MatBangId.Contains, y => y.Id, (b, y) => new { NhuCauThue = b, MatBang = y })
                                                        .Join(_repository.GetRepository<NoiThatKhachThueCu>().GetAll(), b => b.NhuCauThue.NhuCauThue.NhuCauThue.NoiThatKhachThueCuId, k => k.Id, (b, k) => new { NhuCauThue = b, NoiThatKhachThueCu = k })
                                                        .Join(_repository.GetRepository<Khach>().GetAll(), b => b.NhuCauThue.NhuCauThue.NhuCauThue.NhuCauThue.KhachId, n => n.Id, (b, n) => new { NhuCauThue = b, Khach = n })
                                                        .Join(_repository.GetRepository<CapDoTheoDoi>().GetAll(), b => b.NhuCauThue.NhuCauThue.NhuCauThue.NhuCauThue.NhuCauThue.CapDoTheoDoiId, m => m.Id, (b, m) => new { NhuCauThue = b, CapDoTheoDoi = m }).ToList();
@@ -190,7 +192,7 @@ namespace Web.Areas.Management.Controllers
                     Response.Flush();
                     Response.End();
                 }
-            }
+            }*/
             return View();
         }
 

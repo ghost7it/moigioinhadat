@@ -33,7 +33,20 @@ namespace Web.Areas.Management.Controllers
         {
             SetViewBag(true);
 
-            return View();
+            //Mặt bằng
+            var matBang = _repository.GetRepository<MatBang>().GetAll();
+            var model = new NhaCreatingViewModel();
+            var listMatBangArr = new List<MatBangItem>();
+            if (matBang.Any())
+            {
+                foreach (var item in matBang)
+                {
+                    listMatBangArr.Add(new MatBangItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
+                }
+            }
+            model.ListMatBangArr = listMatBangArr;
+
+            return View(model);
         }
 
         [HttpPost]
@@ -47,7 +60,7 @@ namespace Web.Areas.Management.Controllers
             {
                 Nha nha = new Nha();
 
-                nha.MatBangId = Convert.ToInt32(model.MatBangId);
+                nha.MatBangId = model.MatBangId;
                 nha.QuanId = Convert.ToInt64(model.QuanId);
                 nha.DuongId = Convert.ToInt64(model.DuongId);
                 nha.SoNha = StringHelper.KillChars(model.SoNha);
@@ -67,7 +80,8 @@ namespace Web.Areas.Management.Controllers
                 nha.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                 nha.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
                 nha.SoDienThoai = StringHelper.KillChars(model.SoDienThoai);
-                nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : Convert.ToDateTime(model.NgayCNHenLienHeLai);
+                nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
                 nha.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                 nha.ImageDescription1 = StringHelper.KillChars(model.ImageDescription1);
                 nha.ImageDescription2 = StringHelper.KillChars(model.ImageDescription2);
@@ -99,11 +113,43 @@ namespace Web.Areas.Management.Controllers
             }
         }
 
+        protected void SetViewBag()
+        {
+            //Mặt bằng
+            //var matBang = _repository.GetRepository<MatBang>().GetAll();
+            //ViewBag.MatBang = matBang.ToList().ToSelectList();
+
+            //Địa chỉ quận - đường
+            NhaCreatingViewModel model = new NhaCreatingViewModel();
+            var quan = _repository.GetRepository<Quan>().GetAll().OrderBy(o => o.Name).ToList();
+            ViewBag.QuanDropdownlist = new SelectList(quan, "Id", "Name", model.QuanId);
+            ViewBag.DuongDropdownlist = new SelectList(_repository.GetRepository<Duong>().GetAll(o => o.QuanId == model.QuanId).OrderBy(o => o.Name).ToList(), "Id", "Name", model.DuongId);
+
+            var listYesOrNo = new SelectList(new[] 
+            {
+                new { ID = "0", Name = "Không" },
+                new { ID = "1", Name = "Có" },
+            }, "ID", "Name", 1);
+
+            ViewBag.ListYesOrNo = listYesOrNo;
+
+            //Nội thất khách thuê cũ
+            var noiThatKhachThueCu = _repository.GetRepository<NoiThatKhachThueCu>().GetAll();
+            ViewBag.NoiThatKhachThueCu = noiThatKhachThueCu.ToList().ToSelectList();
+
+            //Đánh giá phù hợp với
+            var danhGiaPhuHopVoi = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
+            ViewBag.DanhGiaPhuHopVoi = danhGiaPhuHopVoi.ToList().ToSelectList();
+
+            //Cấp độ theo dõi
+            var capDoTheoDoi = _repository.GetRepository<CapDoTheoDoi>().GetAll();
+            ViewBag.CapDoTheoDoi = capDoTheoDoi.ToList().ToSelectList();
+        }
         protected void SetViewBag(bool isCreate)
         {
             //Mặt bằng
-            var matBang = _repository.GetRepository<MatBang>().GetAll();
-            ViewBag.MatBang = matBang.ToList().ToSelectList();
+            //var matBang = _repository.GetRepository<MatBang>().GetAll();
+            //ViewBag.MatBang = matBang.ToList().ToSelectList();
 
             //Địa chỉ quận - đường
             NhaCreatingViewModel model = new NhaCreatingViewModel();
@@ -115,12 +161,16 @@ namespace Web.Areas.Management.Controllers
             }
             else
             {
-                var quanUpdate = _repository.GetRepository<Duong>().GetAll();
-                ViewBag.QuanDropdownlist = quan.ToList().ToSelectList();
+                var quanUpdate = _repository.GetRepository<Quan>().GetAll();
+                ViewBag.QuanDropdownlist = quanUpdate.ToList().ToSelectList();
 
                 var duong = _repository.GetRepository<Duong>().GetAll();
                 ViewBag.DuongDropdownlist = duong.ToList().ToSelectList();
             }
+
+            //var quan = _repository.GetRepository<Quan>().GetAll().OrderBy(o => o.Name).ToList();
+            //ViewBag.QuanDropdownlist = new SelectList(quan, "Id", "Name", model.QuanId);
+            //ViewBag.DuongDropdownlist = new SelectList(_repository.GetRepository<Duong>().GetAll(o => o.QuanId == model.QuanId).OrderBy(o => o.Name).ToList(), "Id", "Name", model.DuongId);
 
             var listYesOrNo = new SelectList(new[] 
             {
@@ -224,14 +274,39 @@ namespace Web.Areas.Management.Controllers
         {
             Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
-            SetViewBag(false);
+            //SetViewBag(false);
+            SetViewBag();
 
+            var matBang = _repository.GetRepository<MatBang>().GetAll();
+            var listMatBangArr = new List<MatBangItem>();
+            if (matBang.Any())
+            {
+                foreach (var item in matBang)
+                {
+                    listMatBangArr.Add(new MatBangItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
+                }
+            }
+            if (!string.IsNullOrEmpty(nha.MatBangId))
+            {
+                string[] arrmatbangid = nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (arrmatbangid.Count() > 0)
+                {
+                    for (var i = 0; i < arrmatbangid.Count(); i++)
+                    {
+                        foreach (var item in listMatBangArr.Where(w => w.FieldKey == Convert.ToInt64(arrmatbangid[i])))
+                        {
+                            item.IsSelected = true;
+                        }
+                    }
+                }
+            }
             NhaUpdatingViewModel model = new NhaUpdatingViewModel()
             {
                 Id = nha.Id,
                 SoNha = nha.SoNha,
                 MatBangId = nha.MatBangId,
-                QuanId = nha.QuanId,
+                ListMatBangArr = listMatBangArr,
+                QuanId = nha.QuanId.ToString(),
                 DuongId = nha.DuongId,
                 TenToaNha = nha.TenToaNha,
                 NoiThatKhachThueCuId = nha.NoiThatKhachThueCuId,
@@ -268,57 +343,69 @@ namespace Web.Areas.Management.Controllers
         [ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Nha)]
         public async Task<ActionResult> Update(long id, NhaUpdatingViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
-
-                nha.MatBangId = model.MatBangId;
-                nha.QuanId = model.QuanId;
-                nha.DuongId = model.DuongId;
-                nha.SoNha = StringHelper.KillChars(model.SoNha);
-                nha.TenToaNha = StringHelper.KillChars(model.TenToaNha);
-                nha.MatTienTreoBien = model.MatTienTreoBien;
-                nha.BeNgangLotLong = model.BeNgangLotLong;
-                nha.DienTichDat = model.DienTichDat;
-                nha.DienTichDatSuDungTang1 = model.DienTichDatSuDungTang1;
-                nha.SoTang = model.SoTang;
-                nha.TongDienTichSuDung = model.TongDienTichSuDung;
-                nha.DiChungChu = model.DiChungChu;
-                nha.Ham = model.Ham;
-                nha.ThangMay = model.ThangMay;
-                nha.NoiThatKhachThueCuId = model.NoiThatKhachThueCuId;
-                nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
-                nha.TongGiaThue = model.TongGiaThue;
-                nha.GiaThueBQ = model.GiaThueBQ;
-                nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
-                nha.SoDienThoai = model.SoDienThoai;
-                nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : Convert.ToDateTime(model.NgayCNHenLienHeLai);
-                nha.CapDoTheoDoiId = model.CapDoTheoDoiId;
-                nha.ImageDescription1 = model.ImageDescription1;
-                nha.ImageDescription2 = model.ImageDescription2;
-                nha.ImageDescription3 = model.ImageDescription3;
-                nha.ImageDescription4 = model.ImageDescription4;
-                nha.GhiChu = model.GhiChu;
-
-                int result = await _repository.GetRepository<Nha>().UpdateAsync(nha, AccountId);
-
-                if (result > 0)
+                if (ModelState.IsValid)
                 {
-                    //TODO: HuyTQ - Ghi lịch sử
+                    Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
-                    TempData["Success"] = "Cập nhật bài viết thành công!";
-                    return RedirectToAction("Index");
+                    nha.MatBangId = model.MatBangId;
+                    nha.QuanId = model.QuanId;
+                    nha.DuongId = model.DuongId;
+                    nha.SoNha = StringHelper.KillChars(model.SoNha);
+                    nha.TenToaNha = StringHelper.KillChars(model.TenToaNha);
+                    nha.MatTienTreoBien = model.MatTienTreoBien;
+                    nha.BeNgangLotLong = model.BeNgangLotLong;
+                    nha.DienTichDat = model.DienTichDat;
+                    nha.DienTichDatSuDungTang1 = model.DienTichDatSuDungTang1;
+                    nha.SoTang = model.SoTang;
+                    nha.TongDienTichSuDung = model.TongDienTichSuDung;
+                    nha.DiChungChu = model.DiChungChu;
+                    nha.Ham = model.Ham;
+                    nha.ThangMay = model.ThangMay;
+                    nha.NoiThatKhachThueCuId = model.NoiThatKhachThueCuId;
+                    nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
+                    nha.TongGiaThue = model.TongGiaThue;
+                    nha.GiaThueBQ = model.GiaThueBQ;
+                    nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
+                    nha.SoDienThoai = model.SoDienThoai;
+                    nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : Convert.ToDateTime(model.NgayCNHenLienHeLai);
+                    nha.CapDoTheoDoiId = model.CapDoTheoDoiId;
+                    nha.ImageDescription1 = model.ImageDescription1;
+                    nha.ImageDescription2 = model.ImageDescription2;
+                    nha.ImageDescription3 = model.ImageDescription3;
+                    nha.ImageDescription4 = model.ImageDescription4;
+                    nha.GhiChu = model.GhiChu;
+
+                    int result = await _repository.GetRepository<Nha>().UpdateAsync(nha, AccountId);
+
+                    if (result > 0)
+                    {
+                        //TODO: HuyTQ - Ghi lịch sử
+
+                        TempData["Success"] = "Cập nhật bài viết thành công!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Cập nhật bài viết không thành công! Vui lòng kiểm tra và thử lại!");
+                        return View(model);
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Cập nhật bài viết không thành công! Vui lòng kiểm tra và thử lại!");
+                    //var quan = _repository.GetRepository<Quan>().GetAll().OrderBy(o => o.Name).ToList();
+                    //ViewBag.QuanDropdownlist = new SelectList(quan, "Id", "Name", model.QuanId);
+                    //ViewBag.DuongDropdownlist = new SelectList(_repository.GetRepository<Duong>().GetAll(o => o.QuanId == model.QuanId).OrderBy(o => o.Name).ToList(), "Id", "Name", model.DuongId);
+                    
+                    ModelState.AddModelError(string.Empty, "Vui lòng nhập chính xác các thông tin!");
                     return View(model);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Vui lòng nhập chính xác các thông tin!");
-                return View(model);
+
+                throw;
             }
         }
 
@@ -424,8 +511,21 @@ namespace Web.Areas.Management.Controllers
             var article = await _repository.GetRepository<Nha>().ReadAsync(id);
 
             //var account = await _repository.GetRepository<Account>().ReadAsync(article.NguoiTaoId);
-
-            ViewBag.MatBang = (await _repository.GetRepository<MatBang>().ReadAsync(article.MatBangId)).Name;
+            string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (matbangarr.Count() > 0)
+            {
+                for (var i = 0; i < matbangarr.Count(); i++)
+                {
+                    if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                    {
+                        ViewBag.MatBang += (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                        if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                        {
+                            ViewBag.MatBang += @"</br>";
+                        }
+                    }
+                }
+            }
             ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
             ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
             ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId)).Name;

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 namespace Entities.ViewModels
 {
     public class NhaCreatingViewModel
     {
-        [Required(ErrorMessage = "Vui lòng chọn dạng mặt bằng")]
-        [Display(Name = "Dạng mặt bằng")]
+        [Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
+        [Display(Name = "Loại mặt bằng")]
         public string MatBangId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn quận")]
@@ -109,23 +110,25 @@ namespace Entities.ViewModels
 
         [Display(Name = "Trạng thái")]
         public string TrangThai { get; set; }
+
+        public List<MatBangItem> ListMatBangArr { get; set; }
     }
     public class NhaUpdatingViewModel
     {
         [Required]
         public long Id { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn dạng mặt bằng")]
-        [Display(Name = "Dạng mặt bằng")]
-        public long MatBangId { get; set; }
+        [Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
+        [Display(Name = "Loại mặt bằng")]
+        public string MatBangId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn quận")]
         [Display(Name = "Quận")]
-        public long QuanId { get; set; }
+        public string QuanId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn đường")]
         [Display(Name = "Đường")]
-        public long DuongId { get; set; }
+        public string DuongId { get; set; }
 
         [Display(Name = "Số nhà")]
         [StringLength(200, ErrorMessage = "Số nhà không được vượt quá 200 ký tự!")]
@@ -136,43 +139,43 @@ namespace Entities.ViewModels
         public string TenToaNha { get; set; }
 
         [Display(Name = "Mặt tiền treo biển (m)")]
-        public float MatTienTreoBien { get; set; }
+        public string MatTienTreoBien { get; set; }
 
         [Display(Name = "Bề ngang lọt lòng (m)")]
-        public float BeNgangLotLong { get; set; }
+        public string BeNgangLotLong { get; set; }
 
         [Display(Name = "Diện tích đất (m2)")]
-        public float DienTichDat { get; set; }
+        public string DienTichDat { get; set; }
 
         [Display(Name = "Diện tích đất sử dụng tầng 1 (m2)")]
-        public float DienTichDatSuDungTang1 { get; set; }
+        public string DienTichDatSuDungTang1 { get; set; }
 
         [Display(Name = "Số tầng")]
-        public int SoTang { get; set; }
+        public string SoTang { get; set; }
 
         [Display(Name = "Tổng diện tích sử dụng (m2)")]
-        public float TongDienTichSuDung { get; set; }
+        public string TongDienTichSuDung { get; set; }
 
         [Display(Name = "Đi chung chủ")]
-        public bool DiChungChu { get; set; }
+        public string DiChungChu { get; set; }
 
         [Display(Name = "Hầm")]
-        public bool Ham { get; set; }
+        public string Ham { get; set; }
 
         [Display(Name = "Thang máy")]
-        public bool ThangMay { get; set; }
+        public string ThangMay { get; set; }
 
         [Display(Name = "Nội thất/ Khách thuê cũ")]
-        public long NoiThatKhachThueCuId { get; set; }
+        public string NoiThatKhachThueCuId { get; set; }
 
         [Display(Name = "Đánh giá phù hợp với")]
-        public long DanhGiaPhuHopVoiId { get; set; }
+        public string DanhGiaPhuHopVoiId { get; set; }
 
         [Display(Name = "Tổng giá thuê")]
-        public decimal TongGiaThue { get; set; }
+        public string TongGiaThue { get; set; }
 
         [Display(Name = "Giá thuê BQ/m2")]
-        public decimal GiaThueBQ { get; set; }
+        public string GiaThueBQ { get; set; }
 
         [Display(Name = "Tên người liên hệ - vai trò")]
         public string TenNguoiLienHeVaiTro { get; set; }
@@ -184,26 +187,26 @@ namespace Entities.ViewModels
         public string NgayCNHenLienHeLai { get; set; }
 
         [Display(Name = "Cấp độ theo dõi")]
-        public int CapDoTheoDoiId { get; set; }
+        public string CapDoTheoDoiId { get; set; }
 
         [Display(Name = "Ghi chú")]
         public string GhiChu { get; set; }
 
         [Display(Name = "Ngày tạo")]
         [RegularExpression(@"^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$", ErrorMessage = "Ngày không hợp lệ!")]
-        public DateTime? NgayTao { get; set; }
+        public string NgayTao { get; set; }
 
         [Display(Name = "Người tạo")]
-        public long NguoiTaoId { get; set; }
+        public string NguoiTaoId { get; set; }
 
         //[Display(Name = "Nhân viên phụ trách")]
         //public long NhanVienPhuTrachId { get; set; }
 
         [Display(Name = "Khách")]
-        public long KhachId { get; set; }
+        public string KhachId { get; set; }
 
         [Display(Name = "Nhu cầu thuê")]
-        public long NhuCauThueId { get; set; }
+        public string NhuCauThueId { get; set; }
 
         [Display(Name = "Đã phân công")]
         public string DaPhanCong { get; set; }
@@ -224,6 +227,8 @@ namespace Entities.ViewModels
         public string ImageDescription4 { get; set; }
 
         [Display(Name = "Trạng thái")]
-        public int TrangThai { get; set; }
+        public string TrangThai { get; set; }
+
+        public List<MatBangItem> ListMatBangArr { get; set; }
     }
 }

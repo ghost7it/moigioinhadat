@@ -42,13 +42,32 @@
                                 </div>
                             }
                             <div class="col-md-6 create-form-6">
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
                                         @Html.DropDownListFor(model => model.MatBangId, (IEnumerable<SelectListItem>)ViewBag.MatBang, "Chọn mặt bằng", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.MatBangId)
                                     </div>
+                                </div>*@
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
+
+                                    <div class="col-md-9 checkboxmatbang" style="height:129px; overflow:scroll; overflow-x:hidden;padding-top:10px">
+                                        @for (int idx = 0; idx < Model.ListMatBangArr.Count; idx++)
+                                        {
+                                            @Html.HiddenFor(x => Model.ListMatBangArr[idx].FieldKey)
+                                            @Html.CheckBoxFor(x => Model.ListMatBangArr[idx].IsSelected)
+                                            @Html.DisplayFor(x => Model.ListMatBangArr[idx].FieldName)
+                                            @Html.HiddenFor(x => Model.ListMatBangArr[idx].FieldName)
+                                            <br />
+                                        }
+                                        @Html.TextBoxFor(model => model.MatBangId, new { @Style = "visibility:hidden;height:1px", @class = "matbangidarr" })
+
+                                    </div>
+                                    <div class="col-md-9 col-md-offset-3"> @Html.ValidationMessageFor(model => model.MatBangId)</div>
                                 </div>
+
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.QuanId, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
@@ -268,7 +287,7 @@
                         </div>
                         <div class="form-actions">
                             <div class="row">
-                                <div class="col-md-offset-3 col-md-9">
+                                <div class="col-md-offset-3 col-md-9" style="margin-top:10px">
                                     <button type="submit" class="btn green"><i class="fa fa-check"></i> Ghi nhận</button>
                                     <a href="@Url.RouteUrl("NhaIndex")" class="btn default">Hủy bỏ</a>
                                 </div>
@@ -358,5 +377,41 @@
                 $(duong).html(items);
             });
         };
+
+        $(function () {
+            $(".checkboxmatbang input:checkbox").click(function () {
+                var valuecheckbox = "";
+                $(".checkboxmatbang input:checkbox").each(function (index) {
+                    if ($(this).prop("checked")) {
+                        valuecheckbox += valuecheckbox != "" ? "," + $(this).prev().val() : $(this).prev().val();
+                        //return false;
+                    };
+                });
+                $("#MatBangId").val(valuecheckbox);
+            });
+
+            $("#MatTienTreoBien, #BeNgangLotLong, #DienTichDat, #DienTichDatSuDungTang1, #GiaThueBQ, #TongGiaThue, #TongDienTichSuDung").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if ($(this).val().indexOf(".") != -1 && e.which == 46) {
+                    return false;
+                }
+                if (e.which == 46) {
+                    return true;
+                }
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    return false;
+                }
+
+            });
+            $("#SoTang").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    return false;
+                }
+
+            });
+        });
     </script>
 }
