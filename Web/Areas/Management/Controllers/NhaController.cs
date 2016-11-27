@@ -271,7 +271,7 @@ namespace Web.Areas.Management.Controllers
             }
         }
 
-        [Route("cap-nhat-nha/{id?}", Name = "NhaUpdate")]
+        [Route("cap-nhat-nha/{id?}", Name = "NhaUpdate")] 
         [ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Nha)]
         public async Task<ActionResult> Update(long id)
         {

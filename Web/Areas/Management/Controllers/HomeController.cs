@@ -6,13 +6,36 @@ using System.Web;
 using System.Web.Mvc;
 namespace Web.Areas.Management.Controllers
 {
-    [RouteArea("Management", AreaPrefix = "quan-ly")]    
+    [RouteArea("Management", AreaPrefix = "quan-ly")]
     public class HomeController : BaseController
     {
         [Route(Name = "ManagementHome")]
         public ActionResult Index()
         {
-            //DownloadFile(Server.MapPath("/Content/PDFFile/Thongtinnha_13112016_022706.pdf"));
+            //Check role để get default page
+            var currentRole = AccountRoles;
+
+            //Ưu tiên Admin -> Nhân viên nhập liệu -> Nhân viên chăm sóc
+            foreach (var item in AccountRoles)
+            {
+                //Admin
+                if (item.RoleId == 1)
+                {
+                    return RedirectToRoute("PhanCongCongViecIndex");
+                }
+                //Nhập liệu
+                else if (item.RoleId == 2)
+                {
+                    return RedirectToRoute("NhaIndex");
+                }
+                //Chăm sóc
+                else if (item.RoleId == 3)
+                {
+                    return RedirectToRoute("DanhSachCongViecIndex");
+                }
+            }
+
+
             return View();
         }
         void DownloadFile(string filePath)

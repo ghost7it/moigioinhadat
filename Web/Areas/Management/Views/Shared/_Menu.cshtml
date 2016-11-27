@@ -136,9 +136,9 @@
 
                     @* Menu quản lý công việc ----------------------------------------------------------------------------------------- *@
                     @{isActiveController = RouteHelper.IsCurrentController("Khach", ViewContext);}
-                    @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create) ||
-                                    RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read) ||
-                                    RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Verify))
+                    @if (RoleHelper.CheckPermission(ModuleEnum.DanhSachCongViec, ActionEnum.Create) ||
+                                    RoleHelper.CheckPermission(ModuleEnum.DanhSachCongViec, ActionEnum.Read) ||
+                                    RoleHelper.CheckPermission(ModuleEnum.DanhSachCongViec, ActionEnum.Verify))
                     {
                         <li class="@(isActiveController ? "active open" : "") ">
                             <a href="javascript:;">
@@ -151,7 +151,7 @@
                                 <span class="arrow open"></span>
                             </a>
                             <ul class="sub-menu">
-                                @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read))
+                                @if (RoleHelper.CheckPermission(ModuleEnum.PhanCongCongViec, ActionEnum.Read))
                                 {
                                     isActive = RouteHelper.IsCurrentControllerAndAction("PhanCongCongViec", "Index", ViewContext);
                                     <li class="@(isActive ? "active" : "") ">
@@ -161,7 +161,7 @@
                                         </a>
                                     </li>
                                 }
-                                @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read))
+                                @if (RoleHelper.CheckPermission(ModuleEnum.DanhSachCongViec, ActionEnum.Read))
                                 {
                                     isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
                                     <li class="@(isActive ? "active" : "") ">
@@ -178,9 +178,9 @@
 
                         @* Menu quản lý công việc ----------------------------------------------------------------------------------------- *@
                         @{isActiveController = RouteHelper.IsCurrentController("Khach", ViewContext);}
-                        @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create) ||
-                                            RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read) ||
-                                            RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Verify))
+                        @if (RoleHelper.CheckPermission(ModuleEnum.Import, ActionEnum.Create) ||
+                                            RoleHelper.CheckPermission(ModuleEnum.Import, ActionEnum.Read) ||
+                                            RoleHelper.CheckPermission(ModuleEnum.Import, ActionEnum.Verify))
                         {
                             <li class="@(isActiveController ? "active open" : "") ">
                                 <a href="javascript:;">
@@ -203,7 +203,7 @@
                                                 </a>
                                             </li>
                                         }
-                                    @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create))
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.Export, ActionEnum.Create))
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("Export", "ExportIndex", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
@@ -223,7 +223,7 @@
                                             </a>
                                         </li>
                                     }
-                                    @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create))
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.XoaNhaTrung, ActionEnum.Create))
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("XoaNhaTrung", "XoaNhaTrungIndex", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
@@ -233,7 +233,7 @@
                                             </a>
                                         </li>
                                     }
-                                    @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read))
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.XoaKhachTrungLap, ActionEnum.Read))
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
@@ -243,7 +243,7 @@
                                             </a>
                                         </li>
                                     }
-                                    @if (RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Read))
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.ChuyenGiaoDuLieu, ActionEnum.Read))
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("ChuyenGiaoDuLieu", "ChuyenGiaoDuLieuIndex", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
