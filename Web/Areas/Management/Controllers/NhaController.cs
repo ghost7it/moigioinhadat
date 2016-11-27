@@ -277,8 +277,8 @@ namespace Web.Areas.Management.Controllers
         {
             Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
-            //SetViewBag(false);
-            SetViewBag();
+            SetViewBag(false);
+            //SetViewBag();
 
             var matBang = _repository.GetRepository<MatBang>().GetAll();
             var listMatBangArr = new List<MatBangItem>();
@@ -372,7 +372,7 @@ namespace Web.Areas.Management.Controllers
                     nha.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                     nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
                     nha.SoDienThoai = model.SoDienThoai;
-                    nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : Convert.ToDateTime(model.NgayCNHenLienHeLai);
+                    nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     nha.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                     nha.ImageDescription1 = model.ImageDescription1;
                     nha.ImageDescription2 = model.ImageDescription2;
