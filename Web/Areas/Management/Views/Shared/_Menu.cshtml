@@ -165,8 +165,7 @@
                                 {
                                     isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
                                     <li class="@(isActive ? "active" : "") ">
-                                        <a href="#">
-                                            @*<a href="@Url.RouteUrl("KhachThueIndex")">*@
+                                            <a href="@Url.RouteUrl("DanhSachCongViecIndex")">
                                             <i class="fa fa-list"></i>
                                             Danh sách công việc
                                         </a>
@@ -238,8 +237,7 @@
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
-                                            @*<a href="@Url.RouteUrl("KhachThueIndex")">*@
-                                            <a href="#">
+                                            <a href="@Url.RouteUrl("XoaKhachTrungIndex")">
                                                 <i class="fa fa-times-circle"></i>
                                                 Xóa khách trùng lặp
                                             </a>

@@ -37,27 +37,27 @@ namespace Web.Areas.Management.Controllers
             set { Session["AccountId"] = value; }
         }
 
-        //public List<AccountRole> AccountRoles
-        //{
-        //    get
-        //    {
-        //        List<AccountRole> obj = _cacheFactory.GetCache("AccountRoles_" + AccountId) as List<AccountRole>;
+        public List<AccountRole> AccountRoles
+        {
+            get
+            {
+                List<AccountRole> obj = _cacheFactory.GetCache("AccountRoles_" + AccountId) as List<AccountRole>;
 
-        //        List<AccountRole> _AccountRoles;
-        //        if (obj == null)
-        //        {
-        //            var tmp = _repository.GetRepository<AccountRole>().GetAll(o => o.AccountId == AccountId).ToList();
-        //            if (tmp == null)
-        //                _AccountRoles = new List<AccountRole>();
-        //            else
-        //                _AccountRoles = tmp;
-        //        }
-        //        else
-        //            _AccountRoles = obj;
-        //        return _AccountRoles;
-        //    }
-        //    set { _cacheFactory.SaveCache("AccountRoles_" + AccountId, value); }
-        //}
+                List<AccountRole> _AccountRoles;
+                if (obj == null)
+                {
+                    var tmp = _repository.GetRepository<AccountRole>().GetAll(o => o.AccountId == AccountId).ToList();
+                    if (tmp == null)
+                        _AccountRoles = new List<AccountRole>();
+                    else
+                        _AccountRoles = tmp;
+                }
+                else
+                    _AccountRoles = obj;
+                return _AccountRoles;
+            }
+            set { _cacheFactory.SaveCache("AccountRoles_" + AccountId, value); }
+        }
 
         //public List<ModuleRole> ModuleRoles
         //{

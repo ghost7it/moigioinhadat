@@ -192,6 +192,7 @@
     <Compile Include="Areas\Management\Controllers\ExportNhaController.cs" />
     <Compile Include="Areas\Management\Controllers\ImportController.cs" />
     <Compile Include="Areas\Management\Controllers\KhachThueController.cs" />
+    <Compile Include="Areas\Management\Controllers\XoaKhachTrungController.cs" />
     <Compile Include="Areas\Management\Controllers\XoaNhaTrungController.cs" />
     <Compile Include="Areas\Management\Controllers\NhaController.cs" />
     <Compile Include="Areas\Management\Controllers\BaseController.cs" />
@@ -1548,6 +1549,7 @@
     <Content Include="Areas\Management\Views\ExportNha\_ExportNha.cshtml" />
     <Content Include="Areas\Management\Views\ExportNha\Index.cshtml" />
     <Content Include="Areas\Management\Views\ExportNha\_DetailModal.cshtml" />
+    <Content Include="Areas\Management\Views\XoaKhachTrung\Index.cshtml" />
     <None Include="Properties\PublishProfiles\AlumniPublish.pubxml" />
     <None Include="Properties\PublishProfiles\vuamatbang.com.pubxml" />
     <None Include="Scripts\AdminV1\jquery.validate-vsdoc.js" />

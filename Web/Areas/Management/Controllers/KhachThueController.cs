@@ -17,7 +17,7 @@ using Web.Helpers;
 namespace Web.Areas.Management.Controllers
 {
     [RouteArea("Management", AreaPrefix = "quan-ly")]
-    [RoutePrefix("khachthue")]
+    [RoutePrefix("quan-ly-khach-thue")]
     public class KhachThueController : BaseController
     {
         [Route("danh-sach-khach-thue", Name = "KhachThueIndex")]
@@ -449,15 +449,8 @@ namespace Web.Areas.Management.Controllers
                 Take = take,
                 OrderDirection = orderDir
             };
-            //var articles = _repository.GetRepository<Khach>().GetAll(ref paging,
-            //                                                       orderKey,
-            //                                                       o => (key == null ||
-            //                                                             key == "" ||
-            //                                                             o.TenKhach.Contains(key) ||
-            //                                                             o.SoDienThoai.Contains(key)))
-            //                                                             .Join(_repository.GetRepository<NhuCauThue>().GetAll(), b => b.Id, e => e.KhachId, (b, e) => new { Khach = b, NhuCauThue = e == null ? null : e })
-            //                                                             .Join(_repository.GetRepository<Quan>().GetAll(), g => g.NhuCauThue.QuanId, f => f.Id, (g, f) => new { NhuCauThue = g, Quan = f == null ? null : f })
-            //                                                             .Join(_repository.GetRepository<Duong>().GetAll(), k => k.NhuCauThue.NhuCauThue.DuongId, y => y.Id, (k, y) => new { NhuCauThue = k, Duong = y == null ? null : y }).ToList();
+
+            bool isAdmin = AccountRoles.Any(t => t.RoleId == 1);
 
             var articles = _repository.GetRepository<Khach>().GetAll(ref paging,
                                                                   orderKey,
@@ -466,37 +459,10 @@ namespace Web.Areas.Management.Controllers
                                                                         o.TenNguoiLienHeVaiTro.Contains(key) ||
                                                                         o.SoDienThoai.Contains(key)))
                                                                         .LeftJoin(                                           /// Source Collection
-                                                                            _repository.GetRepository<NhuCauThue>().GetAll(),/// Inner Collection
+                                                                            _repository.GetRepository<NhuCauThue>().GetAll().Where(t => isAdmin ? 1 == 1 : t.NguoiPhuTrachId == AccountId),/// Inner Collection
                                                                             p => p.Id,                                       /// PK
                                                                             a => a.KhachId,                                  /// FK
                                                                             (p, a) => new { Khach = p, NhuCauThue = a }).ToList();
-
-            //var nhucauthueList = _repository.GetRepository<NhuCauThue>().GetAll().ToList();
-            //var quanList = _repository.GetRepository<Quan>().GetAll().ToList();
-            //var duongList = _repository.GetRepository<Duong>().GetAll().ToList();
-
-
-            //var articles1 = (from p in articles
-            //                 join c in nhucauthueList on p.Id equals c.KhachId into j1
-            //                 from j2 in j1.DefaultIfEmpty()
-            //                 join d in quanList on j2.QuanId equals d.Id into j3
-            //                 from j4 in j3.DefaultIfEmpty()
-            //                 join e in duongList on j2.DuongId equals e.Id into j5
-            //                 from j6 in j5.DefaultIfEmpty()
-            //                 select new { NhuCauThueId = j2.Id, TenKhach = p.TenKhach, Id = p.Id, TongGiaThue = j2.TongGiaThue, Quan = j4.Name, Duong = j6.Name, SoDienThoai = p.SoDienThoai, TrangThai = j2.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt" }).ToList();
-
-            //var articles3 = (from khach1 in articles2
-            //                 from quan in quanList
-            //                     .Where(s => s.Id == khach1.Nhucauthue.QuanId)
-            //                     .DefaultIfEmpty()
-            //                 select new { Quan = quan, Khach = khach1 }).ToList();
-
-            //var articles4 = (from khach2 in articles3
-            //                 from duong in duongList
-            //                     .Where(s => s.Id == khach2.Khach.Nhucauthue.DuongId)
-            //                     .DefaultIfEmpty()
-            //                 select new { Duong = duong, Khach = khach2 }).ToList(); 
-
 
             return Json(new
             {

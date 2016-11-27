@@ -1,11 +1,11 @@
 ﻿@using Entities.Enums;
 @{
-    ViewBag.Title = "Danh sách nhà";
+    ViewBag.Title = "Danh sách khách trùng";
     Layout = "~/Areas/Management/Views/Shared/_ManagementLayout.cshtml";
-    var canDelete = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Delete);
-    var canCreate = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Create);
-    var canUpdate = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Update);
-    var canApprove = RoleHelper.CheckPermission(ModuleEnum.Nha, ActionEnum.Verify);
+    var canDelete = RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Delete);
+    var canCreate = RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Create);
+    var canUpdate = RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Update);
+    var canApprove = RoleHelper.CheckPermission(ModuleEnum.Khach, ActionEnum.Verify);
 }
 <div class="page-bar">
     <ul class="page-breadcrumb">
@@ -15,7 +15,7 @@
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="javascript:void(0);">Danh sách nhà trùng lặp</a>
+            <a href="javascript:void(0);">Danh sách khách trùng lặp</a>
         </li>
     </ul>
 </div>
@@ -26,7 +26,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-check-square font-green-sharp bold"></i>
-                    <span class="caption-subject font-green-sharp bold ">Danh sách nhà trùng lặp</span>
+                    <span class="caption-subject font-green-sharp bold ">Danh sách khách trùng lặp</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -82,29 +82,29 @@
 }
 @section Scripts2 {
     <script type="text/javascript">
-        var Article = function () {
-            var handleArticle = function () {
-                var grid = new DatatableAjaxSource();
-                grid.init({
-                    src: $("#datatable_ajax_source"),
-                    onSuccess: function (grid) {
-                        // hành động khi tải xong dữ liệu
+    var Article = function () {
+        var handleArticle = function () {
+            var grid = new DatatableAjaxSource();
+            grid.init({
+                src: $("#datatable_ajax_source"),
+                onSuccess: function (grid) {
+                    // hành động khi tải xong dữ liệu
+                },
+                onError: function (grid) {
+                    // hành động khi tải dữ liệu bị lỗi
+                    var sel = $('select.object-filter').val();
+                },
+                dataTable: {
+                    "ajax": {
+                        "url": '@Url.RouteUrl("XoaKhachTrungGetXoaKhachTrungJson")',
                     },
-                    onError: function (grid) {
-                        // hành động khi tải dữ liệu bị lỗi
-                        var sel = $('select.object-filter').val();
-                    },
-                    dataTable: {
-                        "ajax": {
-                            "url": '@Url.RouteUrl("XoaNhaTrungGetXoaNhaTrungJson")',
-                        },
-                        "columnDefs": [{
-                            "targets": -1,
-                            "data": null,
-                            "render": function (data, type, full) {
-                                var re = '';
-                                if ('@canDelete' == 'true' || '@canDelete' == 'True') {
-                                    re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
+                    "columnDefs": [{
+                        "targets": -1,
+                        "data": null,
+                        "render": function (data, type, full) {
+                            var re = '';
+                            if ('@canDelete' == 'true' || '@canDelete' == 'True') {
+                                re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.NhuCauThueId + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
                                 }
                                 return re;
                             },
@@ -123,7 +123,7 @@
                                 "orderable": true,
                                 "data": null,
                                 "render": function (data, type, full) {
-                                    return '<a href="' + ('@Url.RouteUrl("NhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
+                                    return '<a href="' + ('@Url.RouteUrl("KhachDetailModal", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
                                 }
                             },
                     { data: "SoDienThoai" },
@@ -190,41 +190,41 @@
                         cenrerY: true,
                         boxed: true
                     });
-                    var $url = ('@Url.RouteUrl("NhaTrungDeleteNhaTrung", new { ids = "objectIds" })').replace("objectIds", ids);
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        async: true,
-                        url: $url,
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.success) {
-                                showNoty(result.message, 'success', 'center', 5000);
-                            }
-                            else
-                                showNoty(result.message, 'error', 'center', 5000);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            showNoty(errorThrown, 'error', 'center', 5000);
-                        },
-                        complete: function (result) {
-                            grid.getDataTable().ajax.reload();
-                            AdminVersionOne.unblockUI();
+                    var $url = ('@Url.RouteUrl("KhachTrungDeleteKhachTrung", new { ids = "objectIds" })').replace("objectIds", ids);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
                         }
-                    });
-                    return;
-                }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        grid.getDataTable().ajax.reload();
+                        AdminVersionOne.unblockUI();
+                    }
+                });
+                return;
             }
-            return {
-                init: function () {
-                    handleArticle();
-                }
-            };
-        }();
-        jQuery(document).ready(function () {
-            Article.init();
+        }
+        return {
+            init: function () {
+                handleArticle();
+            }
+        };
+    }();
+    jQuery(document).ready(function () {
+        Article.init();
 
-        });
+    });
     </script>
 }
 

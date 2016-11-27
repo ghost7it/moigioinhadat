@@ -17,7 +17,7 @@ using Web.Helpers;
 namespace Web.Areas.Management.Controllers
 {
     [RouteArea("Management", AreaPrefix = "quan-ly")]
-    [RoutePrefix("nha")]
+    [RoutePrefix("quan-ly-nha")]
     public class NhaController : BaseController
     {
         [Route("danh-sach-nha", Name = "NhaIndex")]
@@ -182,13 +182,16 @@ namespace Web.Areas.Management.Controllers
                     OrderDirection = orderDir
                 };
 
+                bool isAdmin = AccountRoles.Any(t => t.RoleId == 1);
+
                 var articles = _repository.GetRepository<Nha>().GetAll(ref paging,
                                                                        orderKey,
                                                                        o => (key == null ||
                                                                              key == "" ||
                                                                              o.TenNguoiLienHeVaiTro.Contains(key) ||
                                                                              o.SoDienThoai.Contains(key)) &&
-                                                                             (o.TrangThai == status))
+                                                                             (o.TrangThai == status) &&
+                                                                             (isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId))
                                                                              .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
                                                                              .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, g => g.Id, (b, g) => new { Nha = b, Duong = g })
                                                                              .Join(_repository.GetRepository<CapDoTheoDoi>().GetAll(), b => b.Nha.Nha.CapDoTheoDoiId, y => y.Id, (b, y) => new { Nha = b, CapDoTheoDoi = y }).ToList();

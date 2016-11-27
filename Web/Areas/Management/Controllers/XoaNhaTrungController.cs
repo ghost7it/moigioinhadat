@@ -68,29 +68,54 @@ namespace Web.Areas.Management.Controllers
                     OrderDirection = orderDir
                 };
 
+                //Get all nhà
                 var nha = _repository.GetRepository<Nha>().GetAll()
                                     .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
-                                    .Join(_repository.GetRepository<CapDoTheoDoi>().GetAll(), b => b.Nha.CapDoTheoDoiId, y => y.Id, (b, y) => new { Nha = b, CapDoTheoDoi = y }).ToList();
+                                       .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, e => e.Id, (b, e) => new { Nha = b, Duong = e }).ToList();
 
-                var duplicateKeys = nha.GroupBy(x => x)
-                         .Where(group => group.Count() > 1)
-                         .Select(group => group.Key);
+                List<object> objResult = new List<object>();
+
+                for (int i = nha.Count - 1; i >= 0; i--)
+                {
+                    string soDienThoaiCheck = nha[i].Nha.Nha.SoDienThoai;
+                    long quanCheck = nha[i].Nha.Nha.QuanId;
+                    long duongCheck = nha[i].Nha.Nha.DuongId;
+
+                    //Get các bản records duplicate theo cặp
+                    var itemDuplicateList = nha.Where(t => t.Nha.Nha.SoDienThoai == soDienThoaiCheck &&
+                                                      t.Nha.Nha.QuanId == quanCheck &&
+                                                      t.Nha.Nha.DuongId == duongCheck).ToList();
+
+                    //Kiểm tra nếu có trùng thì ném vào list kết quả
+                    if (itemDuplicateList.Count > 1)
+                    {
+                        foreach (var itemDup in itemDuplicateList)
+                        {
+                            objResult.Add(new
+                            {
+                                Id = itemDup.Nha.Nha.Id,
+                                TenNguoiLienHeVaiTro = itemDup.Nha.Nha.TenNguoiLienHeVaiTro,
+                                SoDienThoai = itemDup.Nha.Nha.SoDienThoai,
+                                Quan = itemDup.Nha.Quan.Name,
+                                Duong = itemDup.Duong.Name,
+                                TrangThai = itemDup.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"
+                            });
+
+
+                        }
+                        //Xóa thằng đã lấy được ra khỏi list kiểm tra
+                        nha.RemoveAll(t => t.Nha.Nha.SoDienThoai == soDienThoaiCheck &&
+                                      t.Nha.Nha.QuanId == quanCheck &&
+                                      t.Nha.Nha.DuongId == duongCheck);
+                    }
+                }
 
                 return Json(new
                 {
                     draw = drawReturn,
-                    recordsTotal = paging.TotalRecord,
-                    recordsFiltered = paging.TotalRecord,
-                    data = duplicateKeys.Select(o => new
-                    {
-                        o.Nha.Nha.Id,
-                        o.Nha.Quan.Name,
-                        o.Nha.Nha.TenNguoiLienHeVaiTro,
-                        o.Nha.Nha.SoDienThoai,
-                        o.Nha.Nha.TongGiaThue,
-                        CapDoTheoDoi = o.CapDoTheoDoi.Name,
-                        TrangThai = o.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"
-                    })
+                    recordsTotal = objResult.Count,
+                    recordsFiltered = objResult.Count,
+                    data = objResult
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -98,6 +123,49 @@ namespace Web.Areas.Management.Controllers
 
                 throw;
             }
+        }
+
+
+        [HttpPost]
+        [Route("xoa-nha/{ids?}", Name = "NhaTrungDeleteNhaTrung")]
+        [ValidationPermission(Action = ActionEnum.Delete, Module = ModuleEnum.Nha)]
+        public async Task<ActionResult> DeleteNhas(string ids)
+        {
+            try
+            {
+                byte succeed = 0;
+                string[] articleIds = Regex.Split(ids, ",");
+                if (articleIds != null && articleIds.Any())
+                    foreach (var item in articleIds)
+                    {
+                        long articleId = 0;
+                        long.TryParse(item, out articleId);
+                        bool result = await DeleteNha(articleId);
+                        if (result)
+                            succeed++;
+                    }
+                return Json(new { success = true, message = string.Format(@"Đã xóa thành công {0} bản ghi.", succeed) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Không xóa được bài viết. Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private async Task<bool> DeleteNha(long articleId)
+        {
+            var article = await _repository.GetRepository<Nha>().ReadAsync(articleId);
+            if (article == null)
+                return false;
+
+            int result = await _repository.GetRepository<Nha>().DeleteAsync(article, AccountId);
+
+            if (result > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

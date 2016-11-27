@@ -17,7 +17,7 @@ using Web.Helpers;
 namespace Web.Areas.Management.Controllers
 {
     [RouteArea("Management", AreaPrefix = "quan-ly")]
-    [RoutePrefix("phan-cong-cong-viec")]
+    [RoutePrefix("quan-ly-cong-viec/phan-cong-cong-viec")]
     public class PhanCongCongViecController : BaseController
     {
         ListFieldHidden lstfieldhidden = new ListFieldHidden();
