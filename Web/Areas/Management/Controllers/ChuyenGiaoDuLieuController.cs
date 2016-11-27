@@ -95,6 +95,23 @@ namespace Web.Areas.Management.Controllers
                     return View("Index");
                 }
 
+                //Chuyển giao trong bảng Khách
+                Khach khach = _repository.GetRepository<Khach>().Read(o => o.NguoiTaoId == nguoiGiaoId);
+
+                khach.NguoiPhuTrachId = nguoiNhanId;
+                int result21 = _repository.GetRepository<Khach>().Update(khach, AccountId);
+
+                if (result21 < 1)
+                {
+                    //Rollback
+                    Transaction.Current.Rollback();
+                    tscope.Dispose();
+
+                    TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
+                    InitData();
+
+                    return View("Index");
+                }
 
                 //Chuyển giao trong bảng Quản lý công việc
                 QuanLyCongViec quanLyCongViec = _repository.GetRepository<QuanLyCongViec>().Read(o => o.NhanVienPhuTrachId == nguoiGiaoId);

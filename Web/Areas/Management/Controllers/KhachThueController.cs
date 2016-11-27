@@ -101,6 +101,7 @@ namespace Web.Areas.Management.Controllers
                 nhucauthue.Ham = model.Ham == "1" ? true : false;
                 nhucauthue.KhachId = id;
                 nhucauthue.MatBangId = model.MatBangId;
+
                 if (!string.IsNullOrEmpty(model.MatTienTreoBien))
                 {
                     nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
@@ -111,12 +112,16 @@ namespace Web.Areas.Management.Controllers
                 nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                 nhucauthue.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
                 nhucauthue.QuanId = Convert.ToInt64(model.QuanId);
+
                 var item = await _repository.GetRepository<Quan>().ReadAsync(nhucauthue.QuanId);
+
                 if (item != null) { nhucauthue.QuanName = item.Name; }
+
                 nhucauthue.SoNha = StringHelper.KillChars(model.SoNha);
                 nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
                 nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
                 nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
+
                 if (!string.IsNullOrEmpty(model.TongDienTichSuDung))
                 {
                     nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
@@ -125,6 +130,7 @@ namespace Web.Areas.Management.Controllers
                 {
                     nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
                 }
+
                 nhucauthue.NgayTao = DateTime.Now;
                 nhucauthue.TrangThai = 0; //Chờ duyệt
                 nhucauthue.NguoiPhuTrachId = AccountId;
@@ -150,7 +156,6 @@ namespace Web.Areas.Management.Controllers
                 return View(model);
             }
         }
-
 
         [Route("them-moi-khach-thue", Name = "KhachThueCreate")]
         [ValidationPermission(Action = ActionEnum.Create, Module = ModuleEnum.Khach)]
@@ -194,6 +199,7 @@ namespace Web.Areas.Management.Controllers
                 //khach.SPChinh = StringHelper.KillChars(model.SPChinh);
                 //khach.TenKhach = StringHelper.KillChars(model.TenKhach);
                 khach.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
+                khach.NguoiPhuTrachId = AccountId;
                 khach.TrangThai = 0; //Chờ duyệt
                 int result = 0;
                 try
@@ -394,10 +400,10 @@ namespace Web.Areas.Management.Controllers
                     article.TenKhach = model.TenKhach;
                     article.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
                     article.GhiChu = model.GhiChu;
-                    article.LinhVuc = model.LinhVuc;
-                    article.PhanKhuc = model.PhanKhuc;
+                    //article.LinhVuc = model.LinhVuc;
+                    //article.PhanKhuc = model.PhanKhuc;
                     article.SoDienThoai = model.SoDienThoai;
-                    article.SPChinh = model.SPChinh;
+                    //article.SPChinh = model.SPChinh;
                     try
                     {
                         result = await _repository.GetRepository<Khach>().UpdateAsync(article, AccountId);
@@ -601,9 +607,9 @@ namespace Web.Areas.Management.Controllers
                                                                   o => (key == null ||
                                                                         key == "" ||
                                                                         o.TenNguoiLienHeVaiTro.Contains(key) ||
-                                                                        o.SoDienThoai.Contains(key)))
+                                                                        o.SoDienThoai.Contains(key)) && o.NguoiPhuTrachId == AccountId)
                                                                         .LeftJoin(                                           /// Source Collection
-                                                                            _repository.GetRepository<NhuCauThue>().GetAll().Where(t => isAdmin ? 1 == 1 : t.NguoiPhuTrachId == AccountId),/// Inner Collection
+                                                                            _repository.GetRepository<NhuCauThue>().GetAll(),/// Inner Collection
                                                                             p => p.Id,                                       /// PK
                                                                             a => a.KhachId,                                  /// FK
                                                                             (p, a) => new { Khach = p, NhuCauThue = a }).ToList();

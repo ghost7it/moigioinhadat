@@ -28,14 +28,14 @@ namespace Entities.Models
         [Display(Name = "Số điện thoại")]
         public string SoDienThoai { get; set; }
 
-        [Display(Name = "Lĩnh vực")]
-        public string LinhVuc { get; set; }
+        //[Display(Name = "Lĩnh vực")]
+        //public string LinhVuc { get; set; }
 
-        [Display(Name = "SP chính")]
-        public string SPChinh { get; set; }
+        //[Display(Name = "SP chính")]
+        //public string SPChinh { get; set; }
 
-        [Display(Name = "Phân khúc")]
-        public string PhanKhuc { get; set; }
+        //[Display(Name = "Phân khúc")]
+        //public string PhanKhuc { get; set; }
 
         [Display(Name = "Ghi chú")]
         public string GhiChu { get; set; }
@@ -45,6 +45,9 @@ namespace Entities.Models
 
         [Display(Name = "Người tạo")]
         public long NguoiTaoId { get; set; }
+
+        [Display(Name = "Người phụ trách")]
+        public long NguoiPhuTrachId { get; set; }
 
         [Display(Name = "Trạng thái")]
         public int TrangThai { get; set; }
