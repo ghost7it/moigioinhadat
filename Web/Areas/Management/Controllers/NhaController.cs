@@ -310,22 +310,22 @@ namespace Web.Areas.Management.Controllers
                 MatBangId = nha.MatBangId,
                 ListMatBangArr = listMatBangArr,
                 QuanId = nha.QuanId.ToString(),
-                DuongId = nha.DuongId,
+                DuongId = nha.DuongId.ToString(),
                 TenToaNha = nha.TenToaNha,
-                NoiThatKhachThueCuId = nha.NoiThatKhachThueCuId,
-                DanhGiaPhuHopVoiId = nha.DanhGiaPhuHopVoiId,
-                CapDoTheoDoiId = nha.CapDoTheoDoiId,
-                MatTienTreoBien = nha.MatTienTreoBien,
-                BeNgangLotLong = nha.BeNgangLotLong,
-                DienTichDat = nha.DienTichDat,
-                DienTichDatSuDungTang1 = nha.DienTichDatSuDungTang1,
-                SoTang = nha.SoTang,
-                TongDienTichSuDung = nha.TongDienTichSuDung,
-                DiChungChu = nha.DiChungChu,
-                Ham = nha.Ham,
-                ThangMay = nha.ThangMay,
-                TongGiaThue = nha.TongGiaThue,
-                GiaThueBQ = nha.GiaThueBQ,
+                NoiThatKhachThueCuId = nha.NoiThatKhachThueCuId.ToString(),
+                DanhGiaPhuHopVoiId = nha.DanhGiaPhuHopVoiId.ToString(),
+                CapDoTheoDoiId = nha.CapDoTheoDoiId.ToString(),
+                MatTienTreoBien = nha.MatTienTreoBien.ToString(),
+                BeNgangLotLong = nha.BeNgangLotLong.ToString(),
+                DienTichDat = nha.DienTichDat.ToString(),
+                DienTichDatSuDungTang1 = nha.DienTichDatSuDungTang1.ToString(),
+                SoTang = nha.SoTang.ToString(),
+                TongDienTichSuDung = nha.TongDienTichSuDung.ToString(),
+                DiChungChu = nha.DiChungChu ? "1" : "0",
+                Ham = nha.Ham ? "1" : "0",
+                ThangMay = nha.ThangMay ? "1" : "0",
+                TongGiaThue = nha.TongGiaThue.ToString(),
+                GiaThueBQ = nha.GiaThueBQ.ToString(),
                 TenNguoiLienHeVaiTro = nha.TenNguoiLienHeVaiTro,
                 SoDienThoai = nha.SoDienThoai,
                 NgayCNHenLienHeLai = nha.NgayCNHenLienHeLai.HasValue ? nha.NgayCNHenLienHeLai.Value.ToString("dd/MM/yyyy") : "",
@@ -353,27 +353,27 @@ namespace Web.Areas.Management.Controllers
                     Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
                     nha.MatBangId = model.MatBangId;
-                    nha.QuanId = model.QuanId;
-                    nha.DuongId = model.DuongId;
+                    nha.QuanId = Convert.ToInt64(model.QuanId);
+                    nha.DuongId = Convert.ToInt64(model.DuongId);
                     nha.SoNha = StringHelper.KillChars(model.SoNha);
                     nha.TenToaNha = StringHelper.KillChars(model.TenToaNha);
-                    nha.MatTienTreoBien = model.MatTienTreoBien;
-                    nha.BeNgangLotLong = model.BeNgangLotLong;
-                    nha.DienTichDat = model.DienTichDat;
-                    nha.DienTichDatSuDungTang1 = model.DienTichDatSuDungTang1;
-                    nha.SoTang = model.SoTang;
-                    nha.TongDienTichSuDung = model.TongDienTichSuDung;
-                    nha.DiChungChu = model.DiChungChu;
-                    nha.Ham = model.Ham;
-                    nha.ThangMay = model.ThangMay;
-                    nha.NoiThatKhachThueCuId = model.NoiThatKhachThueCuId;
-                    nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
-                    nha.TongGiaThue = model.TongGiaThue;
-                    nha.GiaThueBQ = model.GiaThueBQ;
+                    nha.MatTienTreoBien = string.IsNullOrEmpty(model.MatTienTreoBien) ? 0 : float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                    nha.BeNgangLotLong = string.IsNullOrEmpty(model.BeNgangLotLong) ? 0 : float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                    nha.DienTichDat = string.IsNullOrEmpty(model.DienTichDat) ? 0 : float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
+                    nha.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                    nha.SoTang = string.IsNullOrEmpty(model.SoTang) ? 0 : Convert.ToInt32(model.SoTang);
+                    nha.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
+                    nha.DiChungChu = model.DiChungChu == "1" ? true : false;
+                    nha.Ham = model.Ham == "1" ? true : false;
+                    nha.ThangMay = model.ThangMay == "1" ? true : false;
+                    nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
+                    nha.DanhGiaPhuHopVoiId = Convert.ToInt32(model.DanhGiaPhuHopVoiId);
+                    nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
+                    nha.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                     nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
                     nha.SoDienThoai = model.SoDienThoai;
                     nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : Convert.ToDateTime(model.NgayCNHenLienHeLai);
-                    nha.CapDoTheoDoiId = model.CapDoTheoDoiId;
+                    nha.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                     nha.ImageDescription1 = model.ImageDescription1;
                     nha.ImageDescription2 = model.ImageDescription2;
                     nha.ImageDescription3 = model.ImageDescription3;
@@ -400,7 +400,7 @@ namespace Web.Areas.Management.Controllers
                     //var quan = _repository.GetRepository<Quan>().GetAll().OrderBy(o => o.Name).ToList();
                     //ViewBag.QuanDropdownlist = new SelectList(quan, "Id", "Name", model.QuanId);
                     //ViewBag.DuongDropdownlist = new SelectList(_repository.GetRepository<Duong>().GetAll(o => o.QuanId == model.QuanId).OrderBy(o => o.Name).ToList(), "Id", "Name", model.DuongId);
-                    
+
                     ModelState.AddModelError(string.Empty, "Vui lòng nhập chính xác các thông tin!");
                     return View(model);
                 }

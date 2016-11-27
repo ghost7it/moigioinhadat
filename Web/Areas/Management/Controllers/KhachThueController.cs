@@ -842,11 +842,11 @@ namespace Web.Areas.Management.Controllers
                     TenToaNha = o.TenToaNha,
                     SoNha = o.SoNha,
                     SoDienThoai = o.SoDienThoai,
-                    KhachId = khachthue == null ? 0 : khachthue.Id,
-                    NhuCauThueId = nhucauthue == null ? 0 : nhucauthue.Id,
+                    KhachId = khachthue == null ? "0" : khachthue.Id.ToString(),
+                    NhuCauThueId = nhucauthue == null ? "" : nhucauthue.Id.ToString(),
                     TenNguoiLienHeVaiTro = o.TenNguoiLienHeVaiTro,
-                    DienTichDat = o.DienTichDat == null ? 0 : o.DienTichDat,
-                    TongGiaThue = o.TongGiaThue == null ? 0 : o.TongGiaThue,
+                    DienTichDat = o.DienTichDat == null ? "0" : o.DienTichDat.ToString(),
+                    TongGiaThue = o.TongGiaThue == null ? "0" : o.TongGiaThue.ToString(),
                     DaPhanCong = GetPhanCong(khachthue == null ? 0 : khachthue.Id, o.Id, nhucauthue == null ? 0 : nhucauthue.Id),
                     NhanVienPhuTrachName = GetNhanVienPhuTrach(khachthue == null ? 0 : khachthue.Id, o.Id, nhucauthue == null ? 0 : nhucauthue.Id)
                 });
