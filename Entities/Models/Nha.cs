@@ -20,7 +20,7 @@ namespace Entities.Models
         public long Id { get; set; }
 
         [Display(Name = "Loại mặt bằng")]
-        public long MatBangId { get; set; }
+        public string MatBangId { get; set; }
 
         [Display(Name = "Quận")]
         public long QuanId { get; set; }

@@ -50,7 +50,7 @@ namespace Web.Areas.Management.Controllers
         public ActionResult ImportNha(HttpPostedFileBase uploadFile)
         {
             StringBuilder strValidations = new StringBuilder(string.Empty);
-            try
+           /* try
             {
                 if (uploadFile.ContentLength > 0)
                 {
@@ -168,7 +168,7 @@ namespace Web.Areas.Management.Controllers
             {
                 TempData["Error"] = "Import dữ liệu không thành công, vui lòng thử lại!";
                 return RedirectToAction("Index");
-            }
+            } */
             return RedirectToAction("Index");
         }
 
@@ -227,7 +227,8 @@ namespace Web.Areas.Management.Controllers
                                         foreach (DataRow r in ds.Tables[0].Rows)
                                         {
                                             string matBang = Convert.ToString(r["Mặt bằng"]);
-                                            int matBangId = (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)).Id;
+                                            //int matBangId = (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)).Id;
+                                            string matBangId = (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)).Id.ToString();
 
                                             string quan = Convert.ToString(r["Quận"]);
                                             long quanId = (_repository.GetRepository<Quan>().Read(o => o.Name == quan)).Id;

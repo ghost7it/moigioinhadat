@@ -22,7 +22,10 @@ namespace Entities.Models
         public long KhachId { get; set; }
 
         [Display(Name = "Loại mặt bằng")]
-        public int MatBangId { get; set; }
+        public string MatBangId { get; set; }
+
+        //[Display(Name = "Loại mặt bằng array")]
+        //public string MatBangIdArr { get; set; }
 
         [Display(Name = "Quận")]
         public long QuanId { get; set; }

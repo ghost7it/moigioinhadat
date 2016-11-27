@@ -46,6 +46,19 @@ namespace Web.Areas.Management.Controllers
                 //khachthueviewmodel.PhanKhuc = article.PhanKhuc;
                 khachthueviewmodel.SoDienThoai = article.SoDienThoai.ToString();
                 //khachthueviewmodel.SPChinh = article.SPChinh.ToString();
+
+                //Mặt bằng
+                var matBang = _repository.GetRepository<MatBang>().GetAll();
+                var listMatBangArr = new List<MatBangItem>();
+                if (matBang.Any())
+                {
+                    foreach (var item in matBang)
+                    {
+                        listMatBangArr.Add(new MatBangItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
+                    }
+                }
+                khachthueviewmodel.ListMatBangArr = listMatBangArr;
+
             }
             return PartialView("CreateNhuCau", khachthueviewmodel);
         }
@@ -60,20 +73,39 @@ namespace Web.Areas.Management.Controllers
             if (ModelState.IsValid)
             {
                 NhuCauThue nhucauthue = new NhuCauThue();
-                nhucauthue.BeNgangLotLong = string.IsNullOrEmpty(model.BeNgangLotLong) ? 0 : float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                if (!string.IsNullOrEmpty(model.BeNgangLotLong))
+                {
+                    nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                
                 nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                 nhucauthue.DiChungChu = model.DiChungChu == "1" ? true : false;
-                nhucauthue.DienTichDat = string.IsNullOrEmpty(model.DienTichDat) ? 0 : float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
-                nhucauthue.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                if (!string.IsNullOrEmpty(model.DienTichDat))
+                {
+                    nhucauthue.DienTichDat = float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                if (!string.IsNullOrEmpty(model.DienTichDatSuDungTang1))
+                {
+                    nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                
                 nhucauthue.DuongId = Convert.ToInt64(model.DuongId);
                 var item1 = await _repository.GetRepository<Duong>().ReadAsync(nhucauthue.DuongId);
                 if (item1 != null) { nhucauthue.DuongName = item1.Name; }
                 nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
-                nhucauthue.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
+                if (!string.IsNullOrEmpty(model.GiaThueBQ))
+                {
+                    nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ);
+                }
+                
                 nhucauthue.Ham = model.Ham == "1" ? true : false;
                 nhucauthue.KhachId = id;
-                nhucauthue.MatBangId = Convert.ToInt32(model.MatBangId);
-                nhucauthue.MatTienTreoBien = string.IsNullOrEmpty(model.MatTienTreoBien) ? 0 : float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                nhucauthue.MatBangId = model.MatBangId;
+                if (!string.IsNullOrEmpty(model.MatTienTreoBien))
+                {
+                    nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                
                 nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 nhucauthue.NguoiTaoId = AccountId;
                 nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
@@ -85,8 +117,14 @@ namespace Web.Areas.Management.Controllers
                 nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
                 nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
                 nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
-                nhucauthue.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
-                nhucauthue.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
+                if (!string.IsNullOrEmpty(model.TongDienTichSuDung))
+                {
+                    nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                if (!string.IsNullOrEmpty(model.TongGiaThue))
+                {
+                    nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
+                }
                 nhucauthue.NgayTao = DateTime.Now;
                 nhucauthue.TrangThai = 0; //Chờ duyệt
                 nhucauthue.NguoiPhuTrachId = AccountId;
@@ -120,7 +158,20 @@ namespace Web.Areas.Management.Controllers
         {
             //ViewBag.CategoryTypes = await _repository.GetRepository<CategoryType>().GetAllAsync();
             SetViewBag();
-            return View();
+            //Mặt bằng
+            var matBang = _repository.GetRepository<MatBang>().GetAll();
+            KhachThueCreatingViewModel model = new KhachThueCreatingViewModel();
+            var listMatBangArr = new List<MatBangItem>();
+            if (matBang.Any())
+            {
+                foreach (var item in matBang)
+                {
+                    listMatBangArr.Add(new MatBangItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false }); 
+                }
+            }
+            model.ListMatBangArr = listMatBangArr;
+
+            return View(model);
         }
 
         [HttpPost]
@@ -154,20 +205,38 @@ namespace Web.Areas.Management.Controllers
                 {
                     var khachNewerId = khach.Id;
                     NhuCauThue nhucauthue = new NhuCauThue();
-                    nhucauthue.BeNgangLotLong = string.IsNullOrEmpty(model.BeNgangLotLong) ? 0 : float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                    if (!string.IsNullOrEmpty(model.BeNgangLotLong))
+                    {
+                        nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                    }
                     nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                     nhucauthue.DiChungChu = model.DiChungChu == "1" ? true : false;
-                    nhucauthue.DienTichDat = string.IsNullOrEmpty(model.DienTichDat) ? 0 : float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
-                    nhucauthue.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                    if (!string.IsNullOrEmpty(model.DienTichDat))
+                    {
+                        nhucauthue.DienTichDat = float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
+                    }
+                    if (!string.IsNullOrEmpty(model.DienTichDatSuDungTang1))
+                    {
+                        nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                    }
+                    
                     nhucauthue.DuongId = Convert.ToInt64(model.DuongId);
                     var item1 = await _repository.GetRepository<Duong>().ReadAsync(nhucauthue.DuongId);
                     if (item1 != null) { nhucauthue.DuongName = item1.Name; }
                     nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
-                    nhucauthue.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
+                    if (!string.IsNullOrEmpty(model.GiaThueBQ))
+                    {
+                        nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ);
+                    }
+                    
                     nhucauthue.Ham = model.Ham == "1" ? true : false;
                     nhucauthue.KhachId = khachNewerId;
-                    nhucauthue.MatBangId = Convert.ToInt32(model.MatBangId);
-                    nhucauthue.MatTienTreoBien = string.IsNullOrEmpty(model.MatTienTreoBien) ? 0 : float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                    nhucauthue.MatBangId = model.MatBangId;
+                    if (!string.IsNullOrEmpty(model.MatTienTreoBien))
+                    {
+                        nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                    }
+                                        
                     nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     nhucauthue.NguoiTaoId = AccountId;
                     nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
@@ -179,11 +248,36 @@ namespace Web.Areas.Management.Controllers
                     nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
                     nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
                     nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
-                    nhucauthue.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
-                    nhucauthue.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
+                    if (!string.IsNullOrEmpty(model.TongDienTichSuDung))
+                    {
+                        nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
+                    }
+                    if (!string.IsNullOrEmpty(model.TongGiaThue))
+                    {
+                        nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
+                    }
+                    
                     nhucauthue.NgayTao = DateTime.Now;
                     nhucauthue.TrangThai = 0; //Chờ duyệt
                     int resultnhucauthue = 0;
+                    var listMatBangArr = model.ListMatBangArr;
+                    if (listMatBangArr.Any())
+                    {
+                        var matbangidarr = "";
+                        foreach (MatBangItem mb in listMatBangArr)
+                        {
+                            if (mb.IsSelected)
+                            {
+                                matbangidarr += mb.FieldKey;
+                                if (mb != listMatBangArr[listMatBangArr.Count - 1])
+                                {
+                                    matbangidarr += ",";
+                                }
+                            }
+                        }
+                        nhucauthue.MatBangId = matbangidarr;
+                    }
+
                     try
                     {
                         resultnhucauthue = await _repository.GetRepository<NhuCauThue>().CreateAsync(nhucauthue, AccountId);
@@ -219,18 +313,43 @@ namespace Web.Areas.Management.Controllers
             var articleNhuCau = await _repository.GetRepository<NhuCauThue>().ReadAsync(nhucauId);
             var khachthueviewmodel = new KhachThueCreatingViewModel();
 
+            var matBang = _repository.GetRepository<MatBang>().GetAll();
+            var listMatBangArr = new List<MatBangItem>();
+            if (matBang.Any())
+            {
+                foreach (var item in matBang)
+                {
+                    listMatBangArr.Add(new MatBangItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
+                }
+            } 
+
             if (article != null)
             {
                 khachthueviewmodel.TenKhach = article.TenKhach;
                 khachthueviewmodel.TenNguoiLienHeVaiTro = article.TenNguoiLienHeVaiTro;
                 khachthueviewmodel.GhiChu = article.GhiChu;
-                khachthueviewmodel.LinhVuc = article.LinhVuc;
-                khachthueviewmodel.PhanKhuc = article.PhanKhuc;
+                //khachthueviewmodel.LinhVuc = article.LinhVuc;
+                //khachthueviewmodel.PhanKhuc = article.PhanKhuc;
                 khachthueviewmodel.SoDienThoai = article.SoDienThoai.ToString();
-                khachthueviewmodel.SPChinh = article.SPChinh.ToString();
+                //khachthueviewmodel.SPChinh = article.SPChinh.ToString();
             }
             if (articleNhuCau != null)
             {
+                if (!string.IsNullOrEmpty(articleNhuCau.MatBangId))
+                {
+                    string[] arrmatbangid = articleNhuCau.MatBangId.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);
+                    if (arrmatbangid.Count() > 0)
+                    {
+                        for (var i = 0; i < arrmatbangid.Count(); i++)
+                        {
+                            foreach (var item in listMatBangArr.Where(w => w.FieldKey == Convert.ToInt64(arrmatbangid[i])))
+                            {
+                                item.IsSelected = true;
+                            }
+                        }
+                    }
+                }
+                khachthueviewmodel.ListMatBangArr = listMatBangArr;
                 khachthueviewmodel.MatBangId = articleNhuCau.MatBangId.ToString();
                 khachthueviewmodel.QuanId = articleNhuCau.QuanId.ToString();
                 var duong = _repository.GetRepository<Duong>().GetAll().Where(o => o.QuanId == articleNhuCau.QuanId).OrderBy(o => o.Name).ToList();
@@ -291,20 +410,39 @@ namespace Web.Areas.Management.Controllers
                         var nhucauthue = await _repository.GetRepository<NhuCauThue>().ReadAsync(nhucauId);
                         if (nhucauthue != null)
                         {
-                            nhucauthue.BeNgangLotLong = string.IsNullOrEmpty(model.BeNgangLotLong) ? 0 : float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                            if (!string.IsNullOrEmpty(model.BeNgangLotLong))
+                            {
+                                nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            
                             nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                             nhucauthue.DiChungChu = model.DiChungChu == "1" ? true : false;
-                            nhucauthue.DienTichDat = string.IsNullOrEmpty(model.DienTichDat) ? 0 : float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
-                            nhucauthue.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                            if (!string.IsNullOrEmpty(model.DienTichDat))
+                            {
+                                nhucauthue.DienTichDat = float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            if (!string.IsNullOrEmpty(model.DienTichDatSuDungTang1))
+                            {
+                                nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            
                             nhucauthue.DuongId = Convert.ToInt64(model.DuongId);
                             var item1 = await _repository.GetRepository<Duong>().ReadAsync(nhucauthue.DuongId);
                             if (item1 != null) { nhucauthue.DuongName = item1.Name; }
                             nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
-                            nhucauthue.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
+                            if (!string.IsNullOrEmpty(model.GiaThueBQ))
+                            {
+                                nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ);
+                            }
+                            
                             nhucauthue.Ham = model.Ham == "1" ? true : false;
                             nhucauthue.KhachId = id;
-                            nhucauthue.MatBangId = Convert.ToInt32(model.MatBangId);
-                            nhucauthue.MatTienTreoBien = string.IsNullOrEmpty(model.MatTienTreoBien) ? 0 : float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                            nhucauthue.MatBangId = model.MatBangId;
+                            if (!string.IsNullOrEmpty(model.MatTienTreoBien))
+                            {
+                                nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            
                             nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                             nhucauthue.NguoiTaoId = AccountId;
                             nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
@@ -316,8 +454,14 @@ namespace Web.Areas.Management.Controllers
                             nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
                             nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
                             nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
-                            nhucauthue.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
-                            nhucauthue.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
+                            if (!string.IsNullOrEmpty(model.TongDienTichSuDung))
+                            {
+                                nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            if (!string.IsNullOrEmpty(model.TongGiaThue))
+                            {
+                                nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
+                            }
                             nhucauthue.NgayTao = DateTime.Now;
                             nhucauthue.TrangThai = 0; //Chờ duyệt
                             try
@@ -347,8 +491,8 @@ namespace Web.Areas.Management.Controllers
         protected void SetViewBag()
         {
             //Mặt bằng
-            var matBang = _repository.GetRepository<MatBang>().GetAll();
-            ViewBag.MatBang = matBang.ToList().ToSelectList();
+            //var matBang = _repository.GetRepository<MatBang>().GetAll();
+            //ViewBag.MatBang = matBang.ToList().ToSelectList();
 
             //Địa chỉ quận - đường
             NhaCreatingViewModel model = new NhaCreatingViewModel();
@@ -618,7 +762,19 @@ namespace Web.Areas.Management.Controllers
             }
             if (nhucauthue != null)
             {
-                khachthueviewmodel.MatBangId = (await _repository.GetRepository<MatBang>().ReadAsync(nhucauthue.MatBangId)).Name;
+                string[] matbangarr = nhucauthue.MatBangId.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);
+                if (matbangarr.Count() > 0)
+                {
+                    for (var i = 0; i < matbangarr.Count(); i++)
+                    {
+                        khachthueviewmodel.MatBangId += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                        if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                        {
+                            khachthueviewmodel.MatBangId += @"</br>";
+                        }
+                    }
+                }
+                //khachthueviewmodel.MatBangId = (await _repository.GetRepository<MatBang>().ReadAsync(nhucauthue.MatBangId)).Name;
                 khachthueviewmodel.BeNgangLotLong = nhucauthue.BeNgangLotLong.ToString();
                 khachthueviewmodel.CapDoTheoDoiId = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(nhucauthue.CapDoTheoDoiId)).Name;
                 khachthueviewmodel.DiChungChu = nhucauthue.DiChungChu == true ? "Có" : "Không";
