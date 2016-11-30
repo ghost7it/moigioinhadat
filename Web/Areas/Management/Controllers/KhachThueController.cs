@@ -201,7 +201,7 @@ namespace Web.Areas.Management.Controllers
                 khach.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
                 khach.NguoiPhuTrachId = AccountId;
                 khach.TrangThai = 0; //Chờ duyệt
-                int result = 0;
+                int result = 0; 
                 try
                 {
                     result = await _repository.GetRepository<Khach>().CreateAsync(khach, AccountId);
