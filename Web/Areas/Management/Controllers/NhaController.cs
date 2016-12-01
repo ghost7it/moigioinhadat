@@ -24,6 +24,7 @@ namespace Web.Areas.Management.Controllers
         [ValidationPermission(Action = ActionEnum.Read, Module = ModuleEnum.Nha)]
         public ActionResult Index()
         {
+            ViewBag.HidenClass = RoleHelper.CheckPermission(ModuleEnum.PhanCongCongViec, ActionEnum.Read) ? "" : "hidden";
             return View();
         }
 
