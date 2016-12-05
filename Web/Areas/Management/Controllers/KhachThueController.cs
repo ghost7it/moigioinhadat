@@ -24,6 +24,8 @@ namespace Web.Areas.Management.Controllers
         [ValidationPermission(Action = ActionEnum.Read, Module = ModuleEnum.Khach)]
         public ActionResult Index()
         {
+            ViewBag.HidenClass = RoleHelper.CheckPermission(ModuleEnum.PhanCongCongViec, ActionEnum.Read) ? "" : "hidden";
+
             return View();
         }
 
@@ -201,7 +203,7 @@ namespace Web.Areas.Management.Controllers
                 khach.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
                 khach.NguoiPhuTrachId = AccountId;
                 khach.TrangThai = 0; //Chờ duyệt
-                int result = 0;
+                int result = 0; 
                 try
                 {
                     result = await _repository.GetRepository<Khach>().CreateAsync(khach, AccountId);

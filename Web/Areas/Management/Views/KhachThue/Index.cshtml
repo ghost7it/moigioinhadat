@@ -38,10 +38,10 @@
             <div class="portlet-body">
                 <div class="table-container">
                     <div class="table-actions-wrapper">
-                        @if (canUpdate)
+                        @*@if (canUpdate)
                         {
                             <button class="btn btn-sm yellow-casablanca table-group-action-RecentlyAdded display-hide"><i class="fa fa-edit"></i> Biên tập lại</button>
-                        }
+                        }*@
                         @if (canApprove)
                         {
                             <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
@@ -54,8 +54,9 @@
                     </div>
                     <div class="table-actions-2-wrapper">
                         Lọc theo trạng thái&nbsp;&nbsp;<select class=" form-control input-inline input-small input-sm object-filter">
-                            <option value="1">Chờ duyệt</option>
-                            <option value="2">Đã duyệt</option>
+                        <option value="1">Tất cả</option>    
+                        <option value="0">Chờ duyệt</option>
+                        <option value="2">Đã duyệt</option>
                         </select>&nbsp;&nbsp;&nbsp;
                     </div>
                     <table class="table table-striped table-bordered table-hover" id="datatable_ajax_source">
@@ -149,13 +150,16 @@
                                     if ('@canDelete' == 'true' || '@canDelete' == 'True') {
                                         re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.Id + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
                                     }
-                                    re = re + '<a class="btn btn-xs timnha blue font-size-small" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal" style="margin-top:5px"><i class="fa fa-search"></i> Nhà cho khách</a>';
+                                    re = re + '<a class="btn btn-xs timnha blue font-size-small @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal" style="margin-top:5px"><i class="fa fa-search"></i> Nhà cho khách</a>';
                                     return re;
                                     break;
                                     //Lọc theo đã duyệt
                                 case '2':
                                     if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                        return '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
+                                        //return '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
+                                        re = '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
+                                        re = re + '<a class="btn btn-xs timnha blue font-size-small @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal" style="margin-top:5px"><i class="fa fa-search"></i> Nhà cho khách</a>';
+                                        return re;
                                     }
                                     else {
                                         return '';
@@ -346,7 +350,7 @@
         Article.init();
 
     });
-    </script>
+</script>
 }
 
 <style>
