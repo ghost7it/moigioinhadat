@@ -25,15 +25,8 @@
         @RenderBody()
     </div>
     <div class="copyright">
-        @if (DateTime.Now.Year <= 2014)
-        {
-            <span>2014</span>
-        }
-        else
-        {
-            <span>2014-@DateTime.Now.Year</span>
-        }
-        &copy; <a title="eBtech" target="_blank" href="http://ebtech.vn">eBtech</a>
+        <span>@DateTime.Now.Year</span>
+        &copy; Vua Mặt Bằng. Developed by<a title="eBtech" target="_blank" href="http://ebtech.vn"><i>eBtech</i></a>
     </div>
 
     @Html.Partial("_Scripts")
