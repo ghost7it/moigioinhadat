@@ -38,10 +38,6 @@
             <div class="portlet-body">
                 <div class="table-container">
                     <div class="table-actions-wrapper">
-                        @*@if (canUpdate)
-                            {
-                                <button class="btn btn-sm yellow-casablanca table-group-action-RecentlyAdded display-hide"><i class="fa fa-edit"></i> Biên tập lại</button>
-                            }*@
                         @if (canApprove)
                         {
                             <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
@@ -50,14 +46,19 @@
                         {
                             <button class="btn btn-sm red-flamingo table-group-action-Delete"><i class="fa fa-trash-o"></i> Xóa</button>
                         }
-                        <span></span>
-                    </div>
-                    <div class="table-actions-2-wrapper">
-                        Lọc theo trạng thái&nbsp;&nbsp;<select class=" form-control input-inline input-small input-sm object-filter">
+                        &nbsp; &nbsp; Trạng thái &nbsp;&nbsp;<select class=" form-control input-inline input-small input-sm object-filter" style="width: 110px !important;">
                             <option value="0">Chờ duyệt</option>
                             <option value="1">Đã duyệt</option>
                         </select>&nbsp;&nbsp;&nbsp;
+                        Giá từ &nbsp;&nbsp;&nbsp;&nbsp;<input class=" form-control input-inline input-small input-sm object-filter-tu" style="width: 130px !important;" />
+                        &nbsp;&nbsp;&nbsp; 
                     </div>
+                    <div class="table-actions-2-wrapper">
+                        đến &nbsp;&nbsp; <input class=" form-control input-inline input-small input-sm object-filter-den" style="width: 130px !important; " />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                        
                     <table class="table table-striped table-bordered table-hover" id="datatable_ajax_source">
                         <thead>
                             <tr role="row" class="heading">
@@ -189,6 +190,7 @@
                         ] // ép sắp xếp theo cột thứ 3
                     }
                 });
+
                 grid.getTableWrapper().on('change', '.object-filter', function (e) {
                     var sel = $(this).val();
                     e.preventDefault();
@@ -211,6 +213,22 @@
                             }
                             break;
                     }
+                });
+
+                grid.getTableWrapper().on('change', '.object-filter-tu', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectGiaTu", $('.object-filter-tu').val());
+                    grid.setAjaxParam("objectGiaDen", $('.object-filter-den').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                grid.getTableWrapper().on('change', '.object-filter-den', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectGiaTu", $('.object-filter-tu').val());
+                    grid.setAjaxParam("objectGiaDen", $('.object-filter-den').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
                 });
 
                 //Duyệt nhiều record

@@ -20,6 +20,8 @@ namespace Web.Areas.Management.Controllers
     [RoutePrefix("quan-ly-nha")]
     public class NhaController : BaseController
     {
+        NhaUpdatingViewModel _modelBK = new NhaUpdatingViewModel();
+
         [Route("danh-sach-nha", Name = "NhaIndex")]
         [ValidationPermission(Action = ActionEnum.Read, Module = ModuleEnum.Nha)]
         public ActionResult Index()
@@ -195,6 +197,7 @@ namespace Web.Areas.Management.Controllers
         }
 
         [Route("danh-sach-nha-json", Name = "NhaGetNhaJson")]
+        //public ActionResult GetNhaJson(int status, decimal giaTu, decimal giaDen)
         public ActionResult GetNhaJson(int status)
         {
             try
@@ -225,6 +228,22 @@ namespace Web.Areas.Management.Controllers
                 string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
                 if (!string.IsNullOrEmpty(objectStatus))
                     int.TryParse(objectStatus.ToString(), out status);
+
+                decimal giaTu = 0;
+                string objectGiaTu = Request.Params["objectGiaTu"];
+                if (!string.IsNullOrEmpty(objectGiaTu))
+                    decimal.TryParse(objectGiaTu.ToString(), out giaTu);
+
+                decimal giaDen = 0;
+                string objectGiaDen = Request.Params["objectGiaDen"];
+                if (!string.IsNullOrEmpty(objectGiaDen))
+                    decimal.TryParse(objectGiaDen.ToString(), out giaDen);
+
+                if (giaDen ==0)
+                {
+                    giaDen = decimal.MaxValue;
+                }
+
                 Paging paging = new Paging()
                 {
                     TotalRecord = 0,
@@ -239,8 +258,10 @@ namespace Web.Areas.Management.Controllers
                                                                        orderKey,
                                                                        o => (key == null ||
                                                                              key == "" ||
+
                                                                              o.TenNguoiLienHeVaiTro.Contains(key) ||
                                                                              o.SoDienThoai.Contains(key)) &&
+                                                                              (giaTu <= o.TongGiaThue && o.TongGiaThue <= giaDen) &&
                                                                              (o.TrangThai == status) &&
                                                                              (isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId))
                                                                              .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
@@ -272,7 +293,7 @@ namespace Web.Areas.Management.Controllers
             }
         }
 
-        [Route("cap-nhat-nha/{id?}", Name = "NhaUpdate")] 
+        [Route("cap-nhat-nha/{id?}", Name = "NhaUpdate")]
         [ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Nha)]
         public async Task<ActionResult> Update(long id)
         {
@@ -304,6 +325,7 @@ namespace Web.Areas.Management.Controllers
                     }
                 }
             }
+
             NhaUpdatingViewModel model = new NhaUpdatingViewModel()
             {
                 Id = nha.Id,
@@ -336,6 +358,9 @@ namespace Web.Areas.Management.Controllers
                 ImageDescription4 = nha.ImageDescription4,
                 GhiChu = nha.GhiChu,
             };
+
+            //Backup model để so sánh xem có update gì không, sau đó lưu vào lịch sử
+            _modelBK = model;
 
             return View(model);
         }
@@ -383,9 +408,59 @@ namespace Web.Areas.Management.Controllers
 
                     int result = await _repository.GetRepository<Nha>().UpdateAsync(nha, AccountId);
 
+                    //So sánh để tìm ra nội dung thay đổi
                     if (result > 0)
                     {
-                        //TODO: HuyTQ - Ghi lịch sử
+                        string noiDungThayDoi = "";
+                        string strOld = "";
+                        string strNew = "";
+
+                        //Mặt bằng
+                        foreach (var item in _modelBK.ListMatBangArr)
+                        {
+                            strOld = strOld == "" ? item.FieldName : strOld + ", " + item.FieldName;
+                        }
+
+                        foreach (var item in nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            string name = _repository.GetRepository<MatBang>().GetAll().Where(t => t.Id == Convert.ToInt32(item)).Select(o => o.Name).ToString();
+                            strNew = strNew == "" ? name : strNew + ", " + name;
+                        }
+
+                        if (strNew != strOld)
+                        {
+                            noiDungThayDoi = "Sửa mặt bằng từ: " + strOld + " thành: " + strNew;
+                        }
+
+                        //Quận
+                        strOld = strNew = "";
+
+                        if (_modelBK.QuanId != nha.QuanId.ToString())
+                        {
+                            strOld = _repository.GetRepository<Quan>().GetAll().Where(t => t.Id == Convert.ToInt32(_modelBK.QuanId)).Select(o => o.Name).ToString();
+                            strNew = _repository.GetRepository<Quan>().GetAll().Where(t => t.Id == Convert.ToInt32(nha.QuanId)).Select(o => o.Name).ToString();
+
+                            noiDungThayDoi = noiDungThayDoi == "" ? "Sửa quận từ: " + strOld + " thành: " + strNew : noiDungThayDoi + "<br/>" + "Sửa quận từ: " + strOld + " thành: " + strNew;
+                        }
+
+                        //Đường
+                        strOld = strNew = "";
+
+                        if (_modelBK.DuongId != nha.DuongId.ToString())
+                        {
+                            strOld = _repository.GetRepository<Duong>().GetAll().Where(t => t.Id == Convert.ToInt32(_modelBK.DuongId)).Select(o => o.Name).ToString();
+                            strNew = _repository.GetRepository<Duong>().GetAll().Where(t => t.Id == Convert.ToInt32(nha.DuongId)).Select(o => o.Name).ToString();
+
+                            noiDungThayDoi = noiDungThayDoi == "" ? "Sửa đường từ: " + strOld + " thành: " + strNew : noiDungThayDoi + "<br/>" + "Sửa đường từ: " + strOld + " thành: " + strNew;
+                        }
+
+                        //Số nhà
+                        strOld = strNew = "";
+
+                        if (_modelBK.SoNha != nha.SoNha)
+                        {
+                            noiDungThayDoi = noiDungThayDoi == "" ? "Sửa số nhà từ: " + _modelBK.SoNha + " thành: " + nha.SoNha : noiDungThayDoi + "<br/>" + "Sửa số nhà từ: " + _modelBK.SoNha + " thành: " + nha.SoNha;
+                        }
 
                         TempData["Success"] = "Cập nhật bài viết thành công!";
                         return RedirectToAction("Index");
@@ -455,7 +530,6 @@ namespace Web.Areas.Management.Controllers
 
             if (result > 0)
             {
-                //TODO: HuyTQ - Lưu lịch sử thay đổi
                 return true;
             }
             return false;
@@ -497,7 +571,6 @@ namespace Web.Areas.Management.Controllers
 
             if (result > 0)
             {
-                //TODO: HuyTQ - Lưu lịch sử thay đổi
                 return true;
             }
 
@@ -530,6 +603,7 @@ namespace Web.Areas.Management.Controllers
                     }
                 }
             }
+
             ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
             ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
             ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId)).Name;
@@ -670,6 +744,10 @@ namespace Web.Areas.Management.Controllers
                 qlcv.NhuCauThueId = id;
                 qlcv.NgayTao = DateTime.Now;
                 qlcv.NguoiTaoId = AccountId;
+
+                qlcv.NhaHiddenField = "SoNha,SoDienThoai,NguoiLienHe";
+                qlcv.NgayHoanThanh = DateTime.Now.AddDays(Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings["HanHoanThanh"]));
+
                 qlcv.TrangThai = 0; //Chờ duyệt
 
                 int result = 0;
@@ -690,11 +768,5 @@ namespace Web.Areas.Management.Controllers
                 return View();
             }
         }
-
-
-
-
-
-
     }
 }

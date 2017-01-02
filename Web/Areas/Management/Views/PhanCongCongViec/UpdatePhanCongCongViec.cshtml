@@ -56,7 +56,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <a href="javascript:void(0)" class="thongtinnhucauthue thongtintitle">
-                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin cầu thuê
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin nhu cầu thuê
                                 </a>
                             </div>
                             <div class="nhucauthuecontent content_wr">
@@ -68,7 +68,7 @@
                                         <span class="bold">Tên đường: </span> @ViewBag.DuongName
                                     </p>
                                     <p>
-                                        <span class="bold">Loại mặt bằng : </span>@Html.Raw(ViewBag.LoaiMatBang) 
+                                        <span class="bold">Loại mặt bằng : </span>@Html.Raw(ViewBag.LoaiMatBang)
                                     </p>
                                     <p>
                                         <span class="bold">Mặt tiền treo biển: </span> @ViewBag.MatTienTreoBien
@@ -114,7 +114,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <a href="javascript:void(0)" class="thongtinnha thongtintitle">
-                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin nhà cần thuê
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin nhà cho thuê
                                 </a>
                             </div>
                             <div class="nhucauthuecontent content_wr">
@@ -184,24 +184,30 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <a href="javascript:void(0)" class="thongtinupdate thongtintitle">
-                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin update
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin công việc
                                 </a>
                             </div>
                             <div class="col-md-12 updatecontent content_wr">
                                 <p>
                                     <span class="bold" style="float:left;margin-top:5px;margin-right:10px"> Nhân viên chăm sóc:</span>
-                                    @Html.DropDownListFor(model=>model.NhanVienPhuTrachId, (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "form-control getuserid ", @style = "width: 250px; float: left; padding-top:0;padding-bottom:0;height:30px" })
+                                    @Html.DropDownListFor(model => model.NhanVienPhuTrachId, (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "form-control getuserid ", @style = "width: 250px; float: left; padding-top:0;padding-bottom:0;height:30px" })
                                 </p>
                                 <p style="float:left;width:100%">
                                     <span class="bold" style="margin-top:5px;margin-right:17px">
                                         @Html.LabelFor(model => model.NoiDungCongViec, new { @style = "font-weight:bold;font-size:13px" }):
                                     </span>
-                                        @Html.TextAreaFor(model => model.NoiDungCongViec, new { @style = "height: 120px;float:left;border:1px solid #e5e5e5;width:100%" })
+                                    @Html.TextAreaFor(model => model.NoiDungCongViec, new { @style = "height: 120px;float:left;border:1px solid #e5e5e5;width:100%" })
                                 </p>
-                                
-                                <div style="width:100%;float:left;display:block;clear:both">
+                                <p>
+                                    <span class="bold" style="float:left;margin-top:5px;margin-right:10px"> Hạn hoàn thành:</span>
+                                    <div class="input-group input-large date-picker input-daterange" style="width: 245px !important; float: left; padding-bottom: 0; height: 30px;" data-date="@DateTime.Now.ToString("dd/MM/yyyy")" data-date-format="dd/mm/yyyy">
+                                        @Html.TextBoxFor(model => model.NgayHoanThanh, new { @class = "form-control" })
+                                    </div>
+                                </p>
+
+                                <div style="width:100%;float:left;display:block; margin-top:10px; clear:both">
                                     <p style="float:left;width:100%">
-                                        <span class="bold" style="float:left;margin-top:5px;display:block"> Ẩn những trường dữ liệu:</span>
+                                        <span class="bold" style="float:left;margin-top:5px;display:block"> Ẩn những trường dữ liệu của nhà cho thuê:</span>
                                     </p>
                                     @for (int idx = 0; idx < Model.FieldHidden.Count; idx++)
                                     {
@@ -227,7 +233,6 @@
                     </div>
                 }
             </div>
-
         </div>
     </div>
 </div>
@@ -241,6 +246,7 @@
     <script type="text/javascript" src="~/Editor/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="~/Editor/ckfinder/ckfinder.js"></script>
     <script type="text/javascript">
+
         CKFinder.setupCKEditor(null, '/Editor/ckfinder');
         jQuery(document).ready(function () {
             $(document).on('click', '.select-image', function () {
@@ -283,25 +289,29 @@
         };
     </script>
 }
-
-
 <style type="text/css">
-    .thongtintitle{
-        font-weight:bold;
-        margin-bottom:5px;
+    .thongtintitle {
+        font-weight: bold;
+        margin-bottom: 5px;
         display: block;
-        margin-top:10px
+        margin-top: 10px;
     }
+
     .content_wr {
         margin-bottom: 10px;
         padding-top: 8px;
         background: #f0f5f5;
-        float:left;
-        width:100%;
+        float: left;
+        width: 100%;
+        ;
     }
+
     .thongtinkhach {
+        ;
     }
-    .updatecontent{
-        padding-bottom:10px
+
+    .updatecontent {
+        padding-bottom: 10px;
     }
+    /* END EXTE
 </style>

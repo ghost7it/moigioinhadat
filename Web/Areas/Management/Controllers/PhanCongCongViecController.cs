@@ -63,11 +63,7 @@ namespace Web.Areas.Management.Controllers
                             }
                         }
                     }
-                    //var matbang = await _repository.GetRepository<MatBang>().ReadAsync(nhucauthue.MatBangId);
-                    //if (matbang != null)
-                    //{
-                    //    ViewBag.LoaiMatBang = matbang.Name;
-                    //}
+
                     ViewBag.MatTienTreoBien = nhucauthue.MatTienTreoBien + " (m)";
                     ViewBag.BeNgangLotLong = nhucauthue.BeNgangLotLong + " (m)";
                     ViewBag.DienTichDat = nhucauthue.DienTichDat + " (m2)";
@@ -159,8 +155,10 @@ namespace Web.Areas.Management.Controllers
                 ViewBag.Accounts = listAccount;
                 quanlycongviecviewmodel.NhanVienPhuTrachId = article.NhanVienPhuTrachId;
 
+                quanlycongviecviewmodel.NgayHoanThanh = article.NgayHoanThanh;
+
                 //var listNha = new List<FieldHidden>();
-                List<FieldHidden> listNha = lstfieldhidden.lst;                
+                List<FieldHidden> listNha = lstfieldhidden.lst;
                 if (!string.IsNullOrEmpty(article.NhaHiddenField))
                 {
                     string[] arrnhahidden = article.NhaHiddenField.Split(',');
@@ -380,11 +378,14 @@ namespace Web.Areas.Management.Controllers
                     recordsFiltered = paging.TotalRecord,
                     data = articles.Select(o => new
                     {
+                        ChuNha = o.Nha.TenNguoiLienHeVaiTro,
+                        IsWarning = o.QuanLyCongViec.QuanLyCongViec.QuanLyCongViec.NgayHoanThanh <= DateTime.Now ? true : false,
+                        o.QuanLyCongViec.QuanLyCongViec.QuanLyCongViec.NgayHoanThanh,
                         o.Nha.TenToaNha,
                         o.QuanLyCongViec.QuanLyCongViec.QuanLyCongViec.Id,
                         TenNhanVienPhuTrach = o.QuanLyCongViec.QuanLyCongViec.Account.Name,
                         TenKhach = o.QuanLyCongViec.Khach.TenNguoiLienHeVaiTro == null ? "" : o.QuanLyCongViec.Khach.TenNguoiLienHeVaiTro,
-                        TrangThai = o.QuanLyCongViec.QuanLyCongViec.QuanLyCongViec.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"
+                        TrangThai = o.QuanLyCongViec.QuanLyCongViec.QuanLyCongViec.TrangThai == 0 ? "Chờ duyệt" : (o.QuanLyCongViec.QuanLyCongViec.QuanLyCongViec.TrangThai == 1 ?  "Đã duyệt" : "Đã hoàn thành")
 
                     })
                 }, JsonRequestBehavior.AllowGet);
@@ -599,7 +600,7 @@ namespace Web.Areas.Management.Controllers
                 {
                     ViewBag.AccoutName = acc.Name;
                 }
-                List<FieldHidden> listNha = lstfieldhidden.lst;   
+                List<FieldHidden> listNha = lstfieldhidden.lst;
                 if (!string.IsNullOrEmpty(article.NhaHiddenField))
                 {
                     string fieldhidden = "";
@@ -618,7 +619,7 @@ namespace Web.Areas.Management.Controllers
                     ViewBag.HiddenField = fieldhidden;
                 }
                 ViewBag.NoiDungCongViec = article.NoiDungCongViec;
-                
+
             }
             return PartialView("_DetailModal");
         }

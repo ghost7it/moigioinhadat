@@ -629,7 +629,7 @@ namespace Web.Areas.Management.Controllers
                     NhuCauThueId = o.NhuCauThue == null ? 0 : o.NhuCauThue.Id,
                     Quan = o.NhuCauThue == null ? "" : o.NhuCauThue.QuanName,
                     Duong = o.NhuCauThue == null ? "" : o.NhuCauThue.DuongName,
-                    TongGiaThue = o.NhuCauThue == null ? "" : o.NhuCauThue.TongGiaThue.ToString(),
+                    //TongGiaThue = o.NhuCauThue == null ? "" : o.NhuCauThue.TongGiaThue.ToString(),
                     TrangThai = o.NhuCauThue == null ? "" : (o.NhuCauThue.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt")
                 })
             }, JsonRequestBehavior.AllowGet);
@@ -895,12 +895,16 @@ namespace Web.Areas.Management.Controllers
             //if (ModelState.IsValid)
             //{
             QuanLyCongViec item = new QuanLyCongViec();
+
             item.NhanVienPhuTrachId = phutrachId;
             item.KhachId = khachId;
             item.NgayTao = DateTime.Now;
             item.NguoiTaoId = AccountId;
             item.NhaId = nhaId;
             item.NhuCauThueId = nhucauthueId;
+            item.NhaHiddenField = "SoNha,SoDienThoai,NguoiLienHe";
+            item.NgayHoanThanh = DateTime.Now.AddDays(Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings["HanHoanThanh"]));
+
             item.TrangThai = 0; //Chờ gửi thông tin cho người phụ trách
             int resultphancong = 0;
             try

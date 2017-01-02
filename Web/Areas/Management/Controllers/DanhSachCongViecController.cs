@@ -128,11 +128,14 @@ namespace Web.Areas.Management.Controllers
                 return Json(new
                 {
                     draw = drawReturn,
+
                     recordsTotal = paging.TotalRecord,
                     recordsFiltered = paging.TotalRecord,
                     data = articles.Select(o => new
                     {
                         o.QuanLyCongViec.NhuCauThue.NhuCauThue.NhuCauThue.QuanLyCongViec.Id,
+                        IsWarning = o.QuanLyCongViec.NhuCauThue.NhuCauThue.NhuCauThue.QuanLyCongViec.NgayHoanThanh <= DateTime.Now ? true : false,
+                        o.QuanLyCongViec.NhuCauThue.NhuCauThue.NhuCauThue.QuanLyCongViec.NgayHoanThanh,
                         o.Khach.TenNguoiLienHeVaiTro,
                         o.Khach.SoDienThoai,
                         Quan = o.QuanLyCongViec.NhuCauThue.NhuCauThue.Quan.Name,
@@ -313,7 +316,7 @@ namespace Web.Areas.Management.Controllers
                 }
 
                 //Hide field by config
-                int isHideSoNha = 0; int isHideTenToaNha = 0; int isHideMatTienTreoBien = 0; int isHideBeNgangLotLong = 0;
+                int isHideSoNha = 0; int isHideTenToaNha = 0; int isHideSoDienThoai = 0; int isHideNguoiLienHe = 0;
                 int isHideDienTichDat = 0; int isHideDienTichDatSuDungTang1 = 0; int isHideTongDienTichSuDung = 0;
                 int isHideSoTang = 0; int isHideDiChungChu = 0; int isHideHam = 0; int isHideThangMay = 0;
 
@@ -330,11 +333,11 @@ namespace Web.Areas.Management.Controllers
                             case "TenToaNha":
                                 isHideTenToaNha = 1;
                                 break;
-                            case "MatTienTreoBien":
-                                isHideMatTienTreoBien = 1;
+                            case "SoDienThoai":
+                                isHideSoDienThoai = 1;
                                 break;
-                            case "BeNgangLotLong":
-                                isHideBeNgangLotLong = 1;
+                            case "NguoiLienHe":
+                                isHideNguoiLienHe = 1;
                                 break;
                             case "DienTichDat":
                                 isHideDienTichDat = 1;
@@ -364,8 +367,8 @@ namespace Web.Areas.Management.Controllers
 
                 ViewBag.IsHideSoNha = isHideSoNha;
                 ViewBag.IsHideTenToaNha = isHideTenToaNha;
-                ViewBag.IsHideMatTienTreoBien = isHideMatTienTreoBien;
-                ViewBag.IsHideBeNgangLotLong = isHideBeNgangLotLong;
+                ViewBag.isHideSoDienThoai = isHideSoDienThoai;
+                ViewBag.isHideNguoiLienHe = isHideNguoiLienHe;
                 ViewBag.IsHideDienTichDat = isHideDienTichDat;
                 ViewBag.IsHideDienTichDatSuDungTang1 = isHideDienTichDatSuDungTang1;
                 ViewBag.IsHideTongDienTichSuDung = isHideTongDienTichSuDung;

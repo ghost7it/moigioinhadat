@@ -205,6 +205,16 @@ var DatatableAjaxSource = function () {
                     the.setAjaxParam('objectStatus', $('select.object-filter').val());
             });
 
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-tu'))
+                    the.setAjaxParam('objectGiaTu', $('.object-filter-tu').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-den'))
+                    the.setAjaxParam('objectGiaDen', $('.object-filter-den').val());
+            });
         },
 
         getSelectedRowsCount: function () {

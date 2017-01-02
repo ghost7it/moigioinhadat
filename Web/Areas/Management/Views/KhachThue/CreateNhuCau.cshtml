@@ -28,69 +28,30 @@
                                 </div>
                             }
                             <div class="col-md-6">
-                                @*<div class="form-group">
-                                    @Html.LabelFor(model => model.TenKhach, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.TenKhach, new { @class = "form-control", @readonly = "true" })
-                                        @Html.ValidationMessageFor(model => model.TenKhach)
-                                    </div>
-                                </div>*@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TenNguoiLienHeVaiTro, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
                                         @Html.TextBoxFor(model => model.TenNguoiLienHeVaiTro, new { @class = "form-control readonly", @readonly = "true" })
-                                        @*@Html.ValidationMessageFor(model => model.TenNguoiLienHeVaiTro)*@
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.SoDienThoai, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
                                         @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control readonly", @readonly = "true" })
-                                        @*@Html.ValidationMessageFor(model => model.SoDienThoai)*@
                                     </div>
                                 </div>
-                                @*<div class="form-group">
-                                    @Html.LabelFor(model => model.LinhVuc, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.LinhVuc, new { @class = "form-control readonly", @readonly = "true" })
-                                        @Html.ValidationMessageFor(model => model.LinhVuc)
-                                    </div>
-                                </div>*@
                             </div>
                             <div class="col-md-6">
-                                @*<div class="form-group">
-                                    @Html.LabelFor(model => model.SPChinh, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.SPChinh, new { @class = "form-control readonly", @readonly = "true" })
-                                        @Html.ValidationMessageFor(model => model.SPChinh)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.PhanKhuc, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.PhanKhuc, new { @class = "form-control readonly", @readonly = "true" })
-                                        @Html.ValidationMessageFor(model => model.PhanKhuc)
-                                    </div>
-                                </div>*@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.GhiChu, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
                                         @Html.TextAreaFor(model => model.GhiChu, new { @class = "form-control readonly", @readonly = "true" })
-                                        @*@Html.ValidationMessageFor(model => model.GhiChu)*@
                                     </div>
                                 </div>
                             </div>
                             <div style="clear:both"></div>
                             <p style="width:100%; height:30px; background:#ddd;font-size:16px; line-height:30px;margin-bottom:0">&nbsp; Thông tin Nhu cầu thuê</p>
                             <div class="col-md-6 create-form-6">
-
-                                @*<div class="form-group">
-                                    @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.MatBangId, (IEnumerable<SelectListItem>)ViewBag.MatBang, "Chọn mặt bằng", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.MatBangId)
-                                    </div>
-                                </div>*@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
 
@@ -111,7 +72,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.QuanId, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.QuanId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn tỉnh/thành phố", new { @class = "form-control sel-quan" })
+                                        @Html.DropDownListFor(model => model.QuanId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
                                         @Html.ValidationMessageFor(model => model.QuanId)
                                     </div>
                                 </div>

@@ -165,7 +165,7 @@
                                 {
                                     isActive = RouteHelper.IsCurrentControllerAndAction("KhachThue", "Index", ViewContext);
                                     <li class="@(isActive ? "active" : "") ">
-                                            <a href="@Url.RouteUrl("DanhSachCongViecIndex")">
+                                        <a href="@Url.RouteUrl("DanhSachCongViecIndex")">
                                             <i class="fa fa-list"></i>
                                             Danh sách công việc
                                         </a>
@@ -194,15 +194,15 @@
                                 </a>
                                 <ul class="sub-menu">
                                     @if (RoleHelper.CheckPermission(ModuleEnum.Import, ActionEnum.Create))
-                                        {
-                                            isActive = RouteHelper.IsCurrentControllerAndAction("Import", "ImportIndex", ViewContext);
-                                            <li class="@(isActive ? "active" : "") ">
-                                                <a href="@Url.RouteUrl("ImportIndex")">
-                                                    <i class="fa fa-share"></i>
-                                                    Import dữ liệu
-                                                </a>
-                                            </li>
-                                        }
+                                    {
+                                        isActive = RouteHelper.IsCurrentControllerAndAction("Import", "ImportIndex", ViewContext);
+                                        <li class="@(isActive ? "active" : "") ">
+                                            <a href="@Url.RouteUrl("ImportIndex")">
+                                                <i class="fa fa-share"></i>
+                                                Import dữ liệu
+                                            </a>
+                                        </li>
+                                    }
                                     @if (RoleHelper.CheckPermission(ModuleEnum.Export, ActionEnum.Create))
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("Export", "ExportIndex", ViewContext);
@@ -223,7 +223,7 @@
                                             </a>
                                         </li>
                                     }
-                                    @if (RoleHelper.CheckPermission(ModuleEnum.XoaNhaTrung, ActionEnum.Create))
+                                    @if (RoleHelper.CheckPermission(ModuleEnum.XoaNhaTrung, ActionEnum.Read))
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("XoaNhaTrung", "XoaNhaTrungIndex", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
@@ -247,7 +247,7 @@
                                     {
                                         isActive = RouteHelper.IsCurrentControllerAndAction("ChuyenGiaoDuLieu", "ChuyenGiaoDuLieuIndex", ViewContext);
                                         <li class="@(isActive ? "active" : "") ">
-                                                <a href="@Url.RouteUrl("ChuyenGiaoDuLieuIndex")">
+                                            <a href="@Url.RouteUrl("ChuyenGiaoDuLieuIndex")">
                                                 <i class="fa fa-refresh"></i>
                                                 Chuyển giao dữ liệu
                                             </a>

@@ -31,7 +31,6 @@
                 </div>
                 <div class="col-md-8 value">
                     @ViewBag.Duong
-                    @*@(Model.UpdateDate.HasValue ? Model.UpdateDate.Value.ToString("dd/MM/yyyy") : Model.CreateDate.ToString("dd/MM/yyyy"))*@
                 </div>
             </div>
             <div class="row static-info">
@@ -201,6 +200,14 @@
                 </div>
                 <div class="col-md-8 value">
                     @Model.GhiChu
+                </div>
+            </div>
+            <div class="row static-info">
+                <div class="col-md-4 name">
+                    Ngày tạo
+                </div>
+                <div class="col-md-8 value">
+                    @Model.NgayTao.ToString("dd/MM/yyyy")
                 </div>
             </div>
             @*<h4>Ảnh mô tả</h4>

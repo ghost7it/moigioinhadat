@@ -42,14 +42,6 @@
                                 </div>
                             }
                             <div class="col-md-6 create-form-6">
-                                @*<div class="form-group">
-                                    @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.MatBangId, (IEnumerable<SelectListItem>)ViewBag.MatBang, "Chọn mặt bằng", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.MatBangId)
-                                    </div>
-                                </div>*@
-
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
 
@@ -71,7 +63,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.QuanId, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.QuanId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn tỉnh/thành phố", new { @class = "form-control sel-quan" })
+                                        @Html.DropDownListFor(model => model.QuanId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
                                         @Html.ValidationMessageFor(model => model.QuanId)
                                     </div>
                                 </div>
@@ -134,7 +126,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TongDienTichSuDung, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.TongDienTichSuDung, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.TongDienTichSuDung, new { @class = "form-control tong-dien-tich" })
                                         @Html.ValidationMessageFor(model => model.TongDienTichSuDung)
                                     </div>
                                 </div>
@@ -176,20 +168,20 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TongGiaThue, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.TongGiaThue, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.TongGiaThue, new { @class = "form-control tong-gia-thue" })
                                         @Html.ValidationMessageFor(model => model.TongGiaThue)
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.GiaThueBQ, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.GiaThueBQ, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.GiaThueBQ, new { @class = "form-control gia-thue-bq" })
                                         @Html.ValidationMessageFor(model => model.GiaThueBQ)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                           
+
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TenNguoiLienHeVaiTro, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
@@ -301,6 +293,7 @@
 
     </div>
 </div>
+
 @section Styles{
     @Styles.Render("~/Content/adminv1/datepicker")
 }
@@ -321,6 +314,8 @@
                 finder.popup();
 
             });
+
+            $(".gia-thue-bq").prop("disabled", true);
 
             $(document).on('click', '.select-image2', function () {
                 var finder = new CKFinder();
@@ -353,6 +348,26 @@
                 };
                 finder.popup();
 
+            });
+
+
+            $(document).on('change', '.tong-dien-tich', function () {
+                //Tonggiathue/tongS
+                if ($('.tong-gia-thue').val() != 0 && $('.tong-dient-tich').val() != 0) {
+                    var tongGiaThue = parseFloat($('.tong-gia-thue').val());
+                    var tongDienTich = parseFloat($('.tong-dien-tich').val());
+                    var bq = tongGiaThue / tongDienTich;
+                    $('.gia-thue-bq').val(parseFloat(bq).toFixed(2));
+                }
+            });
+
+            $(document).on('change', '.tong-gia-thue', function () {
+                if ($('.tong-gia-thue').val() != 0 && $('.tong-dient-tich').val() != 0) {
+                    var tongGiaThue = parseFloat($('.tong-gia-thue').val());
+                    var tongDienTich = parseFloat($('.tong-dien-tich').val());
+                    var bq = tongGiaThue / tongDienTich;
+                    $('.gia-thue-bq').val(parseFloat(bq).toFixed(2));
+                }
             });
 
             $(document).on('change', '.sel-quan', function (e) {

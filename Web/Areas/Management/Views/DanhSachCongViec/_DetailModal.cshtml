@@ -87,7 +87,7 @@
     <div class="row">
         <div class="col-md-12">
             <a href="javascript:void(0)" class="thongtinnha thongtintitle">
-                <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin nhà cần thuê
+                <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin nhà cho thuê
             </a>
         </div>
         <div class="nhucauthuecontent content_wr">
@@ -113,13 +113,19 @@
                     <span class="bold">Tên tòa nhà: </span> @ViewBag.TenToaNha
                 </p>
                }
-                
+                @if (ViewBag.isHideNguoiLienHe == 0)
+               {
                 <p>
                     <span class="bold">Tên chủ nhà : </span> @ViewBag.TenChuNha
                 </p>
-                <p>
+                }
+                @if (ViewBag.isHideSoDienThoai)
+                {
+                    <p>
                     <span class="bold">Số điện thoại: </span> @ViewBag.SoDienThoai1
                 </p>
+                }
+                
                 @if (ViewBag.IsHideMatTienTreoBien == 0)
                 {
                 <p>
@@ -193,7 +199,7 @@
     <div class="row">
         <div class="col-md-12">
             <a href="javascript:void(0)" class="thongtinupdate thongtintitle">
-                <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin mở rộng
+                <i class="fa fa-plus-square" aria-hidden="true"></i> Thông tin công việc
             </a>
         </div>
         <div class="col-md-12 updatecontent content_wr">

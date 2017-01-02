@@ -34,6 +34,9 @@ namespace Entities.Models
         [Display(Name = "Nội dung công việc")]
         public string NoiDungCongViec { get; set; }
 
+        [Display(Name = "Ngày hoàn thành")]
+        public DateTime NgayHoanThanh { get; set; }
+
         [Display(Name = "Ngày tạo")]
         public DateTime NgayTao { get; set; }
 

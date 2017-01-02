@@ -48,17 +48,20 @@
                                     <input type="checkbox" class="group-checkable" />
                                 </th>
                                 <th>
+                                    Hạn hoàn thành
+                                </th>
+                                <th>
                                     Tên người liên hệ
                                 </th>
                                 <th>
                                     Số điện thoại
                                 </th>
-                                <th>
+                                @*<th>
                                     Quận
                                 </th>
                                 <th>
                                     Đường
-                                </th>
+                                </th>*@
                                 <th>
                                     Nội dung công việc
                                 </th>
@@ -143,6 +146,11 @@
                                 }
                             },
                             {
+                                "searchable": true,                                 "orderable": true,                                 "data": null,                                 "render": function (data, type, full) {
+                                    var date = new Date(parseInt(data.NgayHoanThanh.substr(6)));                                     var formatted = ("0" + date.getDate()).slice(-2) + '-' +                                                     ("0" + (date.getMonth() + 1)).slice(-2) + '-' +                                                     date.getFullYear();                                     var ret = data.IsWarning ? '<span style="color: red;">' + formatted + '</span>' : '<span>' + formatted + '</span>';                                      return ret;
+                                }
+                            },
+                            {
                                 "searchable": true,
                                 "orderable": true,
                                 "data": null,
@@ -151,14 +159,14 @@
                                 }
                             },
                 { data: "SoDienThoai" },
-                { data: "Quan" },
-                { data: "Duong" },
+                //{ data: "Quan" },
+                //{ data: "Duong" },
                 { data: "NoiDungCongViec" },
                 { data: "TrangThai" },
                 { data: null }
                         ],
                         "order": [
-                            [6, "desc"]
+                            [5, "desc"]
                         ] // ép sắp xếp theo cột thứ 6 Trạng Thái
                     }
                 });
