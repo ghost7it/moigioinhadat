@@ -26,6 +26,15 @@ namespace Web.Areas.Management.Controllers
         [ValidationPermission(Action = ActionEnum.Read, Module = ModuleEnum.Nha)]
         public ActionResult Index()
         {
+            var quanUpdate = _repository.GetRepository<Quan>().GetAll();
+            ViewBag.QuanDropdownlist = quanUpdate.ToList().ToSelectList();
+
+            var duong = _repository.GetRepository<Duong>().GetAll();
+            ViewBag.DuongDropdownlist = duong.ToList().ToSelectList();
+
+            var matBang = _repository.GetRepository<MatBang>().GetAll();
+            ViewBag.MatBangDropdownlist = matBang.ToList().ToSelectList();
+
             ViewBag.HidenClass = RoleHelper.CheckPermission(ModuleEnum.PhanCongCongViec, ActionEnum.Read) ? "" : "hidden";
             return View();
         }
@@ -225,6 +234,31 @@ namespace Web.Areas.Management.Controllers
                 if (!string.IsNullOrEmpty(draw))
                     drawReturn = draw;
 
+                string soDienThoai = "";
+                string objectSoDienThoai = Request.Params["objectSoDienThoai"];
+                if (!string.IsNullOrEmpty(objectSoDienThoai))
+                    soDienThoai = objectSoDienThoai.ToString();
+
+                long quanId = 0;
+                string objectQuan = Request.Params["objectQuan"];
+                if (!string.IsNullOrEmpty(objectQuan))
+                    long.TryParse(objectQuan.ToString(), out quanId);
+
+                long duongId = 0;
+                string objectDuong = Request.Params["objectDuong"];
+                if (!string.IsNullOrEmpty(objectDuong))
+                    long.TryParse(objectDuong.ToString(), out duongId);
+
+                long matTienId = 0;
+                string objectMatTien = Request.Params["objectMatTien"];
+                if (!string.IsNullOrEmpty(objectMatTien))
+                    long.TryParse(objectMatTien.ToString(), out matTienId);
+
+                //long matTienId = 0;
+                //string objectMatTien = Request.Params["objectMatTien"];
+                //if (!string.IsNullOrEmpty(objectMatTien))
+                //    long.TryParse(objectMatTien.ToString(), out matTienId);
+
                 string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
                 if (!string.IsNullOrEmpty(objectStatus))
                     int.TryParse(objectStatus.ToString(), out status);
@@ -239,7 +273,7 @@ namespace Web.Areas.Management.Controllers
                 if (!string.IsNullOrEmpty(objectGiaDen))
                     decimal.TryParse(objectGiaDen.ToString(), out giaDen);
 
-                if (giaDen ==0)
+                if (giaDen == 0)
                 {
                     giaDen = decimal.MaxValue;
                 }

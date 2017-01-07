@@ -37,7 +37,90 @@
             </div>
             <div class="portlet-body">
                 <div class="table-container">
-                    <div class="table-actions-wrapper">
+                    <div class="table-actions-2-wrapper" >
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Số điện thoại
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-sodienthoai" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Quận
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("object-filter-quan", (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Đường
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("object-filter-duong", (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Mặt tiền
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("object-filter-mattien", (IEnumerable<SelectListItem>)ViewBag.MatBangDropdownlist, "Chọn mặt tiền", new { @class = "form-control sel-mattien" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Diện tích
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-dientich" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                   Ghi chú
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-ghichu" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                   Giá từ
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-tu"  />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Đến
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-den" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Trạng thái
+                                </div>
+                                <div class="col-md-8">
+                                    <select class=" form-control input-inline input-small input-sm object-filter" >
+                                        <option value="0">Chờ duyệt</option>
+                                        <option value="1">Đã duyệt</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-actions-wrapper" >
                         @if (canApprove)
                         {
                             <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
@@ -46,19 +129,7 @@
                         {
                             <button class="btn btn-sm red-flamingo table-group-action-Delete"><i class="fa fa-trash-o"></i> Xóa</button>
                         }
-                        &nbsp; &nbsp; Trạng thái &nbsp;&nbsp;<select class=" form-control input-inline input-small input-sm object-filter" style="width: 110px !important;">
-                            <option value="0">Chờ duyệt</option>
-                            <option value="1">Đã duyệt</option>
-                        </select>&nbsp;&nbsp;&nbsp;
-                        Giá từ &nbsp;&nbsp;&nbsp;&nbsp;<input class=" form-control input-inline input-small input-sm object-filter-tu" style="width: 130px !important;" />
-                        &nbsp;&nbsp;&nbsp; 
                     </div>
-                    <div class="table-actions-2-wrapper">
-                        đến &nbsp;&nbsp; <input class=" form-control input-inline input-small input-sm object-filter-den" style="width: 130px !important; " />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </div>
-                        
                     <table class="table table-striped table-bordered table-hover" id="datatable_ajax_source">
                         <thead>
                             <tr role="row" class="heading">
@@ -191,6 +262,87 @@
                     }
                 });
 
+                //Tìm kiếm START
+                //Số điện thoại
+                grid.getTableWrapper().on('change', '.object-filter-sodienthoai', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectSoDienThoai", $('.object-filter-sodienthoai').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                //Quận
+                $(document).on('change', '.sel-quan', function (e) {
+                    GetDuongByQuan($(this).val(), $(this));
+
+                    e.preventDefault();
+                    grid.setAjaxParam("objectQuan", $('.object-filter-quan').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                //Dường
+                $(document).on('change', '.sel-duong', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectDuong", $('.object-filter-duong').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                //Mặt tiền
+                $(document).on('change', '.sel-mattien', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectMatTien", $('.object-filter-mattien').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                //Diện tích
+                $(document).on('change', '.object-filter-dientich', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectDienTich", $('.object-filter-dientich').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                //Ghi chú
+                $(document).on('change', '.object-filter-ghichu', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectGhiChu", $('.object-filter-ghichu').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                //Gía từ
+                $(document).on('change', '.object-filter-tu', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectTu", $('.object-filter-tu').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                //Gía đến
+                $(document).on('change', '.object-filter-den', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectDen", $('.object-filter-den').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+                function GetDuongByQuan(id, quan) {
+                    var URL = ('@Url.RouteUrl("SharedGetDuongByQuan", new { quanId = "objectIdReplacement" })').replace('objectIdReplacement', id);
+                    $.getJSON(URL, function (data) {
+                        var items = "<option value=''>Chọn đường</option>";
+                        if (data) {
+                            $.each(data, function (i, item) {
+                                items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                            });
+                        }
+                        var duong = $(quan).closest(".table-container").find(".sel-duong");
+                        $(duong).html(items);
+                    });
+                };
+                
                 grid.getTableWrapper().on('change', '.object-filter', function (e) {
                     var sel = $(this).val();
                     e.preventDefault();
@@ -203,6 +355,8 @@
                                 $('.table-group-action-PendingPublish').removeClass('display-hide');
                                 $('.table-group-action-RecentlyAdded').addClass('display-hide');
                                 $('.table-group-action-Delete').removeClass('display-hide');
+
+                                $(".table-container > div > div > div:eq(1)").removeClass("changed-status");
                             }
                             break;
                         case '1':
@@ -210,26 +364,32 @@
                                 $('.table-group-action-PendingPublish').addClass('display-hide');
                                 $('.table-group-action-RecentlyAdded').removeClass('display-hide');
                                 $('.table-group-action-Delete').addClass('display-hide');
+
+                                $(".table-container > div > div > div:eq(1)").addClass("changed-status");
                             }
                             break;
                     }
                 });
 
-                grid.getTableWrapper().on('change', '.object-filter-tu', function (e) {
-                    e.preventDefault();
-                    grid.setAjaxParam("objectGiaTu", $('.object-filter-tu').val());
-                    grid.setAjaxParam("objectGiaDen", $('.object-filter-den').val());
-                    grid.getDataTable().ajax.reload();
-                    grid.clearAjaxParams();
-                });
+              
+               
 
-                grid.getTableWrapper().on('change', '.object-filter-den', function (e) {
-                    e.preventDefault();
-                    grid.setAjaxParam("objectGiaTu", $('.object-filter-tu').val());
-                    grid.setAjaxParam("objectGiaDen", $('.object-filter-den').val());
-                    grid.getDataTable().ajax.reload();
-                    grid.clearAjaxParams();
-                });
+                //grid.getTableWrapper().on('change', '.object-filter-tu', function (e) {
+                //    e.preventDefault();
+                //    grid.setAjaxParam("objectGiaTu", $('.object-filter-tu').val());
+                //    grid.setAjaxParam("objectGiaDen", $('.object-filter-den').val());
+                //    grid.getDataTable().ajax.reload();
+                //    grid.clearAjaxParams();
+                //});
+
+                //grid.getTableWrapper().on('change', '.object-filter-den', function (e) {
+                //    e.preventDefault();
+                //    grid.setAjaxParam("objectGiaTu", $('.object-filter-tu').val());
+                //    grid.setAjaxParam("objectGiaDen", $('.object-filter-den').val());
+                //    grid.getDataTable().ajax.reload();
+                //    grid.clearAjaxParams();
+                //});
+                //Tìm kiếm END
 
                 //Duyệt nhiều record
                 grid.getTableWrapper().on('click', '.table-group-action-PendingPublish', function (e) {
@@ -347,7 +507,37 @@
         });
     </script>
 }
-
+<style>
+    .table-container > div > div > div:nth-child(2) {
+        width: 100%;
+        margin-top: -75px;
+        padding-bottom: 30px;
+    }
+    .table-group-actions {
+        margin-top: 100px;
+        margin-bottom: -80px;
+    }
+    .dataTables_filter{
+        display: none;
+    }
+    .table-group-actions-2 {
+        float: left !important;
+        margin-top: 15px;
+        width: 100%;
+    }
+    .table-group-actions-2 .row{
+        margin-bottom: 10px;
+    }
+    .changed-status{
+        margin-top: -40px !important;
+    }
+    #object-filter-quan{
+        width:145px;
+    }
+    #object-filter-duong {
+        width: 145px;
+    }
+</style>
 
 
 

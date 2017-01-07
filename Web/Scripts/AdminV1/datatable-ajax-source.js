@@ -215,6 +215,37 @@ var DatatableAjaxSource = function () {
                 if ($('.object-filter-den'))
                     the.setAjaxParam('objectGiaDen', $('.object-filter-den').val());
             });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-sodienthoai'))
+                    the.setAjaxParam('objectSoDienThoai', $('.object-filter-sodienthoai').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-quan'))
+                    the.setAjaxParam('objectQuan', $('.object-filter-quan').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-duong'))
+                    the.setAjaxParam('objectDuong', $('.object-filter-duong').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-matien'))
+                    the.setAjaxParam('objectMatTien', $('.object-filter-mattien').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-dientich'))
+                    the.setAjaxParam('objectDienTich', $('.object-filter-dientich').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-ghichu'))
+                    the.setAjaxParam('objectGhiChu', $('.object-filter-ghichu').val());
+            });
+
         },
 
         getSelectedRowsCount: function () {
