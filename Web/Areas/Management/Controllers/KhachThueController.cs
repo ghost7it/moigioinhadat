@@ -191,7 +191,6 @@ namespace Web.Areas.Management.Controllers
             if (ModelState.IsValid)
             {
                 Khach khach = new Khach();
-
                 khach.GhiChu = StringHelper.KillChars(model.GhiChu);
                 //khach.LinhVuc = StringHelper.KillChars(model.LinhVuc);
                 khach.NgayTao = DateTime.Now;
@@ -203,7 +202,7 @@ namespace Web.Areas.Management.Controllers
                 khach.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
                 khach.NguoiPhuTrachId = AccountId;
                 khach.TrangThai = 0; //Chờ duyệt
-                int result = 0; 
+                int result = 0;
                 try
                 {
                     result = await _repository.GetRepository<Khach>().CreateAsync(khach, AccountId);
@@ -212,90 +211,105 @@ namespace Web.Areas.Management.Controllers
                 if (result > 0)
                 {
                     var khachNewerId = khach.Id;
-                    NhuCauThue nhucauthue = new NhuCauThue();
-                    if (!string.IsNullOrEmpty(model.BeNgangLotLong))
+                    if (!string.IsNullOrEmpty(model.QuanDuongArr))
                     {
-                        nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
-                    }
-                    nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
-                    nhucauthue.DiChungChu = model.DiChungChu == "1" ? true : false;
-                    if (!string.IsNullOrEmpty(model.DienTichDat))
-                    {
-                        nhucauthue.DienTichDat = float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
-                    }
-                    if (!string.IsNullOrEmpty(model.DienTichDatSuDungTang1))
-                    {
-                        nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
-                    }
-
-                    nhucauthue.DuongId = Convert.ToInt64(model.DuongId);
-                    var item1 = await _repository.GetRepository<Duong>().ReadAsync(nhucauthue.DuongId);
-                    if (item1 != null) { nhucauthue.DuongName = item1.Name; }
-                    nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
-                    if (!string.IsNullOrEmpty(model.GiaThueBQ))
-                    {
-                        nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ);
-                    }
-
-                    nhucauthue.Ham = model.Ham == "1" ? true : false;
-                    nhucauthue.KhachId = khachNewerId;
-                    nhucauthue.MatBangId = model.MatBangId;
-                    if (!string.IsNullOrEmpty(model.MatTienTreoBien))
-                    {
-                        nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
-                    }
-
-                    nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    nhucauthue.NguoiTaoId = AccountId;
-                    nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
-                    nhucauthue.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
-                    nhucauthue.QuanId = Convert.ToInt64(model.QuanId);
-                    var item = await _repository.GetRepository<Quan>().ReadAsync(nhucauthue.QuanId);
-                    if (item != null) { nhucauthue.QuanName = item.Name; }
-                    nhucauthue.SoNha = StringHelper.KillChars(model.SoNha);
-                    nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
-                    nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
-                    nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
-                    if (!string.IsNullOrEmpty(model.TongDienTichSuDung))
-                    {
-                        nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
-                    }
-                    if (!string.IsNullOrEmpty(model.TongGiaThue))
-                    {
-                        nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
-                    }
-
-                    nhucauthue.NgayTao = DateTime.Now;
-                    nhucauthue.TrangThai = 0; //Chờ duyệt
-                    int resultnhucauthue = 0;
-                    var listMatBangArr = model.ListMatBangArr;
-                    if (listMatBangArr.Any())
-                    {
-                        var matbangidarr = "";
-                        foreach (MatBangItem mb in listMatBangArr)
+                        string[] arrQuanDuong = model.QuanDuongArr.Split(';');
+                        if (arrQuanDuong.Count() > 1)
                         {
-                            if (mb.IsSelected)
+                            for (var i = 0; i < arrQuanDuong.Count(); i++)
                             {
-                                matbangidarr += mb.FieldKey;
-                                if (mb != listMatBangArr[listMatBangArr.Count - 1])
+                                string[] arrDetail = arrQuanDuong[i].Split(',');
+                                if (arrDetail.Count() > 1)
                                 {
-                                    matbangidarr += ",";
+                                    NhuCauThue nhucauthue = new NhuCauThue();
+                                    if (!string.IsNullOrEmpty(model.BeNgangLotLong))
+                                    {
+                                        nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                                    }
+                                    nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
+                                    nhucauthue.DiChungChu = model.DiChungChu == "1" ? true : false;
+                                    if (!string.IsNullOrEmpty(model.DienTichDat))
+                                    {
+                                        nhucauthue.DienTichDat = float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
+                                    }
+                                    if (!string.IsNullOrEmpty(model.DienTichDatSuDungTang1))
+                                    {
+                                        nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                                    }
+
+                                    nhucauthue.DuongId = Convert.ToInt64(arrDetail[1]);
+                                    var item1 = await _repository.GetRepository<Duong>().ReadAsync(nhucauthue.DuongId);
+                                    if (item1 != null) { nhucauthue.DuongName = item1.Name; }
+                                    nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
+                                    if (!string.IsNullOrEmpty(model.GiaThueBQ))
+                                    {
+                                        nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ);
+                                    }
+
+                                    nhucauthue.Ham = model.Ham == "1" ? true : false;
+                                    nhucauthue.KhachId = khachNewerId;
+                                    nhucauthue.MatBangId = model.MatBangId;
+                                    if (!string.IsNullOrEmpty(model.MatTienTreoBien))
+                                    {
+                                        nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                                    }
+
+                                    nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                                    nhucauthue.NguoiTaoId = AccountId;
+                                    nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
+                                    nhucauthue.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
+                                    nhucauthue.QuanId = Convert.ToInt64(arrDetail[0]);
+                                    var item = await _repository.GetRepository<Quan>().ReadAsync(nhucauthue.QuanId);
+                                    if (item != null) { nhucauthue.QuanName = item.Name; }
+                                    nhucauthue.SoNha = StringHelper.KillChars(model.SoNha);
+                                    nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
+                                    nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
+                                    nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
+                                    if (!string.IsNullOrEmpty(model.TongDienTichSuDung))
+                                    {
+                                        nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
+                                    }
+                                    if (!string.IsNullOrEmpty(model.TongGiaThue))
+                                    {
+                                        nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
+                                    }
+
+                                    nhucauthue.NgayTao = DateTime.Now;
+                                    nhucauthue.TrangThai = 0; //Chờ duyệt
+                                    int resultnhucauthue = 0;
+                                    var listMatBangArr = model.ListMatBangArr;
+                                    if (listMatBangArr.Any())
+                                    {
+                                        var matbangidarr = "";
+                                        foreach (MatBangItem mb in listMatBangArr)
+                                        {
+                                            if (mb.IsSelected)
+                                            {
+                                                matbangidarr += mb.FieldKey;
+                                                if (mb != listMatBangArr[listMatBangArr.Count - 1])
+                                                {
+                                                    matbangidarr += ",";
+                                                }
+                                            }
+                                        }
+                                        nhucauthue.MatBangId = matbangidarr;
+                                    }
+
+                                    try
+                                    {
+                                        resultnhucauthue = await _repository.GetRepository<NhuCauThue>().CreateAsync(nhucauthue, AccountId);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                    }
+                                    if (resultnhucauthue > 0)
+                                    {
+                                        TempData["Success"] = "Nhập dữ liệu khách thuê mới thành công!";
+                                    }
                                 }
                             }
                         }
-                        nhucauthue.MatBangId = matbangidarr;
-                    }
 
-                    try
-                    {
-                        resultnhucauthue = await _repository.GetRepository<NhuCauThue>().CreateAsync(nhucauthue, AccountId);
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                    if (resultnhucauthue > 0)
-                    {
-                        TempData["Success"] = "Nhập dữ liệu khách thuê mới thành công!";
                     }
                 }
                 return RedirectToAction("Index");

@@ -78,7 +78,7 @@ namespace Web.Areas.Management.Controllers
                 nha.Ham = model.Ham == "1" ? true : false;
                 nha.ThangMay = model.ThangMay == "1" ? true : false;
                 nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
-                nha.DanhGiaPhuHopVoiId = Convert.ToInt32(model.DanhGiaPhuHopVoiId);
+                nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
                 nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
                 nha.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                 nha.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
@@ -393,7 +393,7 @@ namespace Web.Areas.Management.Controllers
                     nha.Ham = model.Ham == "1" ? true : false;
                     nha.ThangMay = model.ThangMay == "1" ? true : false;
                     nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
-                    nha.DanhGiaPhuHopVoiId = Convert.ToInt32(model.DanhGiaPhuHopVoiId);
+                    nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
                     nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
                     nha.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                     nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
@@ -607,7 +607,7 @@ namespace Web.Areas.Management.Controllers
             ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
             ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
             ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId)).Name;
-            ViewBag.DanhGiaPhuHopVoi = (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(article.DanhGiaPhuHopVoiId)).Name;
+            //ViewBag.DanhGiaPhuHopVoi = (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(article.DanhGiaPhuHopVoiId)).Name;
             ViewBag.CapDoTheoDoi = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(article.CapDoTheoDoiId)).Name;
 
             //ViewBag.CreateBy = account.Name;
@@ -676,7 +676,7 @@ namespace Web.Areas.Management.Controllers
                 string quan = (await _repository.GetRepository<Quan>().ReadAsync(nha.QuanId)).Name;
                 string duong = (await _repository.GetRepository<Duong>().ReadAsync(nha.DuongId)).Name;
                 string noiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nha.NoiThatKhachThueCuId)).Name;
-                string danhGiaPhuHopVoi = (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(nha.DanhGiaPhuHopVoiId)).Name;
+                //string danhGiaPhuHopVoi = (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(nha.DanhGiaPhuHopVoiId)).Name;
                 string capDoTheoDoi = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(nha.CapDoTheoDoiId)).Name;
 
                 string strContent = "Cho thuê nhà ở ";
@@ -694,11 +694,11 @@ namespace Web.Areas.Management.Controllers
                     strContent += quan;
                 }
 
-                if (nha.DanhGiaPhuHopVoiId != null || nha.DanhGiaPhuHopVoiId != 0)
-                {
-                    strContent += ", phù hợp với ";
-                    strContent += danhGiaPhuHopVoi + ". <br/>";
-                }
+                //if (nha.DanhGiaPhuHopVoiId != null || nha.DanhGiaPhuHopVoiId != 0)
+                //{
+                //    strContent += ", phù hợp với ";
+                //    strContent += danhGiaPhuHopVoi + ". <br/>";
+                //}
 
                 if (nha.MatTienTreoBien != null || nha.MatTienTreoBien != 0)
                 {
