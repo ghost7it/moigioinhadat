@@ -9,7 +9,7 @@ namespace Entities.ViewModels
         public string TenKhach { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập tên người liên hệ")]
-        [Display(Name = "Tên người liên hệ - vai trò")]
+        [Display(Name = "Khách thuê")]
         public string TenNguoiLienHeVaiTro { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
