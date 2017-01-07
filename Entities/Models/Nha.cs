@@ -65,7 +65,7 @@ namespace Entities.Models
         public long NoiThatKhachThueCuId { get; set; }
 
         [Display(Name = "Đánh giá phù hợp với")]
-        public long DanhGiaPhuHopVoiId { get; set; }
+        public string DanhGiaPhuHopVoiId { get; set; }
 
         [Display(Name = "Tổng giá thuê")]
         public decimal TongGiaThue { get; set; }

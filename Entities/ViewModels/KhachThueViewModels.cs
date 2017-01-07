@@ -125,6 +125,15 @@ namespace Entities.ViewModels
         public string TrangThaiNhuCau { get; set; }
 
         public List<MatBangItem> ListMatBangArr { get; set; }
+
+        [Display(Name = "Quận")]
+        public string QuanMultiId { get; set; }
+
+        [Display(Name = "Đường")]
+        public string DuongMultiId { get; set; }
+
+        [Display(Name = "Quận Đường arr")]
+        public string QuanDuongArr { get; set; }
     }
     public class KhachThueUpdatingViewModel
     {
@@ -250,6 +259,15 @@ namespace Entities.ViewModels
         public string TrangThaiNhuCau { get; set; }
 
         public List<MatBangItem> ListMatBangArr { get; set; }
+
+        [Display(Name = "Quận")]
+        public string QuanMultiId { get; set; }
+
+        [Display(Name = "Đường")]
+        public string DuongMultiId { get; set; }
+
+        [Display(Name = "Quận Đường arr")]
+        public string QuanDuongArr { get; set; }
     }
 
     public class MatBangItem

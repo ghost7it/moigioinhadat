@@ -340,9 +340,9 @@
                         }
                         var duong = $(quan).closest(".table-container").find(".sel-duong");
                         $(duong).html(items);
-                    });
+                });
                 };
-                
+
                 grid.getTableWrapper().on('change', '.object-filter', function (e) {
                     var sel = $(this).val();
                     e.preventDefault();

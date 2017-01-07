@@ -33,7 +33,7 @@
                     @using (Html.BeginForm("Create", "KhachThue", FormMethod.Post, new { @class = "form-horizontal form-bordered form-row-stripped" }))
                     {
                         @Html.AntiForgeryToken()
-                        <div class="form-body">
+                        <div class="form-body form_wr">
                             @if (!ViewData.ModelState.IsValid)
                             {
                                 <div class="alert alert-danger">
@@ -68,167 +68,366 @@
                             </div>
                             <div style="clear:both"></div>
                             <p style="width:100%; height:30px; background:#ddd;font-size:16px; line-height:30px;margin-bottom:0">&nbsp; Thông tin Nhu cầu thuê</p>
-                            <div class="col-md-6 create-form-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
+                            <div class="row">
+                                <div class="col-md-6 create-form-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MatBangId, new { @class = "col-md-3 control-label" })
 
-                                    <div class="col-md-9 checkboxmatbang" style="height:129px; overflow:scroll; overflow-x:hidden;padding-top:10px">
-                                        @for (int idx = 0; idx < Model.ListMatBangArr.Count; idx++)
-                                        {
-                                            @Html.HiddenFor(x => Model.ListMatBangArr[idx].FieldKey)
-                                            @Html.CheckBoxFor(x => Model.ListMatBangArr[idx].IsSelected)
-                                            @Html.DisplayFor(x => Model.ListMatBangArr[idx].FieldName)
-                                            @Html.HiddenFor(x => Model.ListMatBangArr[idx].FieldName)
-                                            <br />
-                                        }
-                                        @Html.TextBoxFor(model => model.MatBangId, new { @Style = "visibility:hidden;height:1px", @class = "matbangidarr" })
+                                        <div class="col-md-9 checkboxmatbang" style="height:129px; overflow:scroll; overflow-x:hidden;padding-top:10px">
+                                            @for (int idx = 0; idx < Model.ListMatBangArr.Count; idx++)
+                                            {
+                                                @Html.HiddenFor(x => Model.ListMatBangArr[idx].FieldKey)
+                                                @Html.CheckBoxFor(x => Model.ListMatBangArr[idx].IsSelected)
+                                                @Html.DisplayFor(x => Model.ListMatBangArr[idx].FieldName)
+                                                @Html.HiddenFor(x => Model.ListMatBangArr[idx].FieldName)
+                                                <br />
+                                            }
+                                            @Html.TextBoxFor(model => model.MatBangId, new { @Style = "visibility:hidden;height:1px", @class = "matbangidarr" })
 
-                                    </div>
-                                    <div class="col-md-9 col-md-offset-3"> @Html.ValidationMessageFor(model => model.MatBangId)</div>
-                                </div>
-
-                                <div class="form-group">
-
-                                    @Html.LabelFor(model => model.QuanId, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-
-                                        @Html.DropDownListFor(model => model.QuanId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
-                                        @Html.ValidationMessageFor(model => model.QuanId)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DuongId, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.DuongId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
-                                        @Html.ValidationMessageFor(model => model.DuongId)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SoNha, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.SoNha, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.SoNha)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TenToaNha, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.TenToaNha, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.TenToaNha)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MatTienTreoBien, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.MatTienTreoBien, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.MatTienTreoBien)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.BeNgangLotLong, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.BeNgangLotLong, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.BeNgangLotLong)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DienTichDat, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.DienTichDat, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.DienTichDat)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DienTichDatSuDungTang1, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.DienTichDatSuDungTang1, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.DienTichDatSuDungTang1)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.CapDoTheoDoiId, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownList("CapDoTheoDoiId", (IEnumerable<SelectListItem>)ViewBag.CapDoTheoDoi, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.CapDoTheoDoiId)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SoTang, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.SoTang, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.SoTang)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TongDienTichSuDung, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.TongDienTichSuDung, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.TongDienTichSuDung)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DiChungChu, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownList("DiChungChu", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.DiChungChu)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Ham, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownList("Ham", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.Ham)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.ThangMay, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownList("ThangMay", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.ThangMay)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.NoiThatKhachThueCuId, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownList("NoiThatKhachThueCuId", (IEnumerable<SelectListItem>)ViewBag.NoiThatKhachThueCu, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.NoiThatKhachThueCuId)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TongGiaThue, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.TongGiaThue, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.TongGiaThue)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.GiaThueBQ, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextBoxFor(model => model.GiaThueBQ, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.GiaThueBQ)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.NgayCNHenLienHeLai, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        <div class="input-group input-large date-picker input-daterange" style="width: 100% !important; padding-bottom: 20px;" data-date="@DateTime.Now.ToString("dd/MM/yyyy")" data-date-format="dd/mm/yyyy">
-                                            @Html.TextBoxFor(model => model.NgayCNHenLienHeLai, new { @class = "form-control" })
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.NgayCNHenLienHeLai)
+                                        <div class="col-md-9 col-md-offset-3"> @Html.ValidationMessageFor(model => model.MatBangId)</div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.GhiChuNhuCau, new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-9">
-                                        @Html.TextAreaFor(model => model.GhiChuNhuCau, new { @class = "form-control", @style = "height: 97px;" })
-                                        @Html.ValidationMessageFor(model => model.GhiChuNhuCau)
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SoTang, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.SoTang, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.SoTang)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TongDienTichSuDung, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.TongDienTichSuDung, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TongDienTichSuDung)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row create-form-6 form-body">
+                                <span class="btn btn-sm green pull-right addquanduong"><i class="fa fa-plus"></i> Thêm</span>
+                            </div>
+                            <div class="row create-form-6 row1 quanduongwr backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
 
+                                            @Html.DropDownListFor(model => model.QuanId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row2 quanduongwr hidden  backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row3 quanduongwr hidden backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row4 quanduongwr hidden backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row5 quanduongwr hidden backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row6 quanduongwr hidden backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row7 quanduongwr hidden backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row8 quanduongwr hidden backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row9 quanduongwr hidden backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row create-form-6 row10 quanduongwr hidden backgrrow form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.QuanMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.QuanMultiId, (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                            @Html.ValidationMessageFor(model => model.QuanMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DuongMultiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.DuongMultiId, (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                            @Html.ValidationMessageFor(model => model.DuongMultiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.QuanDuongArr)
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SoNha, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.SoNha, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.SoNha)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TenToaNha, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.TenToaNha, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TenToaNha)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MatTienTreoBien, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.MatTienTreoBien, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.MatTienTreoBien)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BeNgangLotLong, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.BeNgangLotLong, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.BeNgangLotLong)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DienTichDat, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.DienTichDat, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DienTichDat)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DienTichDatSuDungTang1, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.DienTichDatSuDungTang1, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DienTichDatSuDungTang1)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CapDoTheoDoiId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("CapDoTheoDoiId", (IEnumerable<SelectListItem>)ViewBag.CapDoTheoDoi, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.CapDoTheoDoiId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DiChungChu, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("DiChungChu", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DiChungChu)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Ham, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("Ham", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Ham)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ThangMay, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("ThangMay", (IEnumerable<SelectListItem>)ViewBag.ListYesOrNo, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ThangMay)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.NoiThatKhachThueCuId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("NoiThatKhachThueCuId", (IEnumerable<SelectListItem>)ViewBag.NoiThatKhachThueCu, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.NoiThatKhachThueCuId)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TongGiaThue, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.TongGiaThue, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TongGiaThue)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.GiaThueBQ, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.GiaThueBQ, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.GiaThueBQ)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.NgayCNHenLienHeLai, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            <div class="input-group input-large date-picker input-daterange" style="width: 100% !important; padding-bottom: 20px;" data-date="@DateTime.Now.ToString("dd/MM/yyyy")" data-date-format="dd/mm/yyyy">
+                                                @Html.TextBoxFor(model => model.NgayCNHenLienHeLai, new { @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.NgayCNHenLienHeLai)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.GhiChuNhuCau, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-9">
+                                            @Html.TextAreaFor(model => model.GhiChuNhuCau, new { @class = "form-control", @style = "height: 97px;" })
+                                            @Html.ValidationMessageFor(model => model.GhiChuNhuCau)
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                         <div class="form-actions">
                             <div class="row">
@@ -323,6 +522,28 @@
                 }
 
             });
+
+            $(".addquanduong").click(function () {
+                var rowcountnothidden = $(".form_wr .quanduongwr:not('.hidden')").length;
+                if (rowcountnothidden > 9) { alert("Tối đa được nhập 10 quận/đường"); return false;}
+                $(".form_wr .quanduongwr.row" + (rowcountnothidden +1) + "").removeClass("hidden");
+            });
+            $("button:submit").click(function () {
+                var arrQuanDuong = "";
+                if ($("select[name='QuanId']").val() != "" && $("select[name='QuanId']").val() != undefined && $("select[name='DuongId']").val() != "" && $("select[name='DuongId']").val() != undefined) {
+                    arrQuanDuong += $("select[name='QuanId']").val();
+                    arrQuanDuong += "," + $("select[name='QuanId']").val();
+                }
+                $(".form_wr .quanduongwr:not('.hidden')").each(function () {
+                    var quanindexvalue = $(this).find("select[name='QuanMultiId']").val();
+                    var duongindexvalue = $(this).find("select[name='DuongMultiId']").val();
+                    if (quanindexvalue != "" && quanindexvalue != undefined && duongindexvalue != "" && duongindexvalue != undefined) {
+                        arrQuanDuong += ";" + quanindexvalue;
+                        arrQuanDuong += "," + duongindexvalue;
+                    }
+                });
+                $("input[name='QuanDuongArr']").val(arrQuanDuong);
+            });
         });
 
     </script>
@@ -332,5 +553,9 @@
     .control-label {
         text-align: left !important;
         padding-top: 15px !important;
+    }
+
+    .backgrrow {
+        background: #e9e9e9;
     }
 </style>
