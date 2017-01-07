@@ -688,7 +688,7 @@ namespace Web.Areas.Management.Controllers
 
                 }
 
-                if (nha.QuanId != null || nha.QuanId != 0)
+                if (nha.QuanId != null || nha.QuanId != 0) 
                 {
                     strContent += "quận ";
                     strContent += quan;
