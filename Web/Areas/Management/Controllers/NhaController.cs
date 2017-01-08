@@ -58,6 +58,18 @@ namespace Web.Areas.Management.Controllers
             }
             model.ListMatBangArr = listMatBangArr;
 
+            //Đánh giá phù hợp với
+            var danhGia = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
+            var listDanhGiaArr = new List<DanhGiaPhuHopVoiItem>();
+            if (danhGia.Any())
+            {
+                foreach (var item in danhGia)
+                {
+                    listDanhGiaArr.Add(new DanhGiaPhuHopVoiItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
+                }
+            }
+            model.ListDanhGiaPhuHopVoiArr = listDanhGiaArr;
+
             return View(model);
         }
 
@@ -359,13 +371,36 @@ namespace Web.Areas.Management.Controllers
                     }
                 }
             }
-
+            var danhGia = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
+            var listDanhGiaArr = new List<DanhGiaPhuHopVoiItem>();
+            if (danhGia.Any())
+            {
+                foreach (var item in danhGia)
+                {
+                    listDanhGiaArr.Add(new DanhGiaPhuHopVoiItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
+                }
+            }
+            if (!string.IsNullOrEmpty(nha.DanhGiaPhuHopVoiId))
+            {
+                string[] arrdanhgiaid = nha.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (arrdanhgiaid.Count() > 0)
+                {
+                    for (var i = 0; i < arrdanhgiaid.Count(); i++)
+                    {
+                        foreach (var item in listDanhGiaArr.Where(w => w.FieldKey == Convert.ToInt32(arrdanhgiaid[i])))
+                        {
+                            item.IsSelected = true;
+                        }
+                    }
+                }
+            }
             NhaUpdatingViewModel model = new NhaUpdatingViewModel()
             {
                 Id = nha.Id,
                 SoNha = nha.SoNha,
                 MatBangId = nha.MatBangId,
                 ListMatBangArr = listMatBangArr,
+                ListDanhGiaPhuHopVoiArr = listDanhGiaArr,
                 QuanId = nha.QuanId.ToString(),
                 DuongId = nha.DuongId.ToString(),
                 TenToaNha = nha.TenToaNha,
@@ -404,7 +439,7 @@ namespace Web.Areas.Management.Controllers
         [ValidateInput(false)]
         [Route("cap-nhat-nha")]
         [ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Nha)]
-        public async Task<ActionResult> Update(long id, NhaUpdatingViewModel model)
+        public async Task<ActionResult> Update(long id, NhaUpdatingViewModel model, NhaUpdatingViewModel _modelBK)
         {
             try
             {
@@ -457,7 +492,8 @@ namespace Web.Areas.Management.Controllers
 
                         foreach (var item in nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                         {
-                            string name = _repository.GetRepository<MatBang>().GetAll().Where(t => t.Id == Convert.ToInt32(item)).Select(o => o.Name).ToString();
+                            var matBangId = Convert.ToInt32(item);
+                            string name = _repository.GetRepository<MatBang>().GetAll().FirstOrDefault(t => t.Id == matBangId).Name;
                             strNew = strNew == "" ? name : strNew + ", " + name;
                         }
 
@@ -633,6 +669,21 @@ namespace Web.Areas.Management.Controllers
                         if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
                         {
                             ViewBag.MatBang += @"</br>";
+                        }
+                    }
+                }
+            }
+            string[] danhgiaarr = article.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            if (danhgiaarr.Count() > 0)
+            {
+                for (var i = 0; i < danhgiaarr.Count(); i++)
+                {
+                    if (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i])) != null)
+                    {
+                        ViewBag.DanhGiaPhuHopVoi += (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i]))).Name;
+                        if (danhgiaarr[i] != danhgiaarr[danhgiaarr.Count() - 1])
+                        {
+                            ViewBag.DanhGiaPhuHopVoi += @"</br>";
                         }
                     }
                 }

@@ -170,11 +170,39 @@ namespace Web.Areas.Management.Controllers
 
             //var account = await _repository.GetRepository<Account>().ReadAsync(article.NguoiTaoId);
 
-            //ViewBag.MatBang = (await _repository.GetRepository<MatBang>().ReadAsync(article.MatBangId)).Name;
+            string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (matbangarr.Count() > 0)
+            {
+                for (var i = 0; i < matbangarr.Count(); i++)
+                {
+                    if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                    {
+                        ViewBag.MatBang += (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                        if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                        {
+                            ViewBag.MatBang += @"</br>";
+                        }
+                    }
+                }
+            }
+            string[] danhgiaarr = article.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            if (danhgiaarr.Count() > 0)
+            {
+                for (var i = 0; i < danhgiaarr.Count(); i++)
+                {
+                    if (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i])) != null)
+                    {
+                        ViewBag.DanhGiaPhuHopVoi += (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i]))).Name;
+                        if (danhgiaarr[i] != danhgiaarr[danhgiaarr.Count() - 1])
+                        {
+                            ViewBag.DanhGiaPhuHopVoi += @"</br>";
+                        }
+                    }
+                }
+            }
             ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
             ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
             ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId)).Name;
-            //ViewBag.DanhGiaPhuHopVoi = (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(article.DanhGiaPhuHopVoiId)).Name;
             ViewBag.CapDoTheoDoi = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(article.CapDoTheoDoiId)).Name;
 
             //ViewBag.CreateBy = account.Name;
