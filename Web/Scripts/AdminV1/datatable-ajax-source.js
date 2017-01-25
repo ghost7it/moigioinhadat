@@ -207,45 +207,59 @@ var DatatableAjaxSource = function () {
 
 
             table.on('search.dt', function () {
-                if ($('.object-filter-tu'))
-                    the.setAjaxParam('objectGiaTu', $('.object-filter-tu').val());
-            });
-
-            table.on('search.dt', function () {
-                if ($('.object-filter-den'))
-                    the.setAjaxParam('objectGiaDen', $('.object-filter-den').val());
-            });
-
-            table.on('search.dt', function () {
-                if ($('.object-filter-sodienthoai'))
-                    the.setAjaxParam('objectSoDienThoai', $('.object-filter-sodienthoai').val());
-            });
-
-            table.on('search.dt', function () {
-                if ($('.object-filter-quan'))
-                    the.setAjaxParam('objectQuan', $('.object-filter-quan').val());
-            });
-
-            table.on('search.dt', function () {
-                if ($('.object-filter-duong'))
-                    the.setAjaxParam('objectDuong', $('.object-filter-duong').val());
-            });
-
-            table.on('search.dt', function () {
-                if ($('.object-filter-matien'))
-                    the.setAjaxParam('objectMatTien', $('.object-filter-mattien').val());
-            });
-
-            table.on('search.dt', function () {
-                if ($('.object-filter-dientich'))
-                    the.setAjaxParam('objectDienTich', $('.object-filter-dientich').val());
-            });
-
-            table.on('search.dt', function () {
                 if ($('.object-filter-ghichu'))
                     the.setAjaxParam('objectGhiChu', $('.object-filter-ghichu').val());
             });
 
+            table.on('search.dt', function () {
+                if ($('.object-filter-tenkhach'))
+                    the.setAjaxParam('objectTenKhach', $('.object-filter-tenkhach').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-quan'))
+                    the.setAjaxParam('objectQuan', $('.sel-quan').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-duong'))
+                    the.setAjaxParam('objectDuong', $('.sel-duong').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-mattien'))
+                    the.setAjaxParam('objectMatTien', $('.sel-mattien').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-giathuetu'))
+                    the.setAjaxParam('objectGiaThueTu', $('.object-filter-giathuetu').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-giathueden'))
+                    the.setAjaxParam('objectGiaThueDen', $('.object-filter-giathueden').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-dtsdt1tu'))
+                    the.setAjaxParam('objectDTSDT1Tu', $('.object-filter-dtsdt1tu').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-dtsdt1den'))
+                    the.setAjaxParam('objectDTSDT1Den', $('.object-filter-dtsdt1den').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-tongdtsdtu'))
+                    the.setAjaxParam('objectTongDTSDTu', $('.object-filter-tongdtsdtu').val());
+            });
+            
+            table.on('search.dt', function () {
+                if ($('.object-filter-tongdtsdden'))
+                    the.setAjaxParam('objectTongDTSDDen', $('.object-filter-tongdtsdden').val());
+            });
         },
 
         getSelectedRowsCount: function () {

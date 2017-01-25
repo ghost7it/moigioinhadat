@@ -24,6 +24,15 @@ namespace Web.Areas.Management.Controllers
         [ValidationPermission(Action = ActionEnum.Read, Module = ModuleEnum.Khach)]
         public ActionResult Index()
         {
+            var quanUpdate = _repository.GetRepository<Quan>().GetAll();
+            ViewBag.QuanDropdownlist = quanUpdate.ToList().ToSelectList();
+
+            var duong = _repository.GetRepository<Duong>().GetAll();
+            ViewBag.DuongDropdownlist = duong.ToList().ToSelectList();
+
+            var matBang = _repository.GetRepository<MatBang>().GetAll();
+            ViewBag.MatBangDropdownlist = matBang.ToList().ToSelectList();
+
             ViewBag.HidenClass = RoleHelper.CheckPermission(ModuleEnum.PhanCongCongViec, ActionEnum.Read) ? "" : "hidden";
 
             return View();
@@ -578,11 +587,11 @@ namespace Web.Areas.Management.Controllers
          */
 
         [Route("danh-sach-khach-thue-json", Name = "GetKhachThueJson")]
-        public ActionResult GetKhachThueJson()
+        public ActionResult GetKhachThueJson(int status)
         {
             string drawReturn = "1";
 
-            byte status;
+            //int status = 0;
 
             int skip = 0;
             int take = 10;
@@ -607,7 +616,78 @@ namespace Web.Areas.Management.Controllers
 
             string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
             if (!string.IsNullOrEmpty(objectStatus))
-                byte.TryParse(objectStatus.ToString(), out status);
+                int.TryParse(objectStatus.ToString(), out status);
+
+            string ghiChu = "";
+            string objectGhiChu = Request.Params["objectGhiChu"];
+            if (!string.IsNullOrEmpty(objectGhiChu))
+                ghiChu = objectGhiChu.ToString();
+
+            string tenKhach = "";
+            string objectTenKhach = Request.Params["objectTenKhach"];
+            if (!string.IsNullOrEmpty(objectTenKhach))
+                tenKhach = objectTenKhach.ToString();
+
+            long quanId = 0;
+            string objectQuan = Request.Params["objectQuan"];
+            if (!string.IsNullOrEmpty(objectQuan))
+                long.TryParse(objectQuan.ToString(), out quanId);
+
+            long duongId = 0;
+            string objectDuong = Request.Params["objectDuong"];
+            if (!string.IsNullOrEmpty(objectDuong))
+                long.TryParse(objectDuong.ToString(), out duongId);
+
+            string matTienId = "";
+            string objectMatTien = Request.Params["objectMatTien"];
+            if (!string.IsNullOrEmpty(objectMatTien))
+                matTienId = objectMatTien.ToString();
+
+            decimal giaThueTu = 0;
+            string objectGiaThueTu = Request.Params["objectGiaThueTu"];
+            if (!string.IsNullOrEmpty(objectGiaThueTu))
+                decimal.TryParse(objectGiaThueTu.ToString(), out giaThueTu);
+
+            decimal giaThueDen = 0;
+            string objectGiaThueDen = Request.Params["objectGiaThueDen"];
+            if (!string.IsNullOrEmpty(objectGiaThueDen))
+                decimal.TryParse(objectGiaThueDen.ToString(), out giaThueDen);
+
+            if (giaThueDen == 0)
+            {
+                giaThueDen = decimal.MaxValue;
+            }
+
+            float dtsdt1Tu = 0;
+            string objectDTSDT1Tu = Request.Params["objectDTSDT1Tu"];
+            if (!string.IsNullOrEmpty(objectDTSDT1Tu))
+                float.TryParse(objectDTSDT1Tu.ToString(), out dtsdt1Tu);
+
+            float dtsdt1Den = 0;
+            string objectDTSDT1Den = Request.Params["objectDTSDT1Den"];
+            if (!string.IsNullOrEmpty(objectDTSDT1Den))
+                float.TryParse(objectDTSDT1Den.ToString(), out dtsdt1Den);
+
+            if (dtsdt1Den == 0)
+            {
+                dtsdt1Den = float.MaxValue;
+            }
+
+            float tongDTSDTu = 0;
+            string objectTongDTSDTu = Request.Params["objectTongDTSDTu"];
+            if (!string.IsNullOrEmpty(objectTongDTSDTu))
+                float.TryParse(objectTongDTSDTu.ToString(), out tongDTSDTu);
+
+            float tongDTSDDen = 0;
+            string objectTongDTSDDen = Request.Params["objectTongDTSDDen"];
+            if (!string.IsNullOrEmpty(objectTongDTSDDen))
+                float.TryParse(objectTongDTSDDen.ToString(), out tongDTSDDen);
+
+            if (tongDTSDDen == 0)
+            {
+                tongDTSDDen = float.MaxValue;
+            }
+
             Paging paging = new Paging()
             {
                 TotalRecord = 0,
@@ -621,9 +701,7 @@ namespace Web.Areas.Management.Controllers
             var articles = _repository.GetRepository<Khach>().GetAll(ref paging,
                                                                   orderKey,
                                                                   o => (key == null ||
-                                                                        key == "" ||
-                                                                        o.TenNguoiLienHeVaiTro.Contains(key) ||
-                                                                        o.SoDienThoai.Contains(key)) && isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId)
+                                                                        key == "") && isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId)
                                                                         .LeftJoin(                                           /// Source Collection
                                                                             _repository.GetRepository<NhuCauThue>().GetAll(),/// Inner Collection
                                                                             p => p.Id,                                       /// PK
@@ -643,9 +721,24 @@ namespace Web.Areas.Management.Controllers
                     NhuCauThueId = o.NhuCauThue == null ? 0 : o.NhuCauThue.Id,
                     Quan = o.NhuCauThue == null ? "" : o.NhuCauThue.QuanName,
                     Duong = o.NhuCauThue == null ? "" : o.NhuCauThue.DuongName,
-                    //TongGiaThue = o.NhuCauThue == null ? "" : o.NhuCauThue.TongGiaThue.ToString(),
-                    TrangThai = o.NhuCauThue == null ? "" : (o.NhuCauThue.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt")
-                })
+                    TrangThai = o.NhuCauThue == null ? "" : (o.NhuCauThue.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"),
+                    TrangThaiId = o.NhuCauThue.TrangThai,
+                    o.NhuCauThue.GhiChu,
+                    o.NhuCauThue.QuanId,
+                    o.NhuCauThue.DuongId,
+                    o.NhuCauThue.MatBangId,
+                    o.NhuCauThue.TongGiaThue,
+                    o.NhuCauThue.DienTichDatSuDungTang1,
+                    o.NhuCauThue.TongDienTichSuDung
+                }).Where(t => (t.GhiChu.Contains(ghiChu) || ghiChu == "") &&
+                       (t.QuanId == quanId || quanId == 0) &&
+                       (t.DuongId == duongId || duongId == 0) &&
+                       (t.TrangThaiId == status) &&
+                       (t.MatBangId.Contains(matTienId) || matTienId == "") &&
+                       (t.TenNguoiLienHeVaiTro.Contains(tenKhach) || tenKhach == "") &&
+                       (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
+                       (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
+                       (tongDTSDTu <= t.TongDienTichSuDung && t.TongDienTichSuDung <= tongDTSDDen))
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -849,14 +942,12 @@ namespace Web.Areas.Management.Controllers
                 var khachthue = await _repository.GetRepository<Khach>().ReadAsync(id);
                 var nhucauthue = await _repository.GetRepository<NhuCauThue>().ReadAsync(nhucauId);
 
-                //if (phancong != null)
-                //{
-                //    var nhanvien = _repository.GetRepository<Account>().GetAll().SingleOrDefault(o => o.Id == phancong.NhanVienPhuTrachId);
-                //    if (nhanvien != null) nhanvienchamsocname = nhanvien.Name;
-                //}
-
-                var result = _repository.GetRepository<Nha>().GetAll().Where(o => o.MatBangId.Equals(nhucauthue.MatBangId) || o.QuanId.Equals(nhucauthue.QuanId) || o.DuongId.Equals(nhucauthue.DuongId)).ToList();
-                //.Join(_repository.GetRepository<NhuCauThue>().GetAll(), b => b., c => c.Id, (b, c) => new { NhuCauThue = b, Nha = c }).ToList();
+                var result = _repository.GetRepository<Nha>().GetAll()
+                                        .Where(o => o.MatTienTreoBien >= (nhucauthue.MatTienTreoBien * 0.75) &&
+                                               o.DienTichDatSuDungTang1 >= (nhucauthue.DienTichDatSuDungTang1 * 0.75) &&
+                                               o.TongDienTichSuDung >= (nhucauthue.TongDienTichSuDung * 0.75) &&
+                                               o.QuanId.Equals(nhucauthue.QuanId) &&
+                                               o.DuongId.Equals(nhucauthue.DuongId)).ToList();
 
                 var data = result.Select(o => new NhaUpdatingViewModel
                 {

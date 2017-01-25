@@ -72,6 +72,14 @@ namespace Web.Areas.Management.Controllers
             {
                 Nha nha = new Nha();
 
+                decimal giaThueBQ = 0;
+
+                if (!string.IsNullOrEmpty(model.TongGiaThue) && !string.IsNullOrEmpty(model.TongDienTichSuDung))
+                {
+                    giaThueBQ =Convert.ToDecimal(model.TongGiaThue) / Convert.ToDecimal(model.TongDienTichSuDung);
+                }
+
+
                 nha.MatBangId = model.MatBangId;
                 nha.QuanId = Convert.ToInt64(model.QuanId);
                 nha.DuongId = Convert.ToInt64(model.DuongId);
@@ -89,7 +97,7 @@ namespace Web.Areas.Management.Controllers
                 nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
                 nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
                 nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
-                nha.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
+                nha.GiaThueBQ = giaThueBQ; //string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                 nha.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
                 nha.SoDienThoai = StringHelper.KillChars(model.SoDienThoai);
                 nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -234,10 +242,10 @@ namespace Web.Areas.Management.Controllers
                 if (!string.IsNullOrEmpty(draw))
                     drawReturn = draw;
 
-                string soDienThoai = "";
-                string objectSoDienThoai = Request.Params["objectSoDienThoai"];
-                if (!string.IsNullOrEmpty(objectSoDienThoai))
-                    soDienThoai = objectSoDienThoai.ToString();
+                string ghiChu = "";
+                string objectGhiChu = Request.Params["objectGhiChu"];
+                if (!string.IsNullOrEmpty(objectGhiChu))
+                    ghiChu = objectGhiChu.ToString();
 
                 long quanId = 0;
                 string objectQuan = Request.Params["objectQuan"];
@@ -249,33 +257,58 @@ namespace Web.Areas.Management.Controllers
                 if (!string.IsNullOrEmpty(objectDuong))
                     long.TryParse(objectDuong.ToString(), out duongId);
 
-                long matTienId = 0;
+                string matTienId = "";
                 string objectMatTien = Request.Params["objectMatTien"];
                 if (!string.IsNullOrEmpty(objectMatTien))
-                    long.TryParse(objectMatTien.ToString(), out matTienId);
+                    matTienId = objectMatTien.ToString();
 
-                //long matTienId = 0;
-                //string objectMatTien = Request.Params["objectMatTien"];
-                //if (!string.IsNullOrEmpty(objectMatTien))
-                //    long.TryParse(objectMatTien.ToString(), out matTienId);
+                decimal giaThueTu = 0;
+                string objectGiaThueTu = Request.Params["objectGiaThueTu"];
+                if (!string.IsNullOrEmpty(objectGiaThueTu))
+                    decimal.TryParse(objectGiaThueTu.ToString(), out giaThueTu);
+
+                decimal giaThueDen = 0;
+                string objectGiaThueDen = Request.Params["objectGiaThueDen"];
+                if (!string.IsNullOrEmpty(objectGiaThueDen))
+                    decimal.TryParse(objectGiaThueDen.ToString(), out giaThueDen);
+
+                if (giaThueDen == 0)
+                {
+                    giaThueDen = decimal.MaxValue;
+                }
+
+                float dtsdt1Tu = 0;
+                string objectDTSDT1Tu = Request.Params["objectDTSDT1Tu"];
+                if (!string.IsNullOrEmpty(objectDTSDT1Tu))
+                    float.TryParse(objectDTSDT1Tu.ToString(), out dtsdt1Tu);
+
+                float dtsdt1Den = 0;
+                string objectDTSDT1Den = Request.Params["objectDTSDT1Den"];
+                if (!string.IsNullOrEmpty(objectDTSDT1Den))
+                    float.TryParse(objectDTSDT1Den.ToString(), out dtsdt1Den);
+
+                if (dtsdt1Den == 0)
+                {
+                    dtsdt1Den = float.MaxValue;
+                }
 
                 string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
                 if (!string.IsNullOrEmpty(objectStatus))
                     int.TryParse(objectStatus.ToString(), out status);
 
-                decimal giaTu = 0;
-                string objectGiaTu = Request.Params["objectGiaTu"];
-                if (!string.IsNullOrEmpty(objectGiaTu))
-                    decimal.TryParse(objectGiaTu.ToString(), out giaTu);
+                float tongDTSDTu = 0;
+                string objectTongDTSDTu = Request.Params["objectTongDTSDTu"];
+                if (!string.IsNullOrEmpty(objectTongDTSDTu))
+                    float.TryParse(objectTongDTSDTu.ToString(), out tongDTSDTu);
 
-                decimal giaDen = 0;
-                string objectGiaDen = Request.Params["objectGiaDen"];
-                if (!string.IsNullOrEmpty(objectGiaDen))
-                    decimal.TryParse(objectGiaDen.ToString(), out giaDen);
+                float tongDTSDDen = 0;
+                string objectTongDTSDDen = Request.Params["objectTongDTSDDen"];
+                if (!string.IsNullOrEmpty(objectTongDTSDDen))
+                    float.TryParse(objectTongDTSDDen.ToString(), out tongDTSDDen);
 
-                if (giaDen == 0)
+                if (tongDTSDDen == 0)
                 {
-                    giaDen = decimal.MaxValue;
+                    tongDTSDDen = float.MaxValue;
                 }
 
                 Paging paging = new Paging()
@@ -291,12 +324,15 @@ namespace Web.Areas.Management.Controllers
                 var articles = _repository.GetRepository<Nha>().GetAll(ref paging,
                                                                        orderKey,
                                                                        o => (key == null ||
-                                                                             key == "" ||
-
-                                                                             o.TenNguoiLienHeVaiTro.Contains(key) ||
-                                                                             o.SoDienThoai.Contains(key)) &&
-                                                                              (giaTu <= o.TongGiaThue && o.TongGiaThue <= giaDen) &&
-                                                                             (o.TrangThai == status) &&
+                                                                             key == "") &&
+                                                                             (o.GhiChu.Contains(ghiChu) || ghiChu == "") &&
+                                                                             (o.QuanId == quanId || quanId == 0) &&
+                                                                             (o.DuongId == duongId || duongId == 0) &&
+                                                                             (o.MatBangId.Contains(matTienId) || matTienId == "") &&
+                                                                              (giaThueTu <= o.TongGiaThue && o.TongGiaThue <= giaThueDen) &&
+                                                                              (dtsdt1Tu <= o.DienTichDatSuDungTang1 && o.DienTichDatSuDungTang1 <= dtsdt1Den) &&
+                                                                               (o.TrangThai == status) &&
+                                                                              (tongDTSDTu <= o.TongDienTichSuDung && o.TongDienTichSuDung <= tongDTSDDen) &&
                                                                              (isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId))
                                                                              .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
                                                                              .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, g => g.Id, (b, g) => new { Nha = b, Duong = g })
@@ -316,7 +352,10 @@ namespace Web.Areas.Management.Controllers
                         o.Nha.Nha.Nha.SoDienThoai,
                         o.Nha.Nha.Nha.TongGiaThue,
                         CapDoTheoDoi = o.CapDoTheoDoi.Name,
-                        TrangThai = o.Nha.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"
+                        TrangThai = o.Nha.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt",
+                        MatTien = "",
+                        DTSDT1 = 0,
+                        TongDTSD = 0
                     })
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -412,6 +451,13 @@ namespace Web.Areas.Management.Controllers
                 {
                     Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
+                    decimal giaThueBQ = 0;
+
+                    if (!string.IsNullOrEmpty(model.TongGiaThue) && !string.IsNullOrEmpty(model.TongDienTichSuDung))
+                    {
+                        giaThueBQ = Convert.ToDecimal(model.TongGiaThue) / Convert.ToDecimal(model.TongDienTichSuDung);
+                    }
+
                     nha.MatBangId = model.MatBangId;
                     nha.QuanId = Convert.ToInt64(model.QuanId);
                     nha.DuongId = Convert.ToInt64(model.DuongId);
@@ -429,7 +475,7 @@ namespace Web.Areas.Management.Controllers
                     nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
                     nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
                     nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
-                    nha.GiaThueBQ = string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
+                    nha.GiaThueBQ = giaThueBQ; //string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                     nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
                     nha.SoDienThoai = model.SoDienThoai;
                     nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -445,56 +491,56 @@ namespace Web.Areas.Management.Controllers
                     //So sánh để tìm ra nội dung thay đổi
                     if (result > 0)
                     {
-                        string noiDungThayDoi = "";
-                        string strOld = "";
-                        string strNew = "";
+                        //string noiDungThayDoi = "";
+                        //string strOld = "";
+                        //string strNew = "";
 
-                        //Mặt bằng
-                        foreach (var item in _modelBK.ListMatBangArr)
-                        {
-                            strOld = strOld == "" ? item.FieldName : strOld + ", " + item.FieldName;
-                        }
+                        ////Mặt bằng
+                        //foreach (var item in _modelBK.ListMatBangArr)
+                        //{
+                        //    strOld = strOld == "" ? item.FieldName : strOld + ", " + item.FieldName;
+                        //}
 
-                        foreach (var item in nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                        {
-                            string name = _repository.GetRepository<MatBang>().GetAll().Where(t => t.Id == Convert.ToInt32(item)).Select(o => o.Name).ToString();
-                            strNew = strNew == "" ? name : strNew + ", " + name;
-                        }
+                        //foreach (var item in nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                        //{
+                        //    string name = _repository.GetRepository<MatBang>().GetAll().Where(t => t.Id == Convert.ToInt32(item)).Select(o => o.Name).ToString();
+                        //    strNew = strNew == "" ? name : strNew + ", " + name;
+                        //}
 
-                        if (strNew != strOld)
-                        {
-                            noiDungThayDoi = "Sửa mặt bằng từ: " + strOld + " thành: " + strNew;
-                        }
+                        //if (strNew != strOld)
+                        //{
+                        //    noiDungThayDoi = "Sửa mặt bằng từ: " + strOld + " thành: " + strNew;
+                        //}
 
-                        //Quận
-                        strOld = strNew = "";
+                        ////Quận
+                        //strOld = strNew = "";
 
-                        if (_modelBK.QuanId != nha.QuanId.ToString())
-                        {
-                            strOld = _repository.GetRepository<Quan>().GetAll().Where(t => t.Id == Convert.ToInt32(_modelBK.QuanId)).Select(o => o.Name).ToString();
-                            strNew = _repository.GetRepository<Quan>().GetAll().Where(t => t.Id == Convert.ToInt32(nha.QuanId)).Select(o => o.Name).ToString();
+                        //if (_modelBK.QuanId != nha.QuanId.ToString())
+                        //{
+                        //    strOld = _repository.GetRepository<Quan>().GetAll().Where(t => t.Id == Convert.ToInt32(_modelBK.QuanId)).Select(o => o.Name).ToString();
+                        //    strNew = _repository.GetRepository<Quan>().GetAll().Where(t => t.Id == Convert.ToInt32(nha.QuanId)).Select(o => o.Name).ToString();
 
-                            noiDungThayDoi = noiDungThayDoi == "" ? "Sửa quận từ: " + strOld + " thành: " + strNew : noiDungThayDoi + "<br/>" + "Sửa quận từ: " + strOld + " thành: " + strNew;
-                        }
+                        //    noiDungThayDoi = noiDungThayDoi == "" ? "Sửa quận từ: " + strOld + " thành: " + strNew : noiDungThayDoi + "<br/>" + "Sửa quận từ: " + strOld + " thành: " + strNew;
+                        //}
 
-                        //Đường
-                        strOld = strNew = "";
+                        ////Đường
+                        //strOld = strNew = "";
 
-                        if (_modelBK.DuongId != nha.DuongId.ToString())
-                        {
-                            strOld = _repository.GetRepository<Duong>().GetAll().Where(t => t.Id == Convert.ToInt32(_modelBK.DuongId)).Select(o => o.Name).ToString();
-                            strNew = _repository.GetRepository<Duong>().GetAll().Where(t => t.Id == Convert.ToInt32(nha.DuongId)).Select(o => o.Name).ToString();
+                        //if (_modelBK.DuongId != nha.DuongId.ToString())
+                        //{
+                        //    strOld = _repository.GetRepository<Duong>().GetAll().Where(t => t.Id == Convert.ToInt32(_modelBK.DuongId)).Select(o => o.Name).ToString();
+                        //    strNew = _repository.GetRepository<Duong>().GetAll().Where(t => t.Id == Convert.ToInt32(nha.DuongId)).Select(o => o.Name).ToString();
 
-                            noiDungThayDoi = noiDungThayDoi == "" ? "Sửa đường từ: " + strOld + " thành: " + strNew : noiDungThayDoi + "<br/>" + "Sửa đường từ: " + strOld + " thành: " + strNew;
-                        }
+                        //    noiDungThayDoi = noiDungThayDoi == "" ? "Sửa đường từ: " + strOld + " thành: " + strNew : noiDungThayDoi + "<br/>" + "Sửa đường từ: " + strOld + " thành: " + strNew;
+                        //}
 
-                        //Số nhà
-                        strOld = strNew = "";
+                        ////Số nhà
+                        //strOld = strNew = "";
 
-                        if (_modelBK.SoNha != nha.SoNha)
-                        {
-                            noiDungThayDoi = noiDungThayDoi == "" ? "Sửa số nhà từ: " + _modelBK.SoNha + " thành: " + nha.SoNha : noiDungThayDoi + "<br/>" + "Sửa số nhà từ: " + _modelBK.SoNha + " thành: " + nha.SoNha;
-                        }
+                        //if (_modelBK.SoNha != nha.SoNha)
+                        //{
+                        //    noiDungThayDoi = noiDungThayDoi == "" ? "Sửa số nhà từ: " + _modelBK.SoNha + " thành: " + nha.SoNha : noiDungThayDoi + "<br/>" + "Sửa số nhà từ: " + _modelBK.SoNha + " thành: " + nha.SoNha;
+                        //}
 
                         TempData["Success"] = "Cập nhật bài viết thành công!";
                         return RedirectToAction("Index");
@@ -658,8 +704,13 @@ namespace Web.Areas.Management.Controllers
 
                 var nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
-                var result = _repository.GetRepository<NhuCauThue>().GetAll().Where(delegate(NhuCauThue nct) { return (nct.MatBangId.Equals(nha.MatBangId)) || (nct.QuanId.Equals(nha.QuanId) || (nct.DuongId.Equals(nha.DuongId))); })
-                 .Join(_repository.GetRepository<Khach>().GetAll(), b => b.KhachId, c => c.Id, (b, c) => new { NhuCauThue = b, Khach = c }).ToList();
+                var result = _repository.GetRepository<NhuCauThue>().GetAll()
+                                                                    .Where(delegate(NhuCauThue nct) { return (nct.MatTienTreoBien <= (nha.MatTienTreoBien * 0.75)) &&
+                                                                                                              (nct.DienTichDatSuDungTang1 <= (nha.DienTichDatSuDungTang1 * 0.75)) &&
+                                                                                                              (nct.TongDienTichSuDung <= (nha.TongDienTichSuDung * 0.75)) &&
+                                                                                                             (nct.QuanId.Equals(nha.QuanId) &&
+                                                                                                             (nct.DuongId.Equals(nha.DuongId))); })
+                                        .Join(_repository.GetRepository<Khach>().GetAll(), b => b.KhachId, c => c.Id, (b, c) => new { NhuCauThue = b, Khach = c }).ToList();
 
                 var data = result.Select(o => new KhachThueUpdatingViewModel
                 {

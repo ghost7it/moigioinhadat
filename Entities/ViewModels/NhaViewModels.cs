@@ -17,6 +17,7 @@ namespace Entities.ViewModels
         [Display(Name = "Đường")]
         public string DuongId { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng chọn số nhà")]
         [Display(Name = "Số nhà")]
         [StringLength(200, ErrorMessage = "Số nhà không được vượt quá 200 ký tự!")]
         public string SoNha { get; set; }
@@ -25,6 +26,7 @@ namespace Entities.ViewModels
         [StringLength(200, ErrorMessage = "Tên tòa nhà không được vượt quá 200 ký tự!")]
         public string TenToaNha { get; set; }
 
+         [Required(ErrorMessage = "Vui lòng chọn mặt tiền treo biển")]
         [Display(Name = "Mặt tiền treo biển (m)")]
         public string MatTienTreoBien { get; set; }
 
@@ -34,12 +36,14 @@ namespace Entities.ViewModels
         [Display(Name = "Diện tích đất (m2)")]
         public string DienTichDat { get; set; }
 
+         [Required(ErrorMessage = "Vui lòng chọn diện tích sử dụng tầng 1")]
         [Display(Name = "Diện tích đất sử dụng tầng 1 (m2)")]
         public string DienTichDatSuDungTang1 { get; set; }
 
         [Display(Name = "Số tầng")]
         public string SoTang { get; set; }
 
+         [Required(ErrorMessage = "Vui lòng chọn tổng diện tích sử dụng")]
         [Display(Name = "Tổng diện tích sử dụng (m2)")]
         public string TongDienTichSuDung { get; set; }
 

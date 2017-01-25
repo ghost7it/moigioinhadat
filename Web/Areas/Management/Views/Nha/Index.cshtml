@@ -37,14 +37,14 @@
             </div>
             <div class="portlet-body">
                 <div class="table-container">
-                    <div class="table-actions-2-wrapper" >
+                    <div class="table-actions-2-wrapper">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="col-md-4">
-                                    Số điện thoại
+                                    Ghi chú
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-sodienthoai" />
+                                    <input class=" form-control input-inline input-small input-sm object-filter-ghichu" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -63,7 +63,7 @@
                                     @Html.DropDownList("object-filter-duong", (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="col-md-4">
@@ -75,28 +75,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="col-md-4">
-                                    Diện tích
+                                    Giá thuê từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-dientich" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="col-md-4">
-                                   Ghi chú
-                                </div>
-                                <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-ghichu" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="col-md-4">
-                                   Giá từ
-                                </div>
-                                <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-tu"  />
+                                    <input class=" form-control input-inline input-small input-sm object-filter-giathuetu" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -104,7 +86,25 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-den" />
+                                    <input class=" form-control input-inline input-small input-sm object-filter-giathueden" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    DTSD T1 từ
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-dtstt1tu" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Đến
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1den" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -112,15 +112,33 @@
                                     Trạng thái
                                 </div>
                                 <div class="col-md-8">
-                                    <select class=" form-control input-inline input-small input-sm object-filter" >
+                                    <select class=" form-control input-inline input-small input-sm object-filter">
                                         <option value="0">Chờ duyệt</option>
                                         <option value="1">Đã duyệt</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Tổng DTSD từ
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-tongdtsdtu" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Đến
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-tongdtsdden" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="table-actions-wrapper" >
+                    <div class="table-actions-wrapper">
                         @if (canApprove)
                         {
                             <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
@@ -137,19 +155,22 @@
                                     <input type="checkbox" class="group-checkable" />
                                 </th>
                                 <th>
-                                    Tên người liên hệ
+                                    Địa chỉ
                                 </th>
-                                <th>
-                                    Số điện thoại
-                                </th>
-                                <th>
-                                    Quận
-                                </th>
+                                @*<th>
+                                    Đường
+                                </th>*@
+                                @*<th>
+                                    Mặt tiền
+                                </th>*@
                                 <th>
                                     Tổng giá thuê
                                 </th>
                                 <th>
-                                    Cấp độ theo dõi
+                                    DTSD tầng 1
+                                </th>
+                                <th>
+                                    Tổng DTSD
                                 </th>
                                 <th>
                                     Trạng thái
@@ -177,82 +198,81 @@
 }
 @section Scripts2 {
     <script type="text/javascript">
-        var Article = function () {
-            var handleArticle = function () {
-                var grid = new DatatableAjaxSource();
-                grid.init({
-                    src: $("#datatable_ajax_source"),
-                    onSuccess: function (grid) {
-                        // hành động khi tải xong dữ liệu
+    var Article = function () {
+        var handleArticle = function () {
+            var grid = new DatatableAjaxSource();
+            grid.init({
+                src: $("#datatable_ajax_source"),
+                onSuccess: function (grid) {
+                    // hành động khi tải xong dữ liệu
+                },
+                onError: function (grid) {
+                    // hành động khi tải dữ liệu bị lỗi
+                    var sel = $('select.object-filter').val();
+                },
+                dataTable: {
+                    "ajax": {
+                        "url": '@Url.RouteUrl("NhaGetNhaJson", new { status = 0 })',
                     },
-                    onError: function (grid) {
-                        // hành động khi tải dữ liệu bị lỗi
-                        var sel = $('select.object-filter').val();
-                    },
-                    dataTable: {
-                        "ajax": {
-                            "url": '@Url.RouteUrl("NhaGetNhaJson", new { status = 0 })',
+                    "columnDefs": [{
+                        "targets": -1,
+                        "data": null,
+                        "render": function (data, type, full) {
+                            var sel = $('select.object-filter').val();
+                            switch (sel) {
+                                //Lọc theo chờ duyệt
+                                case '0':
+                                    var re = '';
+                                    if ('@canApprove' == 'true' || '@canApprove' == 'True') {
+                                        re = '<a class="btn btn-xs blue PendingPublish" data-objectid="' + data.Id + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
+                                    }
+                                    if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                                        re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("NhaUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';
+                                    }
+                                    if ('@canDelete' == 'true' || '@canDelete' == 'True') {
+                                        re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
+                                    }
+                                    re = re + '<a class="btn btn-xs blue @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
+                                    return re;
+                                    break;
+                                    //Lọc theo đã duyệt
+                                case '1':
+                                    if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
+                                        //re = '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
+                                        re =  '<a class="btn btn-xs blue @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
+                                        re = re + '<a class="btn btn-xs blue" href="' + ('@Url.RouteUrl("RaoVatModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-share"></i> Đăng rao vặt</a>';
+                                        return re;
+                                    }
+                                    else {
+                                        return '';
+                                    }
+                                    break;
+                                default:
+                                    return '';
+                            }
                         },
-                        "columnDefs": [{
-                            "targets": -1,
+                    }],
+                    "columns": [
+                        {
+                            "searchable": false,
+                            "orderable": false,
+                            "data": "Id",
+                            "render": function (data, type, full) {
+                                return '<input type="checkbox" value="' + data + '" class="checkboxes">';
+                            }
+                        },
+                        {
+                            "searchable": true,
+                            "orderable": true,
                             "data": null,
                             "render": function (data, type, full) {
-                                var sel = $('select.object-filter').val();
-                                switch (sel) {
-                                    //Lọc theo chờ duyệt
-                                    case '0':
-                                        var re = '';
-                                        if ('@canApprove' == 'true' || '@canApprove' == 'True') {
-                                            re = '<a class="btn btn-xs blue PendingPublish" data-objectid="' + data.Id + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
-                                        }
-                                        if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("NhaUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';
-                                        }
-                                        if ('@canDelete' == 'true' || '@canDelete' == 'True') {
-                                            re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
-                                        }
-                                        re = re + '<a class="btn btn-xs blue @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
-                                        return re;
-                                        break;
-                                        //Lọc theo đã duyệt
-                                    case '1':
-                                        if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            re = '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
-                                            re = re + '<a class="btn btn-xs blue @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
-                                            re = re + '<a class="btn btn-xs blue" href="' + ('@Url.RouteUrl("RaoVatModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-share"></i> Đăng rao vặt</a>';
-                                            return re;
-                                        }
-                                        else {
-                                            return '';
-                                        }
-                                        break;
-                                    default:
-                                        return '';
+                                return '<a href="' + ('@Url.RouteUrl("NhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.Duong + ' - ' + data.Quan + '</a>'
                                 }
                             },
-                        }],
-                        "columns": [
-                            {
-                                "searchable": false,
-                                "orderable": false,
-                                "data": "Id",
-                                "render": function (data, type, full) {
-                                    return '<input type="checkbox" value="' + data + '" class="checkboxes">';
-                                }
-                            },
-                            {
-                                "searchable": true,
-                                "orderable": true,
-                                "data": null,
-                                "render": function (data, type, full) {
-                                    return '<a href="' + ('@Url.RouteUrl("NhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
-                                }
-                            },
-                    { data: "SoDienThoai" },
-                    { data: "Quan" },
-                    //{ data: "Duong" },
+                    //{ data: "MatTien" },
                     { data: "TongGiaThue" },
-                    { data: "CapDoTheoDoi" },
+                    { data: "DTSDT1" },
+                    { data: "TongDTSD" },
                     { data: "TrangThai" },
                     { data: null }
                         ],
@@ -263,10 +283,10 @@
                 });
 
                 //Tìm kiếm START
-                //Số điện thoại
-                grid.getTableWrapper().on('change', '.object-filter-sodienthoai', function (e) {
+                //Ghi chú
+                grid.getTableWrapper().on('change', '.object-filter-ghichu', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectSoDienThoai", $('.object-filter-sodienthoai').val());
+                    grid.setAjaxParam("objectGhiChu", $('.object-filter-ghichu').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
@@ -276,7 +296,7 @@
                     GetDuongByQuan($(this).val(), $(this));
 
                     e.preventDefault();
-                    grid.setAjaxParam("objectQuan", $('.object-filter-quan').val());
+                    grid.setAjaxParam("objectQuan", $('.sel-quan').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
@@ -284,7 +304,7 @@
                 //Dường
                 $(document).on('change', '.sel-duong', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectDuong", $('.object-filter-duong').val());
+                    grid.setAjaxParam("objectDuong", $('.sel-duong').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
@@ -292,42 +312,51 @@
                 //Mặt tiền
                 $(document).on('change', '.sel-mattien', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectMatTien", $('.object-filter-mattien').val());
+                    grid.setAjaxParam("objectMatTien", $('.sel-mattien').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
 
-                //Diện tích
-                $(document).on('change', '.object-filter-dientich', function (e) {
+                //Giá thuê
+                grid.getTableWrapper().on('change', '.object-filter-giathuetu', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectDienTich", $('.object-filter-dientich').val());
+                    grid.setAjaxParam("objectGiaThueTu", $('.object-filter-giathuetu').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
 
-                //Ghi chú
-                $(document).on('change', '.object-filter-ghichu', function (e) {
+                //Giá thuê từ
+                grid.getTableWrapper().on('change', '.object-filter-giathuetu', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectGhiChu", $('.object-filter-ghichu').val());
+                    grid.setAjaxParam("objectGiaThueTu", $('.object-filter-giathuetu').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
 
-                //Gía từ
-                $(document).on('change', '.object-filter-tu', function (e) {
+                //Gía thuê đến
+                grid.getTableWrapper().on('change', '.object-filter-giathueden', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectTu", $('.object-filter-tu').val());
+                    grid.setAjaxParam("objectGiaThueDen", $('.object-filter-giathueden').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
 
-                //Gía đến
-                $(document).on('change', '.object-filter-den', function (e) {
+                //DTSD T1 từ
+                grid.getTableWrapper().on('change', '.object-filter-dtsdt1tu', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectDen", $('.object-filter-den').val());
+                    grid.setAjaxParam("objectDTSDT1Tu", $('.object-filter-dtsdt1tu').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
+
+                //DTSD T1 đến
+                grid.getTableWrapper().on('change', '.object-filter-dtsdt1den', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectDTSDT1Den", $('.object-filter-dtsdt1den').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
 
                 function GetDuongByQuan(id, quan) {
                     var URL = ('@Url.RouteUrl("SharedGetDuongByQuan", new { quanId = "objectIdReplacement" })').replace('objectIdReplacement', id);
@@ -362,7 +391,7 @@
                         case '1':
                             {
                                 $('.table-group-action-PendingPublish').addClass('display-hide');
-                                $('.table-group-action-RecentlyAdded').removeClass('display-hide');
+                                //$('.table-group-action-RecentlyAdded').addClass('display-hide');
                                 $('.table-group-action-Delete').addClass('display-hide');
 
                                 $(".table-container > div > div > div:eq(1)").addClass("changed-status");
@@ -370,25 +399,6 @@
                             break;
                     }
                 });
-
-              
-               
-
-                //grid.getTableWrapper().on('change', '.object-filter-tu', function (e) {
-                //    e.preventDefault();
-                //    grid.setAjaxParam("objectGiaTu", $('.object-filter-tu').val());
-                //    grid.setAjaxParam("objectGiaDen", $('.object-filter-den').val());
-                //    grid.getDataTable().ajax.reload();
-                //    grid.clearAjaxParams();
-                //});
-
-                //grid.getTableWrapper().on('change', '.object-filter-den', function (e) {
-                //    e.preventDefault();
-                //    grid.setAjaxParam("objectGiaTu", $('.object-filter-tu').val());
-                //    grid.setAjaxParam("objectGiaDen", $('.object-filter-den').val());
-                //    grid.getDataTable().ajax.reload();
-                //    grid.clearAjaxParams();
-                //});
                 //Tìm kiếm END
 
                 //Duyệt nhiều record
@@ -438,106 +448,103 @@
                         boxed: true
                     });
                     var $url = ('@Url.RouteUrl("NhaSetNhaStatus", new { ids = "objectIds", status = "objectStatus" })').replace("objectIds", ids).replace("objectStatus", status);
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        async: true,
-                        url: $url,
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.success) {
-                                showNoty(result.message, 'success', 'center', 5000);
-                            }
-                            else
-                                showNoty(result.message, 'error', 'center', 5000);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            showNoty(errorThrown, 'error', 'center', 5000);
-                        },
-                        complete: function (result) {
-                            grid.getDataTable().ajax.reload();
-                            AdminVersionOne.unblockUI();
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
                         }
-                    });
-                    return;
-                }
-
-                //Hàm xóa bài viết
-                var DeleteArticle = function (ids) {
-                    AdminVersionOne.blockUI({
-                        message: 'Vui lòng đợi!',
-                        overlayColor: 'none',
-                        cenrerY: true,
-                        boxed: true
-                    });
-                    var $url = ('@Url.RouteUrl("NhaDeleteNhas", new { ids = "objectIds" })').replace("objectIds", ids);
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        async: true,
-                        url: $url,
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.success) {
-                                showNoty(result.message, 'success', 'center', 5000);
-                            }
-                            else
-                                showNoty(result.message, 'error', 'center', 5000);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            showNoty(errorThrown, 'error', 'center', 5000);
-                        },
-                        complete: function (result) {
-                            grid.getDataTable().ajax.reload();
-                            AdminVersionOne.unblockUI();
-                        }
-                    });
-                    return;
-                }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        grid.getDataTable().ajax.reload();
+                        AdminVersionOne.unblockUI();
+                    }
+                });
+                return;
             }
-            return {
-                init: function () {
-                    handleArticle();
-                }
-            };
-        }();
-        jQuery(document).ready(function () {
-            Article.init();
 
-        });
+            //Hàm xóa bài viết
+            var DeleteArticle = function (ids) {
+                AdminVersionOne.blockUI({
+                    message: 'Vui lòng đợi!',
+                    overlayColor: 'none',
+                    cenrerY: true,
+                    boxed: true
+                });
+                var $url = ('@Url.RouteUrl("NhaDeleteNhas", new { ids = "objectIds" })').replace("objectIds", ids);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    async: true,
+                    url: $url,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.success) {
+                            showNoty(result.message, 'success', 'center', 5000);
+                        }
+                        else
+                            showNoty(result.message, 'error', 'center', 5000);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showNoty(errorThrown, 'error', 'center', 5000);
+                    },
+                    complete: function (result) {
+                        grid.getDataTable().ajax.reload();
+                        AdminVersionOne.unblockUI();
+                    }
+                });
+                return;
+            }
+        }
+        return {
+            init: function () {
+                handleArticle();
+            }
+        };
+    }();
+    jQuery(document).ready(function () {
+        Article.init();
+
+    });
     </script>
 }
 <style>
     .table-container > div > div > div:nth-child(2) {
         width: 100%;
-        margin-top: -75px;
-        padding-bottom: 30px;
     }
+
     .table-group-actions {
-        margin-top: 100px;
-        margin-bottom: -80px;
+        margin-top: 176px;
     }
-    .dataTables_filter{
+
+    .dataTables_filter {
         display: none;
     }
+
     .table-group-actions-2 {
         float: left !important;
-        margin-top: 15px;
         width: 100%;
+        margin-top: -206px;
     }
-    .table-group-actions-2 .row{
-        margin-bottom: 10px;
+
+        .table-group-actions-2 .row {
+            margin-bottom: 10px;
+        }
+
+    .changed-status {
+        margin-top: 35px !important;
     }
-    .changed-status{
-        margin-top: -40px !important;
-    }
-    #object-filter-quan{
-        width:145px;
-    }
-    #object-filter-duong {
+
+    #object-filter-quan, #object-filter-mattien, #object-filter-duong {
         width: 145px;
     }
 </style>
-
-
-

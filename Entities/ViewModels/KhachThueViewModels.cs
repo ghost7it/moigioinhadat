@@ -8,7 +8,7 @@ namespace Entities.ViewModels
         [Display(Name = "Tên khách")]
         public string TenKhach { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập tên người liên hệ")]
+        [Required(ErrorMessage = "Vui lòng nhập khách thuê")]
         [Display(Name = "Khách thuê")]
         public string TenNguoiLienHeVaiTro { get; set; }
 
@@ -62,13 +62,13 @@ namespace Entities.ViewModels
         [Display(Name = "Tên Đường")]
         public string DuongName { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập số nhà")]
         [Display(Name = "Số nhà")]
         public string SoNha { get; set; }
 
         [Display(Name = "Tên tòa nhà")]
         public string TenToaNha { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng chọn mặt tiền treo biển")]
         [Display(Name = "Mặt tiền treo biển (m)")]
         public string MatTienTreoBien { get; set; }
 
@@ -78,12 +78,14 @@ namespace Entities.ViewModels
         [Display(Name = "Diện tích đất (m2)")]
         public string DienTichDat { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng chọn diện tích sử dụng tầng 1")]
         [Display(Name = "Diện tích đất sử dụng tầng 1 (m2)")]
         public string DienTichDatSuDungTang1 { get; set; }
 
         [Display(Name = "Số tầng")]
         public string SoTang { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng chọn tổng diện tích sử dụng")]
         [Display(Name = "Tổng diện tích sử dụng (m2)")]
         public string TongDienTichSuDung { get; set; }
 

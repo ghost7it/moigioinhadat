@@ -97,7 +97,7 @@ namespace Entities.Models
         public long NguoiTaoId { get; set; }
 
         [Display(Name = "Trạng thái")]
-        public int TrangThai { get; set; }
+        public int TrangThai { get; set; } //0: Chờ duyệt | 1: Đã duyệt
 
         public long NguoiPhuTrachId { get; set; }
 
