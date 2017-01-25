@@ -158,12 +158,25 @@
                                         @Html.ValidationMessageFor(model => model.NoiThatKhachThueCuId)
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group danhgia_wr">
                                     @Html.LabelFor(model => model.DanhGiaPhuHopVoiId, new { @class = "col-md-3 control-label" })
                                     <div class="col-md-9">
-                                        @Html.DropDownList("DanhGiaPhuHopVoiId", (IEnumerable<SelectListItem>)ViewBag.DanhGiaPhuHopVoi, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.DanhGiaPhuHopVoiId)
+                                        @*@Html.DropDownList("DanhGiaPhuHopVoiId", (IEnumerable<SelectListItem>)ViewBag.DanhGiaPhuHopVoi, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DanhGiaPhuHopVoiId)*@
+                                        <input type="text" class="form-control danhgiainput" style="background:#fff url(/Images/AdminV1/carret.png) no-repeat 98.5% 13px !important;" readonly="readonly" />
+                                        <div class="danhgia_content hidden">
+                                            @for (int idx = 0; idx < Model.ListDanhGiaPhuHopVoiArr.Count; idx++)
+                                            {
+                                                @Html.HiddenFor(x => Model.ListDanhGiaPhuHopVoiArr[idx].FieldKey)
+                                                @Html.CheckBoxFor(x => Model.ListDanhGiaPhuHopVoiArr[idx].IsSelected, new { @text = Model.ListDanhGiaPhuHopVoiArr[idx].FieldName})
+                                                @Html.DisplayFor(x => Model.ListDanhGiaPhuHopVoiArr[idx].FieldName)
+                                                @Html.HiddenFor(x => Model.ListDanhGiaPhuHopVoiArr[idx].FieldName)
+                                                <br />
+                                            }
+                                            @Html.HiddenFor(model => model.DanhGiaPhuHopVoiId, new { @class = "danhgiaphuhopvoiidarr" })
+                                        </div>
                                     </div>
+                                    
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.TongGiaThue, new { @class = "col-md-3 control-label" })
@@ -426,6 +439,52 @@
                 }
 
             });
+            $(".danhgiainput").click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $(".danhgia_content").toggleClass("hidden");
+            });
+
+            $(".danhgia_content input:checkbox").click(function (e) {
+                e.stopPropagation();
+                var valuecheckbox = "";
+                var str = "";
+                $(".danhgia_content input:checkbox").each(function () {
+                    if ($(this).is(":checked")) {
+                        str += $(this).attr("text") + "; ";
+                        valuecheckbox += valuecheckbox != "" ? ";" + $(this).prev().val() : $(this).prev().val();
+                    }
+                });
+                $(".danhgiainput").val(str);
+                $("#DanhGiaPhuHopVoiId").val(valuecheckbox);
+            });
+
+            $("html").click(function () {
+                if(!$(".danhgia_content").is(":hidden")){
+                    $(".danhgia_content").addClass("hidden");
+                }
+            });
         });
     </script>
 }
+<style>
+    .danhgia_wr .col-md-9 {
+        position: relative;
+    }
+    .danhgiainput:hover{
+        cursor:default
+    }
+    .danhgiainput{
+        
+    }
+    .danhgia_content {
+        position: absolute;
+        top: 48px;
+        left: 15px;
+        width: 92.5%;
+        background: #fff;
+        border: 1px solid #ddd;
+        z-index: 2;
+        padding: 5px;
+    }
+</style>

@@ -115,6 +115,8 @@ namespace Entities.ViewModels
         [Display(Name = "Trạng thái")]
         public string TrangThai { get; set; }
 
+        public List<DanhGiaPhuHopVoiItem> ListDanhGiaPhuHopVoiArr { get; set; }
+
         public List<MatBangItem> ListMatBangArr { get; set; }
     }
     public class NhaUpdatingViewModel
@@ -233,6 +235,7 @@ namespace Entities.ViewModels
         [Display(Name = "Trạng thái")]
         public string TrangThai { get; set; }
 
+        public List<DanhGiaPhuHopVoiItem> ListDanhGiaPhuHopVoiArr { get; set; }
         public List<MatBangItem> ListMatBangArr { get; set; }
     }
 }

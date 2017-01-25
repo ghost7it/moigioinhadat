@@ -278,4 +278,11 @@ namespace Entities.ViewModels
         public string FieldName { get; set; }
         public bool IsSelected { get; set; }
     }
+
+    public class DanhGiaPhuHopVoiItem
+    {
+        public int FieldKey { get; set; }
+        public string FieldName { get; set; }
+        public bool IsSelected { get; set; }
+    }
 }

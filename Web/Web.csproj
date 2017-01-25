@@ -1260,6 +1260,7 @@
     <Content Include="Images\AdminV1\bg-white-lock.png" />
     <Content Include="Images\AdminV1\bg-white.png" />
     <Content Include="Images\AdminV1\blogger.png" />
+    <Content Include="Images\AdminV1\carret.png" />
     <Content Include="Images\AdminV1\datatable-row-openclose.png" />
     <Content Include="Images\AdminV1\deviantart.png" />
     <Content Include="Images\AdminV1\dribbble.png" />
