@@ -58,6 +58,18 @@ namespace Web.Areas.Management.Controllers
             }
             model.ListMatBangArr = listMatBangArr;
 
+            //Đánh giá phù hợp với
+            var danhGia = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
+            var listDanhGiaArr = new List<DanhGiaPhuHopVoiItem>();
+            if (danhGia.Any())
+            {
+                foreach (var item in danhGia)
+                {
+                    listDanhGiaArr.Add(new DanhGiaPhuHopVoiItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
+                }
+            }
+            model.ListDanhGiaPhuHopVoiArr = listDanhGiaArr;
+
             return View(model);
         }
 
@@ -331,7 +343,7 @@ namespace Web.Areas.Management.Controllers
                                                                              (o.MatBangId.Contains(matTienId) || matTienId == "") &&
                                                                               (giaThueTu <= o.TongGiaThue && o.TongGiaThue <= giaThueDen) &&
                                                                               (dtsdt1Tu <= o.DienTichDatSuDungTang1 && o.DienTichDatSuDungTang1 <= dtsdt1Den) &&
-                                                                               (o.TrangThai == status) &&
+                                                                             (o.TrangThai == status) &&
                                                                               (tongDTSDTu <= o.TongDienTichSuDung && o.TongDienTichSuDung <= tongDTSDDen) &&
                                                                              (isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId))
                                                                              .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
@@ -398,13 +410,36 @@ namespace Web.Areas.Management.Controllers
                     }
                 }
             }
-
+            var danhGia = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
+            var listDanhGiaArr = new List<DanhGiaPhuHopVoiItem>();
+            if (danhGia.Any())
+            {
+                foreach (var item in danhGia)
+                {
+                    listDanhGiaArr.Add(new DanhGiaPhuHopVoiItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
+                }
+            }
+            if (!string.IsNullOrEmpty(nha.DanhGiaPhuHopVoiId))
+            {
+                string[] arrdanhgiaid = nha.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (arrdanhgiaid.Count() > 0)
+                {
+                    for (var i = 0; i < arrdanhgiaid.Count(); i++)
+                    {
+                        foreach (var item in listDanhGiaArr.Where(w => w.FieldKey == Convert.ToInt32(arrdanhgiaid[i])))
+                        {
+                            item.IsSelected = true;
+                        }
+                    }
+                }
+            }
             NhaUpdatingViewModel model = new NhaUpdatingViewModel()
             {
                 Id = nha.Id,
                 SoNha = nha.SoNha,
                 MatBangId = nha.MatBangId,
                 ListMatBangArr = listMatBangArr,
+                ListDanhGiaPhuHopVoiArr = listDanhGiaArr,
                 QuanId = nha.QuanId.ToString(),
                 DuongId = nha.DuongId.ToString(),
                 TenToaNha = nha.TenToaNha,
@@ -443,7 +478,7 @@ namespace Web.Areas.Management.Controllers
         [ValidateInput(false)]
         [Route("cap-nhat-nha")]
         [ValidationPermission(Action = ActionEnum.Update, Module = ModuleEnum.Nha)]
-        public async Task<ActionResult> Update(long id, NhaUpdatingViewModel model)
+        public async Task<ActionResult> Update(long id, NhaUpdatingViewModel model, NhaUpdatingViewModel _modelBK)
         {
             try
             {
@@ -478,7 +513,7 @@ namespace Web.Areas.Management.Controllers
                     nha.GiaThueBQ = giaThueBQ; //string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                     nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
                     nha.SoDienThoai = model.SoDienThoai;
-                    nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : Convert.ToDateTime(model.NgayCNHenLienHeLai); //DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     nha.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                     nha.ImageDescription1 = model.ImageDescription1;
                     nha.ImageDescription2 = model.ImageDescription2;
@@ -683,6 +718,21 @@ namespace Web.Areas.Management.Controllers
                     }
                 }
             }
+            string[] danhgiaarr = article.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            if (danhgiaarr.Count() > 0)
+            {
+                for (var i = 0; i < danhgiaarr.Count(); i++)
+                {
+                    if (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i])) != null)
+                    {
+                        ViewBag.DanhGiaPhuHopVoi += (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i]))).Name;
+                        if (danhgiaarr[i] != danhgiaarr[danhgiaarr.Count() - 1])
+                        {
+                            ViewBag.DanhGiaPhuHopVoi += @"</br>";
+                        }
+                    }
+                }
+            }
 
             ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
             ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
@@ -710,7 +760,7 @@ namespace Web.Areas.Management.Controllers
                                                                                                               (nct.TongDienTichSuDung <= (nha.TongDienTichSuDung * 0.75)) &&
                                                                                                              (nct.QuanId.Equals(nha.QuanId) &&
                                                                                                              (nct.DuongId.Equals(nha.DuongId))); })
-                                        .Join(_repository.GetRepository<Khach>().GetAll(), b => b.KhachId, c => c.Id, (b, c) => new { NhuCauThue = b, Khach = c }).ToList();
+                 .Join(_repository.GetRepository<Khach>().GetAll(), b => b.KhachId, c => c.Id, (b, c) => new { NhuCauThue = b, Khach = c }).ToList();
 
                 var data = result.Select(o => new KhachThueUpdatingViewModel
                 {
