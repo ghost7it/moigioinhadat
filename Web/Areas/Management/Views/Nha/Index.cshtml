@@ -160,9 +160,9 @@
                                 @*<th>
                                     Đường
                                 </th>*@
-                                @*<th>
+                                <th>
                                     Mặt tiền
-                                </th>*@
+                                </th>
                                 <th>
                                     Tổng giá thuê
                                 </th>
@@ -239,7 +239,8 @@
                                 case '1':
                                     if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
                                         //re = '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
-                                        re =  '<a class="btn btn-xs blue @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
+                                        re = '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
+                                        re = re +  '<a class="btn btn-xs blue @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
                                         re = re + '<a class="btn btn-xs blue" href="' + ('@Url.RouteUrl("RaoVatModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-share"></i> Đăng rao vặt</a>';
                                         return re;
                                     }
@@ -269,7 +270,7 @@
                                 return '<a href="' + ('@Url.RouteUrl("NhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.Duong + ' - ' + data.Quan + '</a>'
                                 }
                             },
-                    //{ data: "MatTien" },
+                    { data: "MatTien" },
                     { data: "TongGiaThue" },
                     { data: "DTSDT1" },
                     { data: "TongDTSD" },
@@ -277,7 +278,7 @@
                     { data: null }
                         ],
                         "order": [
-                            [2, "desc"]
+                            [3, "desc"]
                         ] // ép sắp xếp theo cột thứ 3
                     }
                 });

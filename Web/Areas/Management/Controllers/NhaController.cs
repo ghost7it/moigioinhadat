@@ -88,7 +88,7 @@ namespace Web.Areas.Management.Controllers
 
                 if (!string.IsNullOrEmpty(model.TongGiaThue) && !string.IsNullOrEmpty(model.TongDienTichSuDung))
                 {
-                    giaThueBQ =Convert.ToDecimal(model.TongGiaThue) / Convert.ToDecimal(model.TongDienTichSuDung);
+                    giaThueBQ = Convert.ToDecimal(model.TongGiaThue) / Convert.ToDecimal(model.TongDienTichSuDung);
                 }
 
 
@@ -177,6 +177,7 @@ namespace Web.Areas.Management.Controllers
             var capDoTheoDoi = _repository.GetRepository<CapDoTheoDoi>().GetAll();
             ViewBag.CapDoTheoDoi = capDoTheoDoi.ToList().ToSelectList();
         }
+
         protected void SetViewBag(bool isCreate)
         {
             //Mặt bằng
@@ -185,7 +186,9 @@ namespace Web.Areas.Management.Controllers
 
             //Địa chỉ quận - đường
             NhaCreatingViewModel model = new NhaCreatingViewModel();
+
             var quan = _repository.GetRepository<Quan>().GetAll().OrderBy(o => o.Name).ToList();
+
             if (isCreate)
             {
                 ViewBag.QuanDropdownlist = new SelectList(quan, "Id", "Name", model.QuanId);
@@ -217,8 +220,8 @@ namespace Web.Areas.Management.Controllers
             ViewBag.NoiThatKhachThueCu = noiThatKhachThueCu.ToList().ToSelectList();
 
             //Đánh giá phù hợp với
-            var danhGiaPhuHopVoi = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
-            ViewBag.DanhGiaPhuHopVoi = danhGiaPhuHopVoi.ToList().ToSelectList();
+            //var danhGiaPhuHopVoi = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
+            //ViewBag.DanhGiaPhuHopVoi = danhGiaPhuHopVoi.ToList().ToSelectList();
 
             //Cấp độ theo dõi
             var capDoTheoDoi = _repository.GetRepository<CapDoTheoDoi>().GetAll();
@@ -365,9 +368,9 @@ namespace Web.Areas.Management.Controllers
                         o.Nha.Nha.Nha.TongGiaThue,
                         CapDoTheoDoi = o.CapDoTheoDoi.Name,
                         TrangThai = o.Nha.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt",
-                        MatTien = "",
-                        DTSDT1 = 0,
-                        TongDTSD = 0
+                        MatTien = o.Nha.Nha.Nha.MatTienTreoBien,
+                        DTSDT1 = o.Nha.Nha.Nha.DienTichDatSuDungTang1,
+                        TongDTSD = o.Nha.Nha.Nha.TongDienTichSuDung
                     })
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -389,6 +392,7 @@ namespace Web.Areas.Management.Controllers
 
             var matBang = _repository.GetRepository<MatBang>().GetAll();
             var listMatBangArr = new List<MatBangItem>();
+
             if (matBang.Any())
             {
                 foreach (var item in matBang)
@@ -396,6 +400,7 @@ namespace Web.Areas.Management.Controllers
                     listMatBangArr.Add(new MatBangItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
                 }
             }
+
             if (!string.IsNullOrEmpty(nha.MatBangId))
             {
                 string[] arrmatbangid = nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -410,6 +415,7 @@ namespace Web.Areas.Management.Controllers
                     }
                 }
             }
+
             var danhGia = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
             var listDanhGiaArr = new List<DanhGiaPhuHopVoiItem>();
             if (danhGia.Any())
@@ -419,6 +425,7 @@ namespace Web.Areas.Management.Controllers
                     listDanhGiaArr.Add(new DanhGiaPhuHopVoiItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
                 }
             }
+
             if (!string.IsNullOrEmpty(nha.DanhGiaPhuHopVoiId))
             {
                 string[] arrdanhgiaid = nha.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
@@ -433,18 +440,19 @@ namespace Web.Areas.Management.Controllers
                     }
                 }
             }
+
             NhaUpdatingViewModel model = new NhaUpdatingViewModel()
             {
                 Id = nha.Id,
                 SoNha = nha.SoNha,
-                MatBangId = nha.MatBangId,
+                //MatBangId = nha.MatBangId,
                 ListMatBangArr = listMatBangArr,
                 ListDanhGiaPhuHopVoiArr = listDanhGiaArr,
                 QuanId = nha.QuanId.ToString(),
                 DuongId = nha.DuongId.ToString(),
                 TenToaNha = nha.TenToaNha,
                 NoiThatKhachThueCuId = nha.NoiThatKhachThueCuId.ToString(),
-                DanhGiaPhuHopVoiId = nha.DanhGiaPhuHopVoiId.ToString(),
+                //DanhGiaPhuHopVoiId = nha.DanhGiaPhuHopVoiId.ToString(),
                 CapDoTheoDoiId = nha.CapDoTheoDoiId.ToString(),
                 MatTienTreoBien = nha.MatTienTreoBien.ToString(),
                 BeNgangLotLong = nha.BeNgangLotLong.ToString(),
@@ -508,7 +516,7 @@ namespace Web.Areas.Management.Controllers
                     nha.Ham = model.Ham == "1" ? true : false;
                     nha.ThangMay = model.ThangMay == "1" ? true : false;
                     nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
-                    nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
+                    nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId; 
                     nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
                     nha.GiaThueBQ = giaThueBQ; //string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                     nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
@@ -703,32 +711,39 @@ namespace Web.Areas.Management.Controllers
             var article = await _repository.GetRepository<Nha>().ReadAsync(id);
 
             //var account = await _repository.GetRepository<Account>().ReadAsync(article.NguoiTaoId);
-            string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (matbangarr.Count() > 0)
+            if (!string.IsNullOrEmpty(article.MatBangId))
             {
-                for (var i = 0; i < matbangarr.Count(); i++)
+                string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (matbangarr.Count() > 0)
                 {
-                    if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                    for (var i = 0; i < matbangarr.Count(); i++)
                     {
-                        ViewBag.MatBang += (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
-                        if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                        if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
                         {
-                            ViewBag.MatBang += @"</br>";
+                            ViewBag.MatBang += (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                            if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                            {
+                                ViewBag.MatBang += @"</br>";
+                            }
                         }
                     }
                 }
             }
-            string[] danhgiaarr = article.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            if (danhgiaarr.Count() > 0)
+
+            if (!string.IsNullOrEmpty(article.DanhGiaPhuHopVoiId))
             {
-                for (var i = 0; i < danhgiaarr.Count(); i++)
+                string[] danhgiaarr = article.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (danhgiaarr.Count() > 0)
                 {
-                    if (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i])) != null)
+                    for (var i = 0; i < danhgiaarr.Count(); i++)
                     {
-                        ViewBag.DanhGiaPhuHopVoi += (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i]))).Name;
-                        if (danhgiaarr[i] != danhgiaarr[danhgiaarr.Count() - 1])
+                        if (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i])) != null)
                         {
-                            ViewBag.DanhGiaPhuHopVoi += @"</br>";
+                            ViewBag.DanhGiaPhuHopVoi += (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i]))).Name;
+                            if (danhgiaarr[i] != danhgiaarr[danhgiaarr.Count() - 1])
+                            {
+                                ViewBag.DanhGiaPhuHopVoi += @"</br>";
+                            }
                         }
                     }
                 }
@@ -755,11 +770,14 @@ namespace Web.Areas.Management.Controllers
                 var nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
                 var result = _repository.GetRepository<NhuCauThue>().GetAll()
-                                                                    .Where(delegate(NhuCauThue nct) { return (nct.MatTienTreoBien <= (nha.MatTienTreoBien * 0.75)) &&
-                                                                                                              (nct.DienTichDatSuDungTang1 <= (nha.DienTichDatSuDungTang1 * 0.75)) &&
-                                                                                                              (nct.TongDienTichSuDung <= (nha.TongDienTichSuDung * 0.75)) &&
-                                                                                                             (nct.QuanId.Equals(nha.QuanId) &&
-                                                                                                             (nct.DuongId.Equals(nha.DuongId))); })
+                                                                    .Where(delegate(NhuCauThue nct)
+                {
+                    return (nct.MatTienTreoBien <= (nha.MatTienTreoBien * 0.75)) &&
+                            (nct.DienTichDatSuDungTang1 <= (nha.DienTichDatSuDungTang1 * 0.75)) &&
+                            (nct.TongDienTichSuDung <= (nha.TongDienTichSuDung * 0.75)) &&
+                           (nct.QuanId.Equals(nha.QuanId) &&
+                           (nct.DuongId.Equals(nha.DuongId)));
+                })
                  .Join(_repository.GetRepository<Khach>().GetAll(), b => b.KhachId, c => c.Id, (b, c) => new { NhuCauThue = b, Khach = c }).ToList();
 
                 var data = result.Select(o => new KhachThueUpdatingViewModel
