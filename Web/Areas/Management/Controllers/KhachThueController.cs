@@ -223,12 +223,12 @@ namespace Web.Areas.Management.Controllers
                     if (!string.IsNullOrEmpty(model.QuanDuongArr))
                     {
                         string[] arrQuanDuong = model.QuanDuongArr.Split(';');
-                        if (arrQuanDuong.Count() > 1)
+                        if (arrQuanDuong.Count() > 0)
                         {
                             for (var i = 0; i < arrQuanDuong.Count(); i++)
                             {
                                 string[] arrDetail = arrQuanDuong[i].Split(',');
-                                if (arrDetail.Count() > 1)
+                                if (arrDetail.Count() > 0)
                                 {
                                     NhuCauThue nhucauthue = new NhuCauThue();
                                     if (!string.IsNullOrEmpty(model.BeNgangLotLong))
@@ -638,10 +638,15 @@ namespace Web.Areas.Management.Controllers
             if (!string.IsNullOrEmpty(objectDuong))
                 long.TryParse(objectDuong.ToString(), out duongId);
 
-            string matTienId = "";
+            //string matTienId = "";
+            //string objectMatTien = Request.Params["objectMatTien"];
+            //if (!string.IsNullOrEmpty(objectMatTien))
+            //    matTienId = objectMatTien.ToString();
+
+            float matTienTreoBien = 0;
             string objectMatTien = Request.Params["objectMatTien"];
             if (!string.IsNullOrEmpty(objectMatTien))
-                matTienId = objectMatTien.ToString();
+                float.TryParse(objectMatTien.ToString(), out matTienTreoBien);
 
             decimal giaThueTu = 0;
             string objectGiaThueTu = Request.Params["objectGiaThueTu"];
@@ -727,14 +732,17 @@ namespace Web.Areas.Management.Controllers
                     o.NhuCauThue.QuanId,
                     o.NhuCauThue.DuongId,
                     o.NhuCauThue.MatBangId,
+                    o.NhuCauThue.MatTienTreoBien,
                     o.NhuCauThue.TongGiaThue,
                     o.NhuCauThue.DienTichDatSuDungTang1,
                     o.NhuCauThue.TongDienTichSuDung
-                }).Where(t => (t.GhiChu.Contains(ghiChu) || ghiChu == "") &&
+                })
+                .Where(t => (t.GhiChu.Contains(ghiChu) || ghiChu == "") &&
                        (t.QuanId == quanId || quanId == 0) &&
                        (t.DuongId == duongId || duongId == 0) &&
                        (t.TrangThaiId == status) &&
-                       (t.MatBangId.Contains(matTienId) || matTienId == "") &&
+                    //(t.MatBangId.Contains(matTienId) || matTienId == "") &&
+                       (t.MatTienTreoBien == matTienTreoBien) &&
                        (t.TenNguoiLienHeVaiTro.Contains(tenKhach) || tenKhach == "") &&
                        (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
                        (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
