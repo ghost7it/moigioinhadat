@@ -173,7 +173,7 @@
                                                 @Html.HiddenFor(x => Model.ListDanhGiaPhuHopVoiArr[idx].FieldName)
                                                 <br />
                                             }
-                                            @Html.HiddenFor(model => model.DanhGiaPhuHopVoiId, new { @class = "danhgiaphuhopvoiidarr" })
+                                            @Html.HiddenFor(model => model.DanhGiaPhuHopVoiId, new { @class = "danhgiaphuhopvoiidarr" })                                            
                                         </div>
                                     </div>
                                 </div>
@@ -405,6 +405,10 @@
 
         $(function () {
             $(".checkboxmatbang input:checkbox").click(function () {
+                getMatBangId();
+            });
+            getMatBangId();
+            function getMatBangId() {
                 var valuecheckbox = "";
                 $(".checkboxmatbang input:checkbox").each(function (index) {
                     if ($(this).prop("checked")) {
@@ -413,7 +417,7 @@
                     };
                 });
                 $("#MatBangId").val(valuecheckbox);
-            });
+            }
 
             $("#MatTienTreoBien, #BeNgangLotLong, #DienTichDat, #DienTichDatSuDungTang1, #GiaThueBQ, #TongGiaThue, #TongDienTichSuDung").keypress(function (e) {
                 //if the letter is not digit then display error and don't type anything
@@ -445,12 +449,15 @@
             getDanhGiaText();
             function getDanhGiaText() {
                 var str = "";
+                var valuecheckbox = "";
                 $(".danhgia_content input:checkbox").each(function () {
                     if ($(this).is(":checked")) {
                         str += $(this).attr("text") + "; ";
+                        valuecheckbox += valuecheckbox != "" ? ";" + $(this).prev().val() : $(this).prev().val();
                     }
                 });
                 $(".danhgiainput").val(str);
+                $("#DanhGiaPhuHopVoiId").val(valuecheckbox);
             }
             $(".danhgia_content input:checkbox").click(function (e) {
                 e.stopPropagation();
