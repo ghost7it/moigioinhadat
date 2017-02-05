@@ -492,7 +492,7 @@ namespace Web.Areas.Management.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
+                    Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id); 
 
                     decimal giaThueBQ = 0;
 
