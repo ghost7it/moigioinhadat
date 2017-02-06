@@ -32,8 +32,8 @@ namespace Web.Areas.Management.Controllers
             var duong = _repository.GetRepository<Duong>().GetAll();
             ViewBag.DuongDropdownlist = duong.ToList().ToSelectList();
 
-            var matBang = _repository.GetRepository<MatBang>().GetAll();
-            ViewBag.MatBangDropdownlist = matBang.ToList().ToSelectList();
+            //var matBang = _repository.GetRepository<MatBang>().GetAll();
+            //ViewBag.MatBangDropdownlist = matBang.ToList().ToSelectList();
 
             ViewBag.HidenClass = RoleHelper.CheckPermission(ModuleEnum.PhanCongCongViec, ActionEnum.Read) ? "" : "hidden";
             return View();
@@ -257,26 +257,40 @@ namespace Web.Areas.Management.Controllers
                 if (!string.IsNullOrEmpty(draw))
                     drawReturn = draw;
 
+                //Ghi chú
                 string ghiChu = "";
                 string objectGhiChu = Request.Params["objectGhiChu"];
                 if (!string.IsNullOrEmpty(objectGhiChu))
                     ghiChu = objectGhiChu.ToString();
 
+                //Quận
                 long quanId = 0;
                 string objectQuan = Request.Params["objectQuan"];
                 if (!string.IsNullOrEmpty(objectQuan))
                     long.TryParse(objectQuan.ToString(), out quanId);
-
+                //Đường
                 long duongId = 0;
                 string objectDuong = Request.Params["objectDuong"];
                 if (!string.IsNullOrEmpty(objectDuong))
                     long.TryParse(objectDuong.ToString(), out duongId);
 
-                string matTienId = "";
-                string objectMatTien = Request.Params["objectMatTien"];
-                if (!string.IsNullOrEmpty(objectMatTien))
-                    matTienId = objectMatTien.ToString();
+                //Mặt tièn
+                float matTienTu = 0;
+                string objectMatTienTu = Request.Params["objectMatTienTu"];
+                if (!string.IsNullOrEmpty(objectMatTienTu))
+                    float.TryParse(objectMatTienTu.ToString(), out matTienTu);
 
+                float matTienDen = 0;
+                string objectMatTienDen = Request.Params["objectMatTienDen"];
+                if (!string.IsNullOrEmpty(objectMatTienDen))
+                    float.TryParse(objectMatTienDen.ToString(), out matTienDen);
+
+                if (matTienDen == 0)
+                {
+                    matTienDen = float.MaxValue;
+                }
+
+                //Giá thuê
                 decimal giaThueTu = 0;
                 string objectGiaThueTu = Request.Params["objectGiaThueTu"];
                 if (!string.IsNullOrEmpty(objectGiaThueTu))
@@ -292,6 +306,7 @@ namespace Web.Areas.Management.Controllers
                     giaThueDen = decimal.MaxValue;
                 }
 
+                //DTSD tầng 1
                 float dtsdt1Tu = 0;
                 string objectDTSDT1Tu = Request.Params["objectDTSDT1Tu"];
                 if (!string.IsNullOrEmpty(objectDTSDT1Tu))
@@ -307,10 +322,12 @@ namespace Web.Areas.Management.Controllers
                     dtsdt1Den = float.MaxValue;
                 }
 
+                //Trạng thái bài viết
                 string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
                 if (!string.IsNullOrEmpty(objectStatus))
                     int.TryParse(objectStatus.ToString(), out status);
 
+                //Tổng DTSD
                 float tongDTSDTu = 0;
                 string objectTongDTSDTu = Request.Params["objectTongDTSDTu"];
                 if (!string.IsNullOrEmpty(objectTongDTSDTu))
@@ -343,7 +360,7 @@ namespace Web.Areas.Management.Controllers
                                                                              (o.GhiChu.Contains(ghiChu) || ghiChu == "") &&
                                                                              (o.QuanId == quanId || quanId == 0) &&
                                                                              (o.DuongId == duongId || duongId == 0) &&
-                                                                             (o.MatBangId.Contains(matTienId) || matTienId == "") &&
+                                                                             (matTienTu <= o.MatTienTreoBien && o.MatTienTreoBien <= matTienDen) &&
                                                                               (giaThueTu <= o.TongGiaThue && o.TongGiaThue <= giaThueDen) &&
                                                                               (dtsdt1Tu <= o.DienTichDatSuDungTang1 && o.DienTichDatSuDungTang1 <= dtsdt1Den) &&
                                                                              (o.TrangThai == status) &&
