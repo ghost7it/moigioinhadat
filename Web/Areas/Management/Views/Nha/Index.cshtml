@@ -67,12 +67,33 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="col-md-4">
-                                    Mặt tiền
+                                    Mặt tiền từ
                                 </div>
                                 <div class="col-md-8">
-                                    @Html.DropDownList("object-filter-mattien", (IEnumerable<SelectListItem>)ViewBag.MatBangDropdownlist, "Chọn mặt tiền", new { @class = "form-control sel-mattien" })
+                                    <input class=" form-control input-inline input-small input-sm object-filter-mattientu" />
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Đến
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-mattienden" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Trạng thái
+                                </div>
+                                <div class="col-md-8">
+                                    <select class=" form-control input-inline input-small input-sm object-filter">
+                                        <option value="0">Chờ duyệt</option>
+                                        <option value="1">Đã duyệt</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="col-md-4">
                                     Giá thuê từ
@@ -96,7 +117,7 @@
                                     DTSD T1 từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-dtstt1tu" />
+                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1tu" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -107,18 +128,8 @@
                                     <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1den" />
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="col-md-4">
-                                    Trạng thái
-                                </div>
-                                <div class="col-md-8">
-                                    <select class=" form-control input-inline input-small input-sm object-filter">
-                                        <option value="0">Chờ duyệt</option>
-                                        <option value="1">Đã duyệt</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
+                       
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="col-md-4">
@@ -157,10 +168,7 @@
                                 <th>
                                     Địa chỉ
                                 </th>
-                                @*<th>
-                                    Đường
-                                </th>*@
-                                <th>
+                                 <th>
                                     Mặt tiền
                                 </th>
                                 <th>
@@ -310,24 +318,26 @@
                     grid.clearAjaxParams();
                 });
 
-                //Mặt tiền
-                $(document).on('change', '.sel-mattien', function (e) {
+            //Mặt tiền từ
+                grid.getTableWrapper().on('change', '.object-filter-mattientu', function (e) {
+                    console.debug('AAAAAAAA');
                     e.preventDefault();
-                    grid.setAjaxParam("objectMatTien", $('.sel-mattien').val());
+                    grid.setAjaxParam("objectMatTienTu", $('.object-filter-mattientu').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
 
-                //Giá thuê
-                grid.getTableWrapper().on('change', '.object-filter-giathuetu', function (e) {
+            //Mặt tiền đến
+                grid.getTableWrapper().on('change', '.object-filter-mattienden', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectGiaThueTu", $('.object-filter-giathuetu').val());
+                    grid.setAjaxParam("objectMatTienDen", $('.object-filter-mattienden').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
 
                 //Giá thuê từ
                 grid.getTableWrapper().on('change', '.object-filter-giathuetu', function (e) {
+                    console.debug('BBBBBBB');
                     e.preventDefault();
                     grid.setAjaxParam("objectGiaThueTu", $('.object-filter-giathuetu').val());
                     grid.getDataTable().ajax.reload();
@@ -354,6 +364,22 @@
                 grid.getTableWrapper().on('change', '.object-filter-dtsdt1den', function (e) {
                     e.preventDefault();
                     grid.setAjaxParam("objectDTSDT1Den", $('.object-filter-dtsdt1den').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+            //Tổng DTSD từ
+                grid.getTableWrapper().on('change', '.object-filter-tongdtsdtu', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectTongDTSDTu", $('.object-filter-tongdtsdtu').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
+
+            //Tổng DTSD đến
+                grid.getTableWrapper().on('change', '.object-filter-tongdtsdden', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectTongDTSDDen", $('.object-filter-tongdtsdden').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
@@ -386,16 +412,16 @@
                                 $('.table-group-action-RecentlyAdded').addClass('display-hide');
                                 $('.table-group-action-Delete').removeClass('display-hide');
 
-                                $(".table-container > div > div > div:eq(1)").removeClass("changed-status");
+                                //$(".table-container > div > div > div:eq(1)").removeClass("changed-status");
                             }
                             break;
                         case '1':
                             {
                                 $('.table-group-action-PendingPublish').addClass('display-hide');
                                 //$('.table-group-action-RecentlyAdded').addClass('display-hide');
-                                $('.table-group-action-Delete').addClass('display-hide');
+                                //$('.table-group-action-Delete').addClass('display-hide');
 
-                                $(".table-container > div > div > div:eq(1)").addClass("changed-status");
+                                //$(".table-container > div > div > div:eq(1)").addClass("changed-status");
                             }
                             break;
                     }
@@ -524,7 +550,7 @@
     }
 
     .table-group-actions {
-        margin-top: 176px;
+        margin-top: 200px;
     }
 
     .dataTables_filter {
@@ -534,7 +560,7 @@
     .table-group-actions-2 {
         float: left !important;
         width: 100%;
-        margin-top: -206px;
+        margin-top: -235px;
     }
 
         .table-group-actions-2 .row {

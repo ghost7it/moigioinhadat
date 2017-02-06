@@ -227,8 +227,13 @@ var DatatableAjaxSource = function () {
             });
 
             table.on('search.dt', function () {
-                if ($('.object-filter-mattien'))
-                    the.setAjaxParam('objectMatTien', $('.sel-mattien').val());
+                if ($('.object-filter-mattientu'))
+                    the.setAjaxParam('objectMatTienTu', $('.object-filter-mattientu').val());
+            });
+
+            table.on('search.dt', function () {
+                if ($('.object-filter-mattienden'))
+                    the.setAjaxParam('objectMatTienDen', $('.object-filter-mattienden').val());
             });
 
             table.on('search.dt', function () {

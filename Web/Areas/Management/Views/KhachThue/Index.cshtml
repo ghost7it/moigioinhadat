@@ -47,7 +47,7 @@
                                     <input class=" form-control input-inline input-small input-sm object-filter-ghichu" />
                                 </div>
                             </div>
-                            <div class="col-md-4 bgglobal">
+                            <div class="col-md-4 ">
                                 <div class="col-md-4">
                                     Quận
                                 </div>
@@ -55,7 +55,7 @@
                                     @Html.DropDownList("object-filter-quan", (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
                                 </div>
                             </div>
-                            <div class="col-md-4 bgglobal">
+                            <div class="col-md-4 ">
                                 <div class="col-md-4">
                                     Đường
                                 </div>
@@ -65,16 +65,33 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 ">
                                 <div class="col-md-4">
-                                    Mặt tiền
+                                    Mặt tiền từ
                                 </div>
                                 <div class="col-md-8">
-                                    @*@Html.DropDownList("object-filter-mattien", (IEnumerable<SelectListItem>)ViewBag.MatBangDropdownlist, "Chọn mặt tiền", new { @class = "form-control sel-mattien" })*@
-                                    <input class=" form-control input-inline input-small input-sm object-filter-mattien" />
+                                    <input class=" form-control input-inline input-small input-sm object-filter-mattientu" />
                                 </div>
                             </div>
-                            <div class="col-md-4 bgglobal">
+                            <div class="col-md-4 ">
+                                <div class="col-md-4">
+                                    Đến
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-mattienden" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    Tên khách
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-tenkhach" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 ">
                                 <div class="col-md-4">
                                     Giá thuê từ
                                 </div>
@@ -82,30 +99,12 @@
                                     <input class=" form-control input-inline input-small input-sm object-filter-giathuetu" />
                                 </div>
                             </div>
-                            <div class="col-md-4 bgglobal">
+                            <div class="col-md-4 ">
                                 <div class="col-md-4">
                                     Đến
                                 </div>
                                 <div class="col-md-8">
                                     <input class=" form-control input-inline input-small input-sm object-filter-giathueden" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 bgglobal">
-                                <div class="col-md-4">
-                                    DTSD T1 từ
-                                </div>
-                                <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1tu" />
-                                </div>
-                            </div>
-                            <div class="col-md-4 bgglobal">
-                                <div class="col-md-4">
-                                    Đến
-                                </div>
-                                <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1den" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -121,7 +120,26 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4 bgglobal">
+                            <div class="col-md-4 ">
+                                <div class="col-md-4">
+                                    DTSD T1 từ
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1tu" />
+                                </div>
+                            </div>
+                            <div class="col-md-4 ">
+                                <div class="col-md-4">
+                                    Đến
+                                </div>
+                                <div class="col-md-8">
+                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1den" />
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 ">
                                 <div class="col-md-4">
                                     Tổng DTSD từ
                                 </div>
@@ -129,20 +147,12 @@
                                     <input class=" form-control input-inline input-small input-sm object-filter-tongdtsdtu" />
                                 </div>
                             </div>
-                            <div class="col-md-4 bgglobal">
+                            <div class="col-md-4 ">
                                 <div class="col-md-4">
                                     Đến
                                 </div>
                                 <div class="col-md-8">
                                     <input class=" form-control input-inline input-small input-sm object-filter-tongdtsdden" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="col-md-4">
-                                    Tên khách
-                                </div>
-                                <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-tenkhach" />
                                 </div>
                             </div>
                         </div>
@@ -156,10 +166,10 @@
                         {
                             <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
                         }
-                        @if (canDelete)
+                        @*@if (canDelete)
                         {
                             <button class="btn btn-sm red-flamingo table-group-action-Delete"><i class="fa fa-trash-o"></i> Xóa</button>
-                        }
+                        }*@
                         <span></span>
                     </div>
                     @*<div class="table-actions-2-wrapper">
@@ -278,8 +288,9 @@
                                         //Lọc theo đã duyệt
                                     case '1':
                                         if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            //return '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
-                                            re = '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
+                                                re =  '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #ccb3ff !important" data-objectid="' + data.NhuCauThueId + '" data-objectidkhach="false" href="#"><i class="fa fa-trash-o"></i> Xóa nhu cầu</a>';
+                                                re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.Id + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
+                                            re =  re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
                                             re = re + '<a class="btn btn-xs timnha blue font-size-small @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal" ><i class="fa fa-search"></i> Nhà cho khách</a>';
                                             return re;
                                         }
@@ -377,26 +388,19 @@
                 });
 
                 //Mặt tiền
-                //$(document).on('change', '.sel-mattien', function (e) {
-                //    e.preventDefault();
-                //    grid.setAjaxParam("objectMatTien", $('.sel-mattien').val());
-                //    grid.getDataTable().ajax.reload();
-                //    grid.clearAjaxParams();
-                //});
-                grid.getTableWrapper().on('change', '.object-filter-mattien', function (e) {
+                grid.getTableWrapper().on('change', '.object-filter-mattientu', function (e) {
                     e.preventDefault();
-                    grid.setAjaxParam("objectMatTien", $('.object-filter-mattien').val());
+                    grid.setAjaxParam("objectMatTienTu", $('.object-filter-mattientu').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();
                 });
 
-                ////Giá thuê
-                //grid.getTableWrapper().on('change', '.object-filter-giathuetu', function (e) {
-                //    e.preventDefault();
-                //    grid.setAjaxParam("objectGiaThueTu", $('.object-filter-giathuetu').val());
-                //    grid.getDataTable().ajax.reload();
-                //    grid.clearAjaxParams();
-                //});
+                grid.getTableWrapper().on('change', '.object-filter-mattienden', function (e) {
+                    e.preventDefault();
+                    grid.setAjaxParam("objectMatTienDen", $('.object-filter-mattienden').val());
+                    grid.getDataTable().ajax.reload();
+                    grid.clearAjaxParams();
+                });
 
                 //Giá thuê từ
                 grid.getTableWrapper().on('change', '.object-filter-giathuetu', function (e) {
@@ -617,7 +621,7 @@
     }
 
     .table-group-actions {
-        margin-top: 176px;
+        margin-top: 201px;
     }
 
     .dataTables_filter {
@@ -627,7 +631,7 @@
     .table-group-actions-2 {
         float: left !important;
         width: 100%;
-        margin-top: -206px;
+        margin-top: -236px;
     }
 
         .table-group-actions-2 .row {
@@ -640,9 +644,5 @@
 
     #object-filter-quan, #object-filter-mattien, #object-filter-duong {
         width: 145px;
-    }
-
-    .bgglobal {
-        background-color: #f8f7f7;
     }
 </style>

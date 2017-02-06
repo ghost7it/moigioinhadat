@@ -643,10 +643,21 @@ namespace Web.Areas.Management.Controllers
             //if (!string.IsNullOrEmpty(objectMatTien))
             //    matTienId = objectMatTien.ToString();
 
-            float matTienTreoBien = 0;
-            string objectMatTien = Request.Params["objectMatTien"];
-            if (!string.IsNullOrEmpty(objectMatTien))
-                float.TryParse(objectMatTien.ToString(), out matTienTreoBien);
+            //Mặt tièn
+            float matTienTu = 0;
+            string objectMatTienTu = Request.Params["objectMatTienTu"];
+            if (!string.IsNullOrEmpty(objectMatTienTu))
+                float.TryParse(objectMatTienTu.ToString(), out matTienTu);
+
+            float matTienDen = 0;
+            string objectMatTienDen = Request.Params["objectMatTienDen"];
+            if (!string.IsNullOrEmpty(objectMatTienDen))
+                float.TryParse(objectMatTienDen.ToString(), out matTienDen);
+
+            if (matTienDen == 0)
+            {
+                matTienDen = float.MaxValue;
+            }
 
             decimal giaThueTu = 0;
             string objectGiaThueTu = Request.Params["objectGiaThueTu"];
@@ -741,8 +752,7 @@ namespace Web.Areas.Management.Controllers
                        (t.QuanId == quanId || quanId == 0) &&
                        (t.DuongId == duongId || duongId == 0) &&
                        (t.TrangThaiId == status) &&
-                    //(t.MatBangId.Contains(matTienId) || matTienId == "") &&
-                       (t.MatTienTreoBien == matTienTreoBien) &&
+                        (matTienTu <= t.MatTienTreoBien && t.MatTienTreoBien <= matTienDen) &&
                        (t.TenNguoiLienHeVaiTro.Contains(tenKhach) || tenKhach == "") &&
                        (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
                        (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
