@@ -493,8 +493,8 @@ namespace Web.Areas.Management.Controllers
                             {
                                 nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
                             }
-                            nhucauthue.NgayTao = DateTime.Now;
-                            nhucauthue.TrangThai = 0; //Chờ duyệt
+                            //nhucauthue.NgayTao = DateTime.Now;
+                            //nhucauthue.TrangThai = 0; //Chờ duyệt
                             try
                             {
                                 result1 = await _repository.GetRepository<NhuCauThue>().UpdateAsync(nhucauthue, AccountId);
