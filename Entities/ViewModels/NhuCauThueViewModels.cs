@@ -5,7 +5,7 @@ namespace Entities.ViewModels
     {
         public string KhachId { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
+        //[Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
         [Display(Name = "Loại mặt bằng")]
         public string MatBangId { get; set; }
 

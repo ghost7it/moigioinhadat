@@ -170,36 +170,44 @@ namespace Web.Areas.Management.Controllers
 
             //var account = await _repository.GetRepository<Account>().ReadAsync(article.NguoiTaoId);
 
-            string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (matbangarr.Count() > 0)
+            if (!string.IsNullOrEmpty(article.MatBangId))
             {
-                for (var i = 0; i < matbangarr.Count(); i++)
+                string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (matbangarr.Count() > 0)
                 {
-                    if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                    for (var i = 0; i < matbangarr.Count(); i++)
                     {
-                        ViewBag.MatBang += (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
-                        if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                        if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
                         {
-                            ViewBag.MatBang += @"</br>";
+                            ViewBag.MatBang += (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                            if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                            {
+                                ViewBag.MatBang += @"</br>";
+                            }
                         }
                     }
-                }
+                } 
             }
-            string[] danhgiaarr = article.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            if (danhgiaarr.Count() > 0)
+
+            if (!string.IsNullOrEmpty(article.DanhGiaPhuHopVoiId))
             {
-                for (var i = 0; i < danhgiaarr.Count(); i++)
+                string[] danhgiaarr = article.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (danhgiaarr.Count() > 0)
                 {
-                    if (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i])) != null)
+                    for (var i = 0; i < danhgiaarr.Count(); i++)
                     {
-                        ViewBag.DanhGiaPhuHopVoi += (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i]))).Name;
-                        if (danhgiaarr[i] != danhgiaarr[danhgiaarr.Count() - 1])
+                        if (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i])) != null)
                         {
-                            ViewBag.DanhGiaPhuHopVoi += @"</br>";
+                            ViewBag.DanhGiaPhuHopVoi += (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(danhgiaarr[i]))).Name;
+                            if (danhgiaarr[i] != danhgiaarr[danhgiaarr.Count() - 1])
+                            {
+                                ViewBag.DanhGiaPhuHopVoi += @"</br>";
+                            }
                         }
                     }
-                }
+                } 
             }
+
             ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
             ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
             ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId)).Name;
@@ -285,20 +293,45 @@ namespace Web.Areas.Management.Controllers
                 y += ls;
                 gfx.DrawString("Tên tòa nhà: " + article.TenToaNha, font, XBrushes.Black, x, y);
                 y += ls;
+
                 gfx.DrawString("Loại mặt bằng: ", font, XBrushes.Black, x, y);
                 y += ls * 1.1;
-                string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                if (matbangarr.Count() > 0)
+
+                if (!string.IsNullOrEmpty(article.MatBangId))
                 {
-                    for (var i = 0; i < matbangarr.Count(); i++)
+                    string[] matbangarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (matbangarr.Count() > 0)
                     {
-                        if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                        for (var i = 0; i < matbangarr.Count(); i++)
                         {
-                            gfx.DrawString("- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name, font, XBrushes.Black, x + 2, y);
-                            y += ls * 1.1;
+                            if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                            {
+                                gfx.DrawString("- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name, font, XBrushes.Black, x + 2, y);
+                                y += ls * 1.1;
+                            }
                         }
-                    }
-                }            
+                    } 
+                }
+
+                gfx.DrawString("Đánh giá phù hợp với: ", font, XBrushes.Black, x, y);
+                y += ls * 1.1;
+
+                if (!string.IsNullOrEmpty(article.MatBangId))
+                {
+                    string[] phuHopVoiarr = article.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (phuHopVoiarr.Count() > 0)
+                    {
+                        for (var i = 0; i < phuHopVoiarr.Count(); i++)
+                        {
+                            if (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt64(phuHopVoiarr[i])) != null)
+                            {
+                                gfx.DrawString("- " + (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt64(phuHopVoiarr[i]))).Name, font, XBrushes.Black, x + 2, y);
+                                y += ls * 1.1;
+                            }
+                        }
+                    }   
+                }
+          
                 double y1 = y;
                 var quan = await _repository.GetRepository<Quan>().ReadAsync(article.QuanId);
                 gfx.DrawString("Quận: " + (quan != null ? quan.Name : ""), font, XBrushes.Black, x, y);
@@ -336,26 +369,28 @@ namespace Web.Areas.Management.Controllers
                 y += ls * 1.5;
                 gfx.DrawString("Ảnh mô tả", font, XBrushes.Firebrick, x, y);
                 y += ls * 1;
+                
                 if (!string.IsNullOrEmpty(article.ImageDescription1))
                 {
-                    AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription1), x, y);
-                    y += ls * 1;
+                    y += ls * 1 + AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription1), x, y);
+                    
                 }
                 if (!string.IsNullOrEmpty(article.ImageDescription2))
                 {
-                    AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription2), x, y);
-                    y += ls * 1;
+                    y += ls * 1 + AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription2), x, y);
                 }
+                pdfPage = pdf.AddPage();
+                gfx = XGraphics.FromPdfPage(pdfPage);
+                y = 70;
                 if (!string.IsNullOrEmpty(article.ImageDescription3))
                 {
-                    AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription3), x, y);
-                    y += ls * 1;
+                    y += ls * 1 + AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription3), x, y);
                 }
                 if (!string.IsNullOrEmpty(article.ImageDescription4))
                 {
-                    AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription4), x, y);
-                    y += ls * 1;
+                    y += ls * 1 + AddImage(gfx, pdfPage, Server.MapPath(article.ImageDescription4), x, y);
                 }
+
                 string pdfFilename = "ThongTinNha__" + string.Format("{0:ddMMyyyy_HHmmss}", DateTime.Now) + ".pdf";
                 DeleteFile(Server.MapPath("/Uploads/PDFFile/"));
                 pdf.Save(Server.MapPath("/Uploads/PDFFile/" + pdfFilename));
@@ -407,13 +442,18 @@ namespace Web.Areas.Management.Controllers
                 throw;
             }
         }
-        void AddImage(XGraphics gfx, PdfPage page, string imagePath, double xPosition, double yPosition)
+        private float AddImage(XGraphics gfx, PdfPage page, string imagePath, double xPosition, double yPosition)
         {
+            //var i = Server.UrlDecode(imagePath);
+            //XImage xImage1 = XImage.FromFile(Server.UrlDecode(imagePath));
+            var heightImg = 0;
             if (System.IO.File.Exists(imagePath))
             {
                 XImage xImage = XImage.FromFile(imagePath);
-                gfx.DrawImage(xImage, xPosition, yPosition, xImage.PixelWidth, xImage.PixelWidth);
+                gfx.DrawImage(xImage, xPosition, yPosition, xImage.PixelWidth, xImage.PixelHeight);
+                heightImg = xImage.PixelHeight;
             }
+            return heightImg;
             //throw new FileNotFoundException(String.Format("Could not find image {0}.", imagePath));
         }
         

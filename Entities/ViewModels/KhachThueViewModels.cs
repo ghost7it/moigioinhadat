@@ -40,7 +40,7 @@ namespace Entities.ViewModels
 
         public string KhachId { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
+        //[Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
         [Display(Name = "Loại mặt bằng")]
         public string MatBangId { get; set; }
 
@@ -101,10 +101,10 @@ namespace Entities.ViewModels
         [Display(Name = "Nột thất/khách thuê cũ")]
         public string NoiThatKhachThueCuId { get; set; }
 
-        [Display(Name = "Tổng giá thuê (triệu VNĐ)")]
+        [Display(Name = "Tổng giá thuê (VNĐ)")]
         public string TongGiaThue { get; set; }
 
-        [Display(Name = "Giá thuê BQ/m2 (triệu VNĐ)")]
+        [Display(Name = "Giá thuê BQ/m2 (VNĐ)")]
         public string GiaThueBQ { get; set; }
 
         [Display(Name = "Ngày CN hẹn liên hệ lại")]
@@ -125,6 +125,10 @@ namespace Entities.ViewModels
 
         [Display(Name = "Trạng thái nhu cầu")]
         public string TrangThaiNhuCau { get; set; }
+
+        [Display(Name = "Ngày cập nhật")]
+        [RegularExpression(@"^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$", ErrorMessage = "Ngày không hợp lệ!")]
+        public string NgayCapNhat { get; set; }
 
         public List<MatBangItem> ListMatBangArr { get; set; }
 
@@ -163,7 +167,7 @@ namespace Entities.ViewModels
         public string PhanKhuc { get; set; }
 
         [Display(Name = "Ghi chú")]
-        public string GhiChu { get; set; }
+        public string GhiChuKhach { get; set; }
 
         [Display(Name = "Ngày tạo")]
         [RegularExpression(@"^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$", ErrorMessage = "Ngày không hợp lệ!")]
@@ -177,7 +181,7 @@ namespace Entities.ViewModels
 
         public string KhachId { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
+        //[Required(ErrorMessage = "Vui lòng chọn loại mặt bằng")]
         [Display(Name = "Loại mặt bằng")]
         public string MatBangId { get; set; }
 
@@ -259,6 +263,10 @@ namespace Entities.ViewModels
 
         [Display(Name = "Trạng thái nhu cầu")]
         public string TrangThaiNhuCau { get; set; }
+
+        [Display(Name = "Ngày cập nhật")]
+        [RegularExpression(@"^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$", ErrorMessage = "Ngày không hợp lệ!")]
+        public string NgayCapNhat { get; set; }
 
         public List<MatBangItem> ListMatBangArr { get; set; }
 

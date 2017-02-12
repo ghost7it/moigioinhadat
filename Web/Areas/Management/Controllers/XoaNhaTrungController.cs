@@ -60,6 +60,7 @@ namespace Web.Areas.Management.Controllers
                 string objectStatus = Request.Params["objectStatus"];//Lọc trạng thái bài viết
                 if (!string.IsNullOrEmpty(objectStatus))
                     int.TryParse(objectStatus.ToString(), out status);
+
                 Paging paging = new Paging()
                 {
                     TotalRecord = 0,
@@ -73,18 +74,24 @@ namespace Web.Areas.Management.Controllers
                                     .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
                                        .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, e => e.Id, (b, e) => new { Nha = b, Duong = e }).ToList();
 
+                var nhaCopy = _repository.GetRepository<Nha>().GetAll()
+                                   .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
+                                      .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, e => e.Id, (b, e) => new { Nha = b, Duong = e }).ToList();
+
                 List<object> objResult = new List<object>();
 
-                for (int i = nha.Count - 1; i >= 0; i--)
+                //for (int i = nha.Count - 1; i > -1; i--)
+                for (int i = 0; i < nha.Count; i++)
                 {
                     string soDienThoaiCheck = nha[i].Nha.Nha.SoDienThoai;
                     long quanCheck = nha[i].Nha.Nha.QuanId;
                     long duongCheck = nha[i].Nha.Nha.DuongId;
 
                     //Get các bản records duplicate theo cặp
-                    var itemDuplicateList = nha.Where(t => t.Nha.Nha.SoDienThoai == soDienThoaiCheck &&
+                    var itemDuplicateList = nhaCopy.Where(t => t.Nha.Nha.SoDienThoai == soDienThoaiCheck &&
                                                       t.Nha.Nha.QuanId == quanCheck &&
                                                       t.Nha.Nha.DuongId == duongCheck).ToList();
+
 
                     //Kiểm tra nếu có trùng thì ném vào list kết quả
                     if (itemDuplicateList.Count > 1)
@@ -101,10 +108,10 @@ namespace Web.Areas.Management.Controllers
                                 TrangThai = itemDup.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"
                             });
 
-
                         }
+
                         //Xóa thằng đã lấy được ra khỏi list kiểm tra
-                        nha.RemoveAll(t => t.Nha.Nha.SoDienThoai == soDienThoaiCheck &&
+                        nhaCopy.RemoveAll(t => t.Nha.Nha.SoDienThoai == soDienThoaiCheck &&
                                       t.Nha.Nha.QuanId == quanCheck &&
                                       t.Nha.Nha.DuongId == duongCheck);
                     }

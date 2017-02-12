@@ -235,7 +235,7 @@
                                         re = '<a class="btn btn-xs blue PendingPublish" data-objectid="' + data.Id + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
                                     }
                                     if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                        re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("NhaUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';
+                                        re = re + '<a class="btn btn-xs blue RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("NhaUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';
                                     }
                                     if ('@canDelete' == 'true' || '@canDelete' == 'True') {
                                         re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
@@ -246,8 +246,8 @@
                                     //Lọc theo đã duyệt
                                 case '1':
                                     if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                        //re = '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
-                                        re = '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
+                                        re = '<a class="btn btn-xs blue RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("NhaUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';
+                                        re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
                                         re = re +  '<a class="btn btn-xs blue @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimKhach", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-search"></i> Khách phù hợp</a>';
                                         re = re + '<a class="btn btn-xs blue" href="' + ('@Url.RouteUrl("RaoVatModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-share"></i> Đăng rao vặt</a>';
                                         return re;
@@ -320,7 +320,6 @@
 
             //Mặt tiền từ
                 grid.getTableWrapper().on('change', '.object-filter-mattientu', function (e) {
-                    console.debug('AAAAAAAA');
                     e.preventDefault();
                     grid.setAjaxParam("objectMatTienTu", $('.object-filter-mattientu').val());
                     grid.getDataTable().ajax.reload();
@@ -337,7 +336,6 @@
 
                 //Giá thuê từ
                 grid.getTableWrapper().on('change', '.object-filter-giathuetu', function (e) {
-                    console.debug('BBBBBBB');
                     e.preventDefault();
                     grid.setAjaxParam("objectGiaThueTu", $('.object-filter-giathuetu').val());
                     grid.getDataTable().ajax.reload();

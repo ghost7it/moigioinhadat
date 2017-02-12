@@ -72,16 +72,20 @@ namespace Web.Areas.Management.Controllers
                 var khach = _repository.GetRepository<Khach>().GetAll()
                                 .Join(_repository.GetRepository<NhuCauThue>().GetAll(), b => b.Id, e => e.KhachId, (b, e) => new { Khach = b, NhuCauThue = e }).ToList();
 
+                var khachCopy = _repository.GetRepository<Khach>().GetAll()
+                                .Join(_repository.GetRepository<NhuCauThue>().GetAll(), b => b.Id, e => e.KhachId, (b, e) => new { Khach = b, NhuCauThue = e }).ToList();
+
                 List<object> objResult = new List<object>();
 
-                for (int i = khach.Count - 1; i >= 0; i--)
+                //for (int i = khach.Count - 1; i >= 0; i--)
+                for (int i = 0; i < khach.Count; i++)
                 {
                     string soDienThoaiCheck = khach[i].Khach.SoDienThoai;
                     long quanCheck = khach[i].NhuCauThue.QuanId;
                     long duongCheck = khach[i].NhuCauThue.DuongId;
 
                     //Get các bản records duplicate theo cặp
-                    var itemDuplicateList = khach.Where(t => t.Khach.SoDienThoai == soDienThoaiCheck &&
+                    var itemDuplicateList = khachCopy.Where(t => t.Khach.SoDienThoai == soDienThoaiCheck &&
                                                       t.NhuCauThue.QuanId == quanCheck &&
                                                       t.NhuCauThue.DuongId == duongCheck).ToList();
 
@@ -104,7 +108,7 @@ namespace Web.Areas.Management.Controllers
 
                         }
                         //Xóa thằng đã lấy được ra khỏi list kiểm tra
-                        khach.RemoveAll(t => t.Khach.SoDienThoai == soDienThoaiCheck &&
+                        khachCopy.RemoveAll(t => t.Khach.SoDienThoai == soDienThoaiCheck &&
                                       t.NhuCauThue.QuanId == quanCheck &&
                                       t.NhuCauThue.DuongId == duongCheck);
                     }

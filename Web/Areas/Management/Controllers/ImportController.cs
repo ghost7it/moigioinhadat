@@ -50,7 +50,7 @@ namespace Web.Areas.Management.Controllers
         public ActionResult ImportNha(HttpPostedFileBase uploadFile)
         {
             StringBuilder strValidations = new StringBuilder(string.Empty);
-           /* try
+            try
             {
                 if (uploadFile.ContentLength > 0)
                 {
@@ -101,7 +101,7 @@ namespace Web.Areas.Management.Controllers
                                             string capDoTheoDoi = Convert.ToString(r["Cấp độ theo dõi"]);
                                             int capDoTheoDoiId = (_repository.GetRepository<CapDoTheoDoi>().Read(o => o.Name == capDoTheoDoi)).Id;
 
-                                            nha.MatBangId = matBangId;
+                                            nha.MatBangId = Convert.ToString(matBangId);
                                             nha.QuanId = quanId;
                                             nha.DuongId = duongId;
                                             nha.SoNha = r["Số nhà"] == DBNull.Value ? "" : r["Số nhà"].ToString();
@@ -116,7 +116,7 @@ namespace Web.Areas.Management.Controllers
                                             nha.Ham = (string)r["Hầm"] == "Có" ? true : false;
                                             nha.ThangMay = (string)r["Thang máy"] == "Có" ? true : false;
                                             nha.NoiThatKhachThueCuId = noiThatKhachThueCuId;
-                                            nha.DanhGiaPhuHopVoiId = danhGiaPhuHopVoiId;
+                                            nha.DanhGiaPhuHopVoiId = Convert.ToString(danhGiaPhuHopVoiId);
                                             nha.TongGiaThue = r["Tổng giá thuê"] == DBNull.Value ? 0 : decimal.Parse(r["Tổng giá thuê"].ToString());
                                             nha.GiaThueBQ = r["Giá thuê BQ"] == DBNull.Value ? 0 : decimal.Parse(r["Giá thuê BQ"].ToString());
                                             nha.TenNguoiLienHeVaiTro = r["Tên người liên hệ - vai trò"] == DBNull.Value ? "" : (string)r["Tên người liên hệ - vai trò"];
@@ -168,7 +168,7 @@ namespace Web.Areas.Management.Controllers
             {
                 TempData["Error"] = "Import dữ liệu không thành công, vui lòng thử lại!";
                 return RedirectToAction("Index");
-            } */
+            }
             return RedirectToAction("Index");
         }
 

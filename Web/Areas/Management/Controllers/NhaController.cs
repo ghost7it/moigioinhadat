@@ -49,6 +49,7 @@ namespace Web.Areas.Management.Controllers
             var matBang = _repository.GetRepository<MatBang>().GetAll();
             var model = new NhaCreatingViewModel();
             var listMatBangArr = new List<MatBangItem>();
+
             if (matBang.Any())
             {
                 foreach (var item in matBang)
@@ -56,11 +57,13 @@ namespace Web.Areas.Management.Controllers
                     listMatBangArr.Add(new MatBangItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
                 }
             }
+
             model.ListMatBangArr = listMatBangArr;
 
             //Đánh giá phù hợp với
             var danhGia = _repository.GetRepository<DanhGiaPhuHopVoi>().GetAll();
             var listDanhGiaArr = new List<DanhGiaPhuHopVoiItem>();
+
             if (danhGia.Any())
             {
                 foreach (var item in danhGia)
@@ -68,6 +71,7 @@ namespace Web.Areas.Management.Controllers
                     listDanhGiaArr.Add(new DanhGiaPhuHopVoiItem { FieldKey = item.Id, FieldName = item.Name, IsSelected = false });
                 }
             }
+
             model.ListDanhGiaPhuHopVoiArr = listDanhGiaArr;
 
             return View(model);
@@ -115,6 +119,7 @@ namespace Web.Areas.Management.Controllers
                 nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                 nha.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
+
                 nha.ImageDescription1 = StringHelper.KillChars(model.ImageDescription1);
                 nha.ImageDescription2 = StringHelper.KillChars(model.ImageDescription2);
                 nha.ImageDescription3 = StringHelper.KillChars(model.ImageDescription3);
@@ -456,7 +461,7 @@ namespace Web.Areas.Management.Controllers
                         }
                     }
                 }
-            }  
+            }
 
             NhaUpdatingViewModel model = new NhaUpdatingViewModel()
             {
@@ -509,7 +514,7 @@ namespace Web.Areas.Management.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id); 
+                    Nha nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
                     decimal giaThueBQ = 0;
 
@@ -533,7 +538,7 @@ namespace Web.Areas.Management.Controllers
                     nha.Ham = model.Ham == "1" ? true : false;
                     nha.ThangMay = model.ThangMay == "1" ? true : false;
                     nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
-                    nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId; 
+                    nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
                     nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
                     nha.GiaThueBQ = giaThueBQ; //string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                     nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
@@ -861,14 +866,29 @@ namespace Web.Areas.Management.Controllers
                 if (nha.QuanId != null || nha.QuanId != 0)
                 {
                     strContent += "quận ";
-                    strContent += quan;
+                    strContent += quan + ". <br/>";
                 }
 
-                //if (nha.DanhGiaPhuHopVoiId != null || nha.DanhGiaPhuHopVoiId != 0)
-                //{
-                //    strContent += ", phù hợp với ";
-                //    strContent += danhGiaPhuHopVoi + ". <br/>";
-                //}
+                //Đánh giá phù hợp với
+                string danhGiaPhuHopVoi = "";
+
+                if (!string.IsNullOrEmpty(nha.DanhGiaPhuHopVoiId))
+                {
+                    string[] danhGiaArr = nha.DanhGiaPhuHopVoiId.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var item in danhGiaArr)
+                    {
+                        string name = (await _repository.GetRepository<DanhGiaPhuHopVoi>().ReadAsync(Convert.ToInt32(item))).Name;
+
+                        danhGiaPhuHopVoi = danhGiaPhuHopVoi == "" ? name : danhGiaPhuHopVoi + ", " + name;
+                    }
+                }
+
+                if (danhGiaPhuHopVoi != "")
+                {
+                    strContent += "Phù hợp với: ";
+                    strContent += danhGiaPhuHopVoi + ". <br/>";
+                }
 
                 if (nha.MatTienTreoBien != null || nha.MatTienTreoBien != 0)
                 {

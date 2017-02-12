@@ -60,84 +60,112 @@ namespace Web.Areas.Management.Controllers
             using (TransactionScope tscope = new TransactionScope())
             {
                 //Chuyển giao trong bảng Nhà
-                Nha nha = _repository.GetRepository<Nha>().Read(o => o.NguoiTaoId == nguoiGiaoId);
+                var nha = _repository.GetRepository<Nha>().GetAll(o => o.NguoiTaoId == nguoiGiaoId || o.NguoiPhuTrachId == nguoiGiaoId);
 
-                nha.NguoiPhuTrachId = nguoiNhanId;
-                int result1 = _repository.GetRepository<Nha>().Update(nha, AccountId);
-
-                if (result1 < 1)
+                if (nha != null || nha.Count() > 0)
                 {
-                    //Rollback
-                    Transaction.Current.Rollback();
-                    tscope.Dispose();
+                    foreach (var item in nha)
+                    {
+                        item.NguoiPhuTrachId = nguoiNhanId;
+                        int result1 = _repository.GetRepository<Nha>().Update(item, AccountId);
 
-                    TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
-                    InitData();
+                        if (result1 < 1)
+                        {
+                            //Rollback
+                            Transaction.Current.Rollback();
+                            tscope.Dispose();
 
-                    return View("Index");
+                            TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
+
+                            InitData();
+
+                            return View("Index");
+                        }
+                    }
                 }
 
                 //Chuyển giao trong bảng Nhu cầu thuê
-                NhuCauThue nhuCauThue = _repository.GetRepository<NhuCauThue>().Read(o => o.NguoiTaoId == nguoiGiaoId);
+                var nhuCauThue = _repository.GetRepository<NhuCauThue>().GetAll(o => o.NguoiTaoId == nguoiGiaoId || o.NguoiPhuTrachId == nguoiGiaoId);
 
-                nhuCauThue.NguoiPhuTrachId = nguoiNhanId;
-                int result2 = _repository.GetRepository<NhuCauThue>().Update(nhuCauThue, AccountId);
-
-                if (result2 < 1)
+                if (nhuCauThue != null)
                 {
-                    //Rollback
-                    Transaction.Current.Rollback();
-                    tscope.Dispose();
+                    foreach (var item in nhuCauThue)
+                    {
+                        item.NguoiPhuTrachId = nguoiNhanId;
+                        int result2 = _repository.GetRepository<NhuCauThue>().Update(item, AccountId);
 
-                    TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
-                    InitData();
+                        if (result2 < 1)
+                        {
+                            //Rollback
+                            Transaction.Current.Rollback();
+                            tscope.Dispose();
 
-                    return View("Index");
+                            TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
+                            InitData();
+
+                            return View("Index");
+                        }
+                    }
                 }
 
                 //Chuyển giao trong bảng Khách
-                Khach khach = _repository.GetRepository<Khach>().Read(o => o.NguoiTaoId == nguoiGiaoId);
+                var khach = _repository.GetRepository<Khach>().GetAll(o => o.NguoiTaoId == nguoiGiaoId || o.NguoiPhuTrachId == nguoiGiaoId);
 
-                khach.NguoiPhuTrachId = nguoiNhanId;
-                int result21 = _repository.GetRepository<Khach>().Update(khach, AccountId);
-
-                if (result21 < 1)
+                if (khach != null)
                 {
-                    //Rollback
-                    Transaction.Current.Rollback();
-                    tscope.Dispose();
+                    foreach (var item in khach)
+                    {
+                        item.NguoiPhuTrachId = nguoiNhanId;
+                        int result21 = _repository.GetRepository<Khach>().Update(item, AccountId);
 
-                    TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
-                    InitData();
+                        if (result21 < 1)
+                        {
+                            //Rollback
+                            Transaction.Current.Rollback();
+                            tscope.Dispose();
 
-                    return View("Index");
+                            TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
+                            InitData();
+
+                            return View("Index");
+                        }
+                    }
                 }
 
                 //Chuyển giao trong bảng Quản lý công việc
-                QuanLyCongViec quanLyCongViec = _repository.GetRepository<QuanLyCongViec>().Read(o => o.NhanVienPhuTrachId == nguoiGiaoId);
+                var quanLyCongViec = _repository.GetRepository<QuanLyCongViec>().GetAll(o => o.NhanVienPhuTrachId == nguoiGiaoId);
 
-                quanLyCongViec.NhanVienPhuTrachId = nguoiNhanId;
-                int result3 = _repository.GetRepository<QuanLyCongViec>().Update(quanLyCongViec, AccountId);
-
-                if (result3 < 1)
+                if (quanLyCongViec != null)
                 {
-                    //Rollback
-                    Transaction.Current.Rollback();
-                    tscope.Dispose();
+                    foreach (var item in quanLyCongViec)
+                    {
+                        item.NhanVienPhuTrachId = nguoiNhanId;
 
-                    TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
-                    InitData();
+                        int result3 = _repository.GetRepository<QuanLyCongViec>().Update(item, AccountId);
 
-                    return View("Index");
+                        if (result3 < 1)
+                        {
+                            //Rollback
+                            Transaction.Current.Rollback();
+                            tscope.Dispose();
+
+                            TempData["Error"] = "Có lỗi xảy ra, vui lòng thử lại!";
+                            InitData();
+
+                            return View("Index");
+                        }
+                    }
                 }
 
-                tscope.Complete();
-
                 TempData["Success"] = "Chuyển giao dữ liệu thành công!";
-                InitData();
 
-                return View("Index");
+                tscope.Complete();
             }
+
+            InitData();
+
+            return View("Index");
+
         }
 
         public void InitData()

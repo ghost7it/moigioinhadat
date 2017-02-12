@@ -101,6 +101,21 @@ namespace Entities.Models
 
         public long NguoiPhuTrachId { get; set; }
 
+        [Display(Name = "Tên khách")]
+        public string TenKhach { get; set; }
+
+        [Display(Name = "Tên người liên hệ - vai trò")]
+        public string TenNguoiLienHeVaiTro { get; set; }
+
+        [Display(Name = "Số điện thoại")]
+        public string SoDienThoai { get; set; }
+
+        [Display(Name = "Ngày cập nhật")]
+        public DateTime? NgayCapNhat { get; set; }
+
+        [Display(Name = "Ghi chú khách")]
+        public string GhiChuKhach { get; set; }
+
         public string Describe()
         {
             return "{ Id : \"" + Id + "\", Name : \"" + Id + "\" }";
