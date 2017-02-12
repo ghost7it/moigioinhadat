@@ -35,31 +35,31 @@
                 </div>
             </div>
             @*<div class="row static-info">
-                <div class="col-md-4 name">
-                    Lĩnh vực:
-                </div>
-                <div class="col-md-8 value">
-                    @Model.LinhVuc
-                </div>
-            </div>*@
+                    <div class="col-md-4 name">
+                        Lĩnh vực:
+                    </div>
+                    <div class="col-md-8 value">
+                        @Model.LinhVuc
+                    </div>
+                </div>*@
         </div>
         <div class="col-md-6">
             @*<div class="row static-info">
-                <div class="col-md-4 name">
-                    SP chính
+                    <div class="col-md-4 name">
+                        SP chính
+                    </div>
+                    <div class="col-md-8 value">
+                        @Model.SPChinh
+                    </div>
                 </div>
-                <div class="col-md-8 value">
-                    @Model.SPChinh
-                </div>
-            </div>
-            <div class="row static-info">
-                <div class="col-md-4 name">
-                    Phân khúc
-                </div>
-                <div class="col-md-8 value">
-                    @Model.PhanKhuc
-                </div>
-            </div>*@
+                <div class="row static-info">
+                    <div class="col-md-4 name">
+                        Phân khúc
+                    </div>
+                    <div class="col-md-8 value">
+                        @Model.PhanKhuc
+                    </div>
+                </div>*@
             <div class="row static-info">
                 <div class="col-md-4 name">
                     Ghi chú
@@ -117,32 +117,32 @@
                 <div class="col-md-4 name">
                     Mặt tiền treo biển
                 </div>
-                <div class="col-md-8 value">
-                    @Model.MatTienTreoBien (m)
+                <div class="col-md-8 value mattientreobien">
+                    <span>  @Model.MatTienTreoBien </span> (m)
                 </div>
             </div>
             <div class="row static-info">
                 <div class="col-md-4 name">
                     Bề ngang lọt lòng
                 </div>
-                <div class="col-md-8 value">
-                    @Model.BeNgangLotLong (m)
+                <div class="col-md-8 value benganglotlong">
+                    <span>  @Model.BeNgangLotLong </span> (m)
                 </div>
             </div>
             <div class="row static-info">
                 <div class="col-md-4 name">
                     Diện tích đất
                 </div>
-                <div class="col-md-8 value">
-                    @Model.DienTichDat (m2)
+                <div class="col-md-8 value dientichdat">
+                    <span> @Model.DienTichDat </span> (m2)
                 </div>
             </div>
             <div class="row static-info">
                 <div class="col-md-4 name">
                     Diện tích đất sử dụng tầng 1
                 </div>
-                <div class="col-md-8 value">
-                    @Model.DienTichDatSuDungTang1 (m2)
+                <div class="col-md-8 value dientichdatsudungtang1">
+                    <span>@Model.DienTichDatSuDungTang1</span> (m2)
                 </div>
             </div>
             <div class="row static-info">
@@ -167,8 +167,8 @@
                 <div class="col-md-4 name">
                     Tổng diện tích sử dụng
                 </div>
-                <div class="col-md-8 value">
-                    @Model.TongDienTichSuDung (m2)
+                <div class="col-md-8 value tongdientichsudung">
+                    <span>@Model.TongDienTichSuDung</span> (m2)
                 </div>
             </div>
             <div class="row static-info">
@@ -207,16 +207,16 @@
                 <div class="col-md-4 name">
                     Tổng giá thuê
                 </div>
-                <div class="col-md-8 value">
-                    @Model.TongGiaThue (triệu VNĐ)
+                <div class="col-md-8 value tonggiathue">
+                    <span>@Model.TongGiaThue</span> (VNĐ)
                 </div>
             </div>
-            <div class="row static-info">
+            <div class="row static-info hidden">
                 <div class="col-md-4 name">
                     Giá thuê BQ/m2
                 </div>
-                <div class="col-md-8 value">
-                    @Model.GiaThueBQ (triệu VNĐ)
+                <div class="col-md-8 value giathuebq">
+                    <span>@Model.GiaThueBQ </span>(VNĐ)
                 </div>
             </div>
             <div class="row static-info">
@@ -247,10 +247,36 @@
     </div>
 
 </div>
-  
+
 <div class="modal-footer">
     <button type="button" class="btn default" data-dismiss="modal">Đóng lại</button>
 </div>
+<script>
+    $(function () {
+        function addCommas(nStr) {
+            nStr += '';
+            var x = nStr.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        }
+
+        setTimeout(function () {
+            $(".mattientreobien span, .benganglotlong span, .dientichdat span, .dientichdatsudungtang1 span, .giathuebq span, .tonggiathue span, .tongdientichsudung span").each(function () {
+                var itemValue = $(this).text().replace(/,/g, '').replace(".00", "");
+                if ($.isNumeric(itemValue)) {
+                    itemValue = addCommas(itemValue);
+                }
+                $(this).text(itemValue);
+            });
+        }, 300);
+
+    });
+</script>
 <style type="text/css">
     .modal-dialog {
         width: 960px;

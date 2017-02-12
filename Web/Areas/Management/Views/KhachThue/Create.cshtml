@@ -401,7 +401,7 @@
                                             @Html.ValidationMessageFor(model => model.TongGiaThue)
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         @Html.LabelFor(model => model.GiaThueBQ, new { @class = "col-md-3 control-label" })
                                         <div class="col-md-9">
                                             @Html.TextBoxFor(model => model.GiaThueBQ, new { @class = "form-control" })
@@ -489,6 +489,18 @@
             });
         };
         $(function () {
+            function addCommas(nStr) {
+                nStr += '';
+                var x = nStr.split('.');
+                var x1 = x[0];
+                var x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            }
+
             $(".checkboxmatbang input:checkbox").click(function () {
                 var valuecheckbox = "";
                 $(".checkboxmatbang input:checkbox").each(function (index) {
@@ -500,6 +512,13 @@
                 $("#MatBangId").val(valuecheckbox);
             });
 
+            $("#MatTienTreoBien, #BeNgangLotLong, #DienTichDat, #DienTichDatSuDungTang1, #GiaThueBQ, #TongGiaThue, #TongDienTichSuDung").keyup(function () {
+                var itemValue = $(this).val().replace(/,/g, '');
+                if ($.isNumeric(itemValue)) {
+                    itemValue = addCommas(itemValue);
+                }
+                $(this).val(itemValue);
+            });
             $("#MatTienTreoBien, #BeNgangLotLong, #DienTichDat, #DienTichDatSuDungTang1, #GiaThueBQ, #TongGiaThue, #TongDienTichSuDung").keypress(function (e) {
                 //if the letter is not digit then display error and don't type anything
                 if ($(this).val().indexOf(".") != -1 && e.which == 46) {
@@ -529,10 +548,17 @@
                 $(".form_wr .quanduongwr.row" + (rowcountnothidden +1) + "").removeClass("hidden");
             });
             $("button:submit").click(function () {
+                getValueQuanDuongArr();
+            });
+            
+            $(".sel-quan, .sel-duong").change(function () {
+                getValueQuanDuongArr();
+            }); 
+            function getValueQuanDuongArr() {
                 var arrQuanDuong = "";
                 if ($("select[name='QuanId']").val() != "" && $("select[name='QuanId']").val() != undefined && $("select[name='DuongId']").val() != "" && $("select[name='DuongId']").val() != undefined) {
                     arrQuanDuong += $("select[name='QuanId']").val();
-                    arrQuanDuong += "," + $("select[name='QuanId']").val();
+                    arrQuanDuong += "," + $("select[name='DuongId']").val();
                 }
                 $(".form_wr .quanduongwr:not('.hidden')").each(function () {
                     var quanindexvalue = $(this).find("select[name='QuanMultiId']").val();
@@ -543,7 +569,7 @@
                     }
                 });
                 $("input[name='QuanDuongArr']").val(arrQuanDuong);
-            });
+            }
         });
 
     </script>
@@ -559,3 +585,4 @@
         background: #e9e9e9;
     }
 </style>
+

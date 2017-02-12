@@ -44,7 +44,7 @@
                                     Ghi chú
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-ghichu" />
+                                    <input class=" form-control input-inline input-small inputwidth input-sm object-filter-ghichu" />
                                 </div>
                             </div>
                             <div class="col-md-4 ">
@@ -52,7 +52,7 @@
                                     Quận
                                 </div>
                                 <div class="col-md-8">
-                                    @Html.DropDownList("object-filter-quan", (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                    @Html.DropDownList("object-filter-quan", (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "inputwidth form-control sel-quan" })
                                 </div>
                             </div>
                             <div class="col-md-4 ">
@@ -60,7 +60,7 @@
                                     Đường
                                 </div>
                                 <div class="col-md-8">
-                                    @Html.DropDownList("object-filter-duong", (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                    @Html.DropDownList("object-filter-duong", (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "inputwidth form-control sel-duong" })
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                     Mặt tiền từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-mattientu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-mattientu" />
                                 </div>
                             </div>
                             <div class="col-md-4 ">
@@ -78,7 +78,7 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-mattienden" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-mattienden" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -86,7 +86,7 @@
                                     Tên khách
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-tenkhach" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-tenkhach" />
                                 </div>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                                     Giá thuê từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-giathuetu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-giathuetu" />
                                 </div>
                             </div>
                             <div class="col-md-4 ">
@@ -104,7 +104,7 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-giathueden" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-giathueden" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -112,7 +112,7 @@
                                     Trạng thái
                                 </div>
                                 <div class="col-md-8">
-                                    <select class=" form-control input-inline input-small input-sm object-filter">
+                                    <select class="inputwidth form-control input-inline input-small input-sm object-filter">
                                         <option value="0">Chờ duyệt</option>
                                         <option value="1">Đã duyệt</option>
                                     </select>
@@ -125,7 +125,7 @@
                                     DTSD T1 từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1tu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-dtsdt1tu" />
                                 </div>
                             </div>
                             <div class="col-md-4 ">
@@ -133,10 +133,10 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1den" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-dtsdt1den" />
                                 </div>
                             </div>
-                           
+
                         </div>
                         <div class="row">
                             <div class="col-md-4 ">
@@ -144,7 +144,7 @@
                                     Tổng DTSD từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-tongdtsdtu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-tongdtsdtu" />
                                 </div>
                             </div>
                             <div class="col-md-4 ">
@@ -152,7 +152,7 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-tongdtsdden" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-tongdtsdden" />
                                 </div>
                             </div>
                         </div>
@@ -167,9 +167,9 @@
                             <button class="btn btn-sm blue table-group-action-PendingPublish"><i class="fa fa-check"></i> Duyệt</button>
                         }
                         @*@if (canDelete)
-                        {
-                            <button class="btn btn-sm red-flamingo table-group-action-Delete"><i class="fa fa-trash-o"></i> Xóa</button>
-                        }*@
+                            {
+                                <button class="btn btn-sm red-flamingo table-group-action-Delete"><i class="fa fa-trash-o"></i> Xóa</button>
+                            }*@
                         <span></span>
                     </div>
                     @*<div class="table-actions-2-wrapper">
@@ -248,6 +248,16 @@
                     src: $("#datatable_ajax_source"),
                     onSuccess: function (grid) {
                         // hành động khi tải xong dữ liệu
+                        /* setTimeout(function () {
+                            $("#datatable_ajax_source_info").append("<span> khách</span>");
+                            $("table tbody tr").each(function () {
+                                var nhuCauId = $(this).find(".checkboxes").closest("tr").find(".getnhucauid").attr("text");
+                                if (nhuCauId != "" && nhuCauId != undefined) {
+                                    $(this).find(".checkboxes").val(nhuCauId);
+                                }
+                            });
+                        }, 300); */
+                        
                     },
                     onError: function (grid) {
                         // hành động khi tải dữ liệu bị lỗi
@@ -260,39 +270,41 @@
                             "targets": -1,
                             "data": null,
                             "render": function (data, type, full) {
-                                console.debug('data ', data);
+                                //console.debug('data ', data);
                                 var sel = $('select.object-filter').val();
+                                //var addId = "<a class='getnhucauid' text='" + data.Id + "'> </a>";
+                                var addId = "";
                                 switch (sel) {
                                     //Lọc theo chờ duyệt
                                     case '0':
                                         var re = '';
                                         if ('@canApprove' == 'true' || '@canApprove' == 'True') {
-                                            re = '<a class="btn btn-xs blue PendingPublish font-size-small" data-objectid="' + data.NhuCauThueId + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
+                                            re = '<a class="btn btn-xs blue PendingPublish font-size-small" data-objectid="' + data.Id + '" href="#"><i class="fa fa-check"></i> Duyệt</a>';
                                         }
                                         if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
                                             //re = re + '<a class="btn btn-xs red-flamingo RecentlyAdded font-size-small" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';
-                                            re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
+                                            re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.KhachId).replace("objectNhuCauId", data.Id) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
                                         }
                                         if ('@canCreate' == 'true' || '@canCreate' == 'True') {
-                                            re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small hidden"  href="' + ('@Url.RouteUrl("NhuCauCreate", new { id = "objectId" })').replace("objectId", data.Id) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-plus"></i> Thêm nhu cầu</a>';
+                                            re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small hidden"  href="' + ('@Url.RouteUrl("NhuCauCreate", new { id = "objectId" })').replace("objectId", data.KhachId) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-plus"></i> Thêm nhu cầu</a>';
                                         }
                                         if ('@canDelete' == 'true' || '@canDelete' == 'True') {
-                                            re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #ccb3ff !important" data-objectid="' + data.NhuCauThueId + '" data-objectidkhach="false" href="#"><i class="fa fa-trash-o"></i> Xóa nhu cầu</a>';
+                                            re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #ccb3ff !important" data-objectid="' + data.Id + '" data-objectidkhach="false" href="#"><i class="fa fa-trash-o"></i> Xóa nhu cầu</a>';
                                         }
                                         if ('@canDelete' == 'true' || '@canDelete' == 'True') {
-                                            re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.Id + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
+                                            re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.KhachId + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
                                         }
-                                        re = re + '<a class="btn btn-xs timnha blue font-size-small @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal" ><i class="fa fa-search"></i> Nhà cho khách</a>';
-                                        return re;
+                                        re = re + '<a class="btn btn-xs timnha blue font-size-small @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.KhachId).replace("objectNhuCauId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal" ><i class="fa fa-search"></i> Nhà cho khách</a>';
+                                        return addId + re;
                                         break;
                                         //Lọc theo đã duyệt
                                     case '1':
                                         if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                                re =  '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #ccb3ff !important" data-objectid="' + data.NhuCauThueId + '" data-objectidkhach="false" href="#"><i class="fa fa-trash-o"></i> Xóa nhu cầu</a>';
-                                                re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.Id + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
-                                            re =  re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
-                                            re = re + '<a class="btn btn-xs timnha blue font-size-small @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal" ><i class="fa fa-search"></i> Nhà cho khách</a>';
-                                            return re;
+                                            re = '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #ccb3ff !important" data-objectid="' + data.Id + '" data-objectidkhach="false" href="#"><i class="fa fa-trash-o"></i> Xóa nhu cầu</a>';
+                                            re = re + '<a class="btn default btn-xs red-flamingo Delete font-size-small" style="background: #85e0e0 !important" data-objectid="' + data.KhachId + '" data-objectidkhach="true" href="#"><i class="fa fa-trash-o"></i> Xóa khách</a>';
+                                            re = re + '<a class="btn btn-sm green btn default btn-xs  font-size-small" href="' + ('@Url.RouteUrl("KhachThueUpdate", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.KhachId).replace("objectNhuCauId", data.Id) + '"  data-target="#ajaxmodal" data-toggle="modal"><i class="fa fa-edit"></i> Sửa</a>';
+                                            re = re + '<a class="btn btn-xs timnha blue font-size-small @ViewBag.HidenClass" href="' + ('@Url.RouteUrl("TimNha", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.KhachId).replace("objectNhuCauId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal" ><i class="fa fa-search"></i> Nhà cho khách</a>';
+                                            return addId + re;
                                         }
                                         else {
                                             return '';
@@ -327,7 +339,7 @@
                                         }
                                     }
                                     else { *@
-                                    return '<a href="' + ('@Url.RouteUrl("KhachDetailModal", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.Id).replace("objectNhuCauId", data.NhuCauThueId) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
+                                    return '<a href="' + ('@Url.RouteUrl("KhachDetailModal", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.KhachId).replace("objectNhuCauId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
                                     //}
                                 }
                             },
@@ -336,12 +348,12 @@
                                 "orderable": true,
                                 "data": null,
                                 "render": function (data, type, full) {
-                                    return data.Duong + ' - ' + data.Quan;
+                                    return data.DuongName + ' - ' + data.QuanName;
                                 }
                             },
                     //         { data: "Quan" },
                     //{ data: "Duong" },
-                    { data: "TongGiaThue" },
+                    { data: "TongGiaThue", render: $.fn.dataTable.render.number(',', '.', 0, '') },  //number( 'ký tự chèn', '.', 0, 'Tiền tệ hiện' )
                     { data: "GhiChu" },
                     { data: "TrangThai" },
                     { data: null }
@@ -498,6 +510,9 @@
                 grid.getTableWrapper().on('click', '.table-group-action-PendingPublish', function (e) {
                     e.preventDefault();
                     if (grid.getSelectedRowsCount() > 0) {
+
+                        console.debug('grid.getSelectedRows(): ', grid.getSelectedRows());
+
                         SetArticleStatus(grid.getSelectedRows(), 1);
                     } else if (grid.getSelectedRowsCount() === 0) {
                         showNoty('Chưa có bản ghi nào được chọn!', 'error', 'center', 5000);
@@ -609,6 +624,7 @@
             Article.init();
 
         });
+
     </script>
 }
 <style>
@@ -644,5 +660,9 @@
 
     #object-filter-quan, #object-filter-mattien, #object-filter-duong {
         width: 145px;
+    }
+
+    .inputwidth, .inputwidth.input-sm {
+        width: 100% !important;
     }
 </style>

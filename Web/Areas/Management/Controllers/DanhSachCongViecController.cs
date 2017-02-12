@@ -253,8 +253,8 @@ namespace Web.Areas.Management.Controllers
                         ViewBag.NoiThat = noithat.Name;
                     }
 
-                    ViewBag.TongGiaThue = nhucauthue.TongGiaThue + " (triệu VNĐ)";
-                    ViewBag.GiaThueBQ = nhucauthue.GiaThueBQ + " (triệu VNĐ/m2)";
+                    ViewBag.TongGiaThue = nhucauthue.TongGiaThue + " (VNĐ)";
+                    ViewBag.GiaThueBQ = nhucauthue.GiaThueBQ + " (VNĐ/m2)";
                 }
 
                 var nha = await _repository.GetRepository<Nha>().ReadAsync(article.NhaId);
@@ -305,8 +305,8 @@ namespace Web.Areas.Management.Controllers
                         ViewBag.NoiThat1 = noithat1.Name;
                     }
 
-                    ViewBag.TongGiaThue1 = nha.TongGiaThue + " (triệu VNĐ)";
-                    ViewBag.GiaThueBQ1 = nha.GiaThueBQ + " (triệu VNĐ/m2)";
+                    ViewBag.TongGiaThue1 = nha.TongGiaThue + " (VNĐ)";
+                    ViewBag.GiaThueBQ1 = nha.GiaThueBQ + " (VNĐ/m2)";
                 }
 
                 var acc = await _repository.GetRepository<Account>().ReadAsync(article.NhanVienPhuTrachId);

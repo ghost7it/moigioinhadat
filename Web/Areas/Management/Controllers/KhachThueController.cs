@@ -16,10 +16,14 @@ using Web.Helpers;
 
 namespace Web.Areas.Management.Controllers
 {
+
     [RouteArea("Management", AreaPrefix = "quan-ly")]
     [RoutePrefix("quan-ly-khach-thue")]
     public class KhachThueController : BaseController
     {
+        List<object> objResult = new List<object>();
+      
+
         [Route("danh-sach-khach-thue", Name = "KhachThueIndex")]
         [ValidationPermission(Action = ActionEnum.Read, Module = ModuleEnum.Khach)]
         public ActionResult Index()
@@ -34,7 +38,6 @@ namespace Web.Areas.Management.Controllers
             ViewBag.MatBangDropdownlist = matBang.ToList().ToSelectList();
 
             ViewBag.HidenClass = RoleHelper.CheckPermission(ModuleEnum.PhanCongCongViec, ActionEnum.Read) ? "" : "hidden";
-
             return View();
         }
 
@@ -233,17 +236,17 @@ namespace Web.Areas.Management.Controllers
                                     NhuCauThue nhucauthue = new NhuCauThue();
                                     if (!string.IsNullOrEmpty(model.BeNgangLotLong))
                                     {
-                                        nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                                        nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                                     }
                                     nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                                     nhucauthue.DiChungChu = model.DiChungChu == "1" ? true : false;
                                     if (!string.IsNullOrEmpty(model.DienTichDat))
                                     {
-                                        nhucauthue.DienTichDat = float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
+                                        nhucauthue.DienTichDat = float.Parse(model.DienTichDat.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                                     }
                                     if (!string.IsNullOrEmpty(model.DienTichDatSuDungTang1))
                                     {
-                                        nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                                        nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                                     }
 
                                     nhucauthue.DuongId = Convert.ToInt64(arrDetail[1]);
@@ -252,7 +255,7 @@ namespace Web.Areas.Management.Controllers
                                     nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
                                     if (!string.IsNullOrEmpty(model.GiaThueBQ))
                                     {
-                                        nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ);
+                                        nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ.Replace(",", ""));
                                     }
 
                                     nhucauthue.Ham = model.Ham == "1" ? true : false;
@@ -260,7 +263,7 @@ namespace Web.Areas.Management.Controllers
                                     nhucauthue.MatBangId = model.MatBangId;
                                     if (!string.IsNullOrEmpty(model.MatTienTreoBien))
                                     {
-                                        nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                                        nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien.Replace(",",""), CultureInfo.InvariantCulture.NumberFormat);
                                     }
 
                                     nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -271,20 +274,29 @@ namespace Web.Areas.Management.Controllers
                                     var item = await _repository.GetRepository<Quan>().ReadAsync(nhucauthue.QuanId);
                                     if (item != null) { nhucauthue.QuanName = item.Name; }
                                     nhucauthue.SoNha = StringHelper.KillChars(model.SoNha);
-                                    nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
+                                    if (!string.IsNullOrEmpty(model.SoTang))
+                                    {
+                                        nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
+                                    }
                                     nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
                                     nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
                                     if (!string.IsNullOrEmpty(model.TongDienTichSuDung))
                                     {
-                                        nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
+                                        nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                                     }
                                     if (!string.IsNullOrEmpty(model.TongGiaThue))
                                     {
-                                        nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
+                                        nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue.Replace(",", ""));
                                     }
 
                                     nhucauthue.NgayTao = DateTime.Now;
                                     nhucauthue.TrangThai = 0; //Chờ duyệt
+
+                                    nhucauthue.GhiChuKhach = StringHelper.KillChars(model.GhiChu);
+                                    nhucauthue.SoDienThoai = StringHelper.KillChars(model.SoDienThoai);
+                                    nhucauthue.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
+                                    nhucauthue.NguoiPhuTrachId = AccountId;
+
                                     int resultnhucauthue = 0;
                                     var listMatBangArr = model.ListMatBangArr;
                                     if (listMatBangArr.Any())
@@ -381,7 +393,11 @@ namespace Web.Areas.Management.Controllers
                     }
                 }
                 khachthueviewmodel.ListMatBangArr = listMatBangArr;
-                khachthueviewmodel.MatBangId = articleNhuCau.MatBangId.ToString();
+                if (!string.IsNullOrEmpty(articleNhuCau.MatBangId))
+                {
+                    khachthueviewmodel.MatBangId = articleNhuCau.MatBangId.ToString();
+                }
+                
                 khachthueviewmodel.QuanId = articleNhuCau.QuanId.ToString();
                 var duong = _repository.GetRepository<Duong>().GetAll().Where(o => o.QuanId == articleNhuCau.QuanId).OrderBy(o => o.Name).ToList();
                 ViewBag.DuongDropdownlist = new SelectList(duong, "Id", "Name", khachthueviewmodel.DuongId);
@@ -443,18 +459,18 @@ namespace Web.Areas.Management.Controllers
                         {
                             if (!string.IsNullOrEmpty(model.BeNgangLotLong))
                             {
-                                nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
+                                nhucauthue.BeNgangLotLong = float.Parse(model.BeNgangLotLong.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                             }
 
                             nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                             nhucauthue.DiChungChu = model.DiChungChu == "1" ? true : false;
                             if (!string.IsNullOrEmpty(model.DienTichDat))
                             {
-                                nhucauthue.DienTichDat = float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
+                                nhucauthue.DienTichDat = float.Parse(model.DienTichDat.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                             }
                             if (!string.IsNullOrEmpty(model.DienTichDatSuDungTang1))
                             {
-                                nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                                nhucauthue.DienTichDatSuDungTang1 = float.Parse(model.DienTichDatSuDungTang1.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                             }
 
                             nhucauthue.DuongId = Convert.ToInt64(model.DuongId);
@@ -463,7 +479,7 @@ namespace Web.Areas.Management.Controllers
                             nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
                             if (!string.IsNullOrEmpty(model.GiaThueBQ))
                             {
-                                nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ);
+                                nhucauthue.GiaThueBQ = Convert.ToDecimal(model.GiaThueBQ.Replace(",", ""));
                             }
 
                             nhucauthue.Ham = model.Ham == "1" ? true : false;
@@ -471,7 +487,7 @@ namespace Web.Areas.Management.Controllers
                             nhucauthue.MatBangId = model.MatBangId;
                             if (!string.IsNullOrEmpty(model.MatTienTreoBien))
                             {
-                                nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
+                                nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                             }
 
                             nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -485,13 +501,19 @@ namespace Web.Areas.Management.Controllers
                             nhucauthue.SoTang = Convert.ToInt32(model.SoTang);
                             nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
                             nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
+
+                            nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChu);
+                            nhucauthue.SoDienThoai = StringHelper.KillChars(model.SoDienThoai);
+                            nhucauthue.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
+                            nhucauthue.NgayCapNhat = DateTime.Now;
+
                             if (!string.IsNullOrEmpty(model.TongDienTichSuDung))
                             {
-                                nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
+                                nhucauthue.TongDienTichSuDung = float.Parse(model.TongDienTichSuDung.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                             }
                             if (!string.IsNullOrEmpty(model.TongGiaThue))
                             {
-                                nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue);
+                                nhucauthue.TongGiaThue = Convert.ToDecimal(model.TongGiaThue.Replace(",", ""));
                             }
                             //nhucauthue.NgayTao = DateTime.Now;
                             //nhucauthue.TrangThai = 0; //Chờ duyệt
@@ -713,7 +735,46 @@ namespace Web.Areas.Management.Controllers
             };
 
             bool isAdmin = AccountRoles.Any(t => t.RoleId == 1);
-
+            var articles = _repository.GetRepository<NhuCauThue>().GetAll(ref paging,
+                                                                  orderKey,
+                                                                  o => (key == null ||
+                                                                        key == "") && isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId)
+                                                                        .ToList();
+            return Json(new
+            {
+                draw = drawReturn,
+                recordsTotal = paging.TotalRecord,
+                recordsFiltered = paging.TotalRecord,
+                data = articles.Select(o => new
+                {
+                    o.Id,
+                    o.KhachId,
+                    o.TenNguoiLienHeVaiTro,
+                    o.SoDienThoai,
+                    o.QuanName,
+                    o.DuongName,
+                    TrangThai = o.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt",
+                    TrangThaiId = o.TrangThai,
+                    o.GhiChu,
+                    o.QuanId,
+                    o.DuongId,
+                    o.MatBangId,
+                    o.MatTienTreoBien,
+                    o.TongGiaThue,
+                    o.DienTichDatSuDungTang1,
+                    o.TongDienTichSuDung
+                })
+                .Where(t => (t.GhiChu.Contains(ghiChu) || ghiChu == "") &&
+                       (t.QuanId == quanId || quanId == 0) &&
+                       (t.DuongId == duongId || duongId == 0) &&
+                       (t.TrangThaiId == status) &&
+                        (matTienTu <= t.MatTienTreoBien && t.MatTienTreoBien <= matTienDen) &&
+                       (t.TenNguoiLienHeVaiTro.Contains(tenKhach) || tenKhach == "") &&
+                       (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
+                       (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
+                       (tongDTSDTu <= t.TongDienTichSuDung && t.TongDienTichSuDung <= tongDTSDDen))
+            }, JsonRequestBehavior.AllowGet);
+            /*
             var articles = _repository.GetRepository<Khach>().GetAll(ref paging,
                                                                   orderKey,
                                                                   o => (key == null ||
@@ -723,7 +784,6 @@ namespace Web.Areas.Management.Controllers
                                                                             p => p.Id,                                       /// PK
                                                                             a => a.KhachId,                                  /// FK
                                                                             (p, a) => new { Khach = p, NhuCauThue = a }).ToList();
-
             return Json(new
             {
                 draw = drawReturn,
@@ -758,6 +818,7 @@ namespace Web.Areas.Management.Controllers
                        (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
                        (tongDTSDTu <= t.TongDienTichSuDung && t.TongDienTichSuDung <= tongDTSDDen))
             }, JsonRequestBehavior.AllowGet);
+             */
         }
 
         [HttpPost]
@@ -861,7 +922,16 @@ namespace Web.Areas.Management.Controllers
                 var article = await _repository.GetRepository<NhuCauThue>().ReadAsync(articleId);
                 if (article == null)
                     return false;
+                var khachId = article.KhachId;
                 result = await _repository.GetRepository<NhuCauThue>().DeleteAsync(article, AccountId);
+                var nhuCauThueConLai = _repository.GetRepository<NhuCauThue>().GetAll()
+                                        .Where(p => p.KhachId == khachId);
+                if (!nhuCauThueConLai.Any())
+                {
+                    var khachItem = await _repository.GetRepository<Khach>().ReadAsync(khachId);
+                    result = await _repository.GetRepository<Khach>().DeleteAsync(khachItem, AccountId);
+                }
+
             }
             if (result > 0)
             {
@@ -895,18 +965,22 @@ namespace Web.Areas.Management.Controllers
             }
             if (nhucauthue != null)
             {
-                string[] matbangarr = nhucauthue.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                if (matbangarr.Count() > 0)
+                if (!string.IsNullOrEmpty(nhucauthue.MatBangId))
                 {
-                    for (var i = 0; i < matbangarr.Count(); i++)
+                    string[] matbangarr = nhucauthue.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (matbangarr.Count() > 0)
                     {
-                        khachthueviewmodel.MatBangId += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
-                        if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                        for (var i = 0; i < matbangarr.Count(); i++)
                         {
-                            khachthueviewmodel.MatBangId += @"</br>";
+                            khachthueviewmodel.MatBangId += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                            if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                            {
+                                khachthueviewmodel.MatBangId += @"</br>";
+                            }
                         }
                     }
                 }
+                
                 //khachthueviewmodel.MatBangId = (await _repository.GetRepository<MatBang>().ReadAsync(nhucauthue.MatBangId)).Name;
                 khachthueviewmodel.BeNgangLotLong = nhucauthue.BeNgangLotLong.ToString();
                 khachthueviewmodel.CapDoTheoDoiId = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(nhucauthue.CapDoTheoDoiId)).Name;
