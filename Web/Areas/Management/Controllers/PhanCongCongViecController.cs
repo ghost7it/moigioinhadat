@@ -73,7 +73,9 @@ namespace Web.Areas.Management.Controllers
                     ViewBag.DiChungChu = nhucauthue.DiChungChu ? "Có" : "Không";
                     ViewBag.Ham = nhucauthue.Ham ? "Có" : "Không";
                     ViewBag.ThangMay = nhucauthue.ThangMay ? "Có" : "Không";
+
                     var noithat = await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nhucauthue.NoiThatKhachThueCuId);
+
                     if (noithat != null)
                     {
                         ViewBag.NoiThat = noithat.Name;
@@ -84,30 +86,38 @@ namespace Web.Areas.Management.Controllers
                 }
 
                 var nha = await _repository.GetRepository<Nha>().ReadAsync(article.NhaId);
+
                 if (nha != null)
                 {
-                    string[] matbangarr = nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (matbangarr.Count() > 0)
+                    if (!string.IsNullOrEmpty(nha.MatBangId))
                     {
-                        for (var i = 0; i < matbangarr.Count(); i++)
+                        string[] matbangarr = nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        if (matbangarr.Count() > 0)
                         {
-                            if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                            for (var i = 0; i < matbangarr.Count(); i++)
                             {
-                                ViewBag.LoaiMatBang1 += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
-                                if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                                if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
                                 {
-                                    ViewBag.LoaiMatBang1 += @"</br>";
+                                    ViewBag.LoaiMatBang1 += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                                    if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                                    {
+                                        ViewBag.LoaiMatBang1 += @"</br>";
+                                    }
                                 }
                             }
-                        }
+                        } 
                     }
 
                     var quan = await _repository.GetRepository<Quan>().ReadAsync(nha.QuanId);
+
                     if (quan != null)
                     {
                         ViewBag.QuanName1 = quan.Name;
                     }
+
                     var duong = await _repository.GetRepository<Duong>().ReadAsync(nha.DuongId);
+
                     if (duong != null)
                     {
                         ViewBag.DuongName1 = duong.Name;
@@ -126,7 +136,9 @@ namespace Web.Areas.Management.Controllers
                     ViewBag.DiChungChu1 = nha.DiChungChu ? "Có" : "Không";
                     ViewBag.Ham1 = nha.Ham ? "Có" : "Không";
                     ViewBag.ThangMay1 = nha.ThangMay ? "Có" : "Không";
+
                     var noithat1 = await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nha.NoiThatKhachThueCuId);
+
                     if (noithat1 != null)
                     {
                         ViewBag.NoiThat1 = noithat1.Name;
@@ -153,9 +165,10 @@ namespace Web.Areas.Management.Controllers
                 var listAccount = new SelectList(obj, "ID", "Name", 1);
 
                 ViewBag.Accounts = listAccount;
+
                 quanlycongviecviewmodel.NhanVienPhuTrachId = article.NhanVienPhuTrachId;
 
-                quanlycongviecviewmodel.NgayHoanThanh = article.NgayHoanThanh;
+                quanlycongviecviewmodel.NgayHoanThanh = article.NgayHoanThanh.HasValue ? article.NgayHoanThanh.Value.ToString("dd/MM/yyyy") : ""; 
 
                 //var listNha = new List<FieldHidden>();
                 List<FieldHidden> listNha = lstfieldhidden.lst;
@@ -210,14 +223,19 @@ namespace Web.Areas.Management.Controllers
         public async Task<ActionResult> UpdatePhanCongCongViec(QuanLyCongViecViewModel model, long id)
         {
             int result = 0;
+
             if (ModelState.IsValid)
             {
                 var article = await _repository.GetRepository<QuanLyCongViec>().ReadAsync(id);
+
                 if (article != null)
                 {
                     article.NhanVienPhuTrachId = model.NhanVienPhuTrachId;
                     article.NoiDungCongViec = model.NoiDungCongViec;
+                    article.NgayHoanThanh = string.IsNullOrEmpty(model.NgayHoanThanh) ? (DateTime?)null : DateTime.ParseExact(model.NgayHoanThanh.Replace("-", "/"), "dd/MM/yyyy", CultureInfo.InvariantCulture); 
+
                     var listFieldHidden = model.FieldHidden;
+
                     if (listFieldHidden.Any())
                     {
                         var nhahiddenfield = "";
@@ -341,6 +359,7 @@ namespace Web.Areas.Management.Controllers
                 long userID = 0;
                 long nhaID = 0;
                 long khachID = 0;
+
                 if (!string.IsNullOrEmpty(key))
                 {
                     var user = _repository.GetRepository<Account>().GetAll().FirstOrDefault(o => o.Name.Contains(key));
@@ -359,6 +378,7 @@ namespace Web.Areas.Management.Controllers
                         nhaID = nha.Id;
                     }
                 }
+
                 var articles = _repository.GetRepository<QuanLyCongViec>().GetAll(ref paging,
                                                                       orderKey,
                                                                       o => (key == null ||
@@ -509,21 +529,26 @@ namespace Web.Areas.Management.Controllers
                 {
                     ViewBag.QuanName = nhucauthue.QuanName;
                     ViewBag.DuongName = nhucauthue.DuongName;
-                    string[] matbangarr = nhucauthue.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (matbangarr.Count() > 0)
+
+                    if (!string.IsNullOrEmpty(nhucauthue.MatBangId))
                     {
-                        for (var i = 0; i < matbangarr.Count(); i++)
+                        string[] matbangarr = nhucauthue.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (matbangarr.Count() > 0)
                         {
-                            if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                            for (var i = 0; i < matbangarr.Count(); i++)
                             {
-                                ViewBag.LoaiMatBang += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
-                                if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                                if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
                                 {
-                                    ViewBag.LoaiMatBang += @"</br>";
+                                    ViewBag.LoaiMatBang += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                                    if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                                    {
+                                        ViewBag.LoaiMatBang += @"</br>";
+                                    }
                                 }
                             }
-                        }
+                        } 
                     }
+
                     ViewBag.MatTienTreoBien = nhucauthue.MatTienTreoBien + " (m)";
                     ViewBag.BeNgangLotLong = nhucauthue.BeNgangLotLong + " (m)";
                     ViewBag.DienTichDat = nhucauthue.DienTichDat + " (m2)";
@@ -533,6 +558,7 @@ namespace Web.Areas.Management.Controllers
                     ViewBag.DiChungChu = nhucauthue.DiChungChu ? "Có" : "Không";
                     ViewBag.Ham = nhucauthue.Ham ? "Có" : "Không";
                     ViewBag.ThangMay = nhucauthue.ThangMay ? "Có" : "Không";
+
                     var noithat = await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nhucauthue.NoiThatKhachThueCuId);
                     if (noithat != null)
                     {
@@ -544,23 +570,29 @@ namespace Web.Areas.Management.Controllers
                 }
 
                 var nha = await _repository.GetRepository<Nha>().ReadAsync(article.NhaId);
+
                 if (nha != null)
                 {
-                    string[] matbangarr = nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (matbangarr.Count() > 0)
+                    if (!string.IsNullOrEmpty(nha.MatBangId))
                     {
-                        for (var i = 0; i < matbangarr.Count(); i++)
+                        string[] matbangarr = nha.MatBangId.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        if (matbangarr.Count() > 0)
                         {
-                            if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
+                            for (var i = 0; i < matbangarr.Count(); i++)
                             {
-                                ViewBag.LoaiMatBang1 += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
-                                if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                                if (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i])) != null)
                                 {
-                                    ViewBag.LoaiMatBang1 += @"</br>";
+                                    ViewBag.LoaiMatBang1 += "- " + (await _repository.GetRepository<MatBang>().ReadAsync(Convert.ToInt64(matbangarr[i]))).Name;
+                                    if (matbangarr[i] != matbangarr[matbangarr.Count() - 1])
+                                    {
+                                        ViewBag.LoaiMatBang1 += @"</br>";
+                                    }
                                 }
                             }
-                        }
+                        } 
                     }
+
                     var quan = await _repository.GetRepository<Quan>().ReadAsync(nha.QuanId);
                     if (quan != null)
                     {
@@ -585,6 +617,7 @@ namespace Web.Areas.Management.Controllers
                     ViewBag.DiChungChu1 = nha.DiChungChu ? "Có" : "Không";
                     ViewBag.Ham1 = nha.Ham ? "Có" : "Không";
                     ViewBag.ThangMay1 = nha.ThangMay ? "Có" : "Không";
+
                     var noithat1 = await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(nha.NoiThatKhachThueCuId);
                     if (noithat1 != null)
                     {
@@ -600,7 +633,9 @@ namespace Web.Areas.Management.Controllers
                 {
                     ViewBag.AccoutName = acc.Name;
                 }
+
                 List<FieldHidden> listNha = lstfieldhidden.lst;
+
                 if (!string.IsNullOrEmpty(article.NhaHiddenField))
                 {
                     string fieldhidden = "";

@@ -327,23 +327,37 @@
             });
 
             $(".gia-thue-bq").prop("disabled", true);
-
+            function addCommas(nStr) {
+                nStr += '';
+                var x = nStr.split('.');
+                var x1 = x[0];
+                var x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            }
             $(document).on('change', '.tong-dien-tich', function () {
                 //Tonggiathue/tongS
                 if ($('.tong-gia-thue').val() != 0 && $('.tong-dient-tich').val() != 0) {
-                    var tongGiaThue = parseFloat($('.tong-gia-thue').val());
-                    var tongDienTich = parseFloat($('.tong-dien-tich').val());
+                    var tongGiaThue = parseFloat($('.tong-gia-thue').val().replace(/,/g, '').replace(".00", ""));
+                    var tongDienTich = parseFloat($('.tong-dien-tich').val().replace(/,/g, '').replace(".00", ""));
                     var bq = tongGiaThue / tongDienTich;
-                    $('.gia-thue-bq').val(parseFloat(bq).toFixed(2));
+                    if ($.isNumeric(bq)) {
+                        $('.gia-thue-bq').val(addCommas(parseFloat(bq).toFixed(2)));
+                    }
                 }
             });
 
             $(document).on('change', '.tong-gia-thue', function () {
                 if ($('.tong-gia-thue').val() != 0 && $('.tong-dient-tich').val() != 0) {
-                    var tongGiaThue = parseFloat($('.tong-gia-thue').val());
-                    var tongDienTich = parseFloat($('.tong-dien-tich').val());
+                    var tongGiaThue = parseFloat($('.tong-gia-thue').val().replace(/,/g, '').replace(".00", ""));
+                    var tongDienTich = parseFloat($('.tong-dien-tich').val().replace(/,/g, '').replace(".00", ""));
                     var bq = tongGiaThue / tongDienTich;
-                    $('.gia-thue-bq').val(parseFloat(bq).toFixed(2));
+                    if ($.isNumeric(bq)) {
+                        $('.gia-thue-bq').val(addCommas(parseFloat(bq).toFixed(2)));
+                    }
                 }
             });
 
@@ -404,6 +418,17 @@
         };
 
         $(function () {
+            function addCommas(nStr) {
+                nStr += '';
+                var x = nStr.split('.');
+                var x1 = x[0];
+                var x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            }
             $(".checkboxmatbang input:checkbox").click(function () {
                 getMatBangId();
             });
@@ -418,7 +443,20 @@
                 });
                 $("#MatBangId").val(valuecheckbox);
             }
-
+            $("#MatTienTreoBien, #BeNgangLotLong, #DienTichDat, #DienTichDatSuDungTang1, #GiaThueBQ, #TongGiaThue, #TongDienTichSuDung").keyup(function () {
+                var itemValue = $(this).val().replace(/,/g, '');
+                if ($.isNumeric(itemValue)) {
+                    itemValue = addCommas(itemValue);
+                }
+                $(this).val(itemValue);
+            });
+            $("#MatTienTreoBien, #BeNgangLotLong, #DienTichDat, #DienTichDatSuDungTang1, #GiaThueBQ, #TongGiaThue, #TongDienTichSuDung").each(function () {
+                var itemValue = $(this).val().replace(/,/g, '').replace(".00", "");
+                if ($.isNumeric(itemValue)) {
+                    itemValue = addCommas(itemValue);
+                }
+                $(this).val(itemValue);
+            });
             $("#MatTienTreoBien, #BeNgangLotLong, #DienTichDat, #DienTichDatSuDungTang1, #GiaThueBQ, #TongGiaThue, #TongDienTichSuDung").keypress(function (e) {
                 //if the letter is not digit then display error and don't type anything
                 if ($(this).val().indexOf(".") != -1 && e.which == 46) {

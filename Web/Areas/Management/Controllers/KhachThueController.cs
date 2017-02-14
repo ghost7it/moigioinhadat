@@ -490,7 +490,7 @@ namespace Web.Areas.Management.Controllers
                                 nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                             }
 
-                            nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                            nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai.Replace("-","/"), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                             nhucauthue.NguoiTaoId = AccountId;
                             nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                             nhucauthue.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
@@ -502,7 +502,7 @@ namespace Web.Areas.Management.Controllers
                             nhucauthue.TenToaNha = StringHelper.KillChars(model.TenToaNha);
                             nhucauthue.ThangMay = model.ThangMay == "1" ? true : false;
 
-                            nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChu);
+                            nhucauthue.GhiChu = StringHelper.KillChars(model.GhiChuNhuCau);
                             nhucauthue.SoDienThoai = StringHelper.KillChars(model.SoDienThoai);
                             nhucauthue.TenNguoiLienHeVaiTro = StringHelper.KillChars(model.TenNguoiLienHeVaiTro);
                             nhucauthue.NgayCapNhat = DateTime.Now;
@@ -1002,6 +1002,7 @@ namespace Web.Areas.Management.Controllers
                 khachthueviewmodel.TongDienTichSuDung = nhucauthue.TongDienTichSuDung.ToString();
                 khachthueviewmodel.TongGiaThue = nhucauthue.TongGiaThue.ToString();
                 khachthueviewmodel.TrangThaiNhuCau = nhucauthue.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt";
+                khachthueviewmodel.NgayCapNhat = string.Format("{0:dd/MM/yyyy}", nhucauthue.NgayCapNhat);
             }
             return PartialView("_DetailModal", khachthueviewmodel);
         }

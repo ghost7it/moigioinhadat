@@ -44,7 +44,7 @@
                                     Ghi chú
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-ghichu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-ghichu" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -52,7 +52,7 @@
                                     Quận
                                 </div>
                                 <div class="col-md-8">
-                                    @Html.DropDownList("object-filter-quan", (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "form-control sel-quan" })
+                                    @Html.DropDownList("object-filter-quan", (IEnumerable<SelectListItem>)ViewBag.QuanDropdownlist, "Chọn quận", new { @class = "inputwidth form-control sel-quan" })
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -60,7 +60,7 @@
                                     Đường
                                 </div>
                                 <div class="col-md-8">
-                                    @Html.DropDownList("object-filter-duong", (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "form-control sel-duong" })
+                                    @Html.DropDownList("object-filter-duong", (IEnumerable<SelectListItem>)ViewBag.DuongDropdownlist, "Chọn đường", new { @class = "inputwidth form-control sel-duong" })
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                     Mặt tiền từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-mattientu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-mattientu" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -78,7 +78,7 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-mattienden" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-mattienden" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -86,7 +86,7 @@
                                     Trạng thái
                                 </div>
                                 <div class="col-md-8">
-                                    <select class=" form-control input-inline input-small input-sm object-filter">
+                                    <select class="inputwidth form-control input-inline input-small input-sm object-filter">
                                         <option value="0">Chờ duyệt</option>
                                         <option value="1">Đã duyệt</option>
                                     </select>
@@ -99,7 +99,7 @@
                                     Giá thuê từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-giathuetu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-giathuetu" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -107,7 +107,7 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-giathueden" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-giathueden" />
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                                     DTSD T1 từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1tu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-dtsdt1tu" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -125,7 +125,7 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-dtsdt1den" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-dtsdt1den" />
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                                     Tổng DTSD từ
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-tongdtsdtu" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-tongdtsdtu" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -144,7 +144,7 @@
                                     Đến
                                 </div>
                                 <div class="col-md-8">
-                                    <input class=" form-control input-inline input-small input-sm object-filter-tongdtsdden" />
+                                    <input class="inputwidth form-control input-inline input-small input-sm object-filter-tongdtsdden" />
                                 </div>
                             </div>
                         </div>
@@ -278,10 +278,10 @@
                                 return '<a href="' + ('@Url.RouteUrl("NhaDetailModal", new { id = "objectId" })').replace("objectId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.Duong + ' - ' + data.Quan + '</a>'
                                 }
                             },
-                    { data: "MatTien" },
-                    { data: "TongGiaThue" },
-                    { data: "DTSDT1" },
-                    { data: "TongDTSD" },
+                    { data: "MatTien", render: $.fn.dataTable.render.number(',', '.', 0, '') },
+                    { data: "TongGiaThue", render: $.fn.dataTable.render.number(',', '.', 0, '') },
+                    { data: "DTSDT1", render: $.fn.dataTable.render.number(',', '.', 0, '') },
+                    { data: "TongDTSD", render: $.fn.dataTable.render.number(',', '.', 0, '') },
                     { data: "TrangThai" },
                     { data: null }
                         ],
@@ -571,5 +571,8 @@
 
     #object-filter-quan, #object-filter-mattien, #object-filter-duong {
         width: 145px;
+    }
+    .inputwidth, .inputwidth.input-sm {
+        width: 100% !important;
     }
 </style>
