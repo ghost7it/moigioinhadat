@@ -520,7 +520,7 @@ namespace Web.Areas.Management.Controllers
 
                     if (!string.IsNullOrEmpty(model.TongGiaThue) && !string.IsNullOrEmpty(model.TongDienTichSuDung))
                     {
-                        giaThueBQ = Convert.ToDecimal(model.TongGiaThue) / Convert.ToDecimal(model.TongDienTichSuDung);
+                        giaThueBQ = Convert.ToDecimal(model.TongGiaThue.Replace(",", "")) / Convert.ToDecimal(model.TongDienTichSuDung.Replace(",", ""));
                     }
 
                     nha.MatBangId = model.MatBangId;
@@ -528,22 +528,22 @@ namespace Web.Areas.Management.Controllers
                     nha.DuongId = Convert.ToInt64(model.DuongId);
                     nha.SoNha = StringHelper.KillChars(model.SoNha);
                     nha.TenToaNha = StringHelper.KillChars(model.TenToaNha);
-                    nha.MatTienTreoBien = string.IsNullOrEmpty(model.MatTienTreoBien) ? 0 : float.Parse(model.MatTienTreoBien, CultureInfo.InvariantCulture.NumberFormat);
-                    nha.BeNgangLotLong = string.IsNullOrEmpty(model.BeNgangLotLong) ? 0 : float.Parse(model.BeNgangLotLong, CultureInfo.InvariantCulture.NumberFormat);
-                    nha.DienTichDat = string.IsNullOrEmpty(model.DienTichDat) ? 0 : float.Parse(model.DienTichDat, CultureInfo.InvariantCulture.NumberFormat);
-                    nha.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1, CultureInfo.InvariantCulture.NumberFormat);
+                    nha.MatTienTreoBien = string.IsNullOrEmpty(model.MatTienTreoBien) ? 0 : float.Parse(model.MatTienTreoBien.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
+                    nha.BeNgangLotLong = string.IsNullOrEmpty(model.BeNgangLotLong) ? 0 : float.Parse(model.BeNgangLotLong.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
+                    nha.DienTichDat = string.IsNullOrEmpty(model.DienTichDat) ? 0 : float.Parse(model.DienTichDat.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
+                    nha.DienTichDatSuDungTang1 = string.IsNullOrEmpty(model.DienTichDatSuDungTang1) ? 0 : float.Parse(model.DienTichDatSuDungTang1.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                     nha.SoTang = string.IsNullOrEmpty(model.SoTang) ? 0 : Convert.ToInt32(model.SoTang);
-                    nha.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung, CultureInfo.InvariantCulture.NumberFormat);
+                    nha.TongDienTichSuDung = string.IsNullOrEmpty(model.TongDienTichSuDung) ? 0 : float.Parse(model.TongDienTichSuDung.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                     nha.DiChungChu = model.DiChungChu == "1" ? true : false;
                     nha.Ham = model.Ham == "1" ? true : false;
                     nha.ThangMay = model.ThangMay == "1" ? true : false;
                     nha.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
                     nha.DanhGiaPhuHopVoiId = model.DanhGiaPhuHopVoiId;
-                    nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue);
+                    nha.TongGiaThue = string.IsNullOrEmpty(model.TongGiaThue) ? 0 : Convert.ToDecimal(model.TongGiaThue.Replace(",", ""));
                     nha.GiaThueBQ = giaThueBQ; //string.IsNullOrEmpty(model.GiaThueBQ) ? 0 : Convert.ToDecimal(model.GiaThueBQ);
                     nha.TenNguoiLienHeVaiTro = model.TenNguoiLienHeVaiTro;
                     nha.SoDienThoai = model.SoDienThoai;
-                    nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : Convert.ToDateTime(model.NgayCNHenLienHeLai); //DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    nha.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai.Replace("-", "/"), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     nha.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                     nha.ImageDescription1 = model.ImageDescription1;
                     nha.ImageDescription2 = model.ImageDescription2;
@@ -783,7 +783,7 @@ namespace Web.Areas.Management.Controllers
         }
 
         [Route("tim-khach-cho-nha/{id?}", Name = "TimKhach")]
-        public async Task<ActionResult> TimKhach(long id)
+        public async Task<ActionResult> TimKhach(long id) //Id của Nhà
         {
             try
             {
@@ -792,26 +792,23 @@ namespace Web.Areas.Management.Controllers
                 var nha = await _repository.GetRepository<Nha>().ReadAsync(id);
 
                 var result = _repository.GetRepository<NhuCauThue>().GetAll()
-                                                                    .Where(delegate(NhuCauThue nct)
-                {
-                    return (nct.MatTienTreoBien <= (nha.MatTienTreoBien * 0.75)) &&
-                            (nct.DienTichDatSuDungTang1 <= (nha.DienTichDatSuDungTang1 * 0.75)) &&
-                            (nct.TongDienTichSuDung <= (nha.TongDienTichSuDung * 0.75)) &&
-                           (nct.QuanId.Equals(nha.QuanId) &&
-                           (nct.DuongId.Equals(nha.DuongId)));
-                })
-                 .Join(_repository.GetRepository<Khach>().GetAll(), b => b.KhachId, c => c.Id, (b, c) => new { NhuCauThue = b, Khach = c }).ToList();
+                                            .Where(o => nha.MatTienTreoBien >= (o.MatTienTreoBien * 0.75) &&
+                                                   nha.DienTichDatSuDungTang1 >= (o.DienTichDatSuDungTang1 * 0.75) &&
+                                                   nha.TongDienTichSuDung >= (o.TongDienTichSuDung * 0.75) &&
+                                                   nha.QuanId.Equals(o.QuanId) &&
+                                                   nha.DuongId.Equals(o.DuongId)).ToList();
 
                 var data = result.Select(o => new KhachThueUpdatingViewModel
                 {
-                    Id = o.NhuCauThue.Id,
-                    KhachId = o.NhuCauThue.KhachId.ToString(),
-                    TenKhach = o.Khach.TenNguoiLienHeVaiTro,
-                    SoDienThoai = o.Khach.SoDienThoai,
-                    QuanName = o.NhuCauThue.QuanName,
-                    DuongName = o.NhuCauThue.DuongName,
-                    DienTichDat = o.NhuCauThue.DienTichDat.ToString(),
-                    TongGiaThue = o.NhuCauThue.TongGiaThue.ToString()
+                    Id = o.Id,
+                    KhachId = o.KhachId.ToString(),
+                    TenKhach = o.TenNguoiLienHeVaiTro,
+                    SoDienThoai = o.SoDienThoai,
+                    QuanName = o.QuanName,
+                    DuongName = o.DuongName,
+                    DienTichDat = o.DienTichDat.ToString(),
+                    TongGiaThue = o.TongGiaThue.ToString(),
+                    DaPhanCong = GetPhanCong(o.KhachId == null ? 0 : o.KhachId, id, o.Id == null ? 0 : o.Id),
                 });
 
                 //Phân công nhân viên chăm sóc
@@ -839,6 +836,15 @@ namespace Web.Areas.Management.Controllers
                 throw;
             }
         }
+
+        public string GetPhanCong(long khachId, long nhaId, long nhucauthueId)
+        {
+            var phancong = _repository.GetRepository<QuanLyCongViec>().GetAll().SingleOrDefault(o => o.NhuCauThueId == nhucauthueId && o.KhachId == khachId && o.NhaId == nhaId);
+            if (phancong != null)
+                return "hidden";
+            return "block";
+        }
+
 
         [Route("dang-tin-rao-vat/{id?}", Name = "RaoVatModal")]
         public async Task<ActionResult> RaoVat(long id)

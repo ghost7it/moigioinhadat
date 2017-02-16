@@ -34,8 +34,12 @@
                         <td>@item.DienTichDat</td>
                         <td>@item.TongGiaThue</td>
                         <td style="display: flex;">
-                            @Html.DropDownList("NhanVienPhuTrachId", (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "form-control getuserid ", @style = "width: 150px;" })
-                            <a href="@Url.RouteUrl("PhanCong", new { id = item.Id, khachId = item.KhachId, nhaId = nhaId })" class="btn btn-xs blue" style="margin-left: 10px;"><i class="fa fa-check" style="margin-top: 10px;"></i> Phân công</a>
+                            @Html.DropDownList("NhanVienPhuTrachId", (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "form-control getuserid " +  @item.DaPhanCong, @style = "width: 150px;" })
+                            <a href="@Url.RouteUrl("PhanCong", new { id = item.Id, khachId = item.KhachId, nhaId = nhaId })" class="btn btn-xs blue @item.DaPhanCong" style="margin-left: 10px;"><i class="fa fa-check" style="margin-top: 5px;"></i> Phân công</a>
+                            @if (item.DaPhanCong == "hidden")
+                            {
+                                <span style="margin-left: 15px; color: #428bca;font-style:italic"> <i class="fa fa-check-square"></i> Đã phân công</span>
+                            }
                         </td>
                     </tr>
                 }
@@ -77,4 +81,30 @@
     .static-info {
         margin-bottom: 10px;
     }
+
+    .getuserid {
+        height: 24px;
+        margin-right: 5px;
+        padding: 0;
+    }
 </style>
+<script>
+    //$(function () {
+    //    $('.getuserid').change(function () {
+    //        var trIndex = $(this).closest("tr").index();
+    //        var arrUrl = $(".table_phancong tbody tr:eq(" + trIndex + ") a").attr("href").split("/");
+    //        var url = "";
+    //        if (arrUrl != undefined && arrUrl.length > 7) {
+    //            for (var i = 0; i < 7; i++) {
+    //                url = url + arrUrl[i] + "/";
+    //            }
+    //        }
+    //        $(".table_phancong tbody tr:eq(" + trIndex + ") a").attr("href", url + $(this).val());
+    //    });
+
+    //    $(".modal-dialog .table_phancong tr").each(function () {
+    //        var selectValue = $(this).find("select option:eq(0)").val();
+    //        $(this).find("a").attr("href", $(this).find("a").attr("href") + "/" + selectValue);
+    //    });
+    //})
+</script>

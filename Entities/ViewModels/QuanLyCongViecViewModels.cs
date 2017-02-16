@@ -24,7 +24,7 @@ namespace Entities.ViewModels
         public string NoiDungCongViec { get; set; }
 
         [Display(Name = "Ngày hoàn thành")]
-        public DateTime NgayHoanThanh { get; set; }
+        public string NgayHoanThanh { get; set; }
 
         [Display(Name = "Ngày tạo")]
         public DateTime NgayTao { get; set; }

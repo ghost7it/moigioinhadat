@@ -48,7 +48,7 @@
                                         }                                         if ('@canDelete' == 'true' || '@canDelete' == 'True') {
                                             re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';
                                         }                                         return re;                                         break;                                         //Lọc theo đã duyệt                                     case '1':                                         if ('@canUpdate' == 'true' || '@canUpdate' == 'True') {
-                                            re = '<a class="btn btn-xs red-flamingo RecentlyAdded" data-objectid="' + data.Id + '" href="#"><i class="fa fa-edit"></i> Sửa</a>';                                             return re;
+                                            re = '<a class="btn btn-xs green  RecentlyAdded" data-objectid="' + data.Id + '" href="' + ('@Url.RouteUrl("PhanCongCongViecUpdate", new { id = "objectId" })').replace("objectId", data.Id) + '"><i class="fa fa-edit"></i> Sửa</a>';                                             re = re + '<a class="btn default btn-xs red-flamingo Delete" data-objectid="' + data.Id + '" href="#"><i class="fa fa-trash-o"></i> Xóa</a>';                                             return re;
                                         }                                         else {
                                             return '';
                                         }                                         break;                                     default:                                         return '';
