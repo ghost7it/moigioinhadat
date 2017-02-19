@@ -136,7 +136,7 @@ namespace Web.Areas.Management.Controllers
                         o.QuanLyCongViec.NhuCauThue.NhuCauThue.NhuCauThue.QuanLyCongViec.Id,
                         IsWarning = o.QuanLyCongViec.NhuCauThue.NhuCauThue.NhuCauThue.QuanLyCongViec.NgayHoanThanh <= DateTime.Now ? true : false,
                         o.QuanLyCongViec.NhuCauThue.NhuCauThue.NhuCauThue.QuanLyCongViec.NgayHoanThanh,
-                        o.Khach.TenNguoiLienHeVaiTro,
+                        o.Khach.TenNguoiLienHeVaiTro, 
                         o.Khach.SoDienThoai,
                         Quan = o.QuanLyCongViec.NhuCauThue.NhuCauThue.Quan.Name,
                         Duong = o.QuanLyCongViec.NhuCauThue.Duong.Name,
