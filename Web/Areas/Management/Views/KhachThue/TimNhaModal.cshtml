@@ -11,10 +11,10 @@
     <table class="table table-hover table_phancong">
         <thead>
             <tr>
-                <th>Tên tòa nhà</th>
-                <th>Số nhà</th>
+                <th>Người liên hệ</th>
                 <th>Số điện thoại</th>
-                <th>Tên người liên hệ</th>
+                <th>Quận</th>
+                <th>Đường</th>
                 <th>Diện tích đất</th>
                 <th>Tổng giá thuê</th>
                 <th>Chọn nhân viên chăm sóc</th>
@@ -26,11 +26,11 @@
                foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.TenToaNha
+                        <td>@item.TenNguoiLienHeVaiTro
                         </td>
-                        <td>@item.SoNha</td>
                         <td>@item.SoDienThoai</td>
-                        <td>@item.TenNguoiLienHeVaiTro</td>
+                        <td>@item.TenToaNha</td>
+                        <td>@item.SoNha</td>
                         <td>@item.DienTichDat</td>
                         <td>@item.TongGiaThue</td>
                         <td style="display: flex;">

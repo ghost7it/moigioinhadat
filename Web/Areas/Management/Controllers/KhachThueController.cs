@@ -22,7 +22,7 @@ namespace Web.Areas.Management.Controllers
     public class KhachThueController : BaseController
     {
         List<object> objResult = new List<object>();
-      
+
 
         [Route("danh-sach-khach-thue", Name = "KhachThueIndex")]
         [ValidationPermission(Action = ActionEnum.Read, Module = ModuleEnum.Khach)]
@@ -263,7 +263,7 @@ namespace Web.Areas.Management.Controllers
                                     nhucauthue.MatBangId = model.MatBangId;
                                     if (!string.IsNullOrEmpty(model.MatTienTreoBien))
                                     {
-                                        nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien.Replace(",",""), CultureInfo.InvariantCulture.NumberFormat);
+                                        nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                                     }
 
                                     nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -397,7 +397,7 @@ namespace Web.Areas.Management.Controllers
                 {
                     khachthueviewmodel.MatBangId = articleNhuCau.MatBangId.ToString();
                 }
-                
+
                 khachthueviewmodel.QuanId = articleNhuCau.QuanId.ToString();
                 var duong = _repository.GetRepository<Duong>().GetAll().Where(o => o.QuanId == articleNhuCau.QuanId).OrderBy(o => o.Name).ToList();
                 ViewBag.DuongDropdownlist = new SelectList(duong, "Id", "Name", khachthueviewmodel.DuongId);
@@ -490,7 +490,7 @@ namespace Web.Areas.Management.Controllers
                                 nhucauthue.MatTienTreoBien = float.Parse(model.MatTienTreoBien.Replace(",", ""), CultureInfo.InvariantCulture.NumberFormat);
                             }
 
-                            nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai.Replace("-","/"), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                            nhucauthue.NgayCNHenLienHeLai = string.IsNullOrEmpty(model.NgayCNHenLienHeLai) ? (DateTime?)null : DateTime.ParseExact(model.NgayCNHenLienHeLai.Replace("-", "/"), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                             nhucauthue.NguoiTaoId = AccountId;
                             nhucauthue.CapDoTheoDoiId = Convert.ToInt32(model.CapDoTheoDoiId);
                             nhucauthue.NoiThatKhachThueCuId = Convert.ToInt32(model.NoiThatKhachThueCuId);
@@ -735,90 +735,55 @@ namespace Web.Areas.Management.Controllers
             };
 
             bool isAdmin = AccountRoles.Any(t => t.RoleId == 1);
+
             var articles = _repository.GetRepository<NhuCauThue>().GetAll(ref paging,
                                                                   orderKey,
                                                                   o => (key == null ||
                                                                         key == "") && isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId)
                                                                         .ToList();
-            return Json(new
+
+            try
             {
-                draw = drawReturn,
-                recordsTotal = paging.TotalRecord,
-                recordsFiltered = paging.TotalRecord,
-                data = articles.Select(o => new
+                return Json(new
                 {
-                    o.Id,
-                    o.KhachId,
-                    o.TenNguoiLienHeVaiTro,
-                    o.SoDienThoai,
-                    o.QuanName,
-                    o.DuongName,
-                    TrangThai = o.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt",
-                    TrangThaiId = o.TrangThai,
-                    o.GhiChu,
-                    o.QuanId,
-                    o.DuongId,
-                    o.MatBangId,
-                    o.MatTienTreoBien,
-                    o.TongGiaThue,
-                    o.DienTichDatSuDungTang1,
-                    o.TongDienTichSuDung
-                })
-                .Where(t => (t.GhiChu.Contains(ghiChu) || ghiChu == "") &&
-                       (t.QuanId == quanId || quanId == 0) &&
-                       (t.DuongId == duongId || duongId == 0) &&
-                       (t.TrangThaiId == status) &&
-                        (matTienTu <= t.MatTienTreoBien && t.MatTienTreoBien <= matTienDen) &&
-                       (t.TenNguoiLienHeVaiTro.Contains(tenKhach) || tenKhach == "") &&
-                       (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
-                       (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
-                       (tongDTSDTu <= t.TongDienTichSuDung && t.TongDienTichSuDung <= tongDTSDDen))
-            }, JsonRequestBehavior.AllowGet);
-            /*
-            var articles = _repository.GetRepository<Khach>().GetAll(ref paging,
-                                                                  orderKey,
-                                                                  o => (key == null ||
-                                                                        key == "") && isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId)
-                                                                        .LeftJoin(                                           /// Source Collection
-                                                                            _repository.GetRepository<NhuCauThue>().GetAll(),/// Inner Collection
-                                                                            p => p.Id,                                       /// PK
-                                                                            a => a.KhachId,                                  /// FK
-                                                                            (p, a) => new { Khach = p, NhuCauThue = a }).ToList();
-            return Json(new
+                    draw = drawReturn,
+                    recordsTotal = paging.TotalRecord,
+                    recordsFiltered = paging.TotalRecord,
+                    data = articles.Select(o => new
+                    {
+                        o.Id,
+                        o.KhachId,
+                        o.TenNguoiLienHeVaiTro,
+                        o.SoDienThoai,
+                        o.QuanName,
+                        o.DuongName,
+                        TrangThaiId = o.TrangThai,
+                        TrangThai = o.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt",
+                        o.GhiChu,
+                        o.QuanId,
+                        o.DuongId,
+                        o.MatBangId,
+                        o.MatTienTreoBien,
+                        o.TongGiaThue,
+                        o.DienTichDatSuDungTang1,
+                        o.TongDienTichSuDung
+                    })
+                    .Where(t => (t.GhiChu.Contains(ghiChu) || ghiChu == "") &&
+                           (t.QuanId == quanId || quanId == 0) &&
+                           (t.DuongId == duongId || duongId == 0) &&
+                           (t.TrangThaiId == status) &&
+                            (matTienTu <= t.MatTienTreoBien && t.MatTienTreoBien <= matTienDen) &&
+                           (t.TenNguoiLienHeVaiTro.Contains(tenKhach) || tenKhach == "") &&
+                           (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
+                           (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
+                           (tongDTSDTu <= t.TongDienTichSuDung && t.TongDienTichSuDung <= tongDTSDDen))
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
             {
-                draw = drawReturn,
-                recordsTotal = paging.TotalRecord,
-                recordsFiltered = paging.TotalRecord,
-                data = articles.Select(o => new
-                {
-                    o.Khach.Id,
-                    o.Khach.TenNguoiLienHeVaiTro,
-                    o.Khach.SoDienThoai,
-                    NhuCauThueId = o.NhuCauThue == null ? 0 : o.NhuCauThue.Id,
-                    Quan = o.NhuCauThue == null ? "" : o.NhuCauThue.QuanName,
-                    Duong = o.NhuCauThue == null ? "" : o.NhuCauThue.DuongName,
-                    TrangThai = o.NhuCauThue == null ? "" : (o.NhuCauThue.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt"),
-                    TrangThaiId = o.NhuCauThue.TrangThai,
-                    o.NhuCauThue.GhiChu,
-                    o.NhuCauThue.QuanId,
-                    o.NhuCauThue.DuongId,
-                    o.NhuCauThue.MatBangId,
-                    o.NhuCauThue.MatTienTreoBien,
-                    o.NhuCauThue.TongGiaThue,
-                    o.NhuCauThue.DienTichDatSuDungTang1,
-                    o.NhuCauThue.TongDienTichSuDung
-                })
-                .Where(t => (t.GhiChu.Contains(ghiChu) || ghiChu == "") &&
-                       (t.QuanId == quanId || quanId == 0) &&
-                       (t.DuongId == duongId || duongId == 0) &&
-                       (t.TrangThaiId == status) &&
-                        (matTienTu <= t.MatTienTreoBien && t.MatTienTreoBien <= matTienDen) &&
-                       (t.TenNguoiLienHeVaiTro.Contains(tenKhach) || tenKhach == "") &&
-                       (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
-                       (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
-                       (tongDTSDTu <= t.TongDienTichSuDung && t.TongDienTichSuDung <= tongDTSDDen))
-            }, JsonRequestBehavior.AllowGet);
-             */
+
+                throw;
+            }
         }
 
         [HttpPost]
@@ -980,7 +945,7 @@ namespace Web.Areas.Management.Controllers
                         }
                     }
                 }
-                
+
                 //khachthueviewmodel.MatBangId = (await _repository.GetRepository<MatBang>().ReadAsync(nhucauthue.MatBangId)).Name;
                 khachthueviewmodel.BeNgangLotLong = nhucauthue.BeNgangLotLong.ToString();
                 khachthueviewmodel.CapDoTheoDoiId = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(nhucauthue.CapDoTheoDoiId)).Name;
@@ -1036,27 +1001,30 @@ namespace Web.Areas.Management.Controllers
                 var nhucauthue = await _repository.GetRepository<NhuCauThue>().ReadAsync(nhucauId);
 
                 var result = _repository.GetRepository<Nha>().GetAll()
-                                        .Where(o => o.MatTienTreoBien >= (nhucauthue.MatTienTreoBien * 0.75) &&
-                                               o.DienTichDatSuDungTang1 >= (nhucauthue.DienTichDatSuDungTang1 * 0.75) &&
-                                               o.TongDienTichSuDung >= (nhucauthue.TongDienTichSuDung * 0.75) &&
-                                               o.QuanId.Equals(nhucauthue.QuanId) &&
-                                               o.DuongId.Equals(nhucauthue.DuongId)).ToList();
+                                        .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
+                                        .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, e => e.Id, (b, e) => new { Nha = b, Duong = e })
+                                        .Where(o => o.Nha.Nha.MatTienTreoBien >= (nhucauthue.MatTienTreoBien * 0.75) &&
+                                               o.Nha.Nha.DienTichDatSuDungTang1 >= (nhucauthue.DienTichDatSuDungTang1 * 0.75) &&
+                                               o.Nha.Nha.TongDienTichSuDung >= (nhucauthue.TongDienTichSuDung * 0.75) &&
+                                               o.Nha.Nha.QuanId.Equals(nhucauthue.QuanId) &&
+                                               o.Nha.Nha.DuongId.Equals(nhucauthue.DuongId)).ToList();
 
                 var data = result.Select(o => new NhaUpdatingViewModel
                 {
-                    Id = o.Id,
-                    TenToaNha = o.TenToaNha,
-                    SoNha = o.SoNha,
-                    SoDienThoai = o.SoDienThoai,
+                    Id = o.Nha.Nha.Id,
+                    TenNguoiLienHeVaiTro = o.Nha.Nha.TenNguoiLienHeVaiTro,
+                    SoDienThoai = o.Nha.Nha.SoDienThoai,
+                    TenToaNha = o.Nha.Quan.Name, //Lười sửa viewmodel nên xem đây như là Quận
+                    SoNha = o.Duong.Name, //Lười sửa viewmodel nên xem đây như là Đường
                     KhachId = khachthue == null ? "0" : khachthue.Id.ToString(),
                     NhuCauThueId = nhucauthue == null ? "" : nhucauthue.Id.ToString(),
-                    TenNguoiLienHeVaiTro = o.TenNguoiLienHeVaiTro,
-                    DienTichDat = o.DienTichDat == null ? "0" : o.DienTichDat.ToString(),
-                    TongGiaThue = o.TongGiaThue == null ? "0" : o.TongGiaThue.ToString(),
-                    DaPhanCong = GetPhanCong(khachthue == null ? 0 : khachthue.Id, o.Id, nhucauthue == null ? 0 : nhucauthue.Id),
-                    NhanVienPhuTrachName = GetNhanVienPhuTrach(khachthue == null ? 0 : khachthue.Id, o.Id, nhucauthue == null ? 0 : nhucauthue.Id)
+                    DienTichDat = o.Nha.Nha.DienTichDat == null ? "0" : o.Nha.Nha.DienTichDat.ToString(),
+                    TongGiaThue = o.Nha.Nha.TongGiaThue == null ? "0" : o.Nha.Nha.TongGiaThue.ToString(),
+                    DaPhanCong = GetPhanCong(khachthue == null ? 0 : khachthue.Id, o.Nha.Nha.Id, nhucauthue == null ? 0 : nhucauthue.Id),
+                    NhanVienPhuTrachName = GetNhanVienPhuTrach(khachthue == null ? 0 : khachthue.Id, o.Nha.Nha.Id, nhucauthue == null ? 0 : nhucauthue.Id)
                 });
-                //aaa
+
+
                 //Phân công nhân viên chăm sóc
                 int NhanVienChamSocRoleGroupId = Convert.ToInt32(WebConfigurationManager.AppSettings["NhanVienChamSocRoleGroupId"]);
 
