@@ -357,23 +357,21 @@ namespace Web.Areas.Management.Controllers
                 };
 
                 bool isAdmin = AccountRoles.Any(t => t.RoleId == 1);
-
+                //o => (key == null ||key == "") &&
                 var articles = _repository.GetRepository<Nha>().GetAll(ref paging,
                                                                        orderKey,
-                                                                       o => (key == null ||
-                                                                             key == "") &&
-                                                                             (o.GhiChu.Contains(ghiChu) || ghiChu == "") &&
-                                                                             (o.QuanId == quanId || quanId == 0) &&
-                                                                             (o.DuongId == duongId || duongId == 0) &&
+                                                                       o => o.TrangThai == status &&
+                                                                           (ghiChu != "" ? o.GhiChu.Contains(ghiChu) : true) &&
+                                                                              (quanId != 0 ? o.QuanId == quanId : true) &&
+                                                                              (duongId != 0 ? o.DuongId == duongId : true) &&
                                                                              (matTienTu <= o.MatTienTreoBien && o.MatTienTreoBien <= matTienDen) &&
                                                                               (giaThueTu <= o.TongGiaThue && o.TongGiaThue <= giaThueDen) &&
                                                                               (dtsdt1Tu <= o.DienTichDatSuDungTang1 && o.DienTichDatSuDungTang1 <= dtsdt1Den) &&
-                                                                             (o.TrangThai == status) &&
                                                                               (tongDTSDTu <= o.TongDienTichSuDung && o.TongDienTichSuDung <= tongDTSDDen) &&
-                                                                             (isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId))
+                                                                             (isAdmin ? true : o.NguoiPhuTrachId == AccountId))
                                                                              .Join(_repository.GetRepository<Quan>().GetAll(), b => b.QuanId, e => e.Id, (b, e) => new { Nha = b, Quan = e })
-                                                                             .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, g => g.Id, (b, g) => new { Nha = b, Duong = g })
-                                                                             .Join(_repository.GetRepository<CapDoTheoDoi>().GetAll(), b => b.Nha.Nha.CapDoTheoDoiId, y => y.Id, (b, y) => new { Nha = b, CapDoTheoDoi = y }).ToList();
+                                                                             .Join(_repository.GetRepository<Duong>().GetAll(), b => b.Nha.DuongId, g => g.Id, (b, g) => new { Nha = b, Duong = g }).ToList();
+                                                                             //.Join(_repository.GetRepository<CapDoTheoDoi>().GetAll(), b => b.Nha.Nha.CapDoTheoDoiId, y => y.Id, (b, y) => new { Nha = b, CapDoTheoDoi = y }).ToList();
 
                 return Json(new
                 {
@@ -382,17 +380,29 @@ namespace Web.Areas.Management.Controllers
                     recordsFiltered = paging.TotalRecord,
                     data = articles.Select(o => new
                     {
-                        o.Nha.Nha.Nha.Id,
-                        Quan = o.Nha.Nha.Quan.Name,
-                        Duong = o.Nha.Duong.Name,
-                        o.Nha.Nha.Nha.TenNguoiLienHeVaiTro,
-                        o.Nha.Nha.Nha.SoDienThoai,
-                        o.Nha.Nha.Nha.TongGiaThue,
-                        CapDoTheoDoi = o.CapDoTheoDoi.Name,
-                        TrangThai = o.Nha.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt",
-                        MatTien = o.Nha.Nha.Nha.MatTienTreoBien,
-                        DTSDT1 = o.Nha.Nha.Nha.DienTichDatSuDungTang1,
-                        TongDTSD = o.Nha.Nha.Nha.TongDienTichSuDung
+                        o.Nha.Nha.Id,
+                        Quan = o.Nha.Quan.Name,
+                        Duong = o.Duong.Name,
+                        o.Nha.Nha.TenNguoiLienHeVaiTro,
+                        o.Nha.Nha.SoDienThoai,
+                        o.Nha.Nha.TongGiaThue,
+                        TrangThai = o.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt",
+                        MatTien = o.Nha.Nha.MatTienTreoBien,
+                        DTSDT1 = o.Nha.Nha.DienTichDatSuDungTang1,
+                        TongDTSD = o.Nha.Nha.TongDienTichSuDung
+
+                        //o.Nha.Nha.Nha.Id,
+                        //Quan = o.Nha.Nha.Quan.Name,
+                        //Duong = o.Nha.Duong.Name,
+                        //o.Nha.Nha.Nha.TenNguoiLienHeVaiTro,
+                        //o.Nha.Nha.Nha.SoDienThoai,
+                        //o.Nha.Nha.Nha.TongGiaThue,
+                        //CapDoTheoDoi = o.CapDoTheoDoi.Name,
+                        //TrangThai = o.Nha.Nha.Nha.TrangThai == 0 ? "Chờ duyệt" : "Đã duyệt",
+                        //MatTien = o.Nha.Nha.Nha.MatTienTreoBien,
+                        //DTSDT1 = o.Nha.Nha.Nha.DienTichDatSuDungTang1,
+                        //TongDTSD = o.Nha.Nha.Nha.TongDienTichSuDung
+
                     })
                 }, JsonRequestBehavior.AllowGet);
             }

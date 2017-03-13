@@ -735,13 +735,17 @@ namespace Web.Areas.Management.Controllers
             };
 
             bool isAdmin = AccountRoles.Any(t => t.RoleId == 1);
-
             var articles = _repository.GetRepository<NhuCauThue>().GetAll(ref paging,
-                                                                  orderKey,
-                                                                  o => (key == null ||
-                                                                        key == "") && isAdmin ? 1 == 1 : o.NguoiPhuTrachId == AccountId)
-                                                                        .ToList();
-
+                                                                 orderKey,
+                                                                 t => t.TrangThai == status && (isAdmin ? true : t.NguoiPhuTrachId == AccountId) &&
+            (ghiChu != "" ? t.GhiChu.Contains(ghiChu): true) &&
+                        (quanId != 0 ? t.QuanId == quanId : true) &&
+                        (duongId != 0 ? t.DuongId == duongId : true) &&
+                        (matTienTu <= t.MatTienTreoBien && t.MatTienTreoBien <= matTienDen) &&
+                        (tenKhach != "" ? t.TenNguoiLienHeVaiTro.Contains(tenKhach) : true) &&
+                        (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
+                        (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
+                        (tongDTSDTu <= t.TongDienTichSuDung && t.TongDienTichSuDung <= tongDTSDDen)).ToList();
             try
             {
                 return Json(new
@@ -768,15 +772,6 @@ namespace Web.Areas.Management.Controllers
                         o.DienTichDatSuDungTang1,
                         o.TongDienTichSuDung
                     })
-                    .Where(t => (t.GhiChu.Contains(ghiChu) || ghiChu == "") &&
-                           (t.QuanId == quanId || quanId == 0) &&
-                           (t.DuongId == duongId || duongId == 0) &&
-                           (t.TrangThaiId == status) &&
-                            (matTienTu <= t.MatTienTreoBien && t.MatTienTreoBien <= matTienDen) &&
-                           (t.TenNguoiLienHeVaiTro.Contains(tenKhach) || tenKhach == "") &&
-                           (giaThueTu <= t.TongGiaThue && t.TongGiaThue <= giaThueDen) &&
-                           (dtsdt1Tu <= t.DienTichDatSuDungTang1 && t.DienTichDatSuDungTang1 <= dtsdt1Den) &&
-                           (tongDTSDTu <= t.TongDienTichSuDung && t.TongDienTichSuDung <= tongDTSDDen))
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
