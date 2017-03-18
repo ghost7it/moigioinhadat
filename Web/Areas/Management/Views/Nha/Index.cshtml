@@ -293,8 +293,10 @@
 
                 //Tìm kiếm START
                 //Ghi chú
-                grid.getTableWrapper().on('change', '.object-filter-ghichu', function (e) {
-                    e.preventDefault();
+            grid.getTableWrapper().on('change', '.object-filter-ghichu', function (e) {
+                //debugger;
+                e.preventDefault();
+                var b = $('.object-filter-ghichu').val();
                     grid.setAjaxParam("objectGhiChu", $('.object-filter-ghichu').val());
                     grid.getDataTable().ajax.reload();
                     grid.clearAjaxParams();

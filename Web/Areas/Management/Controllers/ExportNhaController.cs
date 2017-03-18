@@ -207,9 +207,11 @@ namespace Web.Areas.Management.Controllers
                     }
                 } 
             }
+            var quanEntity = await _repository.GetRepository<Quan>().ReadAsync(article.QuanId);
+            var duongEntity = await _repository.GetRepository<Duong>().ReadAsync(article.DuongId);
 
-            ViewBag.Quan = (await _repository.GetRepository<Quan>().ReadAsync(article.QuanId)).Name;
-            ViewBag.Duong = (await _repository.GetRepository<Duong>().ReadAsync(article.DuongId)).Name;
+            ViewBag.Quan = quanEntity != null ? quanEntity.Name : "";
+            ViewBag.Duong = duongEntity != null ? duongEntity.Name : "";
             ViewBag.NoiThatKhachThueCu = (await _repository.GetRepository<NoiThatKhachThueCu>().ReadAsync(article.NoiThatKhachThueCuId)).Name;
             ViewBag.CapDoTheoDoi = (await _repository.GetRepository<CapDoTheoDoi>().ReadAsync(article.CapDoTheoDoiId)).Name;
 

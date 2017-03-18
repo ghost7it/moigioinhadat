@@ -83,7 +83,7 @@ namespace Web.Areas.Management.Controllers
                                         foreach (DataRow r in ds.Tables[0].Rows)
                                         {
                                             string matBang = Convert.ToString(r["Mặt bằng"]);
-                                            long matBangId = (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)).Id;
+                                            long matBangId = (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)) != null ? (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)).Id : 0;
 
                                             string quan = Convert.ToString(r["Quận"]);
                                             long quanId = (_repository.GetRepository<Quan>().Read(o => o.Name == quan)).Id;
@@ -92,16 +92,16 @@ namespace Web.Areas.Management.Controllers
                                             long duongId = (_repository.GetRepository<Duong>().Read(o => o.Name == duong)).Id;
 
                                             string noiThatKhachThueCu = Convert.ToString(r["Nội thất khách thuê cũ"]);
-                                            long noiThatKhachThueCuId = (_repository.GetRepository<NoiThatKhachThueCu>().Read(o => o.Name == noiThatKhachThueCu)).Id;
+                                            long noiThatKhachThueCuId = (_repository.GetRepository<NoiThatKhachThueCu>().Read(o => o.Name == noiThatKhachThueCu)) != null ? (_repository.GetRepository<NoiThatKhachThueCu>().Read(o => o.Name == noiThatKhachThueCu)).Id : 1;
 
 
                                             string danhGiaPhuHopVoi = Convert.ToString(r["Đánh giá phù hợp với"]);
-                                            long danhGiaPhuHopVoiId = (_repository.GetRepository<DanhGiaPhuHopVoi>().Read(o => o.Name == danhGiaPhuHopVoi)).Id;
+                                            long danhGiaPhuHopVoiId = (_repository.GetRepository<DanhGiaPhuHopVoi>().Read(o => o.Name == danhGiaPhuHopVoi)) != null ?(_repository.GetRepository<DanhGiaPhuHopVoi>().Read(o => o.Name == danhGiaPhuHopVoi)).Id : 0;
 
                                             string capDoTheoDoi = Convert.ToString(r["Cấp độ theo dõi"]);
-                                            int capDoTheoDoiId = (_repository.GetRepository<CapDoTheoDoi>().Read(o => o.Name == capDoTheoDoi)).Id;
+                                            int capDoTheoDoiId = (_repository.GetRepository<CapDoTheoDoi>().Read(o => o.Name == capDoTheoDoi)) != null? (_repository.GetRepository<CapDoTheoDoi>().Read(o => o.Name == capDoTheoDoi)).Id : 1;
 
-                                            nha.MatBangId = Convert.ToString(matBangId);
+                                            nha.MatBangId = matBangId == 0 ? null : Convert.ToString(matBangId);
                                             nha.QuanId = quanId;
                                             nha.DuongId = duongId;
                                             nha.SoNha = r["Số nhà"] == DBNull.Value ? "" : r["Số nhà"].ToString();
@@ -116,7 +116,7 @@ namespace Web.Areas.Management.Controllers
                                             nha.Ham = (string)r["Hầm"] == "Có" ? true : false;
                                             nha.ThangMay = (string)r["Thang máy"] == "Có" ? true : false;
                                             nha.NoiThatKhachThueCuId = noiThatKhachThueCuId;
-                                            nha.DanhGiaPhuHopVoiId = Convert.ToString(danhGiaPhuHopVoiId);
+                                            nha.DanhGiaPhuHopVoiId = danhGiaPhuHopVoiId == 0? null : Convert.ToString(danhGiaPhuHopVoiId);
                                             nha.TongGiaThue = r["Tổng giá thuê"] == DBNull.Value ? 0 : decimal.Parse(r["Tổng giá thuê"].ToString());
                                             nha.GiaThueBQ = r["Giá thuê BQ"] == DBNull.Value ? 0 : decimal.Parse(r["Giá thuê BQ"].ToString());
                                             nha.TenNguoiLienHeVaiTro = r["Tên người liên hệ - vai trò"] == DBNull.Value ? "" : (string)r["Tên người liên hệ - vai trò"];
@@ -228,19 +228,23 @@ namespace Web.Areas.Management.Controllers
                                         {
                                             string matBang = Convert.ToString(r["Mặt bằng"]);
                                             //int matBangId = (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)).Id;
-                                            string matBangId = (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)).Id.ToString();
+                                            string matBangId = (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)) != null ? (_repository.GetRepository<MatBang>().Read(o => o.Name == matBang)).Id.ToString() : "";
 
                                             string quan = Convert.ToString(r["Quận"]);
                                             long quanId = (_repository.GetRepository<Quan>().Read(o => o.Name == quan)).Id;
 
+                                            long duongId = 0;
                                             string duong = Convert.ToString(r["Đường"]);
-                                            long duongId = (_repository.GetRepository<Duong>().Read(o => o.Name == duong)).Id;
-
+                                            if(duong.Trim() != ""){
+                                                var duongEntity = _repository.GetRepository<Duong>().Read(o => o.Name == duong);
+                                                if (duongEntity != null) duongId = duongEntity.Id;
+                                            }
+                                            
                                             string noiThatKhachThueCu = Convert.ToString(r["Nội thất khách thuê cũ"]);
-                                            int noiThatKhachThueCuId = (_repository.GetRepository<NoiThatKhachThueCu>().Read(o => o.Name == noiThatKhachThueCu)).Id;
+                                            int noiThatKhachThueCuId = (_repository.GetRepository<NoiThatKhachThueCu>().Read(o => o.Name == noiThatKhachThueCu)) != null ? (_repository.GetRepository<NoiThatKhachThueCu>().Read(o => o.Name == noiThatKhachThueCu)).Id : 1;
 
                                             string capDoTheoDoi = Convert.ToString(r["Cấp độ theo dõi"]);
-                                            int capDoTheoDoiId = (_repository.GetRepository<CapDoTheoDoi>().Read(o => o.Name == capDoTheoDoi)).Id;
+                                            int capDoTheoDoiId = (_repository.GetRepository<CapDoTheoDoi>().Read(o => o.Name == capDoTheoDoi)) != null ? (_repository.GetRepository<CapDoTheoDoi>().Read(o => o.Name == capDoTheoDoi)).Id : 1;
 
                                             //Lưu bảng Khách
                                             khach.TenNguoiLienHeVaiTro = r["Tên người liên hệ - vai trò"] == DBNull.Value ? "" : (string)r["Tên người liên hệ - vai trò"];
@@ -264,8 +268,10 @@ namespace Web.Areas.Management.Controllers
                                                 nhuCauThue.KhachId = khachIdIddentify;
                                                 nhuCauThue.MatBangId = matBangId;
                                                 nhuCauThue.QuanId = quanId;
-                                                nhuCauThue.QuanName = quan;
-                                                nhuCauThue.DuongName = duong;
+                                                if (quan.Trim() != "")
+                                                    nhuCauThue.QuanName = quan;
+                                                if (duong.Trim() != "")
+                                                    nhuCauThue.DuongName = duong;
                                                 nhuCauThue.DuongId = duongId;
                                                 nhuCauThue.SoNha = r["Số nhà"] == DBNull.Value ? "" : r["Số nhà"].ToString();
                                                 nhuCauThue.TenToaNha = r["Tên toàn nhà"] == DBNull.Value ? "" : (string)r["Tên toàn nhà"];

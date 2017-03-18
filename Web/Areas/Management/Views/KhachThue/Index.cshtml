@@ -232,6 +232,7 @@
 </div>
 
 
+
 @section Styles{
     @Styles.Render("~/Content/adminv1/select2", "~/Content/adminv1/datatable")
 }
@@ -339,7 +340,7 @@
                                         }
                                     }
                                     else { *@
-                                    return '<a href="' + ('@Url.RouteUrl("KhachDetailModal", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.KhachId).replace("objectNhuCauId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a>'
+                                    return '<span class="titleajax"><a  href="' + ('@Url.RouteUrl("KhachDetailModal", new { id = "objectId", nhucauId = "objectNhuCauId" })').replace("objectId", data.KhachId).replace("objectNhuCauId", data.Id) + '" data-target="#ajaxmodal" data-toggle="modal">' + data.TenNguoiLienHeVaiTro + '</a></span>'
                                     //}
                                 }
                             },
@@ -348,7 +349,7 @@
                                 "orderable": true,
                                 "data": null,
                                 "render": function (data, type, full) {
-                                    return data.DuongName + ' - ' + data.QuanName;
+                                    return (data.DuongName == null || data.DuongName == "") ? "Quận " + data.QuanName : data.DuongName + ' - ' + data.QuanName;
                                 }
                             },
                     //         { data: "Quan" },
@@ -622,12 +623,38 @@
         }();
         jQuery(document).ready(function () {
             Article.init();
-
         });
+        $(function () {
+            //modal-dialog
+            //modal-content
+           /* $("body").on("click",".titleajax", function(){
+                setInterval(function () {
+                    if ($("#ajaxmodal").is(":hidden")) {
+                        $(".loading_img").removeClass("hiddenloading");
+                    }
+                    else {
+                        $(".loading_img").addClass("hiddenloading");
+                    }
 
+                }, 1000);
+            }); */
+        })
     </script>
 }
 <style>
+    body{
+        position:relative;
+    }
+    .loading_img {
+        position: fixed;
+        width: 100px;
+        height: 100px;
+        top:300px;
+        left:50%;
+        margin-left:-50px;
+        margin-top: -50px;
+        z-index:9999;
+    }
     .font-size-small {
         font-size: 10px;
     }

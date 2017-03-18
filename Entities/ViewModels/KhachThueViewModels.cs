@@ -55,7 +55,7 @@ namespace Entities.ViewModels
         [Display(Name = "Tên Quận")]
         public string QuanName { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn đường")]
+        //[Required(ErrorMessage = "Vui lòng chọn đường")]
         [Display(Name = "Đường")]
         public string DuongId { get; set; }
 
@@ -198,7 +198,7 @@ namespace Entities.ViewModels
         [Display(Name = "Tên Đường")]
         public string DuongName { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn đường")]
+        //[Required(ErrorMessage = "Vui lòng chọn đường")]
         [Display(Name = "Đường")]
         public string DuongId { get; set; }
 

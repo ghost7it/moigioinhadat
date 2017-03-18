@@ -1286,6 +1286,7 @@
     <Content Include="Images\AdminV1\last-fm.png" />
     <Content Include="Images\AdminV1\linkedin.png" />
     <Content Include="Images\AdminV1\loading-spinner-grey.gif" />
+    <Content Include="Images\AdminV1\loading.gif" />
     <Content Include="Images\AdminV1\logo-big.png" />
     <Content Include="Images\AdminV1\logo-default_bak.png" />
     <Content Include="Images\AdminV1\logo-default.png" />

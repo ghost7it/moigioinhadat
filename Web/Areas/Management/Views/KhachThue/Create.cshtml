@@ -556,14 +556,14 @@
             }); 
             function getValueQuanDuongArr() {
                 var arrQuanDuong = "";
-                if ($("select[name='QuanId']").val() != "" && $("select[name='QuanId']").val() != undefined && $("select[name='DuongId']").val() != "" && $("select[name='DuongId']").val() != undefined) {
+                if ($("select[name='QuanId']").val() != "" && $("select[name='QuanId']").val() != undefined && $("select[name='DuongId']").val() != undefined) {
                     arrQuanDuong += $("select[name='QuanId']").val();
                     arrQuanDuong += "," + $("select[name='DuongId']").val();
                 }
                 $(".form_wr .quanduongwr:not('.hidden')").each(function () {
                     var quanindexvalue = $(this).find("select[name='QuanMultiId']").val();
                     var duongindexvalue = $(this).find("select[name='DuongMultiId']").val();
-                    if (quanindexvalue != "" && quanindexvalue != undefined && duongindexvalue != "" && duongindexvalue != undefined) {
+                    if (quanindexvalue != "" && quanindexvalue != undefined && duongindexvalue != undefined) {
                         arrQuanDuong += ";" + quanindexvalue;
                         arrQuanDuong += "," + duongindexvalue;
                     }
