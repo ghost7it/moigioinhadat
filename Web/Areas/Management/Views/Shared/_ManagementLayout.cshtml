@@ -12,8 +12,19 @@
     @RenderSection("styles", required: false)
     @Html.Partial("_Css2")
     @RenderSection("styles2", required: false)
+    <style>
+        .hiddenloading{
+            display:none;
+        }
+        .showloading{
+            display:block;
+        }
+    </style>
 </head>
 <body class="page-container-bg-solid page-sidebar-closed-hide-logo">
+    <div class="loading_img hiddenloading">
+        <img src="/Images/AdminV1/loading.gif" style="width:100px; height:100px" />
+    </div>
     @Html.Partial("_Header")
 
     <div class="page-container">

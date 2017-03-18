@@ -805,8 +805,8 @@ namespace Web.Areas.Management.Controllers
                                             .Where(o => nha.MatTienTreoBien >= (o.MatTienTreoBien * 0.75) &&
                                                    nha.DienTichDatSuDungTang1 >= (o.DienTichDatSuDungTang1 * 0.75) &&
                                                    nha.TongDienTichSuDung >= (o.TongDienTichSuDung * 0.75) &&
-                                                   nha.QuanId.Equals(o.QuanId) &&
-                                                   nha.DuongId.Equals(o.DuongId)).ToList();
+                                                   nha.QuanId.Equals(o.QuanId) && 
+                                                   (o.DuongId == 0 ? true : nha.DuongId.Equals(o.DuongId))).ToList();
 
                 var data = result.Select(o => new KhachThueUpdatingViewModel
                 {
